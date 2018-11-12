@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <AssemblyName>Exercism.Analyzers.CSharp</AssemblyName>
-    <RootNamespace>Exercism.Analyzers.CSharp</RootNamespace>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

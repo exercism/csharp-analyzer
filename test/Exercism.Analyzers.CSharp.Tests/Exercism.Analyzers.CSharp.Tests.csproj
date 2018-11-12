@@ -3,8 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <IsPackable>false</IsPackable>
-    <AssemblyName>Exercism.Analyzers.CSharp.Tests</AssemblyName>
-    <RootNamespace>Exercism.Analyzers.CSharp.Tests</RootNamespace>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -15,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\analyzer\analyzer.csproj" />
+    <ProjectReference Include="..\..\src\Exercism.Analyzers.CSharp\Exercism.Analyzers.CSharp.csproj" />
   </ItemGroup>
 
 </Project>
