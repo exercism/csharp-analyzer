@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Exercism.Analyzers.CSharp.Analysis;
+using Exercism.Analyzers.CSharp.Analysis.Solutions;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +17,11 @@ namespace Exercism.Analyzers.CSharp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSingleton<Analyzer>();
+            services.AddSingleton<SolutionDownloader>();
+            services.AddSingleton<SolutionLoader>();
+            services.AddSingleton<SolutionCompiler>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -1,16 +1,21 @@
-﻿using System;
+﻿using System.Threading.Tasks;
+using Exercism.Analyzers.CSharp.Analysis.Analyzers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Exercism.Analyzers.CSharp.Controllers
+namespace Exercism.Analyzers.CSharp.Analysis
 {
-    [Route("api/[controller]")]
+    // TODO: consider including version of CLI in project
+    // TODO: consider using internal classes where possible
+    // TODO: test using NDepend
+    [Route("api/analyze")]
     [ApiController]
     public class AnalyzeController : ControllerBase
     {
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(Guid id)
-        {
-            return "value";
-        }
+        [HttpGet("{slug}/{uuid}")]
+        public async Task<ActionResult<Diagnostic[]>> Analyze(
+            [FromRoute]string slug,
+            [FromRoute]string uuid,
+            [FromServices]Analyzer analyzer) 
+            => await analyzer.Analyze(slug, uuid);
     }
 }

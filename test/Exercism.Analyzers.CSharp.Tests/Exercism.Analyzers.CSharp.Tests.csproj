@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Exercism.Analyzers.CSharp\Exercism.Analyzers.CSharp.csproj" />
+    <None Include="..\..\samples\**" LinkBase="samples" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
