@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis.Analyzers;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
@@ -22,17 +20,10 @@ namespace Exercism.Analyzers.CSharp.Analysis
             return await Analyze(compiledSolution);
         }
 
-        public async Task<Diagnostic[]> Analyze(CompiledSolution compiledSolution)
+        public Task<Diagnostic[]> Analyze(CompiledSolution compiledSolution)
         {
-            foreach (var solutionAnalyzer in SolutionAnalyzers.ForSolution(compiledSolution.Solution))
-            {
-                var diagnostics = await solutionAnalyzer.Analyze(compiledSolution);
-
-                if (diagnostics.Any())
-                    return diagnostics;
-            }
-
-            return Array.Empty<Diagnostic>();
+            var solutionAnalyzer = SolutionAnalyzerFactory.Create(compiledSolution.Solution);
+            return solutionAnalyzer.Analyze(compiledSolution);
         }
 
         private async Task<CompiledSolution> CompileSolution(string slug, string uuid)

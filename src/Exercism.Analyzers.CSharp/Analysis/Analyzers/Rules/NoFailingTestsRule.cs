@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,15 +10,15 @@ using Xunit.Abstractions;
 using Xunit.Sdk;
 using NullMessageSink = Xunit.Sdk.NullMessageSink;
 
-namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
+namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules
 {
-    public class FailingTestsSolutionAnalyzer : SolutionAnalyzer
+    public class NoFailingTestsRule : Rule
     {
         private static readonly ISourceInformationProvider SourceInformationProvider = new NullSourceInformationProvider();
         private static readonly IMessageSink DiagnosticMessageSink = new NullMessageSink();
         private static readonly IMessageSink ExecutionMessageSink = new NullMessageSink();
         
-        public override async Task<Diagnostic[]> Analyze(CompiledSolution compiledSolution)
+        public override async Task<Diagnostic[]> Verify(CompiledSolution compiledSolution)
         {
             var testRunSummary = await RunTests(compiledSolution);
             
