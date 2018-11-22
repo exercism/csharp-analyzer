@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
@@ -15,13 +16,20 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
             {
                 var diagnostics = await rule.Verify(compiledSolution);
 
-                if (diagnostics.Any())
+                if (EnumerableExtensions.Any(diagnostics))
                     return diagnostics;
             }
 
             return Array.Empty<Diagnostic>();
         }
 
-        protected abstract IEnumerable<Rule> GetRules();
+        private IEnumerable<Rule> GetRules() => GetDefaultRules().Concat(GetNonDefaultRules());
+
+        private IEnumerable<Rule> GetDefaultRules()
+        {
+            yield return new AllTestsPassRule();
+        }
+
+        protected virtual IEnumerable<Rule> GetNonDefaultRules() => Enumerable.Empty<Rule>();
     }
 }
