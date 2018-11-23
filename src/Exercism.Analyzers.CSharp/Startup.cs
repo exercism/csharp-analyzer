@@ -17,11 +17,7 @@ namespace Exercism.Analyzers.CSharp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            services.AddSingleton<Analyzer>();
-            services.AddSingleton<SolutionDownloader>();
-            services.AddSingleton<SolutionLoader>();
-            services.AddSingleton<SolutionCompiler>();
+            services.AddAnalyzer();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
