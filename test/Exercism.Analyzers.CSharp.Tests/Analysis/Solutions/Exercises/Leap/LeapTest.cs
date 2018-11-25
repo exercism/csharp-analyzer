@@ -2,7 +2,7 @@
 
 using Xunit;
 
-namespace NoDiagnostics
+namespace Leap
 {
     public class LeapTest
     {

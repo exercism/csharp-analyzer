@@ -1,4 +1,4 @@
-namespace NoDiagnostics
+namespace Leap
 {
     public static class Leap
     {

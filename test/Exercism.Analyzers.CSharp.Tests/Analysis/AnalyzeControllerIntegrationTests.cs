@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis.Analyzers;
@@ -13,19 +14,24 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
     public class AnalyzeControllerIntegrationTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly HttpClient _httpClient;
+        private readonly FakeSolutionDownloader _fakeSolutionDownloader;
 
-        public AnalyzeControllerIntegrationTests(WebApplicationFactory<Startup> factory) 
-            => _httpClient = CreateHttpClient(factory);
+        public AnalyzeControllerIntegrationTests(WebApplicationFactory<Startup> factory)
+        {
+            _fakeSolutionDownloader = new FakeSolutionDownloader();
+            _httpClient = CreateHttpClient(factory, _fakeSolutionDownloader);
+        }
 
-        private static HttpClient CreateHttpClient(WebApplicationFactory<Startup> factory) 
+        private static HttpClient CreateHttpClient(WebApplicationFactory<Startup> factory, FakeSolutionDownloader fakeSolutionDownloader) 
             => factory
-                .WithWebHostBuilder(builder => builder.ConfigureTestServices(services => services.AddSingleton<SolutionDownloader, FakeSolutionDownloader>()))
+                .WithWebHostBuilder(builder => builder.ConfigureTestServices(services => services.AddSingleton<SolutionDownloader>(fakeSolutionDownloader)))
                 .CreateClient();
 
         [Fact]
         public async Task AnalyzeSolutionWithDiagnosticsReturnsNonEmptyDiagnosticsEnumerableAsJson()
         {
-            var response = await _httpClient.GetAsync($"/api/analyze/leap/{StubSolution.WithDiagnostics.Uuid}");
+            _fakeSolutionDownloader.ImplementationFileName = "LeapFailingTests.cs";
+            var response = await _httpClient.GetAsync($"/api/analyze/leap/{Guid.NewGuid()}");
 
             Assert.True(response.IsSuccessStatusCode);
             Assert.NotEmpty(await response.Content.ReadAsAsync<Diagnostic[]>());
@@ -34,7 +40,8 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         [Fact]
         public async Task AnalyzeSolutionWithoutDiagnosticsReturnsEmptyDiagnosticsEnumerableAsJson()
         {
-            var response = await _httpClient.GetAsync($"/api/analyze/leap/{StubSolution.WithoutDiagnostics.Uuid}");
+            _fakeSolutionDownloader.ImplementationFileName = "LeapNoDiagnostics.cs";
+            var response = await _httpClient.GetAsync($"/api/analyze/leap/{Guid.NewGuid()}");
 
             Assert.True(response.IsSuccessStatusCode);
             Assert.Empty(await response.Content.ReadAsAsync<Diagnostic[]>());Assert.True(response.IsSuccessStatusCode);

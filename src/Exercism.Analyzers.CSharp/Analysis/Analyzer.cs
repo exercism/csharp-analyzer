@@ -15,23 +15,23 @@ namespace Exercism.Analyzers.CSharp.Analysis
         
         public async Task<Diagnostic[]> Analyze(string slug, string uuid)
         {
-            var compiledSolution = await CompileSolution(slug, uuid);
+            var solution = new Solution(slug, uuid);
+            var compiledSolution = await Compile(solution);
 
             return await Analyze(compiledSolution);
         }
 
-        public Task<Diagnostic[]> Analyze(CompiledSolution compiledSolution)
+        private async Task<CompiledSolution> Compile(Solution solution)
         {
-            var solutionAnalyzer = SolutionAnalyzerFactory.Create(compiledSolution.Solution);
-            return solutionAnalyzer.Analyze(compiledSolution);
-        }
-
-        private async Task<CompiledSolution> CompileSolution(string slug, string uuid)
-        {
-            var solution = new Solution(slug, uuid);
             var downloadedSolution = await _solutionDownloader.Download(solution);
             var loadedSolution = _solutionLoader.Load(downloadedSolution);
             return await _solutionCompiler.Compile(loadedSolution);
+        }
+
+        private static Task<Diagnostic[]> Analyze(CompiledSolution compiledSolution)
+        {
+            var solutionAnalyzer = SolutionAnalyzerFactory.Create(compiledSolution.Solution);
+            return solutionAnalyzer.Analyze(compiledSolution);
         }
     }
 }
