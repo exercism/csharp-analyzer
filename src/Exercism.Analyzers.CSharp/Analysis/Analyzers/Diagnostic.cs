@@ -1,10 +1,10 @@
 namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 {
-    public class Diagnostic
+    public readonly struct Diagnostic
     {
         public Diagnostic(string text, DiagnosticLevel level) => (Text, Level) = (text, level);
-        
-        public string Text { get; }
-        public DiagnosticLevel Level { get; } 
+
+        public readonly string Text;
+        public readonly DiagnosticLevel Level;
     }
 }

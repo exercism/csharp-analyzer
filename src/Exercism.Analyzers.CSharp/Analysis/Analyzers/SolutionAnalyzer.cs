@@ -25,8 +25,9 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 
         private IEnumerable<Rule> GetRules() => GetDefaultRules().Concat(GetNonDefaultRules());
 
-        private IEnumerable<Rule> GetDefaultRules()
+        private static IEnumerable<Rule> GetDefaultRules()
         {
+            yield return new CompilesWithoutErrorsRule();
             yield return new AllTestsPassRule();
         }
 
