@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules
 {
-    public class CompilesWithoutErrorsRule : Rule
+    internal class CompilesWithoutErrorsRule : Rule
     {
         public override Task<Diagnostic[]> Verify(CompiledSolution compiledSolution)
         {

@@ -2,7 +2,7 @@ using Exercism.Analyzers.CSharp.Analysis.Solutions;
 
 namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 {
-    public static class SolutionAnalyzerFactory
+    internal static class SolutionAnalyzerFactory
     {
         public static SolutionAnalyzer Create(Solution solution)
         {

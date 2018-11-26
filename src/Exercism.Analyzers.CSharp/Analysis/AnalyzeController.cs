@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Exercism.Analyzers.CSharp.Analysis
 {
     // TODO: consider including version of CLI in project
-    // TODO: consider using internal classes where possible
     // TODO: test using NDepend
     [Route("api/analyze")]
     [ApiController]

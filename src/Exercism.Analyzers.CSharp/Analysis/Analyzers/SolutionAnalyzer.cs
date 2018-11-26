@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 {
-    public abstract class SolutionAnalyzer
+    internal abstract class SolutionAnalyzer
     {
         public async Task<Diagnostic[]> Analyze(CompiledSolution compiledSolution)
         {

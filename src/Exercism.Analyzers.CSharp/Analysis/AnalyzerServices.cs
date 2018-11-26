@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Exercism.Analyzers.CSharp.Analysis
 {
-    public static class AnalyzerServices
+    internal static class AnalyzerServices
     {
         public static IServiceCollection AddAnalyzer(this IServiceCollection services) =>
             services.AddSingleton<Analyzer>()

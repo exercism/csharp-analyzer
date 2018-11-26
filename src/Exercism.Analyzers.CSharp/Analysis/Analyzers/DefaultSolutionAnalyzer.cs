@@ -1,6 +1,6 @@
 namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 {
-    public class DefaultSolutionAnalyzer : SolutionAnalyzer
+    internal class DefaultSolutionAnalyzer : SolutionAnalyzer
     {
     }
 }

@@ -12,7 +12,7 @@ using NullMessageSink = Xunit.Sdk.NullMessageSink;
 
 namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules
 {
-    public class AllTestsPassRule : Rule
+    internal class AllTestsPassRule : Rule
     {
         private static readonly ISourceInformationProvider SourceInformationProvider = new NullSourceInformationProvider();
         private static readonly IMessageSink DiagnosticMessageSink = new NullMessageSink();
