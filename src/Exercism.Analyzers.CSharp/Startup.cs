@@ -1,5 +1,4 @@
 ﻿using Exercism.Analyzers.CSharp.Analysis;
-using Exercism.Analyzers.CSharp.Analysis.Solutions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

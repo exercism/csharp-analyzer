@@ -6,41 +6,56 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
 {
     internal class FakeSolutionDownloader : SolutionDownloader
     {
-        private static readonly string ExercisesDirectory = Path.Combine("Analysis", "Solutions", "Exercises");
-        private static readonly DirectoryInfo FakeSolutionDirectory = new DirectoryInfo("solution");
-        
-        public string ImplementationFileName { get; set; }
+        private static readonly string SourceExercisesDirectory = Path.Combine("Analysis", "Solutions", "Exercises");
+
+        private DirectoryInfo _fakeSolutionDirectory;
+        private string _implementationFileName;
+
+        public void Configure(Solution solution, string implementationFileSuffix)
+        {
+            _fakeSolutionDirectory = GetFakeSolutionDirectory(implementationFileSuffix);
+            _implementationFileName = GetImplementationFileName(solution, implementationFileSuffix);
+        }
+
+        private static DirectoryInfo GetFakeSolutionDirectory(string implementationFileSuffix) 
+            => new DirectoryInfo(Path.Combine(SourceExercisesDirectory, implementationFileSuffix));
+
+        private static string GetImplementationFileName(Solution solution, string implementationFileSuffix) 
+            => $"{solution.Name}{implementationFileSuffix}.cs";
 
         protected override Task<DirectoryInfo> DownloadToDirectory(Solution solution)
         {
-            RemoveOldSolutionFiles();
-            CopyNewSolutionFiles(solution);
+            CreateFakeSolution(solution);
 
-            return Task.FromResult(FakeSolutionDirectory);
+            return Task.FromResult(_fakeSolutionDirectory);
         }
 
-        private static void RemoveOldSolutionFiles()
+        private void CreateFakeSolution(Solution solution)
         {
-            if (FakeSolutionDirectory.Exists)
-                FakeSolutionDirectory.Delete(recursive: true);
-
-            FakeSolutionDirectory.Create();
-        }
-
-        private void CopyNewSolutionFiles(Solution solution)
-        {
-            CopySolutionFile(solution, ImplementationFileName, GetImplementationFileName(solution));
+            CreateFakeSolutionDirectory();
+            CopySolutionFile(solution, _implementationFileName, GetImplementationFileName(solution));
             CopySolutionFile(solution, GetTestFileName(solution), GetTestFileName(solution));
             CopySolutionFile(solution, GetProjectFileName(solution), GetProjectFileName(solution));
         }
 
-        private static void CopySolutionFile(Solution solution, string solutionFileName, string fakeSolutionFileName) 
-            => File.Copy(GetSolutionFilePath(solution, solutionFileName), GetFakeSolutionFilePath(fakeSolutionFileName));
+        private void CreateFakeSolutionDirectory()
+        {
+            if (_fakeSolutionDirectory.Exists)
+                _fakeSolutionDirectory.Delete(recursive: true);
 
-        private static string GetSolutionFilePath(Solution solution, string fileName) 
-            => Path.Combine(ExercisesDirectory, solution.Name, fileName);
+            _fakeSolutionDirectory.Create();
+        }
+
+        private void CopySolutionFile(Solution solution, string sourceSolutionFileName, string fakeSolutionFileName) 
+            => File.Copy(
+                GetSourceSolutionFilePath(solution, sourceSolutionFileName),
+                GetFakeSolutionFilePath(fakeSolutionFileName));
+
+        private static string GetSourceSolutionFilePath(Solution solution, string fileName) 
+            => Path.Combine(SourceExercisesDirectory, solution.Name, fileName);
         
-        private static string GetFakeSolutionFilePath(string fileName) => Path.Combine(FakeSolutionDirectory.FullName, fileName);
+        private string GetFakeSolutionFilePath(string fileName) 
+            => Path.Combine(_fakeSolutionDirectory.FullName, fileName);
 
         private static string GetImplementationFileName(Solution solution) => $"{solution.Name}.cs";
 
