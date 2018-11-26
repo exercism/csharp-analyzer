@@ -1,3 +1,4 @@
+using Exercism.Analyzers.CSharp.Analysis.CommandLine;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +10,7 @@ namespace Exercism.Analyzers.CSharp.Analysis
             services.AddSingleton<Analyzer>()
                     .AddSingleton<SolutionDownloader>()
                     .AddSingleton<SolutionLoader>()
-                    .AddSingleton<SolutionCompiler>();
+                    .AddSingleton<SolutionCompiler>()
+                    .AddSingleton<ExercismCommandLineInterface>();
     }
 }

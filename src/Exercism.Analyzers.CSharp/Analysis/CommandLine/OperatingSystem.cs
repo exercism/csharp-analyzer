@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace Exercism.Analyzers.CSharp.Analysis.Cli
+namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
 {
     internal static class OperatingSystem
     {

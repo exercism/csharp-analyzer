@@ -1,5 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
+using Exercism.Analyzers.CSharp.Analysis.CommandLine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -7,6 +8,11 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 {
     public class SolutionDownloader
     {
+        private readonly ExercismCommandLineInterface _exercismCommandLineInterface;
+
+        public SolutionDownloader(ExercismCommandLineInterface exercismCommandLineInterface) 
+            => _exercismCommandLineInterface = exercismCommandLineInterface;
+
         public async Task<DownloadedSolution> Download(string id)
         {
             var solutionDirectory = await DownloadToDirectory(id);
@@ -18,6 +24,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
             
             return new DownloadedSolution(solution, projectFile, implementationFile, testsFile);
         }
+        
+        private Task<DirectoryInfo> DownloadToDirectory(string id) => _exercismCommandLineInterface.Download(id);
 
         private static async Task<Solution> GetSolution(DirectoryInfo solutionDirectory)
         {
@@ -46,7 +54,5 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 
         private static FileInfo GetFileInSolutionDirectory(DirectoryInfo solutionDirectory, string solutionFile) 
             => new FileInfo(Path.Combine(solutionDirectory.FullName, solutionFile));
-
-        protected virtual Task<DirectoryInfo> DownloadToDirectory(string id) => Cli.ExercismCli.Download(id);
     }
 }

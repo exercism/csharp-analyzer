@@ -13,13 +13,13 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
     {
         private readonly Solution _solution;
         private readonly HttpClient _httpClient;
-        private readonly FakeSolutionDownloader _fakeSolutionDownloader;
+        private readonly FakeExercismCommandLineInterface _fakeExercismCommandLineInterface;
 
         protected ExerciseAnalysisTests(string slug, WebApplicationFactory<Startup> factory)
         {
             _solution = new Solution(Guid.NewGuid().ToString(), slug);
-            _fakeSolutionDownloader = new FakeSolutionDownloader();
-            _httpClient = AnalysisTestsHttpClientFactory.Create(factory, _fakeSolutionDownloader);
+            _fakeExercismCommandLineInterface = new FakeExercismCommandLineInterface();
+            _httpClient = AnalysisTestsHttpClientFactory.Create(factory, _fakeExercismCommandLineInterface);
         }
         
         [Fact]
@@ -48,7 +48,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
 
         private async Task<Diagnostic[]> RequestAnalysis(string implementationFileSuffix)
         {
-            _fakeSolutionDownloader.Configure(_solution, implementationFileSuffix);
+            _fakeExercismCommandLineInterface.Configure(_solution, implementationFileSuffix);
 
             var response = await _httpClient.GetAsync($"/api/analyze/{_solution.Id}");
             response.EnsureSuccessStatusCode();

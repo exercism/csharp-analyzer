@@ -1,5 +1,5 @@
 using System.Net.Http;
-using Exercism.Analyzers.CSharp.Analysis.Solutions;
+using Exercism.Analyzers.CSharp.Analysis.CommandLine;
 using Exercism.Analyzers.CSharp.Tests.Analysis.Solutions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -12,7 +12,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
     {
         public static HttpClient Create(
             WebApplicationFactory<Startup> factory,
-            FakeSolutionDownloader fakeSolutionDownloader)
+            FakeExercismCommandLineInterface fakeExercismCommandLineInterface)
         {
             return factory
                 .WithWebHostBuilder(ConfigureWebHostBuilder)
@@ -22,7 +22,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
                 builder.ConfigureTestServices(ConfigureTestServices);
 
             void ConfigureTestServices(IServiceCollection services) =>
-                services.AddSingleton<SolutionDownloader>(fakeSolutionDownloader);
+                services.AddSingleton<ExercismCommandLineInterface>(fakeExercismCommandLineInterface);
         }
     }
 }

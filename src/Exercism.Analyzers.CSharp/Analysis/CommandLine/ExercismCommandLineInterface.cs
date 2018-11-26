@@ -2,17 +2,21 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Exercism.Analyzers.CSharp.Analysis.Cli
+namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
 {
-    internal static class ExercismCli
-    {   
-        public static async Task<DirectoryInfo> Download(string id)
+    public class ExercismCommandLineInterface : CommandLineProcess
+    {
+        public ExercismCommandLineInterface() : base(GetFileName())
         {
-            var downloadedToDirectory = await ProcessRunner.Run(GetCliPath(), GetCliArguments(id));
-            return new DirectoryInfo(downloadedToDirectory.Trim());
+        }
+
+        public virtual async Task<DirectoryInfo> Download(string id)
+        {
+            var output = await Run(GetArguments(id));
+            return new DirectoryInfo(output.Trim());
         }
         
-        private static string GetCliPath()
+        private static string GetFileName()
             => Path.Combine("binaries", $"{GetOperatingSystem()}-{GetArchitecture()}", "exercism");
         
         private static string GetOperatingSystem()
@@ -37,6 +41,6 @@ namespace Exercism.Analyzers.CSharp.Analysis.Cli
             throw new InvalidOperationException("Unsupported architecture system");
         }
 
-        private static string GetCliArguments(string id) => $"download -u {id}";
+        private static string GetArguments(string id) => $"download -u {id}";
     }
 }
