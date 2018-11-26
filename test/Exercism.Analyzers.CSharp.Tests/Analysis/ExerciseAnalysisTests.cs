@@ -17,7 +17,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
 
         protected ExerciseAnalysisTests(string slug, WebApplicationFactory<Startup> factory)
         {
-            _solution = new Solution(slug, Guid.NewGuid().ToString());
+            _solution = new Solution(Guid.NewGuid().ToString(), slug);
             _fakeSolutionDownloader = new FakeSolutionDownloader();
             _httpClient = AnalysisTestsHttpClientFactory.Create(factory, _fakeSolutionDownloader);
         }
@@ -50,7 +50,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         {
             _fakeSolutionDownloader.Configure(_solution, implementationFileSuffix);
 
-            var response = await _httpClient.GetAsync($"/api/analyze/{_solution.Slug}/{_solution.Uuid}");
+            var response = await _httpClient.GetAsync($"/api/analyze/{_solution.Id}");
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsAsync<Diagnostic[]>();
         }

@@ -13,17 +13,16 @@ namespace Exercism.Analyzers.CSharp.Analysis
         public Analyzer(SolutionDownloader solutionDownloader, SolutionLoader solutionLoader, SolutionCompiler solutionCompiler)
             => (_solutionDownloader, _solutionLoader, _solutionCompiler) = (solutionDownloader, solutionLoader, solutionCompiler); 
         
-        public async Task<Diagnostic[]> Analyze(string slug, string uuid)
+        public async Task<Diagnostic[]> Analyze(string id)
         {
-            var solution = new Solution(slug, uuid);
-            var compiledSolution = await Compile(solution);
+            var compiledSolution = await Compile(id);
 
             return await Analyze(compiledSolution);
         }
 
-        private async Task<CompiledSolution> Compile(Solution solution)
+        private async Task<CompiledSolution> Compile(string id)
         {
-            var downloadedSolution = await _solutionDownloader.Download(solution);
+            var downloadedSolution = await _solutionDownloader.Download(id);
             var loadedSolution = _solutionLoader.Load(downloadedSolution);
             return await _solutionCompiler.Compile(loadedSolution);
         }

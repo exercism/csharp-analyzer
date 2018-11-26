@@ -12,11 +12,8 @@ namespace Exercism.Analyzers.CSharp.Analysis
     [ApiController]
     public class AnalyzeController : ControllerBase
     {
-        [HttpGet("{slug}/{uuid}")]
-        public async Task<ActionResult<Diagnostic[]>> Analyze(
-            [FromRoute]string slug,
-            [FromRoute]string uuid,
-            [FromServices]Analyzer analyzer) 
-            => await analyzer.Analyze(slug, uuid);
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Diagnostic[]>> Analyze([FromRoute]string id, [FromServices]Analyzer analyzer) 
+            => await analyzer.Analyze(id);
     }
 }
