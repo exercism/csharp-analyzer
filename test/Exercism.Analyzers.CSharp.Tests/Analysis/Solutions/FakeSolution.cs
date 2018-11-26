@@ -10,17 +10,22 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
 
         private readonly Solution _solution;
         private readonly DirectoryInfo _fakeSolutionDirectory;
+        private readonly DirectoryInfo _fakeSolutionMetadataDirectory;
         private readonly string _implementationFileName;
 
         public FakeSolution(Solution solution, string implementationFileSuffix)
         {
             _solution = solution;
             _fakeSolutionDirectory = GetFakeSolutionDirectory(implementationFileSuffix);
+            _fakeSolutionMetadataDirectory = GetFakeSolutionMetadataDirectory(implementationFileSuffix);
             _implementationFileName = GetImplementationFileName(implementationFileSuffix);
         }
 
         private static DirectoryInfo GetFakeSolutionDirectory(string implementationFileSuffix) 
             => new DirectoryInfo(Path.Combine(SourceExercisesDirectory, implementationFileSuffix));
+        
+        private static DirectoryInfo GetFakeSolutionMetadataDirectory(string implementationFileSuffix) 
+            => new DirectoryInfo(Path.Combine(GetFakeSolutionDirectory(implementationFileSuffix).FullName, ".exercism"));
 
         private string GetImplementationFileName(string implementationFileSuffix) 
             => $"{_solution.Name}{implementationFileSuffix}.cs";
@@ -35,10 +40,8 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
 
         private void CreateSolutionDirectory()
         {
-            if (_fakeSolutionDirectory.Exists)
-                _fakeSolutionDirectory.Delete(recursive: true);
-
-            _fakeSolutionDirectory.Create();
+            _fakeSolutionDirectory.Recreate();
+            _fakeSolutionMetadataDirectory.Create();
         }
 
         private void CreateSolutionFiles()
@@ -52,7 +55,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
         private void CreateMetadataFile()
         {
             var metadata  = new {track = "csharp", exercise = _solution.Slug, id = _solution.Id};
-            var metadataFilePath = GetFakeSolutionFilePath(MetadataFileName);
+            var metadataFilePath = GetFakeSolutionMetadataFilePath(MetadataFileName);
             File.WriteAllText(metadataFilePath, JsonConvert.SerializeObject(metadata));
         }
 
@@ -64,6 +67,9 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
         
         private string GetFakeSolutionFilePath(string fileName) 
             => Path.Combine(_fakeSolutionDirectory.FullName, fileName);
+        
+        private string GetFakeSolutionMetadataFilePath(string fileName) 
+            => Path.Combine(_fakeSolutionMetadataDirectory.FullName, fileName);
 
         private string ImplementationFileName => $"{_solution.Name}.cs";
 
@@ -71,6 +77,6 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
 
         private string ProjectFileName => $"{_solution.Name}.csproj";
         
-        private string MetadataFileName => ".solution.json";
+        private string MetadataFileName => "metadata.json";
     }
 }

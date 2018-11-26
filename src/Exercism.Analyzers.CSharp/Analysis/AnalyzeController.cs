@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Exercism.Analyzers.CSharp.Analysis
 {
-    // TODO: consider including version of CLI in project
-    // TODO: test using NDepend
+    // TODO: analyze using NDepend
     [Route("api/analyze")]
     [ApiController]
     public class AnalyzeController : ControllerBase

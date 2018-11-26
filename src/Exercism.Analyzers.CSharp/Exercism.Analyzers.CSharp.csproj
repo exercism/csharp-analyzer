@@ -14,4 +14,8 @@
     <PackageReference Include="xunit.runner.utility" Version="2.4.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="binaries/$(OperatingSystem)-$(Architecture)/*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

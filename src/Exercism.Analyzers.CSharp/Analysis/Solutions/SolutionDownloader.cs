@@ -1,6 +1,5 @@
 using System.IO;
 using System.Threading.Tasks;
-using Exercism.Analyzers.CSharp.Analysis.Solutions.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -22,7 +21,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 
         private static async Task<Solution> GetSolution(DirectoryInfo solutionDirectory)
         {
-            using (var textReader = GetSolutionFile(solutionDirectory).OpenText())
+            using (var textReader = GetMetadataFile(solutionDirectory).OpenText())
             using (var jsonTextReader = new JsonTextReader(textReader))
             {
                 var solutionMetadata = await JToken.ReadFromAsync(jsonTextReader);
@@ -33,8 +32,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
             }
         }
         
-        private static FileInfo GetSolutionFile(DirectoryInfo solutionDirectory) 
-            => GetFileInSolutionDirectory(solutionDirectory, ".solution.json");
+        private static FileInfo GetMetadataFile(DirectoryInfo solutionDirectory) 
+            => GetFileInSolutionDirectory(solutionDirectory, Path.Combine(".exercism", "metadata.json"));
 
         private static FileInfo GetProjectFile(Solution solution, DirectoryInfo solutionDirectory) 
             => GetFileInSolutionDirectory(solutionDirectory, $"{solution.Name}.csproj");
@@ -48,11 +47,6 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
         private static FileInfo GetFileInSolutionDirectory(DirectoryInfo solutionDirectory, string solutionFile) 
             => new FileInfo(Path.Combine(solutionDirectory.FullName, solutionFile));
 
-        protected virtual async Task<DirectoryInfo> DownloadToDirectory(string id)
-        {
-            // We assume that the exercism CLI is available as a global tool
-            var directory = await ProcessRunner.Run("exercism", $"download -u {id}");
-            return new DirectoryInfo(directory.Trim());
-        }
+        protected virtual Task<DirectoryInfo> DownloadToDirectory(string id) => Cli.ExercismCli.Download(id);
     }
 }
