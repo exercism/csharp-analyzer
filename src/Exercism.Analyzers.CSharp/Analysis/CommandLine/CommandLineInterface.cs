@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 
 namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
 {
-    public abstract class CommandLineProcess
+    public abstract class CommandLineInterface
     {
         private readonly string _fileName;
 
-        protected CommandLineProcess(string fileName) => _fileName = fileName;
+        protected CommandLineInterface(string fileName) => _fileName = fileName;
         
         protected async Task<string> Run(string arguments)
         {

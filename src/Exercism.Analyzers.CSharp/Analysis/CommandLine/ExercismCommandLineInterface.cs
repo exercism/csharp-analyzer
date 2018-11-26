@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
 {
-    public class ExercismCommandLineInterface : CommandLineProcess
+    public class ExercismCommandLineInterface : CommandLineInterface
     {
         public ExercismCommandLineInterface() : base(GetFileName())
         {
