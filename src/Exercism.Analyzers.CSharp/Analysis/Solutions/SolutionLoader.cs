@@ -2,9 +2,9 @@ using Exercism.Analyzers.CSharp.Analysis.Roslyn;
 
 namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 {
-    public class SolutionLoader
+    public static class SolutionLoader
     {
-        public LoadedSolution Load(DownloadedSolution downloadedSolution)
+        public static LoadedSolution Load(DownloadedSolution downloadedSolution)
         {
             var project = ProjectLoader.LoadFromFile(downloadedSolution.ProjectFile); 
             var testsFile = project.GetDocument(downloadedSolution.TestsFile.Name);

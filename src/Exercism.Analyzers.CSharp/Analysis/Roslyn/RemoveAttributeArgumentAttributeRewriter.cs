@@ -18,7 +18,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Roslyn
         private bool AttributeArgumentNameMatches(AttributeArgumentSyntax node) 
             => node.NameEquals.Name.GetName() == _attributeArgumentName;
      
-        private bool AttributeNameMatches(AttributeArgumentSyntax node)
+        private bool AttributeNameMatches(SyntaxNode node)
             => node.Parent.Parent is AttributeSyntax attributeSyntax && attributeSyntax.Name.GetName() == _attributeName;
     }
 }

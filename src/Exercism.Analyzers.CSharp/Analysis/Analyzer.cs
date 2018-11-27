@@ -8,11 +8,8 @@ namespace Exercism.Analyzers.CSharp.Analysis
     public class Analyzer
     {
         private readonly SolutionDownloader _solutionDownloader;
-        private readonly SolutionLoader _solutionLoader;
-        private readonly SolutionCompiler _solutionCompiler;
 
-        public Analyzer(SolutionDownloader solutionDownloader, SolutionLoader solutionLoader, SolutionCompiler solutionCompiler)
-            => (_solutionDownloader, _solutionLoader, _solutionCompiler) = (solutionDownloader, solutionLoader, solutionCompiler); 
+        public Analyzer(SolutionDownloader solutionDownloader) => _solutionDownloader = solutionDownloader; 
         
         public async Task<Diagnostic[]> Analyze(string id)
         {
@@ -24,8 +21,8 @@ namespace Exercism.Analyzers.CSharp.Analysis
         private async Task<CompiledSolution> Compile(string id)
         {
             var downloadedSolution = await _solutionDownloader.Download(id);
-            var loadedSolution = _solutionLoader.Load(downloadedSolution);
-            return await _solutionCompiler.Compile(loadedSolution);
+            var loadedSolution = SolutionLoader.Load(downloadedSolution);
+            return await SolutionCompiler.Compile(loadedSolution);
         }
 
         private static Task<Diagnostic[]> Analyze(CompiledSolution compiledSolution)

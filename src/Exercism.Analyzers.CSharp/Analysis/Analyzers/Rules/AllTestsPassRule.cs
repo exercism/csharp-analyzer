@@ -37,7 +37,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules
                 return assemblyRunner.RunAsync();
         }
 
-        private static XunitTestAssemblyRunner CreateTestAssemblyRunner(IReflectionAssemblyInfo assemblyInfo) 
+        private static XunitTestAssemblyRunner CreateTestAssemblyRunner(IAssemblyInfo assemblyInfo) 
             => new XunitTestAssemblyRunner(
                     new TestAssembly(assemblyInfo),
                     GetTestCases(assemblyInfo),

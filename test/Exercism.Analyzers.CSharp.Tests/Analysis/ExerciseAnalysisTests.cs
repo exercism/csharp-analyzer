@@ -1,7 +1,6 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Exercism.Analyzers.CSharp.Analysis.Analyzers;
 using Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
 using Exercism.Analyzers.CSharp.Tests.Analysis.Solutions;

@@ -40,19 +40,19 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
             }
         }
         
-        private static FileInfo GetMetadataFile(DirectoryInfo solutionDirectory) 
+        private static FileInfo GetMetadataFile(FileSystemInfo solutionDirectory) 
             => GetFileInSolutionDirectory(solutionDirectory, Path.Combine(".exercism", "metadata.json"));
 
-        private static FileInfo GetProjectFile(Solution solution, DirectoryInfo solutionDirectory) 
+        private static FileInfo GetProjectFile(Solution solution, FileSystemInfo solutionDirectory) 
             => GetFileInSolutionDirectory(solutionDirectory, $"{solution.Name}.csproj");
         
-        private static FileInfo GetImplementationFile(Solution solution, DirectoryInfo solutionDirectory) 
+        private static FileInfo GetImplementationFile(Solution solution, FileSystemInfo solutionDirectory) 
             => GetFileInSolutionDirectory(solutionDirectory, $"{solution.Name}.cs");
         
-        private static FileInfo GetTestFileName(Solution solution, DirectoryInfo solutionDirectory) 
+        private static FileInfo GetTestFileName(Solution solution, FileSystemInfo solutionDirectory) 
             => GetFileInSolutionDirectory(solutionDirectory, $"{solution.Name}Test.cs");
 
-        private static FileInfo GetFileInSolutionDirectory(DirectoryInfo solutionDirectory, string solutionFile) 
+        private static FileInfo GetFileInSolutionDirectory(FileSystemInfo solutionDirectory, string solutionFile) 
             => new FileInfo(Path.Combine(solutionDirectory.FullName, solutionFile));
     }
 }

@@ -25,7 +25,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
                 return "win";
             if (OperatingSystem.IsLinux())
                 return "linux";
-            if (OperatingSystem.IsMacOS())
+            if (OperatingSystem.IsMacOs())
                 return "osx";
             
             throw new InvalidOperationException("Unsupported operating system");

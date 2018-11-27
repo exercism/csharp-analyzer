@@ -3,9 +3,9 @@ using Exercism.Analyzers.CSharp.Analysis.Roslyn;
 
 namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 {
-    public class SolutionCompiler
+    public static class SolutionCompiler
     {
-        public async Task<CompiledSolution> Compile(LoadedSolution loadedSolution)
+        public static async Task<CompiledSolution> Compile(LoadedSolution loadedSolution)
         {   
             var implementationSyntaxTree = await loadedSolution.ImplementationFile.GetSyntaxTreeAsync();
             var testsSyntaxTree = await loadedSolution.TestsFile.GetSyntaxTreeAsync();
