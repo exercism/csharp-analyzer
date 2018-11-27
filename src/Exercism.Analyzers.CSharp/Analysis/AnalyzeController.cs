@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis.Analyzers;
+using Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Exercism.Analyzers.CSharp.Analysis

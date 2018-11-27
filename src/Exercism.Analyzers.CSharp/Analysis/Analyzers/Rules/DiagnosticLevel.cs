@@ -1,4 +1,4 @@
-namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
+namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules
 {
     public enum DiagnosticLevel
     {
