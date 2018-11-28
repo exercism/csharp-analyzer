@@ -22,32 +22,6 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
             _httpClient = AnalysisTestsHttpClientFactory.Create(factory, _fakeExercismCommandLineInterface);
         }
 
-        // TODO: create separate exercise to test non-specific rules
-        
-        [Fact]
-        public async Task AnalyzeSolutionWithCompileErrorsReturnsSingleErrorDiagnosticAsJson()
-        {
-            var diagnostics = await RequestAnalysis("DoesNotCompile");
-
-            Assert.Single(diagnostics, new Diagnostic("The code does not compile", DiagnosticLevel.Error));
-        }
-        
-        [Fact]
-        public async Task AnalyzeSolutionWithFailingTestsReturnsSingleErrorDiagnosticAsJson()
-        {
-            var diagnostics = await RequestAnalysis("FailingTests");
-
-            Assert.Single(diagnostics, new Diagnostic("Not all tests pass", DiagnosticLevel.Error));
-        }
-        
-        [Fact]
-        public async Task AnalyzeSolutionWithNoDiagnosticsReturnsNoDiagnosticAsJson()
-        {
-            var diagnostics = await RequestAnalysis("NoDiagnostics");
-
-            Assert.Empty(diagnostics);
-        }
-
         protected async Task<Diagnostic[]> RequestAnalysis(string implementationFileSuffix)
         {
             _fakeExercismCommandLineInterface.Configure(_solution, implementationFileSuffix);
