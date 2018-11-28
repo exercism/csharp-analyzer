@@ -1,6 +1,5 @@
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,7 +19,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules
         }
 
         private Diagnostic ToDiagnostic(MethodDeclarationSyntax methodSyntax) 
-            => new Diagnostic($"Method '{methodSyntax.Identifier.ValueText}' can be rewritten as an expression-bodied member.", DiagnosticLevel.Information);
+            => new Diagnostic($"Method '{methodSyntax.Identifier.Text}' can be rewritten as an expression-bodied member.", DiagnosticLevel.Information);
 
         private static bool MethodCanBeConvertedToExpressionBodiedMember(MethodDeclarationSyntax methodSyntax) 
             => methodSyntax.ExpressionBody == null && methodSyntax.Body.Statements.Count == 1;
