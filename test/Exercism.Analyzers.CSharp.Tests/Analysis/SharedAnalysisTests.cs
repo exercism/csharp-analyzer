@@ -14,7 +14,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         }
 
         [Fact]
-        public async Task AnalyzeSolutionWithCompileErrorsReturnsSingleErrorDiagnosticAsJson()
+        public async Task AnalyzeSolutionWithCompileErrorsReturnsSingleErrorDiagnostic()
         {
             var diagnostics = await RequestAnalysis("DoesNotCompile");
 
@@ -22,7 +22,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         }
         
         [Fact]
-        public async Task AnalyzeSolutionWithFailingTestsReturnsSingleErrorDiagnosticAsJson()
+        public async Task AnalyzeSolutionWithFailingTestsReturnsSingleErrorDiagnostic()
         {
             var diagnostics = await RequestAnalysis("FailingTests");
 
@@ -30,7 +30,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         }
         
         [Fact]
-        public async Task AnalyzeSolutionWithNoDiagnosticsReturnsNoDiagnosticAsJson()
+        public async Task AnalyzeSolutionWithNoDiagnosticsReturnsNoDiagnostics()
         {
             var diagnostics = await RequestAnalysis("NoDiagnostics");
 
@@ -38,7 +38,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         }
 
         [Fact]
-        public async Task AnalyzeSolutionWithMethodThatCanBeConvertedToExpressionBodiedMemberReturnsSingleInformationDiagnosticAsJson()
+        public async Task AnalyzeSolutionWithMethodThatCanBeConvertedToExpressionBodiedMemberReturnsSingleInformationDiagnostic()
         {
             var diagnostics = await RequestAnalysis("ConvertToExpressionBodiedMember");
 

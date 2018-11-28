@@ -14,11 +14,19 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         }
 
         [Fact]
-        public async Task AnalyzeSolutionWithIsLeapYearUsesTooManyChecksReturnsSingleWarningDiagnosticAsJson()
+        public async Task AnalyzeSolutionWithIsLeapYearUsesCorrectNumberOfChecksDoesNotReturnDiagnostics()
+        {
+            var diagnostics = await RequestAnalysis("CorrectNumberOfChecks");
+
+            Assert.Empty(diagnostics);
+        }
+
+        [Fact]
+        public async Task AnalyzeSolutionWithIsLeapYearUsesTooManyChecksReturnsSingleWarningDiagnostic()
         {
             var diagnostics = await RequestAnalysis("TooManyChecks");
 
-            Assert.Single(diagnostics, new Diagnostic("The `IsLeapYear` method uses too many checks.", DiagnosticLevel.Warning));
+            Assert.Single(diagnostics, new Diagnostic("The 'IsLeapYear' method uses too many checks.", DiagnosticLevel.Warning));
         }
     }
 }

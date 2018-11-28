@@ -8,7 +8,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
     {
         protected override IEnumerable<Rule> GetNonDefaultRules()
         {
-            yield return new UseMinimumNumberOfBooleanChecksInIsLeapYearRule();
+            yield return new UseMinimumNumberOfChecksInIsLeapYearMethodRule();
         }
     }
 }
