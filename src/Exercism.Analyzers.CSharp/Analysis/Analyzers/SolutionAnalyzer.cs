@@ -16,6 +16,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
             {
                 var diagnostics = await rule.Verify(compiledSolution);
 
+                // TODO: consider if an error should halt analysis and if multiple diagnostics should be returned
                 if (EnumerableExtensions.Any(diagnostics))
                     return diagnostics;
             }
@@ -29,6 +30,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
         {
             yield return new CompilesWithoutErrorsRule();
             yield return new AllTestsPassRule();
+            yield return new ConvertToExpressionBodiedMemberRule();
         }
 
         protected virtual IEnumerable<Rule> GetNonDefaultRules() => Enumerable.Empty<Rule>();

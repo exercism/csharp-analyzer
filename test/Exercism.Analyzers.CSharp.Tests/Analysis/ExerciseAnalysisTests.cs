@@ -46,7 +46,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
             Assert.Empty(diagnostics);
         }
 
-        private async Task<Diagnostic[]> RequestAnalysis(string implementationFileSuffix)
+        protected async Task<Diagnostic[]> RequestAnalysis(string implementationFileSuffix)
         {
             _fakeExercismCommandLineInterface.Configure(_solution, implementationFileSuffix);
 
