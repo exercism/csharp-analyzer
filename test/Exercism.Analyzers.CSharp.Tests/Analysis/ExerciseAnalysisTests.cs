@@ -21,6 +21,8 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
             _fakeExercismCommandLineInterface = new FakeExercismCommandLineInterface();
             _httpClient = AnalysisTestsHttpClientFactory.Create(factory, _fakeExercismCommandLineInterface);
         }
+
+        // TODO: create separate exercise to test non-specific rules
         
         [Fact]
         public async Task AnalyzeSolutionWithCompileErrorsReturnsSingleErrorDiagnosticAsJson()
