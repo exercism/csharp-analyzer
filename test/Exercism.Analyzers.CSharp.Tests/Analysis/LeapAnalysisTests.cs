@@ -1,6 +1,6 @@
-using Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Threading.Tasks;
+using Exercism.Analyzers.CSharp.Analysis.Analyzers;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.Tests.Analysis
@@ -14,19 +14,11 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         }
 
         [Fact]
-        public async Task AnalyzeSolutionWithIsLeapYearUsesCorrectNumberOfChecksDoesNotReturnDiagnostics()
-        {
-            var diagnostics = await RequestAnalysis("CorrectNumberOfChecks");
-
-            Assert.Empty(diagnostics);
-        }
+        public Task AnalyzeSolutionWithIsLeapYearUsesCorrectNumberOfChecksDoesNotReturnComments()
+            => VerifyReturnsNoComments("CorrectNumberOfChecks");
 
         [Fact]
-        public async Task AnalyzeSolutionWithIsLeapYearUsesTooManyChecksReturnsSingleWarningDiagnostic()
-        {
-            var diagnostics = await RequestAnalysis("TooManyChecks");
-
-            Assert.Single(diagnostics, new Diagnostic("The 'IsLeapYear' method uses too many checks.", DiagnosticLevel.Warning));
-        }
+        public Task AnalyzeSolutionWithIsLeapYearUsesTooManyChecksReturnsComment() 
+            => VerifyReturnsComments("TooManyChecks", "The 'IsLeapYear' method uses too many checks.");
     }
 }

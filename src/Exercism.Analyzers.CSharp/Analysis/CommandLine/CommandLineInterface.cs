@@ -16,7 +16,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
                 downloadProcess.Start();
                 downloadProcess.WaitForExit();
 
-                return await downloadProcess.StandardOutput.ReadToEndAsync();
+                return await downloadProcess.StandardOutput.ReadToEndAsync().ConfigureAwait(false);
             }
         }
         
