@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Exercism.Analyzers.CSharp.Analysis.Roslyn
+namespace Exercism.Analyzers.CSharp.Analysis.Compilation
 {
     internal class RemoveAttributeArgumentAttributeRewriter : CSharpSyntaxRewriter
     {

@@ -1,29 +1,39 @@
-﻿using Exercism.Analyzers.CSharp.Analysis.Solutions;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using System.Collections.Immutable;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules.Leap
+namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 {
-    internal class UseMinimumNumberOfChecksInIsLeapYearMethodRule : Rule
+    [DiagnosticAnalyzer(LanguageNames.CSharp)]
+    internal class LeapUsesMinimumNumberOfChecksAnalyzer : DiagnosticAnalyzer
     {
         private const int MinimalNumberOfChecks = 3;
-        
         private const string LeapClassIdentifier = "Leap";
         private const string IsLeapYearMethodIdentifier = "IsLeapYear";
         private const string YearParameterIdentifier = "year";
+        
+        private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
+            id: "EXERCISM0003",
+            title: "Leap uses minimum number of checks",
+            messageFormat: $"The '{IsLeapYearMethodIdentifier}' method uses too many checks.",
+            category: "Leap",
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true);
 
-        public override async Task<Diagnostic[]> Verify(CompiledSolution compiledSolution)
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+
+        public override void Initialize(AnalysisContext context)
+            => context.RegisterSyntaxNodeAction(SyntaxNodeAnalysisContext, SyntaxKind.MethodDeclaration);
+
+        private static void SyntaxNodeAnalysisContext(SyntaxNodeAnalysisContext context)
         {
-            var root = await compiledSolution.ImplementationSyntaxTree.GetRootAsync();
-            
-            return root
-                    .DescendantNodes()
-                    .OfType<MethodDeclarationSyntax>()
-                    .Where(IsLeapYearMethod)
-                    .Where(UsesTooManyChecks)
-                    .Select(ToDiagnostic)
-                    .ToArray(); 
+            var method = (MethodDeclarationSyntax)context.Node;
+
+            if (IsLeapYearMethod(method) && UsesTooManyChecks(method))
+                context.ReportDiagnostic(Diagnostic.Create(Rule, method.GetLocation()));
         }
 
         private static bool IsLeapYearMethod(MethodDeclarationSyntax methodSyntax)
@@ -44,8 +54,5 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules.Leap
         private static bool ExpressionUsesYearParameter(ExpressionSyntax expressionSyntax) 
             => expressionSyntax is IdentifierNameSyntax nameSyntax &&
                nameSyntax.Identifier.Text == YearParameterIdentifier;
-
-        private static Diagnostic ToDiagnostic(MethodDeclarationSyntax methodSyntax)
-            => new Diagnostic($"The '{methodSyntax.Identifier.Text}' method uses too many checks.", DiagnosticLevel.Warning);
     }
 }

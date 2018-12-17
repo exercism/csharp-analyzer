@@ -1,7 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Exercism.Analyzers.CSharp.Analysis.Roslyn
+namespace Exercism.Analyzers.CSharp.Analysis.Compilation
 {
     internal static class SyntaxTreeExtensions
     {

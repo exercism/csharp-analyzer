@@ -76,7 +76,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
         private string TestFileName => $"{_solution.Name}Test.cs";
 
         private string ProjectFileName => $"{_solution.Name}.csproj";
-        
+
         private static string MetadataFileName => "metadata.json";
     }
 }

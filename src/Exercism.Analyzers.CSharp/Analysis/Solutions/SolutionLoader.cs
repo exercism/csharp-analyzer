@@ -1,4 +1,4 @@
-using Exercism.Analyzers.CSharp.Analysis.Roslyn;
+using Exercism.Analyzers.CSharp.Analysis.Compilation;
 
 namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 {

@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules;
+using Exercism.Analyzers.CSharp.Analysis.Analyzers;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
 using Exercism.Analyzers.CSharp.Tests.Analysis.Solutions;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -22,13 +22,27 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
             _httpClient = AnalysisTestsHttpClientFactory.Create(factory, _fakeExercismCommandLineInterface);
         }
 
-        protected async Task<Diagnostic[]> RequestAnalysis(string implementationFileSuffix)
+        protected async Task VerifyReturnsNoComments(string implementationFileSuffix)
+        {
+            var comments = await RequestAnalysis(implementationFileSuffix).ConfigureAwait(false);
+            Assert.Empty(comments);
+        }
+
+        protected async Task VerifyReturnsComments(string implementationFileSuffix, params string[] expectedComments)
+        {
+            var comments = await RequestAnalysis(implementationFileSuffix).ConfigureAwait(false);
+
+            foreach (var expectedComment in expectedComments)
+                Assert.Contains(expectedComment, comments);
+        }
+
+        private async Task<string[]> RequestAnalysis(string implementationFileSuffix)
         {
             _fakeExercismCommandLineInterface.Configure(_solution, implementationFileSuffix);
 
-            var response = await _httpClient.GetAsync($"/api/analyze/{_solution.Id}");
+            var response = await _httpClient.GetAsync($"/api/analyze/{_solution.Id}").ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsAsync<Diagnostic[]>();
+            return await response.Content.ReadAsAsync<string[]>().ConfigureAwait(false);
         }
     }
 }

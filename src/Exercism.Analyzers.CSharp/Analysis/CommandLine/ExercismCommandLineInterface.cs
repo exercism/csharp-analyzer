@@ -9,12 +9,6 @@ namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
         public ExercismCommandLineInterface() : base(GetFileName())
         {
         }
-
-        public virtual async Task<DirectoryInfo> Download(string id)
-        {
-            var output = await Run(GetArguments(id));
-            return new DirectoryInfo(output.Trim());
-        }
         
         private static string GetFileName()
             => Path.Combine("binaries", $"{GetOperatingSystem()}-{GetArchitecture()}", "exercism");
@@ -39,6 +33,12 @@ namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
                 return "x64";
 
             throw new InvalidOperationException("Unsupported architecture system");
+        }
+
+        public virtual async Task<DirectoryInfo> Download(string id)
+        {
+            var output = await Run(GetArguments(id)).ConfigureAwait(false);
+            return new DirectoryInfo(output.Trim());
         }
 
         private static string GetArguments(string id) => $"download -u {id}";

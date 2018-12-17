@@ -1,6 +1,6 @@
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis.Analyzers;
-using Exercism.Analyzers.CSharp.Analysis.Analyzers.Rules;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
 
 namespace Exercism.Analyzers.CSharp.Analysis
@@ -9,26 +9,25 @@ namespace Exercism.Analyzers.CSharp.Analysis
     {
         private readonly SolutionDownloader _solutionDownloader;
 
-        public Analyzer(SolutionDownloader solutionDownloader) => _solutionDownloader = solutionDownloader; 
-        
-        public async Task<Diagnostic[]> Analyze(string id)
-        {
-            var compiledSolution = await Compile(id);
+        public Analyzer(SolutionDownloader solutionDownloader) => _solutionDownloader = solutionDownloader;
 
-            return await Analyze(compiledSolution);
+        public async Task<string[]> Analyze(string id)
+        {
+            var compiledSolution = await Compile(id).ConfigureAwait(false);
+            return await GetComments(compiledSolution).ConfigureAwait(false);
         }
 
         private async Task<CompiledSolution> Compile(string id)
         {
-            var downloadedSolution = await _solutionDownloader.Download(id);
+            var downloadedSolution = await _solutionDownloader.Download(id).ConfigureAwait(false);
             var loadedSolution = SolutionLoader.Load(downloadedSolution);
-            return await SolutionCompiler.Compile(loadedSolution);
+            return await SolutionCompiler.Compile(loadedSolution).ConfigureAwait(false);
         }
 
-        private static Task<Diagnostic[]> Analyze(CompiledSolution compiledSolution)
+        private static async Task<string[]> GetComments(CompiledSolution compiledSolution)
         {
-            var solutionAnalyzer = SolutionAnalyzerFactory.Create(compiledSolution.Solution);
-            return solutionAnalyzer.Analyze(compiledSolution);
+            var diagnostics = await SolutionAnalyzer.Analyze(compiledSolution).ConfigureAwait(false);
+            return diagnostics.Select(diagnostic => diagnostic.GetMessage()).ToArray();
         }
     }
 }
