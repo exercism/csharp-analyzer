@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace Exercism.Analyzers.CSharp.Analysis.Compilation
+namespace Exercism.Analyzers.CSharp.Analysis.Compiling
 {
     internal static class ProjectExtensions
     {

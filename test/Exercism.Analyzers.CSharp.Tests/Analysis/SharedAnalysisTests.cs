@@ -19,7 +19,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
 
         [Fact]
         public Task AnalyzeSolutionWithCompileErrorsReturnsComment()
-            => VerifyReturnsComments("DoesNotCompile", "The code does not compile.");
+            => VerifyReturnsComments("DoesNotCompile", "The solution does not compile.");
 
         [Fact]
         public Task AnalyzeSolutionWithFailingTestsReturnsComment()

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Exercism.Analyzers.CSharp.Analysis.Compilation;
+using Exercism.Analyzers.CSharp.Analysis.Compiling;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
@@ -14,9 +14,12 @@ namespace Exercism.Analyzers.CSharp.Analysis.Testing
         private static readonly IMessageSink DiagnosticMessageSink = new Xunit.Sdk.NullMessageSink();
         private static readonly IMessageSink ExecutionMessageSink = new Xunit.Sdk.NullMessageSink();
 
-        public static Task<RunSummary> RunTests(Microsoft.CodeAnalysis.Compilation compilation)
+        public static Task<RunSummary> RunAllTests(Microsoft.CodeAnalysis.Compilation compilation)
         {
-            using (var assemblyRunner = CreateTestAssemblyRunner(GetAssemblyInfo(compilation)))
+            var compilationWithAllTestsEnabled = compilation.EnableAllTests();
+            var assemblyInfo = GetAssemblyInfo(compilationWithAllTestsEnabled);
+
+            using (var assemblyRunner = CreateTestAssemblyRunner(assemblyInfo))
                 return assemblyRunner.RunAsync();
         }
 

@@ -17,7 +17,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
         
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             id: "EXERCISM0003",
-            title: "Leap uses minimum number of checks",
+            title: "Leap does not use minimum number of checks",
             messageFormat: $"The '{IsLeapYearMethodIdentifier}' method uses too many checks.",
             category: "Leap",
             defaultSeverity: DiagnosticSeverity.Warning,
@@ -36,23 +36,23 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
                 context.ReportDiagnostic(Diagnostic.Create(Rule, method.GetLocation()));
         }
 
-        private static bool IsLeapYearMethod(MethodDeclarationSyntax methodSyntax)
-            => methodSyntax.Identifier.Text == IsLeapYearMethodIdentifier && 
-               methodSyntax.Parent is ClassDeclarationSyntax classSyntax && 
+        private static bool IsLeapYearMethod(MethodDeclarationSyntax method)
+            => method.Identifier.Text == IsLeapYearMethodIdentifier && 
+               method.Parent is ClassDeclarationSyntax classSyntax && 
                classSyntax.Identifier.Text == LeapClassIdentifier;
 
-        private static bool UsesTooManyChecks(MethodDeclarationSyntax methodSyntax) 
-            => methodSyntax
+        private static bool UsesTooManyChecks(MethodDeclarationSyntax method) 
+            => method
                    .DescendantNodes()
                    .OfType<BinaryExpressionSyntax>()
                    .Count(BinaryExpressionUsesYearParameter) > MinimalNumberOfChecks;
 
-        private static bool BinaryExpressionUsesYearParameter(BinaryExpressionSyntax binaryExpressionSyntax) 
-            => ExpressionUsesYearParameter(binaryExpressionSyntax.Left) ||
-               ExpressionUsesYearParameter(binaryExpressionSyntax.Right);
+        private static bool BinaryExpressionUsesYearParameter(BinaryExpressionSyntax binaryExpression) 
+            => ExpressionUsesYearParameter(binaryExpression.Left) ||
+               ExpressionUsesYearParameter(binaryExpression.Right);
 
-        private static bool ExpressionUsesYearParameter(ExpressionSyntax expressionSyntax) 
-            => expressionSyntax is IdentifierNameSyntax nameSyntax &&
+        private static bool ExpressionUsesYearParameter(ExpressionSyntax expression) 
+            => expression is IdentifierNameSyntax nameSyntax &&
                nameSyntax.Identifier.Text == YearParameterIdentifier;
     }
 }

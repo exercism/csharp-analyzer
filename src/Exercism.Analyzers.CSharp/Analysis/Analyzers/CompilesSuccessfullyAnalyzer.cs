@@ -11,7 +11,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             id: "EXERCISM0001",
             title: "Solution has compilation errors",
-            messageFormat: "The code does not compile.",
+            messageFormat: "The solution does not compile.",
             category: "SolutionCorrectness",
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true);

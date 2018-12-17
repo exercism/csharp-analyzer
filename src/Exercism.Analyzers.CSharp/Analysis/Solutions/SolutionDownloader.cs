@@ -19,10 +19,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
             
             var solution = await GetSolution(solutionDirectory).ConfigureAwait(false);
             var projectFile = GetProjectFile(solution, solutionDirectory);
-            var implementationFile = GetImplementationFile(solution, solutionDirectory);
-            var testsFile = GetTestFileName(solution, solutionDirectory);
             
-            return new DownloadedSolution(solution, projectFile, implementationFile, testsFile);
+            return new DownloadedSolution(solution, projectFile);
         }
         
         private Task<DirectoryInfo> DownloadToDirectory(string id) => _exercismCommandLineInterface.Download(id);
@@ -45,12 +43,6 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 
         private static FileInfo GetProjectFile(Solution solution, FileSystemInfo solutionDirectory) 
             => GetFileInSolutionDirectory(solutionDirectory, $"{solution.Name}.csproj");
-        
-        private static FileInfo GetImplementationFile(Solution solution, FileSystemInfo solutionDirectory) 
-            => GetFileInSolutionDirectory(solutionDirectory, $"{solution.Name}.cs");
-        
-        private static FileInfo GetTestFileName(Solution solution, FileSystemInfo solutionDirectory) 
-            => GetFileInSolutionDirectory(solutionDirectory, $"{solution.Name}Test.cs");
 
         private static FileInfo GetFileInSolutionDirectory(FileSystemInfo solutionDirectory, string solutionFile) 
             => new FileInfo(Path.Combine(solutionDirectory.FullName, solutionFile));

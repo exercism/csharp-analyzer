@@ -10,7 +10,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
     {
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             id: "EXERCISM0002",
-            title: "All tests pass",
+            title: "Solution does not pass all tests",
             messageFormat: "The solution does not pass all tests.",
             category: "SolutionCorrectness",
             defaultSeverity: DiagnosticSeverity.Error,
@@ -23,7 +23,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 
         private static void AnalyzeCompilation(CompilationAnalysisContext context)
         {
-            var testRunSummary = InMemoryXunitTestRunner.RunTests(context.Compilation).Result;
+            var testRunSummary = InMemoryXunitTestRunner.RunAllTests(context.Compilation).Result;
             
             if (testRunSummary.Skipped > 0 || testRunSummary.Failed > 0)
                 context.ReportDiagnostic(Diagnostic.Create(Rule, Location.None));
