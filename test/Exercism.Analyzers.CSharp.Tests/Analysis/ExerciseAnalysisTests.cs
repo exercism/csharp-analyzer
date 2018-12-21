@@ -15,9 +15,9 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         private readonly HttpClient _httpClient;
         private readonly FakeExercismCommandLineInterface _fakeExercismCommandLineInterface;
 
-        protected ExerciseAnalysisTests(string slug, WebApplicationFactory<Startup> factory)
+        protected ExerciseAnalysisTests(Exercise exercise, WebApplicationFactory<Startup> factory)
         {
-            _solution = new Solution(Guid.NewGuid().ToString(), slug);
+            _solution = new Solution(Guid.NewGuid().ToString(), exercise);
             _fakeExercismCommandLineInterface = new FakeExercismCommandLineInterface();
             _httpClient = AnalysisTestsHttpClientFactory.Create(factory, _fakeExercismCommandLineInterface);
         }

@@ -33,8 +33,9 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
                 var solutionMetadata = await JToken.ReadFromAsync(jsonTextReader).ConfigureAwait(false);
                 var id = solutionMetadata.Value<string>("id");
                 var slug = solutionMetadata.Value<string>("exercise");
-                
-                return new Solution(id, slug);
+
+                var exercise = new Exercise(slug);
+                return new Solution(id, exercise);
             }
         }
         
@@ -42,7 +43,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
             => GetFileInSolutionDirectory(solutionDirectory, Path.Combine(".exercism", "metadata.json"));
 
         private static FileInfo GetProjectFile(Solution solution, FileSystemInfo solutionDirectory) 
-            => GetFileInSolutionDirectory(solutionDirectory, $"{solution.Name}.csproj");
+            => GetFileInSolutionDirectory(solutionDirectory, $"{solution.Exercise.Name}.csproj");
 
         private static FileInfo GetFileInSolutionDirectory(FileSystemInfo solutionDirectory, string solutionFile) 
             => new FileInfo(Path.Combine(solutionDirectory.FullName, solutionFile));

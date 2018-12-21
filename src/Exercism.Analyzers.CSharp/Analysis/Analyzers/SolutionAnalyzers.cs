@@ -18,7 +18,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
         {
             var analyzers = new List<DiagnosticAnalyzer>(SharedAnalyzers);
 
-            if (solution.Slug == "leap")
+            if (solution.Exercise.Equals(Exercise.Leap))
                 analyzers.Add(new LeapUsesMinimumNumberOfChecksAnalyzer());
 
             return analyzers.ToImmutableArray();

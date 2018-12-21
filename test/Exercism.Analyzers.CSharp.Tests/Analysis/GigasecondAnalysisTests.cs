@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Threading.Tasks;
-using Exercism.Analyzers.CSharp.Analysis.Analyzers;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.Tests.Analysis
 {
-    public class LeapAnalysisTests : ExerciseAnalysisTests
+    public class GigasecondAnalysisTests : ExerciseAnalysisTests
     {
-        public LeapAnalysisTests(WebApplicationFactory<Startup> factory) : base(Exercise.Leap, factory)
+        public GigasecondAnalysisTests(WebApplicationFactory<Startup> factory) : base(Exercise.Gigasecond, factory)
         {
         }
 

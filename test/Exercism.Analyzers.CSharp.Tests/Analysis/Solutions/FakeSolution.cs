@@ -28,7 +28,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
             => new DirectoryInfo(Path.Combine(GetFakeSolutionDirectory(implementationFileSuffix).FullName, ".exercism"));
 
         private string GetImplementationFileName(string implementationFileSuffix) 
-            => $"{_solution.Name}{implementationFileSuffix}.cs";
+            => $"{_solution.Exercise.Name}{implementationFileSuffix}.cs";
 
         public DirectoryInfo Create()
         {
@@ -54,7 +54,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
 
         private void CreateMetadataFile()
         {
-            var metadata  = new {track = "csharp", exercise = _solution.Slug, id = _solution.Id};
+            var metadata  = new {track = "csharp", exercise = _solution.Exercise.Slug, id = _solution.Id};
             var metadataFilePath = GetFakeSolutionMetadataFilePath(MetadataFileName);
             File.WriteAllText(metadataFilePath, JsonConvert.SerializeObject(metadata));
         }
@@ -63,7 +63,7 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
             => File.Copy(GetSourceSolutionFilePath(sourceSolutionFileName), GetFakeSolutionFilePath(fakeSolutionFileName));
 
         private string GetSourceSolutionFilePath(string fileName) 
-            => Path.Combine(SourceExercisesDirectory, _solution.Name, fileName);
+            => Path.Combine(SourceExercisesDirectory, _solution.Exercise.Name, fileName);
         
         private string GetFakeSolutionFilePath(string fileName) 
             => Path.Combine(_fakeSolutionDirectory.FullName, fileName);
@@ -71,11 +71,11 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
         private string GetFakeSolutionMetadataFilePath(string fileName) 
             => Path.Combine(_fakeSolutionMetadataDirectory.FullName, fileName);
 
-        private string ImplementationFileName => $"{_solution.Name}.cs";
+        private string ImplementationFileName => $"{_solution.Exercise.Name}.cs";
 
-        private string TestFileName => $"{_solution.Name}Test.cs";
+        private string TestFileName => $"{_solution.Exercise.Name}Test.cs";
 
-        private string ProjectFileName => $"{_solution.Name}.csproj";
+        private string ProjectFileName => $"{_solution.Exercise.Name}.csproj";
 
         private static string MetadataFileName => "metadata.json";
     }

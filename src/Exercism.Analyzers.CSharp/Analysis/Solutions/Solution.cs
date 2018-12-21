@@ -1,14 +1,10 @@
-using Humanizer;
-
 namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 {
-    public class Solution
+    public readonly struct Solution
     {
-        public string Id { get; }
-        public string Slug { get; }
-        public string Name { get; }
+        public readonly string Id;
+        public readonly Exercise Exercise;
 
-        public Solution(string id, string slug)
-            => (Slug, Id, Name) = (slug, id, slug.Dehumanize().Pascalize());
+        public Solution(string id, Exercise exercise) => (Id, Exercise) = (id, exercise);
     }
 }
