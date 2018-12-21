@@ -11,7 +11,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
     {
         public static async Task<ImmutableArray<Diagnostic>> Analyze(CompiledSolution compiledSolution)
         {
-            var analyzers = DiagnosticAnalyzers.ForSolution(compiledSolution.Solution);
+            var analyzers = SolutionAnalyzers.Create(compiledSolution.Solution);
             var compilationWithAnalyzers = compiledSolution.Compilation.WithAnalyzers(analyzers);
             return await compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync().ConfigureAwait(false);
         }

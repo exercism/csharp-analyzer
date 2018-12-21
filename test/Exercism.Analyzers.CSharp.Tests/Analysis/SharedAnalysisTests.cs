@@ -24,5 +24,9 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         [Fact]
         public Task AnalyzeSolutionWithFailingTestsReturnsComment()
             => VerifyReturnsComments("FailingTests", "The solution does not pass all tests.");
+
+        [Fact]
+        public Task AnalyzeSolutionWithMethodThatCanBeConvertedToExpressionBodiedMemberReturnsComment()
+            => VerifyReturnsComments("ConvertToExpressionBodiedMember", "The 'IsEven' method can be rewritten as an expression-bodied member.");
     }
 }

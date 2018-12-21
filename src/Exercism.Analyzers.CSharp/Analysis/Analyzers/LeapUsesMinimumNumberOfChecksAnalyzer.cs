@@ -30,6 +30,9 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 
         private static void SyntaxNodeAnalysisContext(SyntaxNodeAnalysisContext context)
         {
+            if (context.SkipAnalysis())
+                return;
+            
             var method = (MethodDeclarationSyntax)context.Node;
 
             if (IsLeapYearMethod(method) && UsesTooManyChecks(method))
