@@ -1,13 +1,13 @@
-using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 {
     public class CompiledSolution
     {
         public Solution Solution { get; }
-        public Compilation Compilation { get; }
+        public CompilationWithAnalyzers Compilation { get; }
 
-        public CompiledSolution(Solution solution, Compilation compilation) 
+        public CompiledSolution(Solution solution, CompilationWithAnalyzers compilation) 
             => (Solution, Compilation) = (solution, compilation);
     }
 }

@@ -13,20 +13,26 @@ namespace Exercism.Analyzers.CSharp.Analysis
 
         public async Task<string[]> Analyze(string id)
         {
-            var compiledSolution = await Compile(id).ConfigureAwait(false);
-            return await GetComments(compiledSolution).ConfigureAwait(false);
+            var loadedSolution = await LoadSolution(id).ConfigureAwait(false);
+            var compiledSolution = await CompileSolution(loadedSolution).ConfigureAwait(false);
+            return await GetCommentsForSolution(compiledSolution).ConfigureAwait(false);
         }
 
-        private async Task<CompiledSolution> Compile(string id)
+        private async Task<LoadedSolution> LoadSolution(string id)
         {
             var downloadedSolution = await _solutionDownloader.Download(id).ConfigureAwait(false);
-            var loadedSolution = SolutionLoader.Load(downloadedSolution);
-            return await SolutionCompiler.Compile(loadedSolution).ConfigureAwait(false);
+            return SolutionLoader.Load(downloadedSolution);
         }
 
-        private static async Task<string[]> GetComments(CompiledSolution compiledSolution)
+        private static Task<CompiledSolution> CompileSolution(LoadedSolution loadedSolution)
         {
-            var diagnostics = await SolutionAnalyzer.Analyze(compiledSolution).ConfigureAwait(false);
+            var analyzers = SolutionAnalyzers.Create(loadedSolution.Solution);
+            return SolutionCompiler.Compile(loadedSolution, analyzers);
+        }
+
+        private static async Task<string[]> GetCommentsForSolution(CompiledSolution compiledSolution)
+        {
+            var diagnostics = await compiledSolution.Compilation.GetAnalyzerDiagnosticsAsync().ConfigureAwait(false);
             return diagnostics.Select(diagnostic => diagnostic.GetMessage()).ToArray();
         }
     }
