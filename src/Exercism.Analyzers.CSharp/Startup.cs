@@ -10,7 +10,7 @@ namespace Exercism.Analyzers.CSharp
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvcCore().AddJsonFormatters().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAnalyzer();
         }
 
