@@ -10,7 +10,9 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
-FROM microsoft/dotnet:2.2-aspnetcore-runtime
+FROM microsoft/dotnet:2.2-sdk
+ARG EXERCISM_TOKEN
 WORKDIR /app
 COPY --from=build-env /app/out .
+RUN ./binaries/linux-x64/exercism configure --token $EXERCISM_TOKEN
 ENTRYPOINT ["dotnet", "Exercism.Analyzers.CSharp.dll"]
