@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Exercism.Analyzers.CSharp/bin/Debug/netcoreapp2.1/Exercism.Analyzers.CSharp.dll",
+            "program": "${workspaceFolder}/src/Exercism.Analyzers.CSharp/bin/Debug/netcoreapp2.2/Exercism.Analyzers.CSharp.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Exercism.Analyzers.CSharp",
             "stopAtEntry": false,
