@@ -12,11 +12,15 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         }
 
         [Fact]
-        public Task AnalyzeSolutionWithIsLeapYearUsesCorrectNumberOfChecksDoesNotReturnComments()
-            => VerifyReturnsNoComments("CorrectNumberOfChecks");
+        public Task AnalyzeSolutionUsingExponentNotationDoesNotReturnComments()
+            => VerifyReturnsNoComments("UsingExponentNotation");
 
         [Fact]
-        public Task AnalyzeSolutionWithIsLeapYearUsesTooManyChecksReturnsComment() 
-            => VerifyReturnsComments("TooManyChecks", "The 'IsLeapYear' method uses too many checks.");
+        public Task AnalyzeSolutionUsingIntegerNotationReturnsComment() 
+            => VerifyReturnsComments("UsingIntegerNotation", "You can write `1000000000` as `1e9`.");
+
+        [Fact]
+        public Task AnalyzeSolutionUsingIntegerNotationWithSeparatorReturnsComment() 
+            => VerifyReturnsComments("UsingIntegerNotationWithSeparator", "You can write `1_000_000_000` as `1e9`.");
     }
 }

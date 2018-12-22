@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Threading.Tasks;
-using Exercism.Analyzers.CSharp.Analysis.Analyzers;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
 using Xunit;
 

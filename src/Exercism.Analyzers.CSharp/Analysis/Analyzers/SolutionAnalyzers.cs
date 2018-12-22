@@ -20,6 +20,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 
             if (solution.Exercise.Equals(Exercise.Leap))
                 analyzers.Add(new LeapUsesMinimumNumberOfChecksAnalyzer());
+            else if (solution.Exercise.Equals(Exercise.Gigasecond))
+                analyzers.Add(new GigasecondUsesExponentNotationAnalyzer());
 
             return analyzers.ToImmutableArray();
         }
