@@ -21,13 +21,13 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
             _httpClient = AnalysisTestsHttpClientFactory.Create(factory, _fakeExercismCommandLineInterface);
         }
 
-        protected async Task VerifyReturnsNoComments(string implementationFileSuffix)
+        protected async Task AnalysisReturnsNoComments(string implementationFileSuffix)
         {
             var comments = await RequestAnalysis(implementationFileSuffix).ConfigureAwait(false);
             Assert.Empty(comments);
         }
 
-        protected async Task VerifyReturnsComments(string implementationFileSuffix, params string[] expectedComments)
+        protected async Task AnalysisReturnsComments(string implementationFileSuffix, params string[] expectedComments)
         {
             var comments = await RequestAnalysis(implementationFileSuffix).ConfigureAwait(false);
 
