@@ -12,11 +12,11 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         }
 
         [Fact]
-        public Task UsingMinimumNumberOfChecksDoesNotReturnComments()
-            => AnalysisReturnsNoComments("UsingMinimumNumberOfChecks");
+        public Task UsingMinimumNumberOfChecksDoesNotReturnComments() =>
+            AnalysisReturnsNoComments("UsingMinimumNumberOfChecks");
 
         [Fact]
-        public Task UsingTooManyChecksReturnsComment() 
-            => AnalysisReturnsComments("UsingTooManyChecks", "The 'IsLeapYear' method uses too many checks.");
+        public Task UsingTooManyChecksReturnsComment() =>
+            AnalysisReturnsComments("UsingTooManyChecks", "The 'IsLeapYear' method uses too many checks.");
     }
 }

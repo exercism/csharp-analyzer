@@ -23,16 +23,16 @@ namespace Exercism.Analyzers.CSharp.Analysis.Testing
                 return assemblyRunner.RunAsync();
         }
 
-        private static IReflectionAssemblyInfo GetAssemblyInfo(Microsoft.CodeAnalysis.Compilation compilation) 
-            => Reflector.Wrap(compilation.GetAssembly());
+        private static IReflectionAssemblyInfo GetAssemblyInfo(Microsoft.CodeAnalysis.Compilation compilation) =>
+            Reflector.Wrap(compilation.GetAssembly());
 
-        private static XunitTestAssemblyRunner CreateTestAssemblyRunner(IAssemblyInfo assemblyInfo) 
-            => new XunitTestAssemblyRunner(
-                    new TestAssembly(assemblyInfo),
-                    GetTestCases(assemblyInfo),
-                    DiagnosticMessageSink,
-                    ExecutionMessageSink,
-                    TestFrameworkOptions.ForExecution());
+        private static XunitTestAssemblyRunner CreateTestAssemblyRunner(IAssemblyInfo assemblyInfo) =>
+            new XunitTestAssemblyRunner(
+                new TestAssembly(assemblyInfo),
+                GetTestCases(assemblyInfo),
+                DiagnosticMessageSink,
+                ExecutionMessageSink,
+                TestFrameworkOptions.ForExecution());
 
         private static IEnumerable<IXunitTestCase> GetTestCases(IAssemblyInfo assemblyInfo)
         {

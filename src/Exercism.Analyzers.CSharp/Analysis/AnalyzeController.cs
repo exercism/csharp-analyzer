@@ -8,7 +8,7 @@ namespace Exercism.Analyzers.CSharp.Analysis
     public class AnalyzeController : ControllerBase
     {
         [HttpGet("{id}")]
-        public async Task<ActionResult<string[]>> Analyze([FromRoute]string id, [FromServices]Analyzer analyzer) 
-            => await analyzer.Analyze(id).ConfigureAwait(false);
+        public async Task<ActionResult<string[]>> Analyze([FromRoute]string id, [FromServices]Analyzer analyzer) =>
+            await analyzer.Analyze(id).ConfigureAwait(false);
     }
 }

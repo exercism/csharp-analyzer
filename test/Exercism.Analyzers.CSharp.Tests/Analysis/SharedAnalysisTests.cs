@@ -12,19 +12,19 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         }
         
         [Fact]
-        public Task NoDiagnosticsDoesNotReturnComments()
-            => AnalysisReturnsNoComments("NoDiagnostics");
+        public Task NoDiagnosticsDoesNotReturnComments() =>
+            AnalysisReturnsNoComments("NoDiagnostics");
 
         [Fact]
-        public Task CompileErrorsReturnsComment()
-            => AnalysisReturnsComments("DoesNotCompile", "The solution does not compile.");
+        public Task CompileErrorsReturnsComment() =>
+            AnalysisReturnsComments("DoesNotCompile", "The solution does not compile.");
 
         [Fact]
-        public Task FailingTestsReturnsComment()
-            => AnalysisReturnsComments("FailingTests", "The solution does not pass all tests.");
+        public Task FailingTestsReturnsComment() =>
+            AnalysisReturnsComments("FailingTests", "The solution does not pass all tests.");
 
         [Fact]
-        public Task MethodThatCanBeConvertedToExpressionBodiedMemberReturnsComment()
-            => AnalysisReturnsComments("ConvertToExpressionBodiedMember", "The 'IsEven' method can be rewritten as an expression-bodied member.");
+        public Task MethodThatCanBeConvertedToExpressionBodiedMemberReturnsComment() =>
+            AnalysisReturnsComments("ConvertToExpressionBodiedMember", "The 'IsEven' method can be rewritten as an expression-bodied member.");
     }
 }

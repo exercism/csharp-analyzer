@@ -12,15 +12,15 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
         }
 
         [Fact]
-        public Task SolutionUsingExponentNotationDoesNotReturnComments()
-            => AnalysisReturnsNoComments("UsingExponentNotation");
+        public Task SolutionUsingExponentNotationDoesNotReturnComments() =>
+            AnalysisReturnsNoComments("UsingExponentNotation");
 
         [Fact]
-        public Task SolutionUsingIntegerNotationReturnsComment() 
-            => AnalysisReturnsComments("UsingIntegerNotation", "You can write `1000000000` as `1e9`.");
+        public Task SolutionUsingIntegerNotationReturnsComment() =>
+            AnalysisReturnsComments("UsingIntegerNotation", "You can write `1000000000` as `1e9`.");
 
         [Fact]
-        public Task UsingIntegerNotationWithSeparatorReturnsComment() 
-            => AnalysisReturnsComments("UsingIntegerNotationWithSeparator", "You can write `1_000_000_000` as `1e9`.");
+        public Task UsingIntegerNotationWithSeparatorReturnsComment() =>
+            AnalysisReturnsComments("UsingIntegerNotationWithSeparator", "You can write `1_000_000_000` as `1e9`.");
     }
 }

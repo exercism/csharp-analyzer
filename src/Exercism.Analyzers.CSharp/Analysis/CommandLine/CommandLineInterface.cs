@@ -20,14 +20,14 @@ namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
             }
         }
         
-        private ProcessStartInfo CreateStartInfo(string arguments) 
-            => new ProcessStartInfo
-                {
-                    FileName = _fileName,
-                    Arguments = arguments,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true
-                };
+        private ProcessStartInfo CreateStartInfo(string arguments) =>
+            new ProcessStartInfo
+            {
+                FileName = _fileName,
+                Arguments = arguments,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
     }
 }

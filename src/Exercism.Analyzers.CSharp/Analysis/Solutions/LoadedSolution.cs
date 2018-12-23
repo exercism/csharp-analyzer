@@ -7,7 +7,6 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
         public Solution Solution { get; }
         public Project Project { get; }
 
-        public LoadedSolution(Solution solution, Project project)
-            => (Solution, Project) = (solution, project);
+        public LoadedSolution(Solution solution, Project project) => (Solution, Project) = (solution, project);
     }
 }

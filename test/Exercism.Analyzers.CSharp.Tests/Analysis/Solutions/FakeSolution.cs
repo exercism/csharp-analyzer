@@ -21,14 +21,14 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
             _implementationFileName = GetImplementationFileName(implementationFileSuffix);
         }
 
-        private static DirectoryInfo GetFakeSolutionDirectory(string implementationFileSuffix) 
-            => new DirectoryInfo(Path.Combine(SourceExercisesDirectory, implementationFileSuffix));
+        private static DirectoryInfo GetFakeSolutionDirectory(string implementationFileSuffix) =>
+            new DirectoryInfo(Path.Combine(SourceExercisesDirectory, implementationFileSuffix));
         
-        private static DirectoryInfo GetFakeSolutionMetadataDirectory(string implementationFileSuffix) 
-            => new DirectoryInfo(Path.Combine(GetFakeSolutionDirectory(implementationFileSuffix).FullName, ".exercism"));
+        private static DirectoryInfo GetFakeSolutionMetadataDirectory(string implementationFileSuffix) =>
+            new DirectoryInfo(Path.Combine(GetFakeSolutionDirectory(implementationFileSuffix).FullName, ".exercism"));
 
-        private string GetImplementationFileName(string implementationFileSuffix) 
-            => $"{_solution.Exercise.Name}{implementationFileSuffix}.cs";
+        private string GetImplementationFileName(string implementationFileSuffix) =>
+            $"{_solution.Exercise.Name}{implementationFileSuffix}.cs";
 
         public DirectoryInfo Create()
         {
@@ -59,17 +59,17 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
             File.WriteAllText(metadataFilePath, JsonConvert.SerializeObject(metadata));
         }
 
-        private void CopySolutionFile(string sourceSolutionFileName, string fakeSolutionFileName) 
-            => File.Copy(GetSourceSolutionFilePath(sourceSolutionFileName), GetFakeSolutionFilePath(fakeSolutionFileName));
+        private void CopySolutionFile(string sourceSolutionFileName, string fakeSolutionFileName) =>
+            File.Copy(GetSourceSolutionFilePath(sourceSolutionFileName), GetFakeSolutionFilePath(fakeSolutionFileName));
 
-        private string GetSourceSolutionFilePath(string fileName) 
-            => Path.Combine(SourceExercisesDirectory, _solution.Exercise.Name, fileName);
+        private string GetSourceSolutionFilePath(string fileName) =>
+            Path.Combine(SourceExercisesDirectory, _solution.Exercise.Name, fileName);
         
-        private string GetFakeSolutionFilePath(string fileName) 
-            => Path.Combine(_fakeSolutionDirectory.FullName, fileName);
+        private string GetFakeSolutionFilePath(string fileName) =>
+            Path.Combine(_fakeSolutionDirectory.FullName, fileName);
         
-        private string GetFakeSolutionMetadataFilePath(string fileName) 
-            => Path.Combine(_fakeSolutionMetadataDirectory.FullName, fileName);
+        private string GetFakeSolutionMetadataFilePath(string fileName) =>
+            Path.Combine(_fakeSolutionMetadataDirectory.FullName, fileName);
 
         private string ImplementationFileName => $"{_solution.Exercise.Name}.cs";
 

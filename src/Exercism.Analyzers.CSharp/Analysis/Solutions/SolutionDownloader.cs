@@ -10,8 +10,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
     {
         private readonly ExercismCommandLineInterface _exercismCommandLineInterface;
 
-        public SolutionDownloader(ExercismCommandLineInterface exercismCommandLineInterface) 
-            => _exercismCommandLineInterface = exercismCommandLineInterface;
+        public SolutionDownloader(ExercismCommandLineInterface exercismCommandLineInterface) =>
+            _exercismCommandLineInterface = exercismCommandLineInterface;
 
         public async Task<DownloadedSolution> Download(string id)
         {
@@ -39,13 +39,13 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
             }
         }
         
-        private static FileInfo GetMetadataFile(FileSystemInfo solutionDirectory) 
-            => GetFileInSolutionDirectory(solutionDirectory, Path.Combine(".exercism", "metadata.json"));
+        private static FileInfo GetMetadataFile(FileSystemInfo solutionDirectory) =>
+            GetFileInSolutionDirectory(solutionDirectory, Path.Combine(".exercism", "metadata.json"));
 
-        private static FileInfo GetProjectFile(Solution solution, FileSystemInfo solutionDirectory) 
-            => GetFileInSolutionDirectory(solutionDirectory, $"{solution.Exercise.Name}.csproj");
+        private static FileInfo GetProjectFile(Solution solution, FileSystemInfo solutionDirectory) =>
+            GetFileInSolutionDirectory(solutionDirectory, $"{solution.Exercise.Name}.csproj");
 
-        private static FileInfo GetFileInSolutionDirectory(FileSystemInfo solutionDirectory, string solutionFile) 
-            => new FileInfo(Path.Combine(solutionDirectory.FullName, solutionFile));
+        private static FileInfo GetFileInSolutionDirectory(FileSystemInfo solutionDirectory, string solutionFile) =>
+            new FileInfo(Path.Combine(solutionDirectory.FullName, solutionFile));
     }
 }

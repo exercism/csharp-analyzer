@@ -10,8 +10,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
         {
         }
         
-        private static string GetFileName()
-            => Path.Combine("binaries", $"{GetOperatingSystem()}-{GetArchitecture()}", "exercism");
+        private static string GetFileName() =>
+            Path.Combine("binaries", $"{GetOperatingSystem()}-{GetArchitecture()}", "exercism");
         
         private static string GetOperatingSystem()
         {

@@ -19,8 +19,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Compiling
         
         public static Compilation Rewrite(this Compilation compilation, CSharpSyntaxRewriter rewriter)
         {
-            Compilation Rewrite(Compilation rewrittenCompilation, SyntaxTree tree)
-                => rewrittenCompilation.ReplaceSyntaxTree(tree, tree.Rewrite(rewriter));
+            Compilation Rewrite(Compilation rewrittenCompilation, SyntaxTree tree) =>
+                rewrittenCompilation.ReplaceSyntaxTree(tree, tree.Rewrite(rewriter));
 
             return compilation.SyntaxTrees.Aggregate(compilation, Rewrite);
         }

@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
         public Solution Solution { get; }
         public CompilationWithAnalyzers Compilation { get; }
 
-        public CompiledSolution(Solution solution, CompilationWithAnalyzers compilation) 
-            => (Solution, Compilation) = (solution, compilation);
+        public CompiledSolution(Solution solution, CompilationWithAnalyzers compilation) =>
+            (Solution, Compilation) = (solution, compilation);
     }
 }

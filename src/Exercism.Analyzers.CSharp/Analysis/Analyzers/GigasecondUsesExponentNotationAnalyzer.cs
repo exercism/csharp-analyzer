@@ -20,8 +20,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
-        public override void Initialize(AnalysisContext context)
-            => context.RegisterSyntaxNodeAction(SyntaxNodeAnalysisContext, SyntaxKind.NumericLiteralExpression);
+        public override void Initialize(AnalysisContext context) =>
+            context.RegisterSyntaxNodeAction(SyntaxNodeAnalysisContext, SyntaxKind.NumericLiteralExpression);
 
         private static void SyntaxNodeAnalysisContext(SyntaxNodeAnalysisContext context)
         {
@@ -34,11 +34,11 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
                 context.ReportDiagnostic(Diagnostic.Create(Rule, method.GetLocation(), method.ToString()));
         }
 
-        private static bool IsGigasecond(LiteralExpressionSyntax method) 
-            => method.Token.IsKind(SyntaxKind.NumericLiteralToken) && 
-               method.Token.Value.Equals(1000000000);
+        private static bool IsGigasecond(LiteralExpressionSyntax method) =>
+            method.Token.IsKind(SyntaxKind.NumericLiteralToken) &&
+            method.Token.Value.Equals(1000000000);
 
-        private static bool UseExponentNotation(LiteralExpressionSyntax method)
-            => method.Token.Text.Equals("1e9", StringComparison.OrdinalIgnoreCase);
+        private static bool UseExponentNotation(LiteralExpressionSyntax method) =>
+            method.Token.Text.Equals("1e9", StringComparison.OrdinalIgnoreCase);
     }
 }

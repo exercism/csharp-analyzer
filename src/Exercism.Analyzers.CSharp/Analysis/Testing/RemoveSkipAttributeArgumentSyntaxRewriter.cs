@@ -7,10 +7,10 @@ namespace Exercism.Analyzers.CSharp.Analysis.Testing
 {
     internal class RemoveSkipAttributeArgumentSyntaxRewriter : CSharpSyntaxRewriter
     {
-        public override SyntaxNode VisitAttributeArgument(AttributeArgumentSyntax node) 
-            => AttributeArgumentNameMatches(node) ? null : base.VisitAttributeArgument(node);
+        public override SyntaxNode VisitAttributeArgument(AttributeArgumentSyntax node) =>
+            AttributeArgumentNameMatches(node) ? null : base.VisitAttributeArgument(node);
      
-        private static bool AttributeArgumentNameMatches(AttributeArgumentSyntax node) 
-            => node.NameEquals?.Name.GetName() == "Skip";
+        private static bool AttributeArgumentNameMatches(AttributeArgumentSyntax node) =>
+            node.NameEquals?.Name.GetName() == "Skip";
     }
 }

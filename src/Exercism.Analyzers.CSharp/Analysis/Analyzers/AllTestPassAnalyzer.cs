@@ -18,8 +18,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
-        public override void Initialize(AnalysisContext context)
-            => context.RegisterCompilationAction(AnalyzeCompilation);
+        public override void Initialize(AnalysisContext context) =>
+            context.RegisterCompilationAction(AnalyzeCompilation);
 
         private static void AnalyzeCompilation(CompilationAnalysisContext context)
         {
