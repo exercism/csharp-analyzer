@@ -1,22 +1,39 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
 {
     public abstract class CommandLineInterface
     {
         private readonly string _fileName;
+        private readonly ILogger _logger;
 
-        protected CommandLineInterface(string fileName) => _fileName = fileName;
+        protected CommandLineInterface(string fileName, ILogger logger) =>
+            (_fileName, _logger) = (fileName, logger);
         
-        protected async Task<string> Run(string arguments)
+        protected async Task<CommandLineInterfaceResult> Run(string arguments)
         {
-            using (var downloadProcess = new Process {StartInfo = CreateStartInfo(arguments)})
+            using (var process = new Process {StartInfo = CreateStartInfo(arguments)})
             {
-                downloadProcess.Start();
-                downloadProcess.WaitForExit();
+                _logger.LogInformation("Executing CLI command '{File}' with arguments '{Arguments}'",
+                    process.StartInfo.FileName, process.StartInfo.Arguments);
+                
+                process.Start();
+                process.WaitForExit();
+                
+                _logger.LogInformation("Executed CLI command '{File}' with arguments '{Arguments}'",
+                    process.StartInfo.FileName, process.StartInfo.Arguments);
+                
+                var output = await process.StandardOutput.ReadToEndAsync().ConfigureAwait(false);
+                var error = await process.StandardError.ReadToEndAsync().ConfigureAwait(false);
+                
+                if (process.ExitCode == 0)
+                    _logger.LogInformation("Output of executed CLI command: '{Output}'", output);
+                else
+                    _logger.LogError("Error output of executed CLI command: '{Error}'", error);
 
-                return await downloadProcess.StandardOutput.ReadToEndAsync().ConfigureAwait(false);
+                return new CommandLineInterfaceResult(output, error, process.ExitCode);
             }
         }
         

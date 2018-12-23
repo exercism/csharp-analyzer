@@ -1,14 +1,31 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
 {
     public class ExercismCommandLineInterface : CommandLineInterface
     {
-        public ExercismCommandLineInterface() : base(GetFileName())
+        private readonly ILogger<ExercismCommandLineInterface> _logger;
+
+        public ExercismCommandLineInterface(ILogger<ExercismCommandLineInterface> logger) : base(GetFileName(), logger) =>
+            _logger = logger;
+
+        public virtual async Task<DirectoryInfo> Download(string id)
         {
+            var arguments = GetArguments(id);
+
+            _logger.LogInformation("Executing exercism CLI command for solution {ID}: {Command}", id, arguments);
+            
+            var output = await Run(arguments).ConfigureAwait(false);
+
+            _logger.LogInformation("Executed exercism CLI command for solution {ID}", id);
+            
+            return new DirectoryInfo(output.Output.Trim());
         }
+
+        private static string GetArguments(string id) => $"download -u {id}";
         
         private static string GetFileName() =>
             Path.Combine("binaries", $"{GetOperatingSystem()}-{GetArchitecture()}", "exercism");
@@ -34,13 +51,5 @@ namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
 
             throw new InvalidOperationException("Unsupported architecture system");
         }
-
-        public virtual async Task<DirectoryInfo> Download(string id)
-        {
-            var output = await Run(GetArguments(id)).ConfigureAwait(false);
-            return new DirectoryInfo(output.Trim());
-        }
-
-        private static string GetArguments(string id) => $"download -u {id}";
     }
 }

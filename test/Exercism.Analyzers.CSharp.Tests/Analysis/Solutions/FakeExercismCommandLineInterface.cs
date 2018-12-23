@@ -3,12 +3,17 @@ using System.IO;
 using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis.CommandLine;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
 {
     internal class FakeExercismCommandLineInterface : ExercismCommandLineInterface
     {
         private readonly ConcurrentDictionary<string, DirectoryInfo> _fakeSolutionDirectories = new ConcurrentDictionary<string, DirectoryInfo>();
+
+        public FakeExercismCommandLineInterface() : base(new NullLogger<ExercismCommandLineInterface>())
+        {
+        }
 
         public override Task<DirectoryInfo> Download(string id)
         {

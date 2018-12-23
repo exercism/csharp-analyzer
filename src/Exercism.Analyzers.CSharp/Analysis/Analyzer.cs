@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis.Analyzers;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
 
@@ -8,32 +7,42 @@ namespace Exercism.Analyzers.CSharp.Analysis
     public class Analyzer
     {
         private readonly SolutionDownloader _solutionDownloader;
+        private readonly SolutionCompiler _solutionCompiler;
+        private readonly SolutionLoader _solutionLoader;
+        private readonly SolutionComments _solutionComments;
 
-        public Analyzer(SolutionDownloader solutionDownloader) => _solutionDownloader = solutionDownloader;
+        public Analyzer(
+            SolutionDownloader solutionDownloader,
+            SolutionLoader solutionLoader,
+            SolutionCompiler solutionCompiler,
+            SolutionComments solutionComments)
+        {
+            _solutionDownloader = solutionDownloader;
+            _solutionLoader = solutionLoader;
+            _solutionCompiler = solutionCompiler;
+            _solutionComments = solutionComments;
+        }
 
         public async Task<string[]> Analyze(string id)
         {
             var loadedSolution = await LoadSolution(id).ConfigureAwait(false);
             var compiledSolution = await CompileSolution(loadedSolution).ConfigureAwait(false);
-            return await GetCommentsForSolution(compiledSolution).ConfigureAwait(false);
+            return await GetSolutionComments(compiledSolution).ConfigureAwait(false);
         }
 
         private async Task<LoadedSolution> LoadSolution(string id)
         {
             var downloadedSolution = await _solutionDownloader.Download(id).ConfigureAwait(false);
-            return SolutionLoader.Load(downloadedSolution);
+            return _solutionLoader.Load(downloadedSolution);
         }
 
-        private static Task<CompiledSolution> CompileSolution(LoadedSolution loadedSolution)
+        private Task<CompiledSolution> CompileSolution(LoadedSolution loadedSolution)
         {
             var analyzers = SolutionAnalyzers.Create(loadedSolution.Solution);
-            return SolutionCompiler.Compile(loadedSolution, analyzers);
+            return _solutionCompiler.Compile(loadedSolution, analyzers);
         }
 
-        private static async Task<string[]> GetCommentsForSolution(CompiledSolution compiledSolution)
-        {
-            var diagnostics = await compiledSolution.Compilation.GetAnalyzerDiagnosticsAsync().ConfigureAwait(false);
-            return diagnostics.Select(diagnostic => diagnostic.GetMessage()).ToArray();
-        }
+        private Task<string[]> GetSolutionComments(CompiledSolution compiledSolution) =>
+            _solutionComments.GetForSolution(compiledSolution);
     }
 }

@@ -23,19 +23,19 @@ namespace Exercism.Analyzers.CSharp.Tests.Analysis
 
         protected async Task AnalysisReturnsNoComments(string implementationFileSuffix)
         {
-            var comments = await RequestAnalysis(implementationFileSuffix).ConfigureAwait(false);
+            var comments = await GetCommentsFromAnalysis(implementationFileSuffix).ConfigureAwait(false);
             Assert.Empty(comments);
         }
 
         protected async Task AnalysisReturnsComments(string implementationFileSuffix, params string[] expectedComments)
         {
-            var comments = await RequestAnalysis(implementationFileSuffix).ConfigureAwait(false);
+            var comments = await GetCommentsFromAnalysis(implementationFileSuffix).ConfigureAwait(false);
 
             foreach (var expectedComment in expectedComments)
                 Assert.Contains(expectedComment, comments);
         }
 
-        private async Task<string[]> RequestAnalysis(string implementationFileSuffix)
+        private async Task<string[]> GetCommentsFromAnalysis(string implementationFileSuffix)
         {
             _fakeExercismCommandLineInterface.Configure(_solution, implementationFileSuffix);
 

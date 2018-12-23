@@ -1,6 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis.CommandLine;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -9,13 +10,19 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
     public class SolutionDownloader
     {
         private readonly ExercismCommandLineInterface _exercismCommandLineInterface;
+        private readonly ILogger<SolutionDownloader> _logger;
 
-        public SolutionDownloader(ExercismCommandLineInterface exercismCommandLineInterface) =>
-            _exercismCommandLineInterface = exercismCommandLineInterface;
+        public SolutionDownloader(ExercismCommandLineInterface exercismCommandLineInterface, ILogger<SolutionDownloader> logger) =>
+            (_exercismCommandLineInterface, _logger) = (exercismCommandLineInterface, logger);
 
         public async Task<DownloadedSolution> Download(string id)
         {
+            _logger.LogInformation("Downloading solution {ID}", id);
+            
             var solutionDirectory = await DownloadToDirectory(id).ConfigureAwait(false);
+            
+            _logger.LogInformation("Downloaded solution {ID} to {SolutionDirectory}", 
+                id, solutionDirectory.FullName);
             
             var solution = await GetSolution(solutionDirectory).ConfigureAwait(false);
             var projectFile = GetProjectFile(solution, solutionDirectory);

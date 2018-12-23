@@ -9,6 +9,9 @@ namespace Exercism.Analyzers.CSharp.Analysis
         public static void AddAnalyzer(this IServiceCollection services) =>
             services.AddSingleton<Analyzer>()
                     .AddSingleton<SolutionDownloader>()
+                    .AddSingleton<SolutionCompiler>()
+                    .AddSingleton<SolutionLoader>()
+                    .AddSingleton<SolutionComments>()
                     .AddSingleton<ExercismCommandLineInterface>();
     }
 }
