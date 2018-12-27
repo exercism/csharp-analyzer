@@ -5,7 +5,7 @@ using Exercism.Analyzers.CSharp.Analysis.CommandLine;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace Exercism.Analyzers.CSharp.IntegrationTests.Analysis.Solutions
+namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 {
     internal class FakeExercismCommandLineInterface : ExercismCommandLineInterface
     {

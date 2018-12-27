@@ -1,9 +1,10 @@
 using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
+using Exercism.Analyzers.CSharp.IntegrationTests.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
-namespace Exercism.Analyzers.CSharp.IntegrationTests.Analysis
+namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
     public class GigasecondAnalysisTests : ExerciseAnalysisTests
     {

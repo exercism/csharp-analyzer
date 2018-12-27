@@ -2,11 +2,11 @@ using System.IO;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
 using Newtonsoft.Json;
 
-namespace Exercism.Analyzers.CSharp.IntegrationTests.Analysis.Solutions
+namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 {
     internal class FakeSolution
     {
-        private static readonly string SourceExercisesDirectory = Path.Combine("Analysis", "Solutions", "Exercises");
+        private const string SolutionsDirectory = "Solutions";
 
         private readonly Solution _solution;
         private readonly DirectoryInfo _fakeSolutionDirectory;
@@ -22,7 +22,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Analysis.Solutions
         }
 
         private static DirectoryInfo GetFakeSolutionDirectory(string implementationFileSuffix) =>
-            new DirectoryInfo(Path.Combine(SourceExercisesDirectory, implementationFileSuffix));
+            new DirectoryInfo(Path.Combine(SolutionsDirectory, implementationFileSuffix));
         
         private static DirectoryInfo GetFakeSolutionMetadataDirectory(string implementationFileSuffix) =>
             new DirectoryInfo(Path.Combine(GetFakeSolutionDirectory(implementationFileSuffix).FullName, ".exercism"));
@@ -63,7 +63,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Analysis.Solutions
             File.Copy(GetSourceSolutionFilePath(sourceSolutionFileName), GetFakeSolutionFilePath(fakeSolutionFileName));
 
         private string GetSourceSolutionFilePath(string fileName) =>
-            Path.Combine(SourceExercisesDirectory, _solution.Exercise.Name, fileName);
+            Path.Combine(SolutionsDirectory, _solution.Exercise.Name, fileName);
         
         private string GetFakeSolutionFilePath(string fileName) =>
             Path.Combine(_fakeSolutionDirectory.FullName, fileName);

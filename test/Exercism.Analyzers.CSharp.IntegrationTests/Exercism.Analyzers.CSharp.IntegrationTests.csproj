@@ -15,8 +15,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Remove="Analysis\Solutions\Exercises\**" />
-    <None Include="Analysis\Solutions\Exercises\**" CopyToOutputDirectory="PreserveNewest" />
+    <Compile Remove="Solutions\**" />
+    <None Include="Solutions\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

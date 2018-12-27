@@ -2,11 +2,10 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
-using Exercism.Analyzers.CSharp.IntegrationTests.Analysis.Solutions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
-namespace Exercism.Analyzers.CSharp.IntegrationTests.Analysis
+namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 {
     public abstract class ExerciseAnalysisTests : IClassFixture<WebApplicationFactory<Startup>>
     {

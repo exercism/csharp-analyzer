@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Exercism.Analyzers.CSharp.IntegrationTests.Analysis.Solutions
+namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 {
     internal static class DirectoryInfoExtensions
     {
