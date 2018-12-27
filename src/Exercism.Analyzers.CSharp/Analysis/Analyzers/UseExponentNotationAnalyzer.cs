@@ -13,7 +13,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             id: "EXERCISM0005",
             title: "Use exponent notation",
-            messageFormat: "You can write `{0}` as `{1}`.",
+            messageFormat: "You can write `{0}` as `1e9`.",
             category: "Refactoring",
             defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true);
