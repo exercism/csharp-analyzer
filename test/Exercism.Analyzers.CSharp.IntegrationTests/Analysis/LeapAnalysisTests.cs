@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Mvc.Testing;
 using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
-namespace Exercism.Analyzers.CSharp.Tests.Analysis
+namespace Exercism.Analyzers.CSharp.IntegrationTests.Analysis
 {
     public class LeapAnalysisTests : ExerciseAnalysisTests
     {

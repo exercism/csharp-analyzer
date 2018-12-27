@@ -2,7 +2,7 @@ using System.IO;
 using Exercism.Analyzers.CSharp.Analysis.Solutions;
 using Newtonsoft.Json;
 
-namespace Exercism.Analyzers.CSharp.Tests.Analysis.Solutions
+namespace Exercism.Analyzers.CSharp.IntegrationTests.Analysis.Solutions
 {
     internal class FakeSolution
     {

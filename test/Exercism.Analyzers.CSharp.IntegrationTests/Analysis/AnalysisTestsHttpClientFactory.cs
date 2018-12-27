@@ -1,12 +1,12 @@
 using System.Net.Http;
 using Exercism.Analyzers.CSharp.Analysis.CommandLine;
-using Exercism.Analyzers.CSharp.Tests.Analysis.Solutions;
+using Exercism.Analyzers.CSharp.IntegrationTests.Analysis.Solutions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Exercism.Analyzers.CSharp.Tests.Analysis
+namespace Exercism.Analyzers.CSharp.IntegrationTests.Analysis
 {
     internal static class AnalysisTestsHttpClientFactory
     {

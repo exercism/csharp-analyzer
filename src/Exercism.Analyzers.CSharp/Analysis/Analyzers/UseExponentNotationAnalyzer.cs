@@ -8,14 +8,14 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    internal class GigasecondUsesExponentNotationAnalyzer : DiagnosticAnalyzer
+    internal class UseExponentNotationAnalyzer : DiagnosticAnalyzer
     {
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             id: "EXERCISM0005",
-            title: "Gigasecond does not use exponent notation",
-            messageFormat: "You can write `{0}` as `1e9`.",
-            category: "Gigasecond",
-            defaultSeverity: DiagnosticSeverity.Warning,
+            title: "Use exponent notation",
+            messageFormat: "You can write `{0}` as `{1}`.",
+            category: "Refactoring",
+            defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);

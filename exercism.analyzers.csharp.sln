@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{223756C7-6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercism.Analyzers.CSharp", "src\Exercism.Analyzers.CSharp\Exercism.Analyzers.CSharp.csproj", "{DB037BC3-E9F1-44B5-8D92-ED7BDD5A30A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercism.Analyzers.CSharp.Tests", "test\Exercism.Analyzers.CSharp.Tests\Exercism.Analyzers.CSharp.Tests.csproj", "{0AF5F4FE-E499-423D-AA86-C2E1D80DAAE4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercism.Analyzers.CSharp.IntegrationTests", "test\Exercism.Analyzers.CSharp.IntegrationTests\Exercism.Analyzers.CSharp.IntegrationTests.csproj", "{0AF5F4FE-E499-423D-AA86-C2E1D80DAAE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
