@@ -23,11 +23,12 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
             return Task.FromResult(new DirectoryInfo(""));
         }
         
-        public void Configure(Solution solution, string implementationFileSuffix)
+        public void Configure(FakeSolution fakeSolution)
         {
-            var fakeSolution = new FakeSolution(solution, implementationFileSuffix);
-            var fakeSolutionDirectory = fakeSolution.Create();
-            _fakeSolutionDirectories.AddOrUpdate(solution.Id, fakeSolutionDirectory, (_, value) => value);
+            var fakeSolutionDirectory = new FakeSolutionDirectory(fakeSolution);
+            fakeSolutionDirectory.Create();
+
+            _fakeSolutionDirectories.AddOrUpdate(fakeSolution.Id, fakeSolutionDirectory.Directory, (_, value) => value);
         }
     }
 }

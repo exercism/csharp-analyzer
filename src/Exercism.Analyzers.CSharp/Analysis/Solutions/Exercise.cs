@@ -4,7 +4,6 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 {   
     public readonly struct Exercise
     {
-        public static readonly Exercise Shared = new Exercise("shared");
         public static readonly Exercise Leap = new Exercise("leap");
         public static readonly Exercise Gigasecond = new Exercise("gigasecond");
 

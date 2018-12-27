@@ -7,15 +7,12 @@ namespace Exercism.Analyzers.CSharp.Analysis.Compiling
 {
     internal static class ProjectLoader
     {
-        private static readonly AnalyzerManager Manager = new AnalyzerManager();
-        private static readonly AdhocWorkspace Workspace = new AdhocWorkspace();
-        
+        private static readonly AnalyzerManager AnalyzerManager = new AnalyzerManager();
+
         public static Project LoadFromFile(FileInfo projectFile)
-        {       
-            Workspace.ClearSolution(); // Remove previously added projects
-            
-            var analyzer = Manager.GetProject(projectFile.FullName);
-            return analyzer.AddToWorkspace(Workspace);
+        {
+            var project = AnalyzerManager.GetProject(projectFile.FullName);
+            return project.AddToWorkspace(new AdhocWorkspace());
         }
     }
 }

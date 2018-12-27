@@ -4,11 +4,11 @@ using Exercism.Analyzers.CSharp.IntegrationTests.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
-namespace Exercism.Analyzers.CSharp.IntegrationTests
+namespace Exercism.Analyzers.CSharp.IntegrationTests.Leap
 {
-    public class LeapAnalysisTests : ExerciseAnalysisTests
+    public class LeapNumberOfChecksTests : SolutionAnalysisTests
     {
-        public LeapAnalysisTests(WebApplicationFactory<Startup> factory) : base(Exercise.Leap, factory)
+        public LeapNumberOfChecksTests(WebApplicationFactory<Startup> factory) : base(factory, FakeExercise.Leap)
         {
         }
 

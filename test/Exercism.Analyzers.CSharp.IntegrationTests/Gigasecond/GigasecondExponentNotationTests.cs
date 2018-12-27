@@ -4,20 +4,21 @@ using Exercism.Analyzers.CSharp.IntegrationTests.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
-namespace Exercism.Analyzers.CSharp.IntegrationTests
+namespace Exercism.Analyzers.CSharp.IntegrationTests.Gigasecond
 {
-    public class GigasecondAnalysisTests : ExerciseAnalysisTests
+    public class GigasecondExponentNotationTests : SolutionAnalysisTests
     {
-        public GigasecondAnalysisTests(WebApplicationFactory<Startup> factory) : base(Exercise.Gigasecond, factory)
+        public GigasecondExponentNotationTests(WebApplicationFactory<Startup> factory)
+            : base(factory, FakeExercise.Gigasecond)
         {
         }
 
         [Fact]
-        public Task SolutionUsingExponentNotationDoesNotReturnComments() =>
+        public Task UsingExponentNotationDoesNotReturnComments() =>
             AnalysisReturnsNoComments("UsingExponentNotation");
 
         [Fact]
-        public Task SolutionUsingIntegerNotationReturnsComment() =>
+        public Task UsingIntegerNotationReturnsComment() =>
             AnalysisReturnsComments("UsingIntegerNotation", "You can write `1000000000` as `1e9`.");
 
         [Fact]
