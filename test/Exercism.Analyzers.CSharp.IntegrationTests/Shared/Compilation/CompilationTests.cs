@@ -12,7 +12,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Shared.Compilation
         }
 
         [Fact]
-        public Task CompilesWithoutErrorsDoesNotReturnComments() =>
+        public Task CompilesWithoutErrorsDoesNotReturnComment() =>
             AnalysisReturnsNoComments("CompilesWithoutErrors");
 
         [Fact]

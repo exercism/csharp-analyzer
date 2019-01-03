@@ -12,7 +12,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Gigasecond.ExponentNotation
         }
 
         [Fact]
-        public Task UsingExponentNotationDoesNotReturnComments() =>
+        public Task UsingExponentNotationDoesNotReturnComment() =>
             AnalysisReturnsNoComments("UsingExponentNotation");
 
         [Fact]

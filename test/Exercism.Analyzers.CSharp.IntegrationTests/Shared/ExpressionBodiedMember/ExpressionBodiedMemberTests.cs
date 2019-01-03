@@ -12,7 +12,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Shared.ExpressionBodiedMemb
         }
 
         [Fact]
-        public Task MethodThatIsAlreadyAnExpressionBodiedMemberDoesNotReturnComments() =>
+        public Task MethodThatIsAlreadyAnExpressionBodiedMemberDoesNotReturnComment() =>
             AnalysisReturnsNoComments("MethodThatIsAlreadyAnExpressionBodiedMember");
 
         [Fact]

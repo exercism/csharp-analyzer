@@ -12,7 +12,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Leap.NumberOfChecks
         }
 
         [Fact]
-        public Task UsingMinimumNumberOfChecksDoesNotReturnComments() =>
+        public Task UsingMinimumNumberOfChecksDoesNotReturnComment() =>
             AnalysisReturnsNoComments("UsingMinimumNumberOfChecks");
 
         [Fact]
