@@ -7,8 +7,9 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
         public readonly string Id;
         public readonly string ImplementationFile;
         public readonly FakeExercise Exercise;
+        public readonly string Category;
 
-        public FakeSolution(string implementationFile, FakeExercise exercise) =>
-            (Id, ImplementationFile, Exercise) = (Guid.NewGuid().ToString(), implementationFile, exercise);
+        public FakeSolution(string implementationFile, FakeExercise exercise, string category) =>
+            (Id, ImplementationFile, Exercise, Category) = (Guid.NewGuid().ToString(), implementationFile, exercise, category);
     }
 }

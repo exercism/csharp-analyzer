@@ -64,7 +64,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
             File.Copy(GetSourceSolutionFilePath(sourceSolutionFileName), GetFakeSolutionFilePath(fakeSolutionFileName));
 
         private string GetSourceSolutionFilePath(string fileName) =>
-            Path.Combine(_fakeSolution.Exercise.Name, "Solutions", fileName);
+            Path.Combine(_fakeSolution.Exercise.Name, _fakeSolution.Category, "Solutions", fileName);
         
         private string GetFakeSolutionFilePath(string fileName) =>
             Path.Combine(_fakeSolutionDirectory.FullName, fileName);

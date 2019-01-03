@@ -1,15 +1,13 @@
 using System.Threading.Tasks;
-using Exercism.Analyzers.CSharp.Analysis.Solutions;
 using Exercism.Analyzers.CSharp.IntegrationTests.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
-namespace Exercism.Analyzers.CSharp.IntegrationTests.Gigasecond
+namespace Exercism.Analyzers.CSharp.IntegrationTests.Gigasecond.ExponentNotation
 {
     public class GigasecondExponentNotationTests : SolutionAnalysisTests
     {
-        public GigasecondExponentNotationTests(WebApplicationFactory<Startup> factory)
-            : base(factory, FakeExercise.Gigasecond)
+        public GigasecondExponentNotationTests(WebApplicationFactory<Startup> factory) : base(factory, FakeExercise.Gigasecond)
         {
         }
 

@@ -45,12 +45,15 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
         }
 
         private FakeSolution CreateFakeSolution(string implementationFile) =>
-            new FakeSolution(implementationFile, _fakeExercise);
+            new FakeSolution(implementationFile, _fakeExercise, SolutionCategory);
 
         private Task<HttpResponseMessage> RequestAnalysis(FakeSolution fakeSolution)
         {
             var fakeSolutionUrl = $"/api/analyze/{fakeSolution.Id}";
             return _httpClient.GetAsync(fakeSolutionUrl);
         }
+        
+        private string SolutionCategory =>
+            GetType().Name.Replace("Tests", "").Substring(_fakeExercise.Name.Length);
     }
 }
