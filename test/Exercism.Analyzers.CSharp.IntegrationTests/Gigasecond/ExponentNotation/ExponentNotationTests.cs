@@ -13,14 +13,14 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Gigasecond.ExponentNotation
 
         [Fact]
         public Task UsingExponentNotationDoesNotReturnComment() =>
-            AnalysisReturnsNoComments("UsingExponentNotation");
+            AnalysisDoesNotReturnComment();
 
         [Fact]
         public Task UsingIntegerNotationReturnsComment() =>
-            AnalysisReturnsComments("UsingIntegerNotation", "You can write `1000000000` as `1e9`.");
+            AnalysisReturnsComment("You can write `1000000000` as `1e9`.");
 
         [Fact]
         public Task UsingIntegerNotationWithSeparatorReturnsComment() =>
-            AnalysisReturnsComments("UsingIntegerNotationWithSeparator", "You can write `1_000_000_000` as `1e9`.");
+            AnalysisReturnsComment("You can write `1_000_000_000` as `1e9`.");
     }
 }

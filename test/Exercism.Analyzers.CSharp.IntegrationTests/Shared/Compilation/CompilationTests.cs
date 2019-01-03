@@ -13,10 +13,10 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Shared.Compilation
 
         [Fact]
         public Task CompilesWithoutErrorsDoesNotReturnComment() =>
-            AnalysisReturnsNoComments("CompilesWithoutErrors");
+            AnalysisDoesNotReturnComment();
 
         [Fact]
         public Task CompilesWithErrorsReturnsComment() =>
-            AnalysisReturnsComments("CompilesWithErrors", "The solution does not compile.");
+            AnalysisReturnsComment("The solution does not compile.");
     }
 }
