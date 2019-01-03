@@ -13,7 +13,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Shared
         }
 
         [Fact]
+        public Task MethodThatIsAlreadyAnExpressionBodiedMemberDoesNotReturnComments() =>
+            AnalysisReturnsNoComments("MethodThatIsAlreadyAnExpressionBodiedMember");
+
+        [Fact]
         public Task MethodThatCanBeConvertedToExpressionBodiedMemberReturnsComment() =>
-            AnalysisReturnsComments("ConvertToExpressionBodiedMember", "The 'IsEven' method can be rewritten as an expression-bodied member.");
+            AnalysisReturnsComments("MethodThatCanBeConvertedToExpressionBodiedMember", "The 'IsEven' method can be rewritten as an expression-bodied member.");
     }
 }

@@ -13,7 +13,15 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Shared
         }
 
         [Fact]
-        public Task FailingTestsReturnsComment() =>
-            AnalysisReturnsComments("FailingTests", "The solution does not pass all tests.");
+        public Task PassingAllTestsDoesNotReturnComments() =>
+            AnalysisReturnsNoComments("PassesAllTests");
+
+        [Fact]
+        public Task FailsSingleTestReturnsComment() =>
+            AnalysisReturnsComments("FailsSingleTest", "The solution does not pass all tests.");
+
+        [Fact]
+        public Task FailsMultipleTestsReturnsComment() =>
+            AnalysisReturnsComments("FailsMultipleTests", "The solution does not pass all tests.");
     }
 }
