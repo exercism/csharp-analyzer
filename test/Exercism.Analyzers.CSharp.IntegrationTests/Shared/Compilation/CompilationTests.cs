@@ -5,9 +5,9 @@ using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests.Shared.Compilation
 {
-    public class SharedCompilationTests : SolutionAnalysisTests
+    public class CompilationTests : SolutionAnalysisTests
     {
-        public SharedCompilationTests(WebApplicationFactory<Startup> factory) : base(factory, FakeExercise.Shared)
+        public CompilationTests(WebApplicationFactory<Startup> factory) : base(factory, FakeExercise.Shared)
         {
         }
 

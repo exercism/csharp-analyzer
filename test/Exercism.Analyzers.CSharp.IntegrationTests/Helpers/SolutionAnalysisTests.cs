@@ -53,7 +53,6 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
             return _httpClient.GetAsync(fakeSolutionUrl);
         }
         
-        private string SolutionCategory =>
-            GetType().Name.Replace("Tests", "").Substring(_fakeExercise.Name.Length);
+        private string SolutionCategory => GetType().Name.Replace("Tests", "");
     }
 }

@@ -5,9 +5,9 @@ using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests.Gigasecond.ExponentNotation
 {
-    public class GigasecondExponentNotationTests : SolutionAnalysisTests
+    public class ExponentNotationTests : SolutionAnalysisTests
     {
-        public GigasecondExponentNotationTests(WebApplicationFactory<Startup> factory) : base(factory, FakeExercise.Gigasecond)
+        public ExponentNotationTests(WebApplicationFactory<Startup> factory) : base(factory, FakeExercise.Gigasecond)
         {
         }
 

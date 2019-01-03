@@ -5,9 +5,9 @@ using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests.Shared.ExpressionBodiedMember
 {
-    public class SharedExpressionBodiedMemberTests : SolutionAnalysisTests
+    public class ExpressionBodiedMemberTests : SolutionAnalysisTests
     {
-        public SharedExpressionBodiedMemberTests(WebApplicationFactory<Startup> factory) : base(factory, FakeExercise.Shared)
+        public ExpressionBodiedMemberTests(WebApplicationFactory<Startup> factory) : base(factory, FakeExercise.Shared)
         {
         }
 

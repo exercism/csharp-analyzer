@@ -5,9 +5,9 @@ using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests.Leap.NumberOfChecks
 {
-    public class LeapNumberOfChecksTests : SolutionAnalysisTests
+    public class NumberOfChecksTests : SolutionAnalysisTests
     {
-        public LeapNumberOfChecksTests(WebApplicationFactory<Startup> factory) : base(factory, FakeExercise.Leap)
+        public NumberOfChecksTests(WebApplicationFactory<Startup> factory) : base(factory, FakeExercise.Leap)
         {
         }
 
