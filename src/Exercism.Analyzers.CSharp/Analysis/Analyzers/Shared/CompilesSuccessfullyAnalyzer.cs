@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
+namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     internal class CompilesSuccessfullyAnalyzer : DiagnosticAnalyzer
@@ -12,7 +12,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
             id: "EXERCISM0001",
             title: "Solution has compilation errors",
             messageFormat: "The solution does not compile.",
-            category: "SolutionCorrectness",
+            category: "Shared",
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 

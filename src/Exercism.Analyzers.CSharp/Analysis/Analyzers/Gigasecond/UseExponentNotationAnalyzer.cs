@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
+namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Gigasecond
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     internal class UseExponentNotationAnalyzer : DiagnosticAnalyzer
@@ -14,7 +14,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
             id: "EXERCISM0005",
             title: "Use exponent notation",
             messageFormat: "You can write `{0}` as `1e9`.",
-            category: "Refactoring",
+            category: "Gigasecond",
             defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true);
 

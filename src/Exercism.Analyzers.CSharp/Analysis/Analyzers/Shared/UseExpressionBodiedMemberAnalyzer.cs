@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
+namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     internal class UseExpressionBodiedMemberAnalyzer : DiagnosticAnalyzer
@@ -13,7 +13,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
             id: "EXERCISM0004",
             title: "Use an expression-bodied member",
             messageFormat: "The '{0}' method can be rewritten as an expression-bodied member.",
-            category: "Refactoring",
+            category: "Shared",
             defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true);
 

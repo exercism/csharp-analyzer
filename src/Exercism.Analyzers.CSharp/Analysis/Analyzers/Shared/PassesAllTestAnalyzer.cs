@@ -3,16 +3,16 @@ using Exercism.Analyzers.CSharp.Analysis.Testing;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
+namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    internal class AllTestPassAnalyzer : DiagnosticAnalyzer
+    internal class PassesAllTestAnalyzer : DiagnosticAnalyzer
     {
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             id: "EXERCISM0002",
             title: "Solution does not pass all tests",
             messageFormat: "The solution does not pass all tests.",
-            category: "SolutionCorrectness",
+            category: "Shared",
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 

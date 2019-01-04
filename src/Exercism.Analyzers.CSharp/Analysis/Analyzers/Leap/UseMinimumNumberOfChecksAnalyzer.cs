@@ -5,10 +5,10 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
+namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Leap
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    internal class LeapUsesMinimumNumberOfChecksAnalyzer : DiagnosticAnalyzer
+    internal class UseMinimumNumberOfChecksAnalyzer : DiagnosticAnalyzer
     {
         private const int MinimalNumberOfChecks = 3;
         private const string LeapClassIdentifier = "Leap";
