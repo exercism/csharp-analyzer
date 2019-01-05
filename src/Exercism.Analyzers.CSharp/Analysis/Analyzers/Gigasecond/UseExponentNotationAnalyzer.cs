@@ -28,10 +28,10 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Gigasecond
             if (context.SkipAnalysis())
                 return;
 
-            var method = (LiteralExpressionSyntax)context.Node;
+            var literalExpression = (LiteralExpressionSyntax)context.Node;
 
-            if (IsGigasecond(method) && !UseExponentNotation(method))
-                context.ReportDiagnostic(Diagnostic.Create(Rule, method.GetLocation(), method.ToString()));
+            if (IsGigasecond(literalExpression) && !UseExponentNotation(literalExpression))
+                context.ReportDiagnostic(Diagnostic.Create(Rule, literalExpression.GetLocation(), literalExpression.ToString()));
         }
 
         private static bool IsGigasecond(LiteralExpressionSyntax method) =>

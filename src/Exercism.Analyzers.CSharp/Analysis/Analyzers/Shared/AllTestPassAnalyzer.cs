@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    internal class PassesAllTestAnalyzer : DiagnosticAnalyzer
+    internal class AllTestPassAnalyzer : DiagnosticAnalyzer
     {
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             id: "EXERCISM0002",
