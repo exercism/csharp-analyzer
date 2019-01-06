@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Leap
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    internal class UseMinimumNumberOfChecksAnalyzer : DiagnosticAnalyzer
+    internal class UseMinimumNumberOfChecksForLeapYearAnalyzer : DiagnosticAnalyzer
     {
         private const int MinimalNumberOfChecks = 3;
         private const string LeapClassIdentifier = "Leap";
@@ -16,7 +16,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Leap
         private const string YearParameterIdentifier = "year";
         
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
-            id: DiagnosticIds.UseMinimumNumberOfChecksAnalyzerRuleId,
+            id: DiagnosticIds.UseMinimumNumberOfChecksForLeapYearAnalyzerRuleId,
             title: "Leap does not use minimum number of checks",
             messageFormat: $"The '{IsLeapYearMethodIdentifier}' method uses too many checks.",
             category: DiagnosticCategories.Optimization,

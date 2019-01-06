@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
         public const string AllTestPassAnalyzerRuleId = "EXC0002";
         
         // Optimization analyzer IDs
-        public const string UseMinimumNumberOfChecksAnalyzerRuleId = "EXC0101";
+        public const string UseMinimumNumberOfChecksForLeapYearAnalyzerRuleId = "EXC0101";
         
         // Language feature analyzer IDs
         public const string UseExponentNotationAnalyzerRuleId = "EXC0201";

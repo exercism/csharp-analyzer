@@ -6,7 +6,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Leap
     {
         public static readonly DiagnosticAnalyzer[] All = 
         {
-            new UseMinimumNumberOfChecksAnalyzer()
+            new UseMinimumNumberOfChecksForLeapYearAnalyzer()
         };
     }
 }
