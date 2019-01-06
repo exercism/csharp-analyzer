@@ -12,15 +12,15 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Shared.Compilation
         }
 
         [Fact]
-        public Task CompilesWithoutErrorsDoesNotReturnComment() =>
-            AnalysisDoesNotReturnComment();
+        public async Task CompilesWithoutErrorsDoesNotReturnComment() =>
+            await AnalysisDoesNotReturnComment();
 
         [Fact]
-        public Task CompilesWithErrorsReturnsComment() =>
-            AnalysisReturnsComment("The solution does not compile.");
+        public async Task CompilesWithErrorsReturnsComment() =>
+            await AnalysisReturnsComment("The solution does not compile.");
 
         [Fact]
-        public Task CompilesWithErrorsAndNonErrorsReturnsSingleComment() =>
-            AnalysisReturnsSingleComment("The solution does not compile.");
+        public async Task CompilesWithErrorsAndNonErrorsReturnsSingleComment() =>
+            await AnalysisReturnsSingleComment("The solution does not compile.");
     }
 }

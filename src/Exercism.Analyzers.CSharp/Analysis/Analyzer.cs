@@ -36,13 +36,13 @@ namespace Exercism.Analyzers.CSharp.Analysis
             return _solutionLoader.Load(downloadedSolution);
         }
 
-        private Task<CompiledSolution> CompileSolution(LoadedSolution loadedSolution)
+        private async Task<CompiledSolution> CompileSolution(LoadedSolution loadedSolution)
         {
             var analyzers = SolutionAnalyzers.Create(loadedSolution.Solution);
-            return _solutionCompiler.Compile(loadedSolution, analyzers);
+            return await _solutionCompiler.Compile(loadedSolution, analyzers);
         }
 
-        private Task<string[]> GetSolutionComments(CompiledSolution compiledSolution) =>
-            _solutionComments.GetForSolution(compiledSolution);
+        private async Task<string[]> GetSolutionComments(CompiledSolution compiledSolution) =>
+            await _solutionComments.GetForSolution(compiledSolution);
     }
 }

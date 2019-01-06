@@ -12,15 +12,15 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Gigasecond.ExponentNotation
         }
 
         [Fact]
-        public Task UsingExponentNotationDoesNotReturnComment() =>
-            AnalysisDoesNotReturnComment();
+        public async Task UsingExponentNotationDoesNotReturnComment() =>
+            await AnalysisDoesNotReturnComment();
 
         [Fact]
-        public Task UsingIntegerNotationReturnsComment() =>
-            AnalysisReturnsComment("You can write `1000000000` as `1e9`.");
+        public async Task UsingIntegerNotationReturnsComment() =>
+            await AnalysisReturnsComment("You can write `1000000000` as `1e9`.");
 
         [Fact]
-        public Task UsingIntegerNotationWithSeparatorReturnsComment() =>
-            AnalysisReturnsComment("You can write `1_000_000_000` as `1e9`.");
+        public async Task UsingIntegerNotationWithSeparatorReturnsComment() =>
+            await AnalysisReturnsComment("You can write `1_000_000_000` as `1e9`.");
     }
 }

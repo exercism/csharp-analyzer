@@ -50,10 +50,10 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
         private FakeSolution CreateFakeSolution(string testMethodName) =>
             new FakeSolution(TestMethodNameToImplementationFile(testMethodName), _fakeExercise, SolutionCategory);
 
-        private Task<HttpResponseMessage> RequestAnalysis(FakeSolution fakeSolution)
+        private async Task<HttpResponseMessage> RequestAnalysis(FakeSolution fakeSolution)
         {
             var fakeSolutionUrl = $"/api/analyze/{fakeSolution.Id}";
-            return _httpClient.GetAsync(fakeSolutionUrl);
+            return await _httpClient.GetAsync(fakeSolutionUrl);
         }
 
         private static string TestMethodNameToImplementationFile(string testMethodName) =>

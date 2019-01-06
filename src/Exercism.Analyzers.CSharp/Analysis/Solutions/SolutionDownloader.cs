@@ -30,7 +30,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
             return new DownloadedSolution(solution, projectFile);
         }
         
-        private Task<DirectoryInfo> DownloadToDirectory(string id) => _exercismCommandLineInterface.Download(id);
+        private async Task<DirectoryInfo> DownloadToDirectory(string id) =>
+            await _exercismCommandLineInterface.Download(id);
 
         private static async Task<Solution> GetSolution(DirectoryInfo solutionDirectory)
         {

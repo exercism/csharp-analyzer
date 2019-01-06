@@ -12,51 +12,51 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Shared.DigitSeparator
         }
 
         [Fact]
-        public Task VeryLargeDecimalNumberWithoutDigitSeparatorReturnsComment() =>
-            AnalysisReturnsComment(expected: "You can write `1000000000` as `1_000_000_000`.");
+        public async Task VeryLargeDecimalNumberWithoutDigitSeparatorReturnsComment() =>
+            await AnalysisReturnsComment(expected: "You can write `1000000000` as `1_000_000_000`.");
 
         [Fact]
-        public Task VeryLargeBinaryNumberWithoutDigitSeparatorReturnsComment() =>
-            AnalysisReturnsComment(expected: "You can write `0b100100100011` as `0b1001_0010_0011`.");
+        public async Task VeryLargeBinaryNumberWithoutDigitSeparatorReturnsComment() =>
+            await AnalysisReturnsComment(expected: "You can write `0b100100100011` as `0b1001_0010_0011`.");
 
         [Fact]
-        public Task VeryLargeHexadecimalNumberWithoutDigitSeparatorReturnsComment() =>
-            AnalysisReturnsComment(expected: "You can write `0x1AFE8DFF` as `0x1A_FE_8D_FF`.");
+        public async Task VeryLargeHexadecimalNumberWithoutDigitSeparatorReturnsComment() =>
+            await AnalysisReturnsComment(expected: "You can write `0x1AFE8DFF` as `0x1A_FE_8D_FF`.");
 
         [Fact]
-        public Task LargeDecimalNumberWithoutDigitSeparatorReturnsComment() =>
-            AnalysisReturnsComment(expected: "You can write `100000` as `100_000`.");
+        public async Task LargeDecimalNumberWithoutDigitSeparatorReturnsComment() =>
+            await AnalysisReturnsComment(expected: "You can write `100000` as `100_000`.");
 
         [Fact]
-        public Task LargeBinaryNumberWithoutDigitSeparatorReturnsComment() =>
-            AnalysisReturnsComment(expected: "You can write `0b10010010` as `0b1001_0010`.");
+        public async Task LargeBinaryNumberWithoutDigitSeparatorReturnsComment() =>
+            await AnalysisReturnsComment(expected: "You can write `0b10010010` as `0b1001_0010`.");
 
         [Fact]
-        public Task LargeHexadecimalNumberWithoutDigitSeparatorReturnsComment() =>
-            AnalysisReturnsComment(expected: "You can write `0x1AFE` as `0x1A_FE`.");
+        public async Task LargeHexadecimalNumberWithoutDigitSeparatorReturnsComment() =>
+            await AnalysisReturnsComment(expected: "You can write `0x1AFE` as `0x1A_FE`.");
 
         [Fact]
-        public Task LargeDecimalNumberWithDigitSeparatorDoesNotReturnComment() =>
-            AnalysisDoesNotReturnComment();
+        public async Task LargeDecimalNumberWithDigitSeparatorDoesNotReturnComment() =>
+            await AnalysisDoesNotReturnComment();
 
         [Fact]
-        public Task LargeHexadecimalNumberWithDigitSeparatorDoesNotReturnComment() =>
-            AnalysisDoesNotReturnComment();
+        public async Task LargeHexadecimalNumberWithDigitSeparatorDoesNotReturnComment() =>
+            await AnalysisDoesNotReturnComment();
 
         [Fact]
-        public Task LargeBinaryNumberWithDigitSeparatorDoesNotReturnComment() =>
-            AnalysisDoesNotReturnComment();
+        public async Task LargeBinaryNumberWithDigitSeparatorDoesNotReturnComment() =>
+            await AnalysisDoesNotReturnComment();
 
         [Fact]
-        public Task SmallDecimalNumberWithoutDigitSeparatorDoesNotReturnComment() =>
-            AnalysisDoesNotReturnComment();
+        public async Task SmallDecimalNumberWithoutDigitSeparatorDoesNotReturnComment() =>
+            await AnalysisDoesNotReturnComment();
 
         [Fact]
-        public Task SmallHexadecimalNumberWithoutDigitSeparatorDoesNotReturnComment() =>
-            AnalysisDoesNotReturnComment();
+        public async Task SmallHexadecimalNumberWithoutDigitSeparatorDoesNotReturnComment() =>
+            await AnalysisDoesNotReturnComment();
 
         [Fact]
-        public Task SmallBinaryNumberWithoutDigitSeparatorDoesNotReturnComment() =>
-            AnalysisDoesNotReturnComment();
+        public async Task SmallBinaryNumberWithoutDigitSeparatorDoesNotReturnComment() =>
+            await AnalysisDoesNotReturnComment();
     }
 }
