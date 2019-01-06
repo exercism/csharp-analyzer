@@ -11,7 +11,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Gigasecond
     internal class UseExponentNotationAnalyzer : DiagnosticAnalyzer
     {
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
-            id: "EXERCISM0005",
+            id: DiagnosticIds.UseExponentNotationAnalyzerRuleId,
             title: "Use exponent notation",
             messageFormat: "You can write `{0}` as `1e9`.",
             category: DiagnosticCategories.LanguageFeature,

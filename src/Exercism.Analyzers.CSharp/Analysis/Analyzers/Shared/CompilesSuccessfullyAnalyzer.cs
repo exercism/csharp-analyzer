@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
     internal class CompilesSuccessfullyAnalyzer : DiagnosticAnalyzer
     {
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
-            id: "EXERCISM0001",
+            id: DiagnosticIds.CompilesSuccessfullyAnalyzerRuleId,
             title: "Solution has compilation errors",
             messageFormat: "The solution does not compile.",
             category: DiagnosticCategories.Health,

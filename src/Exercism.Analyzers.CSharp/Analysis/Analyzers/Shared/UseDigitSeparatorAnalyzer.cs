@@ -12,15 +12,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     internal class UseDigitSeparatorAnalyzer : DiagnosticAnalyzer
     {
-        private enum NumericLiteralType
-        {
-            Decimal,
-            Hexadecimal,
-            Binary
-        }
-
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
-            id: "EXERCISM0006",
+            id: DiagnosticIds.UseDigitSeparatorAnalyzerRuleId,
             title: "Use digit separator",
             messageFormat: "You can write `{0}` as `{1}`.",
             category: DiagnosticCategories.LanguageFeature,

@@ -10,7 +10,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
     internal class UseExpressionBodiedMemberAnalyzer : DiagnosticAnalyzer
     {
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
-            id: "EXERCISM0004",
+            id: DiagnosticIds.UseExpressionBodiedMemberAnalyzerRuleId,
             title: "Use an expression-bodied member",
             messageFormat: "The '{0}' method can be rewritten as an expression-bodied member.",
             category: DiagnosticCategories.LanguageFeature,

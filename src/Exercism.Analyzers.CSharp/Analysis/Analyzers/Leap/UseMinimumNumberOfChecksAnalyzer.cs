@@ -16,7 +16,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Leap
         private const string YearParameterIdentifier = "year";
         
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
-            id: "EXERCISM0003",
+            id: DiagnosticIds.UseMinimumNumberOfChecksAnalyzerRuleId,
             title: "Leap does not use minimum number of checks",
             messageFormat: $"The '{IsLeapYearMethodIdentifier}' method uses too many checks.",
             category: DiagnosticCategories.Optimization,

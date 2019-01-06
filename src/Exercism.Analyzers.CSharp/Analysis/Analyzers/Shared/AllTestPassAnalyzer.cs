@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
     internal class AllTestPassAnalyzer : DiagnosticAnalyzer
     {
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
-            id: "EXERCISM0002",
+            id: DiagnosticIds.AllTestPassAnalyzerRuleId,
             title: "Solution does not pass all tests",
             messageFormat: "The solution does not pass all tests.",
             category: DiagnosticCategories.Health,
