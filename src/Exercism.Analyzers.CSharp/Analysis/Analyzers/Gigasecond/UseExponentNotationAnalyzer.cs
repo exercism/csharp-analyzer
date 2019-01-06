@@ -24,10 +24,10 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Gigasecond
         {
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
-            context.RegisterSyntaxNodeAction(SyntaxNodeAnalysisContext, SyntaxKind.NumericLiteralExpression);
+            context.RegisterSyntaxNodeAction(AnalyzeNumericLiteralExpression, SyntaxKind.NumericLiteralExpression);
         }
 
-        private static void SyntaxNodeAnalysisContext(SyntaxNodeAnalysisContext context)
+        private static void AnalyzeNumericLiteralExpression(SyntaxNodeAnalysisContext context)
         {
             if (context.SkipAnalysis())
                 return;
