@@ -12,7 +12,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
             id: "EXERCISM0002",
             title: "Solution does not pass all tests",
             messageFormat: "The solution does not pass all tests.",
-            category: "Shared",
+            category: DiagnosticCategories.Health,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 

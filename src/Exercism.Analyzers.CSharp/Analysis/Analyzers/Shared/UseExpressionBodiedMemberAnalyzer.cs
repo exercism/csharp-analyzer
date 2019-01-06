@@ -13,7 +13,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
             id: "EXERCISM0004",
             title: "Use an expression-bodied member",
             messageFormat: "The '{0}' method can be rewritten as an expression-bodied member.",
-            category: "Shared",
+            category: DiagnosticCategories.LanguageFeature,
             defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true);
 

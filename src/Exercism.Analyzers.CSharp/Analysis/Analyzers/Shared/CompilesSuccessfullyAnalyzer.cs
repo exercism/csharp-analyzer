@@ -12,7 +12,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
             id: "EXERCISM0001",
             title: "Solution has compilation errors",
             messageFormat: "The solution does not compile.",
-            category: "Shared",
+            category: DiagnosticCategories.Health,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 

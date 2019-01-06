@@ -23,7 +23,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
             id: "EXERCISM0006",
             title: "Use digit separator",
             messageFormat: "You can write `{0}` as `{1}`.",
-            category: "Shared",
+            category: DiagnosticCategories.LanguageFeature,
             defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true);
 

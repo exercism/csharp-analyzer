@@ -14,7 +14,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Gigasecond
             id: "EXERCISM0005",
             title: "Use exponent notation",
             messageFormat: "You can write `{0}` as `1e9`.",
-            category: "Gigasecond",
+            category: DiagnosticCategories.LanguageFeature,
             defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true);
 
