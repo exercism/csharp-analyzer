@@ -6,7 +6,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Gigasecond
     {
         public static readonly DiagnosticAnalyzer[] All = 
         {
-            new UseExponentNotationAnalyzer()
+            new UseExponentNotationAnalyzer(),
+            new UseAddSecondsToAddGigasecondAnalyzer(), 
         };
     }
 }
