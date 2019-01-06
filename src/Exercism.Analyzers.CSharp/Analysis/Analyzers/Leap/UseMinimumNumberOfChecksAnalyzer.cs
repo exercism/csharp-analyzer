@@ -25,8 +25,12 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Leap
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
-        public override void Initialize(AnalysisContext context) =>
+        public override void Initialize(AnalysisContext context)
+        {
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
+            context.EnableConcurrentExecution();
             context.RegisterSyntaxNodeAction(SyntaxNodeAnalysisContext, SyntaxKind.MethodDeclaration);
+        }
 
         private static void SyntaxNodeAnalysisContext(SyntaxNodeAnalysisContext context)
         {
