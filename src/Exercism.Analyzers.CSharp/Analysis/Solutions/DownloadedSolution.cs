@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
         public Solution Solution { get; }
         public FileInfo ProjectFile { get; }
         
-        public DownloadedSolution(Solution solution, FileInfo projectFile) =>
+        public DownloadedSolution(in Solution solution, FileInfo projectFile) =>
             (Solution, ProjectFile) = (solution, projectFile);
     }
 }

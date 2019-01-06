@@ -12,12 +12,12 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 {
     internal static class SolutionAnalyzers
     {   
-        public static ImmutableArray<DiagnosticAnalyzer> Create(Solution solution) =>
+        public static ImmutableArray<DiagnosticAnalyzer> Create(in Solution solution) =>
             SharedAnalyzers.All
                 .Concat(ExerciseAnalyzers(solution.Exercise))
                 .ToImmutableArray();
 
-        private static IEnumerable<DiagnosticAnalyzer> ExerciseAnalyzers(Exercise exercise)
+        private static IEnumerable<DiagnosticAnalyzer> ExerciseAnalyzers(in Exercise exercise)
         {
             if (exercise.Equals(Exercise.Leap))
                 return LeapAnalyzers.All;

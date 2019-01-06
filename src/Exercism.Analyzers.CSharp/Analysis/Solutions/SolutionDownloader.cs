@@ -49,7 +49,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
         private static FileInfo GetMetadataFile(FileSystemInfo solutionDirectory) =>
             GetFileInSolutionDirectory(solutionDirectory, Path.Combine(".exercism", "metadata.json"));
 
-        private static FileInfo GetProjectFile(Solution solution, FileSystemInfo solutionDirectory) =>
+        private static FileInfo GetProjectFile(in Solution solution, FileSystemInfo solutionDirectory) =>
             GetFileInSolutionDirectory(solutionDirectory, $"{solution.Exercise.Name}.csproj");
 
         private static FileInfo GetFileInSolutionDirectory(FileSystemInfo solutionDirectory, string solutionFile) =>
