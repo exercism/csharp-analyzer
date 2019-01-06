@@ -21,17 +21,23 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 
         protected async Task AnalysisDoesNotReturnComment([CallerMemberName]string testMethodName = "")
         {
-            var comments = await GetCommentsFromAnalysis(testMethodName).ConfigureAwait(false);
+            var comments = await GetAnalysisComments(testMethodName).ConfigureAwait(false);
             Assert.Empty(comments);
         }
 
         protected async Task AnalysisReturnsComment(string expected, [CallerMemberName]string testMethodName = "")
         {   
-            var comments = await GetCommentsFromAnalysis(testMethodName).ConfigureAwait(false);
+            var comments = await GetAnalysisComments(testMethodName).ConfigureAwait(false);
             Assert.Contains(expected, comments);
         }
 
-        private async Task<string[]> GetCommentsFromAnalysis(string testMethodName)
+        protected async Task AnalysisReturnsSingleComment(string expected, [CallerMemberName]string testMethodName = "")
+        {   
+            var comments = await GetAnalysisComments(testMethodName).ConfigureAwait(false);
+            Assert.Single(comments, expected);
+        }
+
+        private async Task<string[]> GetAnalysisComments([CallerMemberName]string testMethodName = "")
         {
             var fakeSolution = CreateFakeSolution(testMethodName);
             _fakeExercismCommandLineInterface.Configure(fakeSolution);
@@ -53,6 +59,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
         private static string TestMethodNameToImplementationFile(string testMethodName) =>
             testMethodName
                 .Replace("DoesNotReturnComment", string.Empty)
+                .Replace("ReturnsSingleComment", string.Empty)
                 .Replace("ReturnsComment", string.Empty);
         
         private string SolutionCategory => GetType().Name.Replace("Tests", "");

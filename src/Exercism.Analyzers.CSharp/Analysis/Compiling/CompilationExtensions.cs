@@ -24,5 +24,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Compiling
 
             return compilation.SyntaxTrees.Aggregate(compilation, Rewrite);
         }
+        
+        public static bool HasErrors(this Compilation compilation) =>
+            compilation.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
     }
 }

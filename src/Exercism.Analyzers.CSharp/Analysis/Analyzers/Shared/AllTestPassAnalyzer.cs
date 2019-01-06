@@ -22,7 +22,10 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
             context.RegisterCompilationAction(AnalyzeCompilation);
 
         private static void AnalyzeCompilation(CompilationAnalysisContext context)
-        {
+        {   
+            if (context.SkipAnalysis())
+                return;
+            
             var testRunSummary = InMemoryXunitTestRunner.RunAllTests(context.Compilation).Result;
             
             if (testRunSummary.Skipped > 0 || testRunSummary.Failed > 0)
