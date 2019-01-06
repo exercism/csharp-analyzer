@@ -18,7 +18,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
             _logger.LogInformation("Compiling solution {ID} using analyzers: {Analyzers}",
                 loadedSolution.Solution.Id, loadedSolution.Solution.Id, GetAnalyzerNames(analyzers));
             
-            var compilation = await loadedSolution.Project.GetCompilationAsync().ConfigureAwait(false);
+            var compilation = await loadedSolution.Project.GetCompilationAsync();
             var compilationWithAnalyzers = compilation.WithAnalyzers(analyzers);
             
             _logger.LogInformation("Compiled solution {ID}", loadedSolution.Solution.Id);

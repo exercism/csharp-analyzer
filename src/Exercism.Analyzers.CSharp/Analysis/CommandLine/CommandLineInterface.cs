@@ -25,8 +25,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
                 _logger.LogInformation("Executed CLI command '{File}' with arguments '{Arguments}'",
                     process.StartInfo.FileName, process.StartInfo.Arguments);
                 
-                var output = await process.StandardOutput.ReadToEndAsync().ConfigureAwait(false);
-                var error = await process.StandardError.ReadToEndAsync().ConfigureAwait(false);
+                var output = await process.StandardOutput.ReadToEndAsync();
+                var error = await process.StandardError.ReadToEndAsync();
                 
                 if (process.ExitCode == 0)
                     _logger.LogInformation("Output of executed CLI command: '{Output}'", output);

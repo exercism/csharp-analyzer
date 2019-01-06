@@ -9,6 +9,6 @@ namespace Exercism.Analyzers.CSharp.Analysis
     {
         [HttpGet("{id}")]
         public async Task<ActionResult<string[]>> Analyze([FromRoute]string id, [FromServices]Analyzer analyzer) =>
-            await analyzer.Analyze(id).ConfigureAwait(false);
+            await analyzer.Analyze(id);
     }
 }

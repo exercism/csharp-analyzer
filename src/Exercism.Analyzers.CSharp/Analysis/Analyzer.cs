@@ -25,14 +25,14 @@ namespace Exercism.Analyzers.CSharp.Analysis
 
         public async Task<string[]> Analyze(string id)
         {
-            var loadedSolution = await LoadSolution(id).ConfigureAwait(false);
-            var compiledSolution = await CompileSolution(loadedSolution).ConfigureAwait(false);
-            return await GetSolutionComments(compiledSolution).ConfigureAwait(false);
+            var loadedSolution = await LoadSolution(id);
+            var compiledSolution = await CompileSolution(loadedSolution);
+            return await GetSolutionComments(compiledSolution);
         }
 
         private async Task<LoadedSolution> LoadSolution(string id)
         {
-            var downloadedSolution = await _solutionDownloader.Download(id).ConfigureAwait(false);
+            var downloadedSolution = await _solutionDownloader.Download(id);
             return _solutionLoader.Load(downloadedSolution);
         }
 

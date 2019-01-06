@@ -18,7 +18,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.CommandLine
 
             _logger.LogInformation("Executing exercism CLI command for solution {ID}: {Command}", id, arguments);
             
-            var output = await Run(arguments).ConfigureAwait(false);
+            var output = await Run(arguments);
 
             _logger.LogInformation("Executed exercism CLI command for solution {ID}", id);
             

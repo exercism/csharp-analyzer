@@ -21,19 +21,19 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 
         protected async Task AnalysisDoesNotReturnComment([CallerMemberName]string testMethodName = "")
         {
-            var comments = await GetAnalysisComments(testMethodName).ConfigureAwait(false);
+            var comments = await GetAnalysisComments(testMethodName);
             Assert.Empty(comments);
         }
 
         protected async Task AnalysisReturnsComment(string expected, [CallerMemberName]string testMethodName = "")
         {   
-            var comments = await GetAnalysisComments(testMethodName).ConfigureAwait(false);
+            var comments = await GetAnalysisComments(testMethodName);
             Assert.Contains(expected, comments);
         }
 
         protected async Task AnalysisReturnsSingleComment(string expected, [CallerMemberName]string testMethodName = "")
         {   
-            var comments = await GetAnalysisComments(testMethodName).ConfigureAwait(false);
+            var comments = await GetAnalysisComments(testMethodName);
             Assert.Single(comments, expected);
         }
 
@@ -42,9 +42,9 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
             var fakeSolution = CreateFakeSolution(testMethodName);
             _fakeExercismCommandLineInterface.Configure(fakeSolution);
 
-            var response = await RequestAnalysis(fakeSolution).ConfigureAwait(false);
+            var response = await RequestAnalysis(fakeSolution);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsAsync<string[]>().ConfigureAwait(false);
+            return await response.Content.ReadAsAsync<string[]>();
         }
 
         private FakeSolution CreateFakeSolution(string testMethodName) =>

@@ -15,7 +15,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
         {
             _logger.LogInformation("Retrieving diagnostics for solution {ID}", compiledSolution.Solution.Id);
             
-            var diagnostics = await compiledSolution.Compilation.GetAnalyzerDiagnosticsAsync().ConfigureAwait(false);
+            var diagnostics = await compiledSolution.Compilation.GetAnalyzerDiagnosticsAsync();
 
             _logger.LogInformation("Retrieved diagnostics for solution {ID}: {ErrorCount} errors, {WarningCount} warnings and {InformationCount} information",
                 compiledSolution.Solution.Id, 
