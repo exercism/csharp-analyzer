@@ -9,7 +9,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
             new CompilesSuccessfullyAnalyzer(),
             new AllTestPassAnalyzer(),
             new UseExpressionBodiedMemberAnalyzer(),
-            new UseDigitSeparatorAnalyzer(), 
+            new UseDigitSeparatorAnalyzer(),
+            new UseExponentNotationAnalyzer(), 
         };
     }
 }

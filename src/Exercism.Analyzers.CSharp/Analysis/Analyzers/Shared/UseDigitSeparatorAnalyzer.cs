@@ -35,7 +35,6 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
                 return;
 
             var literalExpression = (LiteralExpressionSyntax)context.Node;
-
             if (!literalExpression.Token.IsKind(SyntaxKind.NumericLiteralToken))
                 return;
 
@@ -56,8 +55,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
         private static bool ValueIsInteger(in SyntaxToken literalExpressionToken) =>
             literalExpressionToken.Value is int;
 
-        private static bool ValueNotDefinedUsingDigitSeparator(SyntaxToken methodToken) =>
-            !methodToken.Text.Contains("_");
+        private static bool ValueNotDefinedUsingDigitSeparator(SyntaxToken literalExpressionToken) =>
+            !literalExpressionToken.Text.Contains("_");
 
         private static bool ValueWarrantsUsingDigitSeparator(SyntaxToken literalExpressionToken)
         {
@@ -72,11 +71,11 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
             return value > 99999;
         }
 
-        private static bool IsBinaryNumber(SyntaxToken methodToken) =>
-            methodToken.Text.StartsWith("0b", StringComparison.OrdinalIgnoreCase);
+        private static bool IsBinaryNumber(SyntaxToken literalExpressionToken) =>
+            literalExpressionToken.Text.StartsWith("0b", StringComparison.OrdinalIgnoreCase);
 
-        private static bool IsHexadecimalNumber(SyntaxToken methodToken) =>
-            methodToken.Text.StartsWith("0x", StringComparison.OrdinalIgnoreCase);
+        private static bool IsHexadecimalNumber(SyntaxToken literalExpressionToken) =>
+            literalExpressionToken.Text.StartsWith("0x", StringComparison.OrdinalIgnoreCase);
 
         private static string SuggestedExpressionUsingDigitSeparator(SyntaxToken literalExpressionToken)
         {
