@@ -1,6 +1,8 @@
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis.Compiling;
+using Exercism.Analyzers.CSharp.Analysis.Testing;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 
@@ -9,6 +11,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
     public class SolutionAnalyzer
     {
         private static readonly string[] CompileErrorsComments = {"The solution does not compile."};
+        private static readonly string[] DoesNotPassAllTestsComments = {"The solution does not pass all tests."};
         
         private readonly ILogger<SolutionAnalyzer> _logger;
 
@@ -16,8 +19,15 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 
         public async Task<AnalyzedSolution> Analyze(CompiledSolution compiledSolution)
         {
-            if (compiledSolution.Compilation.HasErrors())
+            _logger.LogInformation("Checking solution {ID} for compile errors", compiledSolution.Solution.Id);
+            
+            if (HasErrors(compiledSolution))
                 return new AnalyzedSolution(compiledSolution.Solution, SolutionStatus.RequiresChange, CompileErrorsComments);
+            
+            _logger.LogInformation("Verifying solution {ID} passes all tests", compiledSolution.Solution.Id);
+            
+            if (await DoesNotPassAllTests(compiledSolution))
+                return new AnalyzedSolution(compiledSolution.Solution, SolutionStatus.RequiresChange, DoesNotPassAllTestsComments);
             
             _logger.LogInformation("Retrieving diagnostics for solution {ID}", compiledSolution.Solution.Id);
             
@@ -35,6 +45,15 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
                 compiledSolution.Solution.Id, comments);
             
             return new AnalyzedSolution(compiledSolution.Solution, SolutionStatus.Approved, comments);
+        }
+
+        private static bool HasErrors(CompiledSolution compiledSolution)
+            => compiledSolution.Compilation.HasErrors();
+
+        private static async Task<bool> DoesNotPassAllTests(CompiledSolution compiledSolution)
+        {
+            var testRunSummary = await InMemoryXunitTestRunner.RunAllTests(compiledSolution.Compilation);
+            return testRunSummary.Skipped > 0 || testRunSummary.Failed > 0;
         }
     }
 }
