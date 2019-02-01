@@ -11,7 +11,7 @@ namespace Exercism.Analyzers.CSharp.Analysis
                     .AddSingleton<SolutionDownloader>()
                     .AddSingleton<SolutionCompiler>()
                     .AddSingleton<SolutionLoader>()
-                    .AddSingleton<SolutionComments>()
+                    .AddSingleton<SolutionAnalyzer>()
                     .AddSingleton<ExercismCommandLineInterface>();
     }
 }

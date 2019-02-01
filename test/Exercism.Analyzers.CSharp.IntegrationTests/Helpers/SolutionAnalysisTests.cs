@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Exercism.Analyzers.CSharp.Analysis;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
@@ -44,7 +45,9 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 
             var response = await RequestAnalysis(fakeSolution);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsAsync<string[]>();
+
+            var analyzedSolution = await response.Content.ReadAsAsync<AnalysisResult>();
+            return analyzedSolution.Comments;
         }
 
         private FakeSolution CreateFakeSolution(string testMethodName) =>

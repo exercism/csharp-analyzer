@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 {
-    public class SolutionComments
+    public class SolutionAnalyzer
     {
-        private readonly ILogger<SolutionComments> _logger;
+        private readonly ILogger<SolutionAnalyzer> _logger;
 
-        public SolutionComments(ILogger<SolutionComments> logger) => _logger = logger;
+        public SolutionAnalyzer(ILogger<SolutionAnalyzer> logger) => _logger = logger;
 
-        public async Task<string[]> GetForSolution(CompiledSolution compiledSolution)
+        public async Task<AnalyzedSolution> Analyze(CompiledSolution compiledSolution)
         {
             _logger.LogInformation("Retrieving diagnostics for solution {ID}", compiledSolution.Solution.Id);
             
@@ -28,7 +28,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
             _logger.LogInformation("Retrieved comments for solution {ID}: {Comments}",
                 compiledSolution.Solution.Id, comments);
             
-            return comments;
+            return new AnalyzedSolution(compiledSolution.Solution, SolutionStatus.Approved, comments);
         }
     }
 }

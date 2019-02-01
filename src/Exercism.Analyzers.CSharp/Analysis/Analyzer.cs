@@ -9,25 +9,25 @@ namespace Exercism.Analyzers.CSharp.Analysis
         private readonly SolutionDownloader _solutionDownloader;
         private readonly SolutionCompiler _solutionCompiler;
         private readonly SolutionLoader _solutionLoader;
-        private readonly SolutionComments _solutionComments;
+        private readonly SolutionAnalyzer _solutionAnalyzer;
 
         public Analyzer(
             SolutionDownloader solutionDownloader,
             SolutionLoader solutionLoader,
             SolutionCompiler solutionCompiler,
-            SolutionComments solutionComments)
+            SolutionAnalyzer solutionAnalyzer)
         {
             _solutionDownloader = solutionDownloader;
             _solutionLoader = solutionLoader;
             _solutionCompiler = solutionCompiler;
-            _solutionComments = solutionComments;
+            _solutionAnalyzer = solutionAnalyzer;
         }
 
-        public async Task<string[]> Analyze(string id)
+        public async Task<AnalysisResult> Analyze(string id)
         {
             var loadedSolution = await LoadSolution(id);
             var compiledSolution = await CompileSolution(loadedSolution);
-            return await GetSolutionComments(compiledSolution);
+            return await AnalyzeSolution(compiledSolution);
         }
 
         private async Task<LoadedSolution> LoadSolution(string id)
@@ -42,7 +42,10 @@ namespace Exercism.Analyzers.CSharp.Analysis
             return await _solutionCompiler.Compile(loadedSolution, analyzers);
         }
 
-        private async Task<string[]> GetSolutionComments(CompiledSolution compiledSolution) =>
-            await _solutionComments.GetForSolution(compiledSolution);
+        private async Task<AnalysisResult> AnalyzeSolution(CompiledSolution compiledSolution)
+        {
+            var analyzedSolution = await _solutionAnalyzer.Analyze(compiledSolution);
+            return new AnalysisResult(analyzedSolution.Status, analyzedSolution.Comments);
+        }   
     }
 }
