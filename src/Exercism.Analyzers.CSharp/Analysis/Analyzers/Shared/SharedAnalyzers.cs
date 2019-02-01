@@ -6,7 +6,6 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
     {
         public static readonly DiagnosticAnalyzer[] All = 
         {
-            new CompilesSuccessfullyAnalyzer(),
             new AllTestPassAnalyzer(),
             new UseExpressionBodiedMemberAnalyzer(),
             new UseDigitSeparatorAnalyzer(),
