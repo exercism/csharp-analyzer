@@ -38,8 +38,7 @@ namespace Exercism.Analyzers.CSharp.Analysis
 
         private async Task<CompiledSolution> CompileSolution(LoadedSolution loadedSolution)
         {
-            var analyzers = SolutionAnalyzers.Create(loadedSolution.Solution);
-            return await _solutionCompiler.Compile(loadedSolution, analyzers);
+            return await _solutionCompiler.Compile(loadedSolution);
         }
 
         private async Task<AnalysisResult> AnalyzeSolution(CompiledSolution compiledSolution)

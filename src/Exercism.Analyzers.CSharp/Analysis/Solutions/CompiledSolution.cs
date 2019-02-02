@@ -1,5 +1,4 @@
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Exercism.Analyzers.CSharp.Analysis.Solutions
 {
@@ -7,9 +6,8 @@ namespace Exercism.Analyzers.CSharp.Analysis.Solutions
     {
         public Solution Solution { get; }
         public Compilation Compilation { get; }
-        public CompilationWithAnalyzers CompilationWithAnalyzers { get; }
 
-        public CompiledSolution(in Solution solution, CompilationWithAnalyzers compilationWithAnalyzers) =>
-            (Solution, Compilation, CompilationWithAnalyzers) = (solution, compilationWithAnalyzers.Compilation, compilationWithAnalyzers);
+        public CompiledSolution(in Solution solution, Compilation compilation) =>
+            (Solution, Compilation) = (solution, compilation);
     }
 }
