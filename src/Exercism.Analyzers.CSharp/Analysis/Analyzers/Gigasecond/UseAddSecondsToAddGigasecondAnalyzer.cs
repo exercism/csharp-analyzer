@@ -13,7 +13,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Gigasecond
             title: "Use AddSeconds",
             messageFormat: "You could use `AddSeconds()`.",
             category: DiagnosticCategories.ApiUsage,
-            defaultSeverity: DiagnosticSeverity.Info,
+            defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);

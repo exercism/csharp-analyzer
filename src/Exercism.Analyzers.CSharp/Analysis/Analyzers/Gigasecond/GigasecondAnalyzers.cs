@@ -8,5 +8,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Gigasecond
         {
             new UseAddSecondsToAddGigasecondAnalyzer(), 
         };
+        
+        public static readonly GigasecondApprovalAnalyzer ApprovalAnalyzer = new GigasecondApprovalAnalyzer();
     }
 }

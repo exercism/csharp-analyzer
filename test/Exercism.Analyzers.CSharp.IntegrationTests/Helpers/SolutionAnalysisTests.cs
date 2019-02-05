@@ -2,6 +2,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analysis;
+using Exercism.Analyzers.CSharp.Analysis.Solutions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
@@ -20,25 +21,46 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
             _httpClient = AnalysisTestsHttpClientFactory.Create(factory, _fakeExercismCommandLineInterface);
         }
 
-        protected async Task AnalysisDoesNotReturnComment([CallerMemberName]string testMethodName = "")
+        protected async Task ApprovedWithoutComments([CallerMemberName]string testMethodName = "") =>
+            await AnalysisResultWithoutComments(SolutionStatus.Approved, testMethodName);
+
+        protected async Task ApprovedWithComment(string expected, [CallerMemberName]string testMethodName = "") =>
+            await AnalysisResultWithComment(SolutionStatus.Approved, expected, testMethodName);
+
+        protected async Task RequiresMentoringWithoutComments([CallerMemberName]string testMethodName = "") =>
+            await AnalysisResultWithoutComments(SolutionStatus.RequiresMentoring, testMethodName);
+
+        protected async Task RequiresMentoringWithComment(string expected, [CallerMemberName]string testMethodName = "") =>
+            await AnalysisResultWithComment(SolutionStatus.RequiresMentoring, expected, testMethodName);
+
+        protected async Task RequiresChangeWithComment(string expected, [CallerMemberName]string testMethodName = "") =>
+            await AnalysisResultWithComment(SolutionStatus.RequiresChange, expected, testMethodName);
+
+        protected async Task RequiresChangeWithSingleComment(string expected, [CallerMemberName]string testMethodName = "") =>
+            await AnalysisResultWithSingleComment(SolutionStatus.RequiresChange, expected, testMethodName);
+
+        private async Task AnalysisResultWithoutComments(SolutionStatus status, string testMethodName)
         {
-            var comments = await GetAnalysisComments(testMethodName);
-            Assert.Empty(comments);
+            var analysisResult = await GetAnalysisResult(testMethodName);
+            Assert.Equal(status, analysisResult.Status);
+            Assert.Empty(analysisResult.Comments);
         }
 
-        protected async Task AnalysisReturnsComment(string expected, [CallerMemberName]string testMethodName = "")
-        {   
-            var comments = await GetAnalysisComments(testMethodName);
-            Assert.Contains(expected, comments);
+        private async Task AnalysisResultWithComment(SolutionStatus status, string expected, string testMethodName)
+        {
+            var analysisResult = await GetAnalysisResult(testMethodName);
+            Assert.Equal(status, analysisResult.Status);
+            Assert.Contains(expected, analysisResult.Comments);
         }
 
-        protected async Task AnalysisReturnsSingleComment(string expected, [CallerMemberName]string testMethodName = "")
-        {   
-            var comments = await GetAnalysisComments(testMethodName);
-            Assert.Single(comments, expected);
+        private async Task AnalysisResultWithSingleComment(SolutionStatus status, string expected, string testMethodName)
+        {
+            var analysisResult = await GetAnalysisResult(testMethodName);
+            Assert.Equal(status, analysisResult.Status);
+            Assert.Single(analysisResult.Comments, expected);
         }
 
-        private async Task<string[]> GetAnalysisComments([CallerMemberName]string testMethodName = "")
+        private async Task<AnalysisResult> GetAnalysisResult([CallerMemberName]string testMethodName = "")
         {
             var fakeSolution = CreateFakeSolution(testMethodName);
             _fakeExercismCommandLineInterface.Configure(fakeSolution);
@@ -46,8 +68,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
             var response = await RequestAnalysis(fakeSolution);
             response.EnsureSuccessStatusCode();
 
-            var analyzedSolution = await response.Content.ReadAsAsync<AnalysisResult>();
-            return analyzedSolution.Comments;
+            return await response.Content.ReadAsAsync<AnalysisResult>();
         }
 
         private FakeSolution CreateFakeSolution(string testMethodName) =>
@@ -61,9 +82,12 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 
         private static string TestMethodNameToImplementationFile(string testMethodName) =>
             testMethodName
-                .Replace("DoesNotReturnComment", string.Empty)
-                .Replace("ReturnsSingleComment", string.Empty)
-                .Replace("ReturnsComment", string.Empty);
+                .Replace("Approved", string.Empty)
+                .Replace("RequiresMentoring", string.Empty)
+                .Replace("RequiresChange", string.Empty)
+                .Replace("WithComment", string.Empty)
+                .Replace("WithSingleComment", string.Empty)
+                .Replace("WithoutComments", string.Empty);
         
         private string SolutionCategory => GetType().Name.Replace("Tests", "");
     }

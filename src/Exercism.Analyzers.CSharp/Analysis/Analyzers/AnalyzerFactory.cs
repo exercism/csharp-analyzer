@@ -10,14 +10,22 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Exercism.Analyzers.CSharp.Analysis.Analyzers
 {
-    internal static class SolutionAnalyzers
-    {   
+    internal static class AnalyzerFactory
+    {
+        public static ApprovalAnalyzer CreateForApproval(in Solution solution)
+        {
+            if (solution.Exercise.Equals(Exercise.Gigasecond))
+                return GigasecondAnalyzers.ApprovalAnalyzer;
+
+            return SharedAnalyzers.ApprovalAnalyzer;
+        }
+        
         public static ImmutableArray<DiagnosticAnalyzer> Create(in Solution solution) =>
             SharedAnalyzers.All
-                .Concat(ExerciseAnalyzers(solution.Exercise))
+                .Concat(CreateForExercise(solution.Exercise))
                 .ToImmutableArray();
 
-        private static IEnumerable<DiagnosticAnalyzer> ExerciseAnalyzers(in Exercise exercise)
+        private static IEnumerable<DiagnosticAnalyzer> CreateForExercise(in Exercise exercise)
         {
             if (exercise.Equals(Exercise.Leap))
                 return LeapAnalyzers.All;

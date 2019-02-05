@@ -12,31 +12,31 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Shared.ExponentNotation
         }
 
         [Fact]
-        public async Task LargeDoubleLiteralNotUsingExponentNotationReturnsComment() =>
-            await AnalysisReturnsComment(expected: "You can write `1000000d` as `1e6`.");
+        public async Task LargeDoubleLiteralNotUsingExponentNotationRequiresMentoringWithComment() =>
+            await RequiresMentoringWithComment(expected: "You can write `1000000d` as `1e6`.");
 
         [Fact]
-        public async Task LargeDoubleArgumentNotUsingExponentNotationReturnsComment() =>
-            await AnalysisReturnsComment(expected: "You can write `1000000d` as `1e6`.");
+        public async Task LargeDoubleArgumentNotUsingExponentNotationRequiresMentoringWithComment() =>
+            await RequiresMentoringWithComment(expected: "You can write `1000000d` as `1e6`.");
 
         [Fact]
-        public async Task LargeIntegerArgumentImplicitlyConvertedToDoubleReturnsComment() =>
-            await AnalysisReturnsComment(expected: "You can write `1000000` as `1e6`.");
+        public async Task LargeIntegerArgumentImplicitlyConvertedToDoubleRequiresMentoringWithComment() =>
+            await RequiresMentoringWithComment(expected: "You can write `1000000` as `1e6`.");
 
         [Fact]
-        public async Task LargeDoubleUsingExponentNotationDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task LargeDoubleUsingExponentNotationRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
 
         [Fact]
-        public async Task SmallDoubleNotUsingExponentNotationDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task SmallDoubleNotUsingExponentNotationRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
 
         [Fact]
-        public async Task LargeFloatDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task LargeFloatRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
 
         [Fact]
-        public async Task SmallFloatDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task SmallFloatRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
     }
 }

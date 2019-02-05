@@ -20,7 +20,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Leap
             title: "Leap does not use minimum number of checks",
             messageFormat: $"The '{IsLeapYearMethodIdentifier}' method uses too many checks.",
             category: DiagnosticCategories.Optimization,
-            defaultSeverity: DiagnosticSeverity.Warning,
+            defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);

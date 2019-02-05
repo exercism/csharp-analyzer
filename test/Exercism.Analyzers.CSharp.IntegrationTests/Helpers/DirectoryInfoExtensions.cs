@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
         public static void Recreate(this DirectoryInfo directoryInfo)
         {
             if (directoryInfo.Exists)
-                directoryInfo.Delete(true);
+                directoryInfo.Delete(recursive: true);
 
             directoryInfo.Create();
         }

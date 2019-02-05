@@ -12,51 +12,51 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Shared.DigitSeparator
         }
 
         [Fact]
-        public async Task VeryLargeDecimalNumberWithoutDigitSeparatorReturnsComment() =>
-            await AnalysisReturnsComment(expected: "You can write `1000000000` as `1_000_000_000`.");
+        public async Task VeryLargeDecimalNumberWithoutDigitSeparatorRequiresMentoringWithComment() =>
+            await RequiresMentoringWithComment(expected: "You can write `1000000000` as `1_000_000_000`.");
 
         [Fact]
-        public async Task VeryLargeBinaryNumberWithoutDigitSeparatorReturnsComment() =>
-            await AnalysisReturnsComment(expected: "You can write `0b100100100011` as `0b1001_0010_0011`.");
+        public async Task VeryLargeBinaryNumberWithoutDigitSeparatorRequiresMentoringWithComment() =>
+            await RequiresMentoringWithComment(expected: "You can write `0b100100100011` as `0b1001_0010_0011`.");
 
         [Fact]
-        public async Task VeryLargeHexadecimalNumberWithoutDigitSeparatorReturnsComment() =>
-            await AnalysisReturnsComment(expected: "You can write `0x1AFE8DFF` as `0x1A_FE_8D_FF`.");
+        public async Task VeryLargeHexadecimalNumberWithoutDigitSeparatorRequiresMentoringWithComment() =>
+            await RequiresMentoringWithComment(expected: "You can write `0x1AFE8DFF` as `0x1A_FE_8D_FF`.");
 
         [Fact]
-        public async Task LargeDecimalNumberWithoutDigitSeparatorReturnsComment() =>
-            await AnalysisReturnsComment(expected: "You can write `100000` as `100_000`.");
+        public async Task LargeDecimalNumberWithoutDigitSeparatorRequiresMentoringWithComment() =>
+            await RequiresMentoringWithComment(expected: "You can write `100000` as `100_000`.");
 
         [Fact]
-        public async Task LargeBinaryNumberWithoutDigitSeparatorReturnsComment() =>
-            await AnalysisReturnsComment(expected: "You can write `0b10010010` as `0b1001_0010`.");
+        public async Task LargeBinaryNumberWithoutDigitSeparatorRequiresMentoringWithComment() =>
+            await RequiresMentoringWithComment(expected: "You can write `0b10010010` as `0b1001_0010`.");
 
         [Fact]
-        public async Task LargeHexadecimalNumberWithoutDigitSeparatorReturnsComment() =>
-            await AnalysisReturnsComment(expected: "You can write `0x1AFE` as `0x1A_FE`.");
+        public async Task LargeHexadecimalNumberWithoutDigitSeparatorRequiresMentoringWithComment() =>
+            await RequiresMentoringWithComment(expected: "You can write `0x1AFE` as `0x1A_FE`.");
 
         [Fact]
-        public async Task LargeDecimalNumberWithDigitSeparatorDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task LargeDecimalNumberWithDigitSeparatorRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
 
         [Fact]
-        public async Task LargeHexadecimalNumberWithDigitSeparatorDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task LargeHexadecimalNumberWithDigitSeparatorRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
 
         [Fact]
-        public async Task LargeBinaryNumberWithDigitSeparatorDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task LargeBinaryNumberWithDigitSeparatorRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
 
         [Fact]
-        public async Task SmallDecimalNumberWithoutDigitSeparatorDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task SmallDecimalNumberWithoutDigitSeparatorRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
 
         [Fact]
-        public async Task SmallHexadecimalNumberWithoutDigitSeparatorDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task SmallHexadecimalNumberWithoutDigitSeparatorRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
 
         [Fact]
-        public async Task SmallBinaryNumberWithoutDigitSeparatorDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task SmallBinaryNumberWithoutDigitSeparatorRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
     }
 }

@@ -10,5 +10,7 @@ namespace Exercism.Analyzers.CSharp.Analysis.Analyzers.Shared
             new UseDigitSeparatorAnalyzer(),
             new UseExponentNotationAnalyzer(), 
         };
+        
+        public static readonly DoNotApproveApprovalAnalyzer ApprovalAnalyzer = new DoNotApproveApprovalAnalyzer();
     }
 }

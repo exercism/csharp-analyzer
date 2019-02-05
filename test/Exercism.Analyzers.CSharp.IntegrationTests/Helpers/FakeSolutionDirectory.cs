@@ -21,7 +21,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
         public DirectoryInfo Directory => _fakeSolutionDirectory;
 
         private DirectoryInfo GetFakeSolutionDirectory() =>
-            new DirectoryInfo(Path.Combine("Solutions", _fakeSolution.Exercise.Name, _fakeSolution.ImplementationFile, _fakeSolution.Id));
+            new DirectoryInfo(Path.Combine("Solutions", _fakeSolution.Exercise.Name, _fakeSolution.Category, _fakeSolution.ImplementationFile));
         
         private DirectoryInfo GetFakeSolutionMetadataDirectory() =>
             new DirectoryInfo(Path.Combine(GetFakeSolutionDirectory().FullName, ".exercism"));
@@ -37,7 +37,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
         private void CreateSolutionDirectory()
         {
             _fakeSolutionDirectory.Recreate();
-            _fakeSolutionMetadataDirectory.Create();
+            _fakeSolutionMetadataDirectory.Recreate();
         }
 
         private void CreateSolutionFiles()

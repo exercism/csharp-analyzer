@@ -12,11 +12,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Leap.NumberOfChecks
         }
 
         [Fact]
-        public async Task UsingMinimumNumberOfChecksDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task UsingMinimumNumberOfChecksRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
 
         [Fact]
-        public async Task UsingTooManyChecksReturnsComment() =>
-            await AnalysisReturnsComment("The 'IsLeapYear' method uses too many checks.");
+        public async Task UsingTooManyChecksRequiresChangeWithComment() =>
+            await RequiresChangeWithComment("The 'IsLeapYear' method uses too many checks.");
     }
 }

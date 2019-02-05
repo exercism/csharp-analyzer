@@ -12,23 +12,23 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Shared.ExpressionBodiedMemb
         }
 
         [Fact]
-        public async Task MethodThatIsAlreadyAnExpressionBodiedMemberDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task MethodThatIsAlreadyAnExpressionBodiedMemberRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
 
         [Fact]
-        public async Task SingleLineMethodThatCannotBeConvertedToExpressionBodiedMemberDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task SingleLineMethodThatCannotBeConvertedToExpressionBodiedMemberRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
 
         [Fact]
-        public async Task MultiLineMethodThatCannotBeConvertedToExpressionBodiedMemberDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task MultiLineMethodThatCannotBeConvertedToExpressionBodiedMemberRequiresMentoringWithoutComments() =>
+            await RequiresMentoringWithoutComments();
 
         [Fact]
-        public async Task SingleLineMethodThatCanBeConvertedToExpressionBodiedMemberReturnsComment() =>
-            await AnalysisReturnsComment("The 'IsEven' method can be rewritten as an expression-bodied member.");
+        public async Task SingleLineMethodThatCanBeConvertedToExpressionBodiedMemberRequiresMentoringWithComment() =>
+            await RequiresMentoringWithComment("The 'IsEven' method can be rewritten as an expression-bodied member.");
 
         [Fact]
-        public async Task MultiLineMethodThatCanBeConvertedToExpressionBodiedMemberReturnsComment() =>
-            await AnalysisReturnsComment("The 'IsEven' method can be rewritten as an expression-bodied member.");
+        public async Task MultiLineMethodThatCanBeConvertedToExpressionBodiedMemberRequiresMentoringWithComment() =>
+            await RequiresMentoringWithComment("The 'IsEven' method can be rewritten as an expression-bodied member.");
     }
 }

@@ -12,15 +12,15 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Gigasecond.AddSeconds
         }
 
         [Fact]
-        public async Task UsingAddSecondsDoesNotReturnComment() =>
-            await AnalysisDoesNotReturnComment();
+        public async Task UsingAddSecondsApprovedWithoutComments() =>
+            await ApprovedWithoutComments();
 
         [Fact]
-        public async Task UsingAddReturnsComment() =>
-            await AnalysisReturnsComment("You could use `AddSeconds()`.");
+        public async Task UsingAddRequiresChangeWithComment() =>
+            await RequiresChangeWithComment("You could use `AddSeconds()`.");
 
         [Fact]
-        public async Task UsingPlusOperatorReturnsComment() =>
-            await AnalysisReturnsComment("You could use `AddSeconds()`.");
+        public async Task UsingPlusOperatorRequiresChangeWithComment() =>
+            await RequiresChangeWithComment("You could use `AddSeconds()`.");
     }
 }
