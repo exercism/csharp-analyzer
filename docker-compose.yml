@@ -1,9 +1,0 @@
-version: '3'
-services:
-  csharp-analyzer:
-    build:
-      context: ./src/Exercism.Analyzers.CSharp
-      args:
-        - EXERCISM_TOKEN
-    ports:
-      - "8080:80"
