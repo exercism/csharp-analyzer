@@ -1,4 +1,5 @@
 using System.IO;
+using Humanizer;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -14,13 +15,11 @@ namespace Exercism.Analyzers.CSharp
             using (var jsonTextWriter = new JsonTextWriter(fileWriter))
             {
                 jsonTextWriter.WriteStartObject();
-                jsonTextWriter.WritePropertyName("approve");
-                jsonTextWriter.WriteValue(analyzedSolution.Status == SolutionStatus.Approve);
-                jsonTextWriter.WritePropertyName("refer_to_mentor");
-                jsonTextWriter.WriteValue(analyzedSolution.Status == SolutionStatus.ReferToMentor);
-                jsonTextWriter.WritePropertyName("messages");
+                jsonTextWriter.WritePropertyName("status");
+                jsonTextWriter.WriteValue(analyzedSolution.Status.ToString().Underscore());
+                jsonTextWriter.WritePropertyName("comments");
                 jsonTextWriter.WriteStartArray();
-                jsonTextWriter.WriteValues(analyzedSolution.Messages);
+                jsonTextWriter.WriteValues(analyzedSolution.Comments);
                 jsonTextWriter.WriteEndArray();
                 jsonTextWriter.WriteEndObject();
             }

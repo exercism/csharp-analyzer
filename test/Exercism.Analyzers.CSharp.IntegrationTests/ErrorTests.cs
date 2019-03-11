@@ -8,13 +8,12 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         [Fact]
         public void ReturnErrorCodeWhenTrackIsNotCSharp()
         {
-            var rubyTestSolution = new TestSolution("leap", "ruby");
+            var rubyTestSolution = new TestSolution("leap", "Leap", "ruby");
             var analysisRun = TestSolutionAnalyzer.Run(rubyTestSolution, string.Empty);
             
             Assert.False(analysisRun.Success);
-            Assert.False(analysisRun.Approved);
-            Assert.False(analysisRun.ReferToMentor);
-            Assert.Empty(analysisRun.Messages);
+            Assert.True(analysisRun.ReferToMentor);
+            Assert.Empty(analysisRun.Comments);
         }
     }
 }

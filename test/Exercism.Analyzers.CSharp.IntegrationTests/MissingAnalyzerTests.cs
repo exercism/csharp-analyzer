@@ -11,9 +11,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             var analysisRun = TestSolutionAnalyzer.Run("missing", "Missing", string.Empty);
             
             Assert.True(analysisRun.Success);
-            Assert.False(analysisRun.Approved);
             Assert.True(analysisRun.ReferToMentor);
-            Assert.Empty(analysisRun.Messages);
+            Assert.Empty(analysisRun.Comments);
         }
     }
 }

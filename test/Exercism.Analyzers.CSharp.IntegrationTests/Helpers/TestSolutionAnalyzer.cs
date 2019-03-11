@@ -22,7 +22,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
         }
 
         private static TestSolutionAnalysisRun FailedRun(int returnCode) =>
-            new TestSolutionAnalysisRun(returnCode, approved: false, referToMentor: false, messages: Array.Empty<string>());
+            new TestSolutionAnalysisRun(returnCode, TestSolutionAnalysisStatus.ReferToMentor, Array.Empty<string>());
 
         private static TestSolutionAnalysisRun SuccessfullRun(int returnCode, TestSolution solution)
         {
@@ -33,11 +33,10 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 
                 // We read each JSON property by key to verify that the format is correct.
                 // Automatically deserializing could possible use different keys. 
-                var approve = jsonAnalysisResult["approve"].ToObject<bool>();
-                var referToMentor = jsonAnalysisResult["refer_to_mentor"].ToObject<bool>();
-                var messages = jsonAnalysisResult["messages"].ToObject<string[]>();
+                var status = jsonAnalysisResult["status"].ToObject<string>();
+                var comments = jsonAnalysisResult["comments"].ToObject<string[]>();
 
-                return new TestSolutionAnalysisRun(returnCode, approve, referToMentor, messages);
+                return new TestSolutionAnalysisRun(returnCode, status, comments);
             }
         }
     }

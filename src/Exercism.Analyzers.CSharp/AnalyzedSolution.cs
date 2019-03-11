@@ -4,9 +4,9 @@ namespace Exercism.Analyzers.CSharp
     {
         public Solution Solution { get; }
         public SolutionStatus Status { get; }
-        public string[] Messages { get; }
+        public string[] Comments { get; }
 
-        public AnalyzedSolution(Solution solution, SolutionStatus status, params string[] messages) =>
-            (Solution, Status, Messages) = (solution, status, messages);
+        public AnalyzedSolution(Solution solution, SolutionStatus status, params string[] comments) =>
+            (Solution, Status, Comments) = (solution, status, comments);
     }
 }

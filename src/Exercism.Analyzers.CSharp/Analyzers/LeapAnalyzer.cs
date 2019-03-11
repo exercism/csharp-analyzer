@@ -6,28 +6,28 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 {
     internal static class LeapAnalyzer
     {
-        public static AnalyzedSolution Analyze(SolutionImplementation solutionImplementation)
+        public static AnalyzedSolution Analyze(SolutionImplementation implementation)
         {
-            if (solutionImplementation.IsEquivalentTo(MinimumNumberOfChecks))
-                return new AnalyzedSolution(solutionImplementation.Solution, SolutionStatus.Approve);
+            if (implementation.IsEquivalentTo(MinimumNumberOfChecks))
+                return implementation.ApproveAsOptimal();
 
-            if (solutionImplementation.IsEquivalentTo(UnneededParentheses))
-                return new AnalyzedSolution(solutionImplementation.Solution, SolutionStatus.Approve);
+            if (implementation.IsEquivalentTo(UnneededParentheses))
+                return implementation.ApproveAsOptimal();
 
-            if (solutionImplementation.IsEquivalentTo(MethodWithBlockBody))
-                return new AnalyzedSolution(solutionImplementation.Solution, SolutionStatus.Approve, "You could write the method an an expression-bodied member");
+            if (implementation.IsEquivalentTo(MethodWithBlockBody))
+                return implementation.ApproveWithComment("You could write the method an an expression-bodied member");
 
-            if (solutionImplementation.UsesTooManyChecks())
-                return new AnalyzedSolution(solutionImplementation.Solution, SolutionStatus.ReferToMentor, "Use minimum number of checks");
+            if (implementation.UsesTooManyChecks())
+                return implementation.DisapproveWithComment("Use minimum number of checks");
 
-            return new AnalyzedSolution(solutionImplementation.Solution, SolutionStatus.ReferToMentor);
+            return implementation.ReferToMentor();
         }
 
-        private static bool UsesTooManyChecks(this SolutionImplementation solutionImplementation)
+        private static bool UsesTooManyChecks(this SolutionImplementation implementation)
         {
             const int minimalNumberOfChecks = 3;
 
-            var addMethod = solutionImplementation.SyntaxNode
+            var addMethod = implementation.SyntaxNode
                 .GetClass("Leap")
                 .GetMethod("IsLeapYear");
 

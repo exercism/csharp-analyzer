@@ -15,13 +15,15 @@ namespace Exercism.Analyzers.CSharp
                 return null;
 
             var analyzedSolution = AnalyzedSolutionImplementation(solution, implementation);
-            Log.Information("Analyzed exercise {Exercise} has status {Status} and messages {Messages}.", analyzedSolution.Status, analyzedSolution.Messages);
+            Log.Information("Analyzed exercise {Exercise} has status {Status} and comments {Comments}.", analyzedSolution.Status, analyzedSolution.Comments);
             
             return analyzedSolution;
         }
 
         private static AnalyzedSolution AnalyzedSolutionImplementation(Solution solution, SolutionImplementation implementation)
         {
+            // TODO: check to see if there are errors in syntax
+            
             switch (solution.Exercise)
             {
                 case Exercises.Gigasecond: return GigasecondAnalyzer.Analyze(implementation);

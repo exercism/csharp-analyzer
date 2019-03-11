@@ -5,7 +5,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         public const string AddSecondsWithScientificNotation = @"
             using System;
             
-            internal static class Gigasecond
+            public static class Gigasecond
             {
                 public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1e9);
             }";
@@ -13,7 +13,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         public const string AddSecondsWithMathPow = @"
             using System;
             
-            internal static class Gigasecond
+            public static class Gigasecond
             {
                 public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(Math.Pow(10, 9));
             }";
@@ -21,7 +21,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         public const string AddSecondsWithDigitsWithoutSeparator = @"
             using System;
             
-            internal static class Gigasecond
+            public static class Gigasecond
             {
                 public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1000000);
             }";
@@ -29,7 +29,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         public const string AddSecondsWithScientificNotationInBlockBody = @"
             using System;
             
-            internal static class Gigasecond
+            public static class Gigasecond
             {
                 public static DateTime Add(DateTime birthDate)
                 {
@@ -40,7 +40,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         public const string Add = @"
             using System;
             
-            internal static class Gigasecond
+            public static class Gigasecond
             {
                 public static DateTime Add(DateTime birthDate) => birthDate.Add(TimeSpan.FromSeconds(1000000000));
             }";
@@ -48,7 +48,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         public const string PlusOperator = @"
             using System;
             
-            internal static class Gigasecond
+            public static class Gigasecond
             {
                 public static DateTime Add(DateTime birthDate) => birthDate + TimeSpan.FromSeconds(1000000000);
             }";

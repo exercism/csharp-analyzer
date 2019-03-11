@@ -22,9 +22,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
-            Assert.True(analysisRun.Approved);
-            Assert.False(analysisRun.ReferToMentor);
-            Assert.Empty(analysisRun.Messages);
+            Assert.True(analysisRun.ApproveAsOptimal);
+            Assert.Empty(analysisRun.Comments);
         }
 
         [Fact]
@@ -41,9 +40,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
-            Assert.True(analysisRun.Approved);
-            Assert.False(analysisRun.ReferToMentor);
-            Assert.Single(analysisRun.Messages, "Use 1e9 instead of Math.Pow(10, 9)");
+            Assert.True(analysisRun.ApproveWithComment);
+            Assert.Single(analysisRun.Comments, "Use 1e9 instead of Math.Pow(10, 9)");
         }
 
         [Fact]
@@ -60,9 +58,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
-            Assert.True(analysisRun.Approved);
-            Assert.False(analysisRun.ReferToMentor);
-            Assert.Single(analysisRun.Messages, "Use 1e9 or 1_000_000 instead of 1000000");
+            Assert.True(analysisRun.ApproveWithComment);
+            Assert.Single(analysisRun.Comments, "Use 1e9 or 1_000_000 instead of 1000000");
         }
 
         [Fact]
@@ -82,9 +79,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
-            Assert.True(analysisRun.Approved);
-            Assert.False(analysisRun.ReferToMentor);
-            Assert.Single(analysisRun.Messages, "You could write the method an an expression-bodied member");
+            Assert.True(analysisRun.ApproveWithComment);
+            Assert.Single(analysisRun.Comments, "You could write the method an an expression-bodied member");
         }
 
         [Fact]
@@ -101,9 +97,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
-            Assert.False(analysisRun.Approved);
-            Assert.True(analysisRun.ReferToMentor);
-            Assert.Single(analysisRun.Messages, "Use AddSeconds");
+            Assert.True(analysisRun.DisapproveWithComment);
+            Assert.Single(analysisRun.Comments, "Use AddSeconds");
         }
 
         [Fact]
@@ -120,9 +115,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
-            Assert.False(analysisRun.Approved);
-            Assert.True(analysisRun.ReferToMentor);
-            Assert.Single(analysisRun.Messages, "Use AddSeconds");
+            Assert.True(analysisRun.DisapproveWithComment);
+            Assert.Single(analysisRun.Comments, "Use AddSeconds");
         }
     }
 }

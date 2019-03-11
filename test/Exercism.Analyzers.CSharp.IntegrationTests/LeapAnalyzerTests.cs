@@ -21,9 +21,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
-            Assert.True(analysisRun.Approved);
-            Assert.False(analysisRun.ReferToMentor);
-            Assert.Empty(analysisRun.Messages);
+            Assert.True(analysisRun.ApproveAsOptimal);
+            Assert.Empty(analysisRun.Comments);
         }
 
         [Fact]
@@ -39,9 +38,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
-            Assert.True(analysisRun.Approved);
-            Assert.False(analysisRun.ReferToMentor);
-            Assert.Empty(analysisRun.Messages);
+            Assert.True(analysisRun.ApproveAsOptimal);
+            Assert.Empty(analysisRun.Comments);
         }
 
         [Fact]
@@ -59,9 +57,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
-            Assert.True(analysisRun.Approved);
-            Assert.False(analysisRun.ReferToMentor);
-            Assert.Single(analysisRun.Messages, "You could write the method an an expression-bodied member");
+            Assert.True(analysisRun.ApproveWithComment);
+            Assert.Single(analysisRun.Comments, "You could write the method an an expression-bodied member");
         }
 
         [Fact]
@@ -77,9 +74,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
-            Assert.False(analysisRun.Approved);
-            Assert.True(analysisRun.ReferToMentor);
-            Assert.Single(analysisRun.Messages, "Use minimum number of checks");
+            Assert.True(analysisRun.DisapproveWithComment);
+            Assert.Single(analysisRun.Comments, "Use minimum number of checks");
         }
     }
 }

@@ -7,24 +7,24 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         public static AnalyzedSolution Analyze(SolutionImplementation implementation)
         {
             if (implementation.IsEquivalentTo(AddSecondsWithScientificNotation))
-                return new AnalyzedSolution(implementation.Solution, SolutionStatus.Approve);
+                return implementation.ApproveAsOptimal();
 
             if (implementation.IsEquivalentTo(AddSecondsWithMathPow))
-                return new AnalyzedSolution(implementation.Solution, SolutionStatus.Approve, "Use 1e9 instead of Math.Pow(10, 9)");
+                return implementation.ApproveWithComment("Use 1e9 instead of Math.Pow(10, 9)");
 
             if (implementation.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparator))
-                return new AnalyzedSolution(implementation.Solution, SolutionStatus.Approve, "Use 1e9 or 1_000_000 instead of 1000000");
+                return implementation.ApproveWithComment("Use 1e9 or 1_000_000 instead of 1000000");
 
             if (implementation.IsEquivalentTo(AddSecondsWithScientificNotationInBlockBody))
-                return new AnalyzedSolution(implementation.Solution, SolutionStatus.Approve, "You could write the method an an expression-bodied member");
+                return implementation.ApproveWithComment("You could write the method an an expression-bodied member");
 
             if (implementation.IsEquivalentTo(Add))
-                return new AnalyzedSolution(implementation.Solution, SolutionStatus.ReferToMentor, "Use AddSeconds");
+                return implementation.DisapproveWithComment("Use AddSeconds");
 
             if (implementation.IsEquivalentTo(PlusOperator))
-                return new AnalyzedSolution(implementation.Solution, SolutionStatus.ReferToMentor, "Use AddSeconds");
+                return implementation.DisapproveWithComment("Use AddSeconds");
 
-            return new AnalyzedSolution(implementation.Solution, SolutionStatus.ReferToMentor);
+            return implementation.ReferToMentor();
         }
     }
 }

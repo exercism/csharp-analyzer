@@ -2,8 +2,9 @@ namespace Exercism.Analyzers.CSharp
 {
     public enum SolutionStatus
     {
-        Unknown,
-        Approve,
+        ApproveAsOptimal,
+        ApproveWithComment,
+        DisapproveWithComment,
         ReferToMentor
     }
 }
