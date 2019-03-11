@@ -27,7 +27,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         {
             const int minimalNumberOfChecks = 3;
 
-            var addMethod = implementation.SyntaxNode
+            var addMethod = implementation.Implementation.SyntaxNode
                 .GetClass("Leap")
                 .GetMethod("IsLeapYear");
 

@@ -43,7 +43,7 @@ namespace Exercism.Analyzers.CSharp
             var implementationCode = File.ReadAllText(solution.Paths.ImplementationFilePath);
             var implementationSyntaxNode = SyntaxNodeParser.ParseNormalizedRoot(implementationCode);
 
-            return new SolutionImplementation(solution, implementationSyntaxNode);
+            return new SolutionImplementation(solution, new Implementation(implementationSyntaxNode));
         }
     }
 }
