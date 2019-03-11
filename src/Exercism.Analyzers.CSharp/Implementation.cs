@@ -1,3 +1,4 @@
+using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace Exercism.Analyzers.CSharp
@@ -13,5 +14,8 @@ namespace Exercism.Analyzers.CSharp
             var expectedSyntaxNode = SyntaxNodeParser.ParseNormalizedRoot(expectedCode);
             return SyntaxNode.IsEquivalentTo(expectedSyntaxNode);
         }
+        
+        public bool HasErrors() =>
+            SyntaxNode.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
     }
 }

@@ -23,7 +23,8 @@ namespace Exercism.Analyzers.CSharp
         private SolutionAnalysis ToSolutionAnalysis(SolutionStatus status, params string[] comments) =>
             new SolutionAnalysis(Solution, new SolutionAnalysisResult(status, comments));
 
-        public bool IsEquivalentTo(string expectedCode) =>
-            Implementation.IsEquivalentTo(expectedCode);
+        public bool HasErrors() => Implementation.HasErrors();
+        
+        public bool IsEquivalentTo(string expectedCode) => Implementation.IsEquivalentTo(expectedCode);
     }
 }

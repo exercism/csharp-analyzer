@@ -22,8 +22,9 @@ namespace Exercism.Analyzers.CSharp
 
         private static SolutionAnalysis AnalyzedSolutionImplementation(Solution solution, SolutionImplementation implementation)
         {
-            // TODO: check to see if there are errors in syntax
-            
+            if (implementation.HasErrors())
+                return implementation.DisapproveWithComment("Has errors");
+
             switch (solution.Slug)
             {
                 case Exercises.Gigasecond: return GigasecondAnalyzer.Analyze(implementation);

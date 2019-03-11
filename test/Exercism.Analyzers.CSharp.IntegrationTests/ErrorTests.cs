@@ -5,14 +5,19 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
     public class ErrorTests
     {
-        [Fact(Skip = "Convert to syntax error test")]
-        public void ReturnErrorCodeWhenTrackIsNotCSharp()
+        [Fact]
+        public void DisapproveWithCommentWhenCodeHasSyntaxErrors()
         {
-            var rubyTestSolution = new TestSolution("leap", "Leap");
-            var analysisRun = TestSolutionAnalyzer.Run(rubyTestSolution, string.Empty);
+            const string code = @"
+                public static class Gigasecond
+                {
+                    public static DateTime Add
+                }";
 
-            Assert.True(analysisRun.ReferToMentor);
-            Assert.Empty(analysisRun.Comments);
+            var analysisRun = TestSolutionAnalyzer.Run("errors", "Errors", code);
+
+            Assert.True(analysisRun.DisapproveWithComment);
+            Assert.Single(analysisRun.Comments, "Has errors");
         }
     }
 }
