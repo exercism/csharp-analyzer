@@ -1,19 +1,16 @@
-using System.Collections.Generic;
-using System.Linq;
-using Serilog;
+using CommandLine;
 
 namespace Exercism.Analyzers.CSharp
 {
-    public static class Options
+    public class Options
     {
-        public static string GetDirectory(IEnumerable<string> args)
-        {
-            var directory = args.FirstOrDefault();
-            
-            if (directory == null)
-                Log.Error("Please specify a directory to analyze.");
-            
-            return directory;
-        }
+        [Value(0, Required = true, HelpText = "The slug of the solution's exercise.")]
+        public string Exercise { get; }
+        
+        [Value(1, Required = true, HelpText = "The directory containing the solution.")]
+        public string Directory { get; }
+
+        public Options(string exercise, string directory) =>
+            (Exercise, Directory) = (exercise, directory);
     }
 }

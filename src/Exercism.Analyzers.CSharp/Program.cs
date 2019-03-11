@@ -1,27 +1,22 @@
-﻿using Serilog;
+﻿using CommandLine;
 
 namespace Exercism.Analyzers.CSharp
 {
     public static class Program
     {
-        public static int Main(string[] args)
+        public static void Main(string[] args)
         {
             Logging.Configure();
+            
+            Parser.Default.ParseArguments<Options>(args)
+                .WithParsed(Analyze);
+        }
 
-            var directory = Options.GetDirectory(args);
-            if (directory == null)
-                return 1;
-
-            var solution = SolutionReader.Read(directory);
-            if (solution == null)
-                return 1;
-
+        private static void Analyze(Options options)
+        {
+            var solution = new Solution(options.Exercise, options.Directory);
             var analyzedSolution = SolutionAnalyzer.Analyze(solution);
-            if (analyzedSolution == null)
-                return 1;
-
             AnalyzedSolutionWriter.Write(analyzedSolution);
-            return 0;
         }
     }
 }

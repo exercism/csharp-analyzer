@@ -19,8 +19,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                 }";
 
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
-            
-            Assert.True(analysisRun.Success);
+
             Assert.True(analysisRun.ApproveAsOptimal);
             Assert.Empty(analysisRun.Comments);
         }
@@ -36,8 +35,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                 }";
 
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
-            
-            Assert.True(analysisRun.Success);
+
             Assert.True(analysisRun.ApproveAsOptimal);
             Assert.Empty(analysisRun.Comments);
         }
@@ -55,8 +53,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                 }";
 
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
-            
-            Assert.True(analysisRun.Success);
+
             Assert.True(analysisRun.ApproveWithComment);
             Assert.Single(analysisRun.Comments, "You could write the method an an expression-bodied member");
         }
@@ -72,8 +69,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                 }";
 
             var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
-            
-            Assert.True(analysisRun.Success);
+
             Assert.True(analysisRun.DisapproveWithComment);
             Assert.Single(analysisRun.Comments, "Use minimum number of checks");
         }

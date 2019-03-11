@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -14,17 +13,12 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
         {
             testSolution.CreateFiles(code);
 
-            var returnCode = Program.Main(new[] {testSolution.Directory});
-            if (returnCode > 0)
-                return FailedRun(returnCode);
+            Program.Main(new[] {testSolution.Exercise, testSolution.Directory});
 
-            return SuccessfullRun(returnCode, testSolution);
+            return CreateTestSolutionAnalyisRun(testSolution);
         }
 
-        private static TestSolutionAnalysisRun FailedRun(int returnCode) =>
-            new TestSolutionAnalysisRun(returnCode, TestSolutionAnalysisStatus.ReferToMentor, Array.Empty<string>());
-
-        private static TestSolutionAnalysisRun SuccessfullRun(int returnCode, TestSolution solution)
+        private static TestSolutionAnalysisRun CreateTestSolutionAnalyisRun(TestSolution solution)
         {
             using (var fileReader = File.OpenText(Path.Combine(solution.Directory, "analysis.json")))
             using (var jsonReader = new JsonTextReader(fileReader))
@@ -36,7 +30,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
                 var status = jsonAnalysisResult["status"].ToObject<string>();
                 var comments = jsonAnalysisResult["comments"].ToObject<string[]>();
 
-                return new TestSolutionAnalysisRun(returnCode, status, comments);
+                return new TestSolutionAnalysisRun(status, comments);
             }
         }
     }
