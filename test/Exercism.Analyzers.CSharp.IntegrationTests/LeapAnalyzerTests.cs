@@ -5,7 +5,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
     public class LeapAnalyzerTests
     {
-        private const string Exercise = "leap";
+        private const string Slug = "leap";
         private const string Name = "Leap";
 
         [Fact]
@@ -18,7 +18,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
 
             Assert.True(analysisRun.ApproveAsOptimal);
             Assert.Empty(analysisRun.Comments);
@@ -34,7 +34,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
 
             Assert.True(analysisRun.ApproveAsOptimal);
             Assert.Empty(analysisRun.Comments);
@@ -52,7 +52,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
 
             Assert.True(analysisRun.ApproveWithComment);
             Assert.Single(analysisRun.Comments, "You could write the method an an expression-bodied member");
@@ -68,7 +68,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         year % 4 == 0 && year % 100 != 0 || year % 100 == 0 && year % 400 == 0;
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
 
             Assert.True(analysisRun.DisapproveWithComment);
             Assert.Single(analysisRun.Comments, "Use minimum number of checks");

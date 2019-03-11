@@ -5,7 +5,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
     public class GigasecondAnalyzerTests
     {
-        private const string Exercise = "gigasecond";
+        private const string Slug = "gigasecond";
         private const string Name = "Gigasecond";
 
         [Fact]
@@ -19,7 +19,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1e9);
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
 
             Assert.True(analysisRun.ApproveAsOptimal);
             Assert.Empty(analysisRun.Comments);
@@ -36,7 +36,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(Math.Pow(10, 9));
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
 
             Assert.True(analysisRun.ApproveWithComment);
             Assert.Single(analysisRun.Comments, "Use 1e9 instead of Math.Pow(10, 9)");
@@ -53,7 +53,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1000000);
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
 
             Assert.True(analysisRun.ApproveWithComment);
             Assert.Single(analysisRun.Comments, "Use 1e9 or 1_000_000 instead of 1000000");
@@ -73,7 +73,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
 
             Assert.True(analysisRun.ApproveWithComment);
             Assert.Single(analysisRun.Comments, "You could write the method an an expression-bodied member");
@@ -90,7 +90,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.Add(TimeSpan.FromSeconds(1000000000));
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
 
             Assert.True(analysisRun.DisapproveWithComment);
             Assert.Single(analysisRun.Comments, "Use AddSeconds");
@@ -107,7 +107,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate + TimeSpan.FromSeconds(1000000000);
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
 
             Assert.True(analysisRun.DisapproveWithComment);
             Assert.Single(analysisRun.Comments, "Use AddSeconds");

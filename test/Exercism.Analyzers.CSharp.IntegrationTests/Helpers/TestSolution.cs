@@ -6,14 +6,14 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
     {
         private readonly string _name;
         
-        public string Exercise { get; }
+        public string Slug { get; }
         public string Directory { get; }
 
-        public TestSolution(string exercise, string name)
+        public TestSolution(string slug, string name)
         {
-            Exercise = exercise;
+            Slug = slug;
             _name = name;
-            Directory = Path.Combine("solutions", exercise);
+            Directory = Path.Combine("solutions", slug);
         }
 
         public void CreateFiles(string code)

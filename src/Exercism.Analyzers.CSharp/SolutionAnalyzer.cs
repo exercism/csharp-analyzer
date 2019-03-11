@@ -8,7 +8,7 @@ namespace Exercism.Analyzers.CSharp
     {
         public static AnalyzedSolution Analyze(Solution solution)
         {
-            Log.Information("Analyzing exercise {Exercise}.", solution.Exercise);
+            Log.Information("Analyzing exercise {Exercise}.", solution.Slug);
             
             var implementation = solution.ToSolutionImplementation();
             if (implementation == null)
@@ -24,7 +24,7 @@ namespace Exercism.Analyzers.CSharp
         {
             // TODO: check to see if there are errors in syntax
             
-            switch (solution.Exercise)
+            switch (solution.Slug)
             {
                 case Exercises.Gigasecond: return GigasecondAnalyzer.Analyze(implementation);
                 case Exercises.Leap: return LeapAnalyzer.Analyze(implementation);
