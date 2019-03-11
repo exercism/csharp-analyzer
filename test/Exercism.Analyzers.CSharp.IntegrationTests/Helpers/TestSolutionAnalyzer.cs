@@ -7,14 +7,14 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 {
     public static class TestSolutionAnalyzer
     {
-        public static TestSolutionAnalysisRun Run(string exercise, string code) =>
-            Run(new TestSolution(exercise), code);
+        public static TestSolutionAnalysisRun Run(string exercise, string name, string code) =>
+            Run(new TestSolution(exercise, name), code);
 
         public static TestSolutionAnalysisRun Run(TestSolution testSolution, string code)
         {
             testSolution.CreateFiles(code);
 
-            var returnCode = Program.Main(new[] {testSolution.Paths.Directory});
+            var returnCode = Program.Main(new[] {testSolution.Directory});
             if (returnCode > 0)
                 return FailedRun(returnCode);
 
@@ -24,9 +24,9 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
         private static TestSolutionAnalysisRun FailedRun(int returnCode) =>
             new TestSolutionAnalysisRun(returnCode, approved: false, referToMentor: false, messages: Array.Empty<string>());
 
-        private static TestSolutionAnalysisRun SuccessfullRun(int returnCode, Solution solution)
+        private static TestSolutionAnalysisRun SuccessfullRun(int returnCode, TestSolution solution)
         {
-            using (var fileReader = File.OpenText(solution.Paths.AnalysisFilePath))
+            using (var fileReader = File.OpenText(Path.Combine(solution.Directory, "analysis.json")))
             using (var jsonReader = new JsonTextReader(fileReader))
             {
                 var jsonAnalysisResult = JToken.ReadFrom(jsonReader);

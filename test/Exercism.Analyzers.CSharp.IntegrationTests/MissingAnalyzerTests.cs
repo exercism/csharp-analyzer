@@ -8,7 +8,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         [Fact]
         public void ReferToMentorWhenNoAnalyzerHasBeenImplementedForExercise()
         {
-            var analysisRun = TestSolutionAnalyzer.Run("missing", string.Empty);
+            var analysisRun = TestSolutionAnalyzer.Run("missing", "Missing", string.Empty);
             
             Assert.True(analysisRun.Success);
             Assert.False(analysisRun.Approved);

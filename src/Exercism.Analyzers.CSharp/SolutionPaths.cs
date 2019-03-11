@@ -2,7 +2,7 @@ using System.IO;
 
 namespace Exercism.Analyzers.CSharp
 {
-    public class SolutionPaths
+    internal class SolutionPaths
     {
         public string Directory { get; }
         public string SolutionFilePath { get; }

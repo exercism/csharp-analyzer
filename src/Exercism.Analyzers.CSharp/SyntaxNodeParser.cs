@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Exercism.Analyzers.CSharp
 {
-    public static class SyntaxNodeParser
+    internal static class SyntaxNodeParser
     {
         public static SyntaxNode ParseNormalizedRoot(string code) =>
             CSharpSyntaxTree.ParseText(code).GetRoot().NormalizeWhitespace();

@@ -6,6 +6,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     public class LeapAnalyzerTests
     {
         private const string Exercise = "leap";
+        private const string Name = "Leap";
 
         [Fact]
         public void ApproveWhenUsingMinimumNumberOfChecks()
@@ -17,7 +18,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
             Assert.True(analysisRun.Approved);
@@ -35,7 +36,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
             Assert.True(analysisRun.Approved);
@@ -55,7 +56,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
             Assert.True(analysisRun.Approved);
@@ -73,7 +74,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         year % 4 == 0 && year % 100 != 0 || year % 100 == 0 && year % 400 == 0;
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
             Assert.False(analysisRun.Approved);

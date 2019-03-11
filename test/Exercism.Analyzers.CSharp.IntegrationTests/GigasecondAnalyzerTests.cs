@@ -6,6 +6,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     public class GigasecondAnalyzerTests
     {
         private const string Exercise = "gigasecond";
+        private const string Name = "Gigasecond";
 
         [Fact]
         public void ApproveWhenUsingAddSecondsWithScientificNotation()
@@ -18,7 +19,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1e9);
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
             Assert.True(analysisRun.Approved);
@@ -37,7 +38,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(Math.Pow(10, 9));
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
             Assert.True(analysisRun.Approved);
@@ -56,7 +57,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1000000);
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
             Assert.True(analysisRun.Approved);
@@ -78,7 +79,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
             Assert.True(analysisRun.Approved);
@@ -97,7 +98,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.Add(TimeSpan.FromSeconds(1000000000));
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
             Assert.False(analysisRun.Approved);
@@ -116,7 +117,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate + TimeSpan.FromSeconds(1000000000);
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Exercise, code);
+            var analysisRun = TestSolutionAnalyzer.Run(Exercise, Name, code);
             
             Assert.True(analysisRun.Success);
             Assert.False(analysisRun.Approved);

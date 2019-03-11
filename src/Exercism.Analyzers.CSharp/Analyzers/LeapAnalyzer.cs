@@ -1,44 +1,40 @@
 using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Serilog;
 using static Exercism.Analyzers.CSharp.Analyzers.LeapSolutions;
 
 namespace Exercism.Analyzers.CSharp.Analyzers
 {
-    public static class LeapAnalyzer
+    internal static class LeapAnalyzer
     {
-        public static AnalyzedSolution Analyze(ImplementedSolution implementedSolution)
+        public static AnalyzedSolution Analyze(SolutionImplementation solutionImplementation)
         {
-            Log.Information("Analysing {Exercise} using {Analyzer}", 
-                implementedSolution.Solution.Exercise, nameof(LeapAnalyzer));
+            if (solutionImplementation.IsEquivalentTo(MinimumNumberOfChecks))
+                return new AnalyzedSolution(solutionImplementation.Solution, SolutionStatus.Approve);
 
-            if (implementedSolution.IsEquivalentTo(MinimumNumberOfChecks))
-                return new AnalyzedSolution(implementedSolution.Solution, SolutionStatus.Approve);
+            if (solutionImplementation.IsEquivalentTo(UnneededParentheses))
+                return new AnalyzedSolution(solutionImplementation.Solution, SolutionStatus.Approve);
 
-            if (implementedSolution.IsEquivalentTo(UnneededParentheses))
-                return new AnalyzedSolution(implementedSolution.Solution, SolutionStatus.Approve);
+            if (solutionImplementation.IsEquivalentTo(MethodWithBlockBody))
+                return new AnalyzedSolution(solutionImplementation.Solution, SolutionStatus.Approve, "You could write the method an an expression-bodied member");
 
-            if (implementedSolution.IsEquivalentTo(MethodWithBlockBody))
-                return new AnalyzedSolution(implementedSolution.Solution, SolutionStatus.Approve, "You could write the method an an expression-bodied member");
+            if (solutionImplementation.UsesTooManyChecks())
+                return new AnalyzedSolution(solutionImplementation.Solution, SolutionStatus.ReferToMentor, "Use minimum number of checks");
 
-            if (implementedSolution.UsesTooManyChecks())
-                return new AnalyzedSolution(implementedSolution.Solution, SolutionStatus.ReferToMentor, "Use minimum number of checks");
-
-            return new AnalyzedSolution(implementedSolution.Solution, SolutionStatus.ReferToMentor);
+            return new AnalyzedSolution(solutionImplementation.Solution, SolutionStatus.ReferToMentor);
         }
 
-        private static bool UsesTooManyChecks(this ImplementedSolution implementedSolution)
+        private static bool UsesTooManyChecks(this SolutionImplementation solutionImplementation)
         {
-            const int MinimalNumberOfChecks = 3;
+            const int minimalNumberOfChecks = 3;
 
-            var addMethod = implementedSolution.SyntaxNode
+            var addMethod = solutionImplementation.SyntaxNode
                 .GetClass("Leap")
                 .GetMethod("IsLeapYear");
 
             return addMethod
                 .DescendantNodes()
                 .OfType<BinaryExpressionSyntax>()
-                .Count(BinaryExpressionUsesYearParameter) > MinimalNumberOfChecks;    
+                .Count(BinaryExpressionUsesYearParameter) > minimalNumberOfChecks;    
 
             bool BinaryExpressionUsesYearParameter(BinaryExpressionSyntax binaryExpression) =>
                 ExpressionUsesYearParameter(binaryExpression.Left) ||

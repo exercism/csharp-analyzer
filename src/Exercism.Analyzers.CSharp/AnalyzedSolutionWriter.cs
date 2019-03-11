@@ -1,12 +1,15 @@
 using System.IO;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace Exercism.Analyzers.CSharp
 {
-    public static class AnalyzedSolutionWriter
+    internal static class AnalyzedSolutionWriter
     {
         public static void Write(AnalyzedSolution analyzedSolution)
         {
+            Log.Information("Writing analyzed solution to analysis file.");
+            
             using (var fileWriter = File.CreateText(analyzedSolution.Solution.Paths.AnalysisFilePath))
             using (var jsonTextWriter = new JsonTextWriter(fileWriter))
             {

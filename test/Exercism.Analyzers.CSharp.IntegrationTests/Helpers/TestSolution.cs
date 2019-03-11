@@ -2,14 +2,20 @@ using System.IO;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 {
-    public class TestSolution : Solution
+    public class TestSolution
     {
-        public TestSolution(string exercise) : this(exercise, "csharp")
-        {
-        }
+        private readonly string _exercise;
+        private readonly string _name;
+        private readonly string _track;
+        
+        public string Directory { get; }
 
-        public TestSolution(string exercise, string track) : base(exercise, track, Path.Combine("solutions", track, exercise))
+        public TestSolution(string exercise, string name, string track = "csharp")
         {
+            _exercise = exercise;
+            _name = name;
+            _track = track;
+            Directory = Path.Combine("solutions", track, exercise);
         }
 
         public void CreateFiles(string code)
@@ -21,19 +27,19 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 
         private void CreateDirectory()
         {
-            if (Directory.Exists(Paths.Directory))
-                Directory.Delete(Paths.Directory, recursive: true);
+            if (System.IO.Directory.Exists(Directory))
+                System.IO.Directory.Delete(Directory, recursive: true);
 
-            Directory.CreateDirectory(Paths.Directory);
+            System.IO.Directory.CreateDirectory(Directory);
         }
 
         private void CreateImplementationFile(string code) =>
-            CreateFile(Paths.ImplementationFilePath, code);
+            CreateFile($"{_name}.cs", code);
 
         private void CreateSolutionFile() =>
-            CreateFile(Paths.SolutionFilePath,$"{{\"track\":\"{Track}\",\"exercise\":\"{Exercise}\"}}");
+            CreateFile(".solution.json",$"{{\"track\":\"{_track}\",\"exercise\":\"{_exercise}\"}}");
 
-        private static void CreateFile(string path, string contents) =>
-            File.WriteAllText(path, contents);
+        private void CreateFile(string fileName, string contents) =>
+            File.WriteAllText(Path.Combine(Directory, fileName), contents);
     }
 }

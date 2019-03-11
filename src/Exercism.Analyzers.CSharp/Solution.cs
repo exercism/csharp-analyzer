@@ -2,7 +2,7 @@ using Humanizer;
 
 namespace Exercism.Analyzers.CSharp
 {
-    public class Solution
+    internal class Solution
     {
         public string Name { get; }
         public string Exercise { get; }

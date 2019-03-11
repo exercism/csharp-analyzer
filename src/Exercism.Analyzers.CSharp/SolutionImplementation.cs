@@ -2,12 +2,12 @@ using Microsoft.CodeAnalysis;
 
 namespace Exercism.Analyzers.CSharp
 {
-    public class ImplementedSolution
+    internal class SolutionImplementation
     {
         public Solution Solution { get; }
         public SyntaxNode SyntaxNode { get; }
 
-        public ImplementedSolution(Solution solution, SyntaxNode syntaxNode) =>
+        public SolutionImplementation(Solution solution, SyntaxNode syntaxNode) =>
             (Solution, SyntaxNode) = (solution, syntaxNode);
         
         public bool IsEquivalentTo(string expectedCode)

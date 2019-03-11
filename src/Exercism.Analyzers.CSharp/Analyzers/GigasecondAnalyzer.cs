@@ -1,15 +1,11 @@
-using Serilog;
 using static Exercism.Analyzers.CSharp.Analyzers.GigasecondSolutions;
 
 namespace Exercism.Analyzers.CSharp.Analyzers
 {
-    public static class GigasecondAnalyzer
+    internal static class GigasecondAnalyzer
     {
-        public static AnalyzedSolution Analyze(ImplementedSolution implementation)
+        public static AnalyzedSolution Analyze(SolutionImplementation implementation)
         {
-            Log.Information("Analysing {Exercise} using {Analyzer}",
-                implementation.Solution.Exercise, nameof(GigasecondAnalyzer));
-
             if (implementation.IsEquivalentTo(AddSecondsWithScientificNotation))
                 return new AnalyzedSolution(implementation.Solution, SolutionStatus.Approve);
 
