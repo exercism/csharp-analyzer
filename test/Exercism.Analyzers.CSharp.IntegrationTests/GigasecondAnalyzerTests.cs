@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         private const string Name = "Gigasecond";
 
         [Fact]
-        public void ApproveWhenUsingAddSecondsWithScientificNotation()
+        public void ApproveAsOptimalWhenUsingAddSecondsWithScientificNotation()
         {
             const string code = @"
                 using System;
@@ -26,7 +26,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ApproveWithMessageWhenUsingAddSecondsWithMathPow()
+        public void ApproveWithCommentWhenUsingAddSecondsWithMathPow()
         {
             const string code = @"
                 using System;
@@ -43,7 +43,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ApproveWithMessageWhenUsingAddSecondsWithDigitsWithoutSeparator()
+        public void ApproveWithCommentWhenUsingAddSecondsWithDigitsWithoutSeparator()
         {
             const string code = @"
                 using System;
@@ -60,7 +60,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ApproveWithMessageWhenUsingAddSecondsWithScientificNotationInBlockBody()
+        public void ApproveWithCommentWhenUsingAddSecondsWithScientificNotationInBlockBody()
         {
             const string code = @"
                 using System;
@@ -80,7 +80,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ReferToMentorWithMessageWhenUsingAdd()
+        public void DisapproveWithCommentWhenUsingAdd()
         {
             const string code = @"
                 using System;
@@ -97,7 +97,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ReferToMentorWithMessageWhenUsingPlusOperator()
+        public void DisapproveWithCommentWhenUsingPlusOperator()
         {
             const string code = @"
                 using System;

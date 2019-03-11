@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         private const string Name = "Leap";
 
         [Fact]
-        public void ApproveWhenUsingMinimumNumberOfChecks()
+        public void ApproveAsOptimalWhenUsingMinimumNumberOfChecks()
         {
             const string code = @"
                 public static class Leap
@@ -25,7 +25,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ApproveWhenUsingUnneededParentheses()
+        public void ApproveAsOptimalWhenUsingUnneededParentheses()
         {
             const string code = @"
                 public static class Leap
@@ -41,7 +41,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ApproveWithMessageWhenUsingMethodWithBlockBody()
+        public void ApproveWithCommentWhenUsingMethodWithBlockBody()
         {
             const string code = @"
                 public static class Leap
@@ -59,7 +59,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ReferToMentorWithMessageWhenUsingTooManyChecks()
+        public void DisapproveWithCommentWhenUsingTooManyChecks()
         {
             const string code = @"
                 public static class Leap
