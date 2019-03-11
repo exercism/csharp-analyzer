@@ -8,17 +8,20 @@ namespace Exercism.Analyzers.CSharp
         public SolutionImplementation(Solution solution, Implementation implementation) =>
             (Solution, Implementation) = (solution, implementation);
         
-        public AnalyzedSolution ApproveAsOptimal() =>
-            new AnalyzedSolution(Solution, SolutionStatus.ApproveAsOptimal);
+        public SolutionAnalysis ApproveAsOptimal() =>
+            ToSolutionAnalysis(SolutionStatus.ApproveAsOptimal);
 
-        public AnalyzedSolution ApproveWithComment(params string[] comments) =>
-            new AnalyzedSolution(Solution, SolutionStatus.ApproveWithComment, comments);
+        public SolutionAnalysis ApproveWithComment(params string[] comments) =>
+            ToSolutionAnalysis(SolutionStatus.ApproveWithComment, comments);
 
-        public AnalyzedSolution DisapproveWithComment(params string[] comments) =>
-            new AnalyzedSolution(Solution, SolutionStatus.DisapproveWithComment, comments);
+        public SolutionAnalysis DisapproveWithComment(params string[] comments) =>
+            ToSolutionAnalysis(SolutionStatus.DisapproveWithComment, comments);
 
-        public AnalyzedSolution ReferToMentor(params string[] comments) =>
-            new AnalyzedSolution(Solution, SolutionStatus.ReferToMentor, comments);
+        public SolutionAnalysis ReferToMentor(params string[] comments) =>
+            ToSolutionAnalysis(SolutionStatus.ReferToMentor, comments);
+
+        private SolutionAnalysis ToSolutionAnalysis(SolutionStatus status, params string[] comments) =>
+            new SolutionAnalysis(Solution, new SolutionAnalysisResult(status, comments));
 
         public bool IsEquivalentTo(string expectedCode) =>
             Implementation.IsEquivalentTo(expectedCode);

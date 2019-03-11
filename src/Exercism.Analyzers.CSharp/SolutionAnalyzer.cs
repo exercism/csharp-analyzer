@@ -6,7 +6,7 @@ namespace Exercism.Analyzers.CSharp
 {
     internal static class SolutionAnalyzer
     {
-        public static AnalyzedSolution Analyze(Solution solution)
+        public static SolutionAnalysis Analyze(Solution solution)
         {
             Log.Information("Analyzing exercise {Exercise}.", solution.Slug);
             
@@ -14,13 +14,13 @@ namespace Exercism.Analyzers.CSharp
             if (implementation == null)
                 return null;
 
-            var analyzedSolution = AnalyzedSolutionImplementation(solution, implementation);
-            Log.Information("Analyzed exercise {Exercise} has status {Status} and comments {Comments}.", analyzedSolution.Status, analyzedSolution.Comments);
+            var solutionAnalysis = AnalyzedSolutionImplementation(solution, implementation);
+            Log.Information("Analyzed exercise {Exercise} has status {Status} and comments {Comments}.", solutionAnalysis.Result.Status, solutionAnalysis.Result.Comments);
             
-            return analyzedSolution;
+            return solutionAnalysis;
         }
 
-        private static AnalyzedSolution AnalyzedSolutionImplementation(Solution solution, SolutionImplementation implementation)
+        private static SolutionAnalysis AnalyzedSolutionImplementation(Solution solution, SolutionImplementation implementation)
         {
             // TODO: check to see if there are errors in syntax
             

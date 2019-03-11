@@ -4,27 +4,27 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 {
     internal static class GigasecondAnalyzer
     {
-        public static AnalyzedSolution Analyze(SolutionImplementation implementation)
+        public static SolutionAnalysis Analyze(SolutionImplementation solution)
         {
-            if (implementation.IsEquivalentTo(AddSecondsWithScientificNotation))
-                return implementation.ApproveAsOptimal();
+            if (solution.IsEquivalentTo(AddSecondsWithScientificNotation))
+                return solution.ApproveAsOptimal();
 
-            if (implementation.IsEquivalentTo(AddSecondsWithMathPow))
-                return implementation.ApproveWithComment("Use 1e9 instead of Math.Pow(10, 9)");
+            if (solution.IsEquivalentTo(AddSecondsWithMathPow))
+                return solution.ApproveWithComment("Use 1e9 instead of Math.Pow(10, 9)");
 
-            if (implementation.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparator))
-                return implementation.ApproveWithComment("Use 1e9 or 1_000_000 instead of 1000000");
+            if (solution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparator))
+                return solution.ApproveWithComment("Use 1e9 or 1_000_000 instead of 1000000");
 
-            if (implementation.IsEquivalentTo(AddSecondsWithScientificNotationInBlockBody))
-                return implementation.ApproveWithComment("You could write the method an an expression-bodied member");
+            if (solution.IsEquivalentTo(AddSecondsWithScientificNotationInBlockBody))
+                return solution.ApproveWithComment("You could write the method an an expression-bodied member");
 
-            if (implementation.IsEquivalentTo(Add))
-                return implementation.DisapproveWithComment("Use AddSeconds");
+            if (solution.IsEquivalentTo(Add))
+                return solution.DisapproveWithComment("Use AddSeconds");
 
-            if (implementation.IsEquivalentTo(PlusOperator))
-                return implementation.DisapproveWithComment("Use AddSeconds");
+            if (solution.IsEquivalentTo(PlusOperator))
+                return solution.DisapproveWithComment("Use AddSeconds");
 
-            return implementation.ReferToMentor();
+            return solution.ReferToMentor();
         }
     }
 }

@@ -6,28 +6,28 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 {
     internal static class LeapAnalyzer
     {
-        public static AnalyzedSolution Analyze(SolutionImplementation implementation)
+        public static SolutionAnalysis Analyze(SolutionImplementation solution)
         {
-            if (implementation.IsEquivalentTo(MinimumNumberOfChecks))
-                return implementation.ApproveAsOptimal();
+            if (solution.IsEquivalentTo(MinimumNumberOfChecks))
+                return solution.ApproveAsOptimal();
 
-            if (implementation.IsEquivalentTo(UnneededParentheses))
-                return implementation.ApproveAsOptimal();
+            if (solution.IsEquivalentTo(UnneededParentheses))
+                return solution.ApproveAsOptimal();
 
-            if (implementation.IsEquivalentTo(MethodWithBlockBody))
-                return implementation.ApproveWithComment("You could write the method an an expression-bodied member");
+            if (solution.IsEquivalentTo(MethodWithBlockBody))
+                return solution.ApproveWithComment("You could write the method an an expression-bodied member");
 
-            if (implementation.UsesTooManyChecks())
-                return implementation.DisapproveWithComment("Use minimum number of checks");
+            if (solution.UsesTooManyChecks())
+                return solution.DisapproveWithComment("Use minimum number of checks");
 
-            return implementation.ReferToMentor();
+            return solution.ReferToMentor();
         }
 
-        private static bool UsesTooManyChecks(this SolutionImplementation implementation)
+        private static bool UsesTooManyChecks(this SolutionImplementation solution)
         {
             const int minimalNumberOfChecks = 3;
 
-            var addMethod = implementation.Implementation.SyntaxNode
+            var addMethod = solution.Implementation.SyntaxNode
                 .GetClass("Leap")
                 .GetMethod("IsLeapYear");
 

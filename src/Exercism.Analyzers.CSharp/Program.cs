@@ -15,8 +15,8 @@ namespace Exercism.Analyzers.CSharp
         private static void Analyze(Options options)
         {
             var solution = new Solution(options.Slug, options.Directory);
-            var analyzedSolution = SolutionAnalyzer.Analyze(solution);
-            AnalyzedSolutionWriter.Write(analyzedSolution);
+            var solutionAnalysisResult = SolutionAnalyzer.Analyze(solution);
+            SolutionAnalysisWriter.Write(solutionAnalysisResult);
         }
     }
 }
