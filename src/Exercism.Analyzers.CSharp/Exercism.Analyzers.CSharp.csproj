@@ -1,24 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <LangVersion>latest</LangVersion>
-    <IsTestProject>false</IsTestProject>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Buildalyzer" Version="2.2.0" />
-    <PackageReference Include="Buildalyzer.Workspaces" Version="2.2.0" />
     <PackageReference Include="Humanizer.Core" Version="2.5.16" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" AllowExplicitVersion="true" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.9.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.9.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.2" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.utility" Version="2.4.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="binaries/$(OperatingSystem)-$(Architecture)/*" CopyToOutputDirectory="PreserveNewest" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Serilog" Version="2.8.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
   </ItemGroup>
 
 </Project>
