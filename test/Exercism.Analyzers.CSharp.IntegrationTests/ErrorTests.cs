@@ -17,10 +17,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add
                 }";
 
-            var analysisRun = Analyze(code);
-
-            Assert.True(analysisRun.DisapproveWithComment);
-            Assert.Single(analysisRun.Comments, "Has errors");
+            ShouldBeDisapprovedWithComment(code, "Has errors");
         }
     }
 }

@@ -18,10 +18,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
                 }";
 
-            var analysisRun = Analyze(code);
-
-            Assert.True(analysisRun.ApproveAsOptimal);
-            Assert.Empty(analysisRun.Comments);
+            ShouldBeApprovedAsOptimal(code);
         }
 
         [Fact]
@@ -34,10 +31,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
                 }";
 
-            var analysisRun = Analyze(code);
-
-            Assert.True(analysisRun.ApproveAsOptimal);
-            Assert.Empty(analysisRun.Comments);
+            ShouldBeApprovedAsOptimal(code);
         }
 
         [Fact]
@@ -52,10 +46,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            var analysisRun = Analyze(code);
-
-            Assert.True(analysisRun.ApproveWithComment);
-            Assert.Single(analysisRun.Comments, "You could write the method an an expression-bodied member");
+            ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
         }
 
         [Fact]
@@ -68,10 +59,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         year % 4 == 0 && year % 100 != 0 || year % 100 == 0 && year % 400 == 0;
                 }";
 
-            var analysisRun = Analyze(code);
-
-            Assert.True(analysisRun.DisapproveWithComment);
-            Assert.Single(analysisRun.Comments, "Use minimum number of checks");
+            ShouldBeDisapprovedWithComment(code, "Use minimum number of checks");
         }
     }
 }
