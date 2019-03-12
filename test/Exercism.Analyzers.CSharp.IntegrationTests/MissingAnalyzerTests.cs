@@ -9,12 +9,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
         
         [Fact]
-        public void ReferToMentorWhenNoAnalyzerHasBeenImplementedForExercise()
-        {
-            var analysisRun = Analyze(code: string.Empty);
-
-            Assert.True(analysisRun.ReferToMentor);
-            Assert.Empty(analysisRun.Comments);
-        }
+        public void ReferToMentorWhenNoAnalyzerHasBeenImplementedForExercise() =>
+            ShouldBeReferredToMentor(code: string.Empty);
     }
 }
