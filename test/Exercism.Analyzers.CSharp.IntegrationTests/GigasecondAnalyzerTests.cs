@@ -1,15 +1,15 @@
-using Exercism.Analyzers.CSharp.IntegrationTests.Helpers;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
-    public class GigasecondAnalyzerTests
+    public class GigasecondAnalyzerTests : AnalyzerTests
     {
-        private const string Slug = "gigasecond";
-        private const string Name = "Gigasecond";
+        public GigasecondAnalyzerTests() : base("gigasecond", "Gigasecond")
+        {
+        }
 
         [Fact]
-        public void ApproveAsOptimalWhenUsingAddSecondsWithScientificNotation()
+        public void ApproveAsOptimalWhenUsingAddSecondsWithScientificNotationUsingExpressionBody()
         {
             const string code = @"
                 using System;
@@ -19,48 +19,14 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1e9);
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
+            var analysisRun = Analyze(code);
 
             Assert.True(analysisRun.ApproveAsOptimal);
             Assert.Empty(analysisRun.Comments);
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingAddSecondsWithMathPow()
-        {
-            const string code = @"
-                using System;
-                
-                public static class Gigasecond
-                {
-                    public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(Math.Pow(10, 9));
-                }";
-
-            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
-
-            Assert.True(analysisRun.ApproveWithComment);
-            Assert.Single(analysisRun.Comments, "Use 1e9 instead of Math.Pow(10, 9)");
-        }
-
-        [Fact]
-        public void ApproveWithCommentWhenUsingAddSecondsWithDigitsWithoutSeparator()
-        {
-            const string code = @"
-                using System;
-                
-                public static class Gigasecond
-                {
-                    public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1000000);
-                }";
-
-            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
-
-            Assert.True(analysisRun.ApproveWithComment);
-            Assert.Single(analysisRun.Comments, "Use 1e9 or 1_000_000 instead of 1000000");
-        }
-
-        [Fact]
-        public void ApproveWithCommentWhenUsingAddSecondsWithScientificNotationInBlockBody()
+        public void ApproveWithCommentWhenUsingAddSecondsWithScientificNotationUsingBlockBody()
         {
             const string code = @"
                 using System;
@@ -73,14 +39,48 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
+            var analysisRun = Analyze(code);
 
             Assert.True(analysisRun.ApproveWithComment);
             Assert.Single(analysisRun.Comments, "You could write the method an an expression-bodied member");
         }
 
         [Fact]
-        public void DisapproveWithCommentWhenUsingAdd()
+        public void ApproveWithCommentWhenUsingAddSecondsWithMathPowUsingExpressionBody()
+        {
+            const string code = @"
+                using System;
+                
+                public static class Gigasecond
+                {
+                    public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(Math.Pow(10, 9));
+                }";
+
+            var analysisRun = Analyze(code);
+
+            Assert.True(analysisRun.ApproveWithComment);
+            Assert.Single(analysisRun.Comments, "Use 1e9 instead of Math.Pow(10, 9)");
+        }
+
+        [Fact]
+        public void ApproveWithCommentWhenUsingAddSecondsWithDigitsWithoutSeparatorUsingExpressionBody()
+        {
+            const string code = @"
+                using System;
+                
+                public static class Gigasecond
+                {
+                    public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1000000);
+                }";
+
+            var analysisRun = Analyze(code);
+
+            Assert.True(analysisRun.ApproveWithComment);
+            Assert.Single(analysisRun.Comments, "Use 1e9 or 1_000_000 instead of 1000000");
+        }
+
+        [Fact]
+        public void DisapproveWithCommentWhenUsingAddUsingExpressionBody()
         {
             const string code = @"
                 using System;
@@ -90,14 +90,14 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.Add(TimeSpan.FromSeconds(1000000000));
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
+            var analysisRun = Analyze(code);
 
             Assert.True(analysisRun.DisapproveWithComment);
             Assert.Single(analysisRun.Comments, "Use AddSeconds");
         }
 
         [Fact]
-        public void DisapproveWithCommentWhenUsingPlusOperator()
+        public void DisapproveWithCommentWhenUsingPlusOperatorUsingExpressionBody()
         {
             const string code = @"
                 using System;
@@ -107,7 +107,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate + TimeSpan.FromSeconds(1000000000);
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
+            var analysisRun = Analyze(code);
 
             Assert.True(analysisRun.DisapproveWithComment);
             Assert.Single(analysisRun.Comments, "Use AddSeconds");

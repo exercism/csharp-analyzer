@@ -1,10 +1,13 @@
-using Exercism.Analyzers.CSharp.IntegrationTests.Helpers;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
-    public class ErrorTests
+    public class ErrorTests : AnalyzerTests
     {
+        public ErrorTests() : base("errors", "Errors")
+        {
+        }
+
         [Fact]
         public void DisapproveWithCommentWhenCodeHasSyntaxErrors()
         {
@@ -14,7 +17,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run("errors", "Errors", code);
+            var analysisRun = Analyze(code);
 
             Assert.True(analysisRun.DisapproveWithComment);
             Assert.Single(analysisRun.Comments, "Has errors");

@@ -1,12 +1,12 @@
-using Exercism.Analyzers.CSharp.IntegrationTests.Helpers;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
-    public class LeapAnalyzerTests
+    public class LeapAnalyzerTests : AnalyzerTests
     {
-        private const string Slug = "leap";
-        private const string Name = "Leap";
+        public LeapAnalyzerTests() : base("leap", "Leap")
+        {
+        }
 
         [Fact]
         public void ApproveAsOptimalWhenUsingMinimumNumberOfChecks()
@@ -18,7 +18,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
+            var analysisRun = Analyze(code);
 
             Assert.True(analysisRun.ApproveAsOptimal);
             Assert.Empty(analysisRun.Comments);
@@ -34,14 +34,14 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
+            var analysisRun = Analyze(code);
 
             Assert.True(analysisRun.ApproveAsOptimal);
             Assert.Empty(analysisRun.Comments);
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingMethodWithBlockBody()
+        public void ApproveWithCommentWhenUsingBlockBody()
         {
             const string code = @"
                 public static class Leap
@@ -52,7 +52,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
+            var analysisRun = Analyze(code);
 
             Assert.True(analysisRun.ApproveWithComment);
             Assert.Single(analysisRun.Comments, "You could write the method an an expression-bodied member");
@@ -68,7 +68,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         year % 4 == 0 && year % 100 != 0 || year % 100 == 0 && year % 400 == 0;
                 }";
 
-            var analysisRun = TestSolutionAnalyzer.Run(Slug, Name, code);
+            var analysisRun = Analyze(code);
 
             Assert.True(analysisRun.DisapproveWithComment);
             Assert.Single(analysisRun.Comments, "Use minimum number of checks");
