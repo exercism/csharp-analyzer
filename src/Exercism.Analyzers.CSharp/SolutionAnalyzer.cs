@@ -27,6 +27,7 @@ namespace Exercism.Analyzers.CSharp
 
             switch (solution.Slug)
             {
+                case Exercises.TwoFer: return TwoFerAnalyzer.Analyze(implementation);
                 case Exercises.Gigasecond: return GigasecondAnalyzer.Analyze(implementation);
                 case Exercises.Leap: return LeapAnalyzer.Analyze(implementation);
                 default: return DefaultAnalyzer.Analyze(implementation);

@@ -39,15 +39,6 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             Assert.Single(analysisRun.Comments, comment);
         }
 
-        private void ShouldHaveStatusWithComments(string code, string status, params string[] comments)
-        {
-            var analysisRun = Analyze(code);
-
-            Assert.Equal(status, analysisRun.Status);
-            foreach (var comment in comments)
-                Assert.Contains(comment, analysisRun.Comments);
-        }
-
         private TestSolutionAnalysisRun Analyze(string code) => TestSolutionAnalyzer.Run(_slug, _name, code);
     }
 }
