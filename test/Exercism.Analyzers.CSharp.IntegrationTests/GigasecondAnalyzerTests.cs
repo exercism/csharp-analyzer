@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
@@ -9,7 +10,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ApproveAsOptimalWhenUsingAddSecondsWithScientificNotationInExpressionBody()
+        public async Task ApproveAsOptimalWhenUsingAddSecondsWithScientificNotationInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -19,11 +20,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1e9);
                 }";
 
-            ShouldBeApprovedAsOptimal(code);
+            await ShouldBeApprovedAsOptimal(code);
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingAddSecondsWithScientificNotationUsingBlockBody()
+        public async Task ApproveWithCommentWhenUsingAddSecondsWithScientificNotationUsingBlockBody()
         {
             const string code = @"
                 using System;
@@ -36,11 +37,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
+            await ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingAddSecondsWithMathPowInExpressionBody()
+        public async Task ApproveWithCommentWhenUsingAddSecondsWithMathPowInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -50,11 +51,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(Math.Pow(10, 9));
                 }";
 
-            ShouldBeApprovedWithComment(code, "Use 1e9 instead of Math.Pow(10, 9)");
+            await ShouldBeApprovedWithComment(code, "Use 1e9 instead of Math.Pow(10, 9)");
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingAddSecondsWithMathPowUsingBlockBody()
+        public async Task ApproveWithCommentWhenUsingAddSecondsWithMathPowUsingBlockBody()
         {
             const string code = @"
                 using System;
@@ -67,11 +68,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeApprovedWithComment(code, "Use 1e9 instead of Math.Pow(10, 9)");
+            await ShouldBeApprovedWithComment(code, "Use 1e9 instead of Math.Pow(10, 9)");
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingAddSecondsWithDigitsWithoutSeparatorInExpressionBody()
+        public async Task ApproveWithCommentWhenUsingAddSecondsWithDigitsWithoutSeparatorInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -81,11 +82,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1000000);
                 }";
 
-            ShouldBeApprovedWithComment(code,"Use 1e9 or 1_000_000 instead of 1000000");
+            await ShouldBeApprovedWithComment(code,"Use 1e9 or 1_000_000 instead of 1000000");
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingAddSecondsWithDigitsWithoutSeparatorUsingBlockBody()
+        public async Task ApproveWithCommentWhenUsingAddSecondsWithDigitsWithoutSeparatorUsingBlockBody()
         {
             const string code = @"
                 using System;
@@ -98,11 +99,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeApprovedWithComment(code,"Use 1e9 or 1_000_000 instead of 1000000");
+            await ShouldBeApprovedWithComment(code,"Use 1e9 or 1_000_000 instead of 1000000");
         }
 
         [Fact]
-        public void DisapproveWithCommentWhenUsingAddInExpressionBody()
+        public async Task DisapproveWithCommentWhenUsingAddInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -112,11 +113,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.Add(TimeSpan.FromSeconds(1000000000));
                 }";
 
-            ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
+            await ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
         }
 
         [Fact]
-        public void DisapproveWithCommentWhenUsingAddUsingBlockBody()
+        public async Task DisapproveWithCommentWhenUsingAddUsingBlockBody()
         {
             const string code = @"
                 using System;
@@ -129,11 +130,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
+            await ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
         }
 
         [Fact]
-        public void DisapproveWithCommentWhenUsingPlusOperatorInExpressionBody()
+        public async Task DisapproveWithCommentWhenUsingPlusOperatorInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -143,11 +144,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate + TimeSpan.FromSeconds(1000000000);
                 }";
 
-            ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
+            await ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
         }
 
         [Fact]
-        public void DisapproveWithCommentWhenUsingPlusOperatorUsingBlockBody()
+        public async Task DisapproveWithCommentWhenUsingPlusOperatorUsingBlockBody()
         {
             const string code = @"
                 using System;
@@ -160,7 +161,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
+            await ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
         }
     }
 }

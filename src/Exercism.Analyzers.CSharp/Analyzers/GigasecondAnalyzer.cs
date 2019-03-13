@@ -4,39 +4,39 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 {
     internal static class GigasecondAnalyzer
     {
-        public static SolutionAnalysis Analyze(SolutionImplementation solution)
+        public static SolutionAnalysis Analyze(CompiledSolution compiledSolution)
         {
-            if (solution.IsEquivalentTo(AddSecondsWithScientificNotationInExpressionBody))
-                return solution.ApproveAsOptimal();
+            if (compiledSolution.IsEquivalentTo(AddSecondsWithScientificNotationInExpressionBody))
+                return compiledSolution.ApproveAsOptimal();
 
-            if (solution.IsEquivalentTo(AddSecondsWithScientificNotationInBlockBody))
-                return solution.ApproveWithComment("You could write the method an an expression-bodied member");
+            if (compiledSolution.IsEquivalentTo(AddSecondsWithScientificNotationInBlockBody))
+                return compiledSolution.ApproveWithComment("You could write the method an an expression-bodied member");
 
-            if (solution.IsEquivalentTo(AddSecondsWithMathPowInExpressionBody))
-                return solution.ApproveWithComment("Use 1e9 instead of Math.Pow(10, 9)");
+            if (compiledSolution.IsEquivalentTo(AddSecondsWithMathPowInExpressionBody))
+                return compiledSolution.ApproveWithComment("Use 1e9 instead of Math.Pow(10, 9)");
 
-            if (solution.IsEquivalentTo(AddSecondsWithMathPowInBlockBody))
-                return solution.ApproveWithComment("Use 1e9 instead of Math.Pow(10, 9)");
+            if (compiledSolution.IsEquivalentTo(AddSecondsWithMathPowInBlockBody))
+                return compiledSolution.ApproveWithComment("Use 1e9 instead of Math.Pow(10, 9)");
 
-            if (solution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInExpressionBody))
-                return solution.ApproveWithComment("Use 1e9 or 1_000_000 instead of 1000000");
+            if (compiledSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInExpressionBody))
+                return compiledSolution.ApproveWithComment("Use 1e9 or 1_000_000 instead of 1000000");
 
-            if (solution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInBlockBody))
-                return solution.ApproveWithComment("Use 1e9 or 1_000_000 instead of 1000000");
+            if (compiledSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInBlockBody))
+                return compiledSolution.ApproveWithComment("Use 1e9 or 1_000_000 instead of 1000000");
 
-            if (solution.IsEquivalentTo(AddInExpressionBody))
-                return solution.DisapproveWithComment("Use AddSeconds");
+            if (compiledSolution.IsEquivalentTo(AddInExpressionBody))
+                return compiledSolution.DisapproveWithComment("Use AddSeconds");
 
-            if (solution.IsEquivalentTo(AddInBlockBody))
-                return solution.DisapproveWithComment("Use AddSeconds");
+            if (compiledSolution.IsEquivalentTo(AddInBlockBody))
+                return compiledSolution.DisapproveWithComment("Use AddSeconds");
 
-            if (solution.IsEquivalentTo(PlusOperatorInExpressionBody))
-                return solution.DisapproveWithComment("Use AddSeconds");
+            if (compiledSolution.IsEquivalentTo(PlusOperatorInExpressionBody))
+                return compiledSolution.DisapproveWithComment("Use AddSeconds");
 
-            if (solution.IsEquivalentTo(PlusOperatorInBlockBody))
-                return solution.DisapproveWithComment("Use AddSeconds");
+            if (compiledSolution.IsEquivalentTo(PlusOperatorInBlockBody))
+                return compiledSolution.DisapproveWithComment("Use AddSeconds");
 
-            return solution.ReferToMentor();
+            return compiledSolution.ReferToMentor();
         }
     }
 }

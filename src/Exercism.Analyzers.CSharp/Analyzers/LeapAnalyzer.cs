@@ -6,31 +6,31 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 {
     internal static class LeapAnalyzer
     {
-        public static SolutionAnalysis Analyze(SolutionImplementation solution)
+        public static SolutionAnalysis Analyze(CompiledSolution compiledSolution)
         {
-            if (solution.IsEquivalentTo(MinimumNumberOfChecksInExpressionBody))
-                return solution.ApproveAsOptimal();
+            if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksInExpressionBody))
+                return compiledSolution.ApproveAsOptimal();
 
-            if (solution.IsEquivalentTo(MinimumNumberOfChecksInBlockBody))
-                return solution.ApproveWithComment("You could write the method an an expression-bodied member");
+            if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksInBlockBody))
+                return compiledSolution.ApproveWithComment("You could write the method an an expression-bodied member");
 
-            if (solution.IsEquivalentTo(MinimumNumberOfChecksWithUnneededParenthesesInExpressionBody))
-                return solution.ApproveAsOptimal();
+            if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInExpressionBody))
+                return compiledSolution.ApproveAsOptimal();
 
-            if (solution.IsEquivalentTo(MinimumNumberOfChecksWithUnneededParenthesesInBlockBody))
-                return solution.ApproveWithComment("You could write the method an an expression-bodied member");
+            if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInBlockBody))
+                return compiledSolution.ApproveWithComment("You could write the method an an expression-bodied member");
 
-            if (solution.UsesTooManyChecks())
-                return solution.DisapproveWithComment("Use minimum number of checks");
+            if (compiledSolution.UsesTooManyChecks())
+                return compiledSolution.DisapproveWithComment("Use minimum number of checks");
 
-            return solution.ReferToMentor();
+            return compiledSolution.ReferToMentor();
         }
 
-        private static bool UsesTooManyChecks(this SolutionImplementation solution)
+        private static bool UsesTooManyChecks(this CompiledSolution compiledSolution)
         {
             const int minimalNumberOfChecks = 3;
 
-            var addMethod = solution.Implementation.SyntaxNode
+            var addMethod = compiledSolution.Implementation.SyntaxNode
                 .GetClass("Leap")
                 .GetMethod("IsLeapYear");
 

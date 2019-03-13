@@ -1,11 +1,11 @@
 namespace Exercism.Analyzers.CSharp
 {
-    internal class SolutionImplementation
+    internal class CompiledSolution
     {
         public Solution Solution { get; }
         public Implementation Implementation { get; }        
 
-        public SolutionImplementation(Solution solution, Implementation implementation) =>
+        public CompiledSolution(Solution solution, Implementation implementation) =>
             (Solution, Implementation) = (solution, implementation);
         
         public SolutionAnalysis ApproveAsOptimal() =>
@@ -23,8 +23,9 @@ namespace Exercism.Analyzers.CSharp
         private SolutionAnalysis ToSolutionAnalysis(SolutionStatus status, params string[] comments) =>
             new SolutionAnalysis(Solution, new SolutionAnalysisResult(status, comments));
 
+        // TODO: consider removing this
         public bool HasErrors() => Implementation.HasErrors();
-        
+
         public bool IsEquivalentTo(string expectedCode) => Implementation.IsEquivalentTo(expectedCode);
     }
 }

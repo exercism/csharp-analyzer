@@ -1,4 +1,4 @@
-using System.IO;
+using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analyzers;
 using Serilog;
 
@@ -6,46 +6,31 @@ namespace Exercism.Analyzers.CSharp
 {
     internal static class SolutionAnalyzer
     {
-        public static SolutionAnalysis Analyze(Solution solution)
+        public static async Task<SolutionAnalysis> Analyze(Solution solution)
         {
-            Log.Information("Analyzing exercise {Exercise}.", solution.Slug);
-            
-            var implementation = solution.ToSolutionImplementation();
-            if (implementation == null)
+            Log.Information("Compiling exercise {Exercise}.", solution.Slug);
+            var compiledSolution = await SolutionCompiler.Compile(solution);
+            if (compiledSolution == null)
                 return null;
 
-            var solutionAnalysis = AnalyzedSolutionImplementation(solution, implementation);
+            var solutionAnalysis = AnalyzeCompiledSolution(compiledSolution);
             Log.Information("Analyzed exercise {Exercise} with status {Status} and comments {Comments}.", solution.Slug, solutionAnalysis.Result.Status, solutionAnalysis.Result.Comments);
             
             return solutionAnalysis;
         }
 
-        private static SolutionAnalysis AnalyzedSolutionImplementation(Solution solution, SolutionImplementation implementation)
+        private static SolutionAnalysis AnalyzeCompiledSolution(CompiledSolution compiledSolution)
         {
-            if (implementation.HasErrors())
-                return implementation.DisapproveWithComment("Has errors");
+            if (compiledSolution.HasErrors())
+                return compiledSolution.DisapproveWithComment("Has errors");
 
-            switch (solution.Slug)
+            switch (compiledSolution.Solution.Slug)
             {
-                case Exercises.TwoFer: return TwoFerAnalyzer.Analyze(implementation);
-                case Exercises.Gigasecond: return GigasecondAnalyzer.Analyze(implementation);
-                case Exercises.Leap: return LeapAnalyzer.Analyze(implementation);
-                default: return DefaultAnalyzer.Analyze(implementation);
+                case Exercises.TwoFer: return TwoFerAnalyzer.Analyze(compiledSolution);
+                case Exercises.Gigasecond: return GigasecondAnalyzer.Analyze(compiledSolution);
+                case Exercises.Leap: return LeapAnalyzer.Analyze(compiledSolution);
+                default: return DefaultAnalyzer.Analyze(compiledSolution);
             }
-        }
-
-        private static SolutionImplementation ToSolutionImplementation(this Solution solution)
-        {
-            if (!File.Exists(solution.Paths.ImplementationFilePath))
-            {
-                Log.Error("Implementation file {File} does not exist.", solution.Paths.ImplementationFilePath);
-                return null;
-            }
-            
-            var implementationCode = File.ReadAllText(solution.Paths.ImplementationFilePath);
-            var implementationSyntaxNode = SyntaxNodeParser.ParseNormalizedRoot(implementationCode);
-
-            return new SolutionImplementation(solution, new Implementation(implementationSyntaxNode));
         }
     }
 }

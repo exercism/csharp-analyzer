@@ -1,4 +1,5 @@
 using System.IO;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -6,14 +7,14 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests.Helpers
 {
     public static class TestSolutionAnalyzer
     {
-        public static TestSolutionAnalysisRun Run(string slug, string name, string code) =>
-            Run(new TestSolution(slug, name), code);
+        public static async Task<TestSolutionAnalysisRun> Run(string slug, string name, string code) =>
+            await Run(new TestSolution(slug, name), code);
 
-        public static TestSolutionAnalysisRun Run(TestSolution testSolution, string code)
+        public static async Task<TestSolutionAnalysisRun> Run(TestSolution testSolution, string code)
         {
             testSolution.CreateFiles(code);
 
-            Program.Main(new[] {testSolution.Slug, testSolution.Directory});
+            await Program.Main(new[] {testSolution.Slug, testSolution.Directory});
 
             return CreateTestSolutionAnalyisRun(testSolution);
         }
