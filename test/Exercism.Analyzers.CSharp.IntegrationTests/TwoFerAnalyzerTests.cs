@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
@@ -9,7 +10,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
         
         [Fact]
-        public void ApproveAsOptimalWhenUsingDefaultValueWithStringInterpolationInExpressionBody()
+        public async Task ApproveAsOptimalWhenUsingDefaultValueWithStringInterpolationInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -20,11 +21,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         $""One for {input}, one for me."";
                 }";
 
-            ShouldBeApprovedAsOptimal(code);
+            await ShouldBeApprovedAsOptimal(code);
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingDefaultValueWithStringInterpolationInBlockBody()
+        public async Task ApproveWithCommentWhenUsingDefaultValueWithStringInterpolationInBlockBody()
         {
             const string code = @"
                 using System;
@@ -37,11 +38,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
+            await ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
         }
         
         [Fact]
-        public void ApproveWithCommentWhenUsingDefaultValueWithStringConcatenationInExpressionBody()
+        public async Task ApproveWithCommentWhenUsingDefaultValueWithStringConcatenationInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -52,11 +53,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         ""One for "" + input + "", one for me."";
                 }";
 
-            ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingDefaultValueWithStringConcatenationInBlockBody()
+        public async Task ApproveWithCommentWhenUsingDefaultValueWithStringConcatenationInBlockBody()
         {
             const string code = @"
                 using System;
@@ -69,11 +70,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
         }
         
         [Fact]
-        public void ApproveWithCommentWhenUsingDefaultValueWithStringFormatInExpressionBody()
+        public async Task ApproveWithCommentWhenUsingDefaultValueWithStringFormatInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -84,11 +85,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         string.Format(""One for {0}, one for me."", input);
                 }";
 
-            ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingDefaultValueWithStringFormatInBlockBody()
+        public async Task ApproveWithCommentWhenUsingDefaultValueWithStringFormatInBlockBody()
         {
             const string code = @"
                 using System;
@@ -101,11 +102,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
         }
         
         [Fact]
-        public void ApproveAsOptimalWhenUsingStringInterpolationWithInlinedNullCoalescingOperatorInExpressionBody()
+        public async Task ApproveAsOptimalWhenUsingStringInterpolationWithInlinedNullCoalescingOperatorInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -116,11 +117,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         $""One for {input ?? ""you""}, one for me."";
                 }";
 
-            ShouldBeApprovedAsOptimal(code);
+            await ShouldBeApprovedAsOptimal(code);
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingStringInterpolationWithInlinedNullCoalescingOperatorInBlockBody()
+        public async Task ApproveWithCommentWhenUsingStringInterpolationWithInlinedNullCoalescingOperatorInBlockBody()
         {
             const string code = @"
                 using System;
@@ -133,11 +134,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
+            await ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
         }
 
         [Fact]
-        public void ApproveAsOptimalWhenUsingStringInterpolationWithNullCoalescingOperatorAndVariableForName()
+        public async Task ApproveAsOptimalWhenUsingStringInterpolationWithNullCoalescingOperatorAndVariableForName()
         {
             const string code = @"
                 using System;
@@ -151,11 +152,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeApprovedAsOptimal(code);
+            await ShouldBeApprovedAsOptimal(code);
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingStringConcatenationWithInlinedNullCoalescingOperatorInExpressionBody()
+        public async Task ApproveWithCommentWhenUsingStringConcatenationWithInlinedNullCoalescingOperatorInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -166,11 +167,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         ""One for "" + (input ?? ""you"") + "", one for me."";
                 }";
 
-            ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingStringConcatenationWithInlinedNullCoalescingOperatorInBlockBody()
+        public async Task ApproveWithCommentWhenUsingStringConcatenationWithInlinedNullCoalescingOperatorInBlockBody()
         {
             const string code = @"
                 using System;
@@ -183,11 +184,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingStringFormatWithInlinedNullCoalescingOperatorInExpressionBody()
+        public async Task ApproveWithCommentWhenUsingStringFormatWithInlinedNullCoalescingOperatorInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -198,11 +199,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         string.Format(""One for {0}, one for me."", input ?? ""you"");
                 }";
 
-            ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingStringFormatWithInlinedNullCoalescingOperatorInBlockBody()
+        public async Task ApproveWithCommentWhenUsingStringFormatWithInlinedNullCoalescingOperatorInBlockBody()
         {
             const string code = @"
                 using System;
@@ -215,7 +216,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
         }
     }
 }

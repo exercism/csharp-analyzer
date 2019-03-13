@@ -1,21 +1,20 @@
-﻿using CommandLine;
+﻿using System.Threading.Tasks;
 
 namespace Exercism.Analyzers.CSharp
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             Logging.Configure();
-            
-            Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(Analyze);
+
+            await Analyze(new Options(args));
         }
 
-        private static void Analyze(Options options)
+        private static async Task Analyze(Options options)
         {
             var solution = new Solution(options.Slug, options.Directory);
-            var solutionAnalysisResult = SolutionAnalyzer.Analyze(solution);
+            var solutionAnalysisResult = await SolutionAnalyzer.Analyze(solution);
             SolutionAnalysisWriter.Write(solutionAnalysisResult);
         }
     }

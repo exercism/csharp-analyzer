@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
@@ -9,7 +10,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void DisapproveWithCommentWhenCodeHasSyntaxErrors()
+        public async Task DisapproveWithCommentWhenCodeHasSyntaxErrors()
         {
             const string code = @"
                 public static class Gigasecond
@@ -17,7 +18,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add
                 }";
 
-            ShouldBeDisapprovedWithComment(code, "Has errors");
+            await ShouldBeDisapprovedWithComment(code, "Has errors");
         }
     }
 }

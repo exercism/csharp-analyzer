@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
@@ -9,7 +10,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ApproveAsOptimalWhenUsingMinimumNumberOfChecksInExpressionBody()
+        public async Task ApproveAsOptimalWhenUsingMinimumNumberOfChecksInExpressionBody()
         {
             const string code = @"
                 public static class Leap
@@ -18,11 +19,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
                 }";
 
-            ShouldBeApprovedAsOptimal(code);
+            await ShouldBeApprovedAsOptimal(code);
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingMinimumNumberOfChecksUsingBlockBody()
+        public async Task ApproveWithCommentWhenUsingMinimumNumberOfChecksUsingBlockBody()
         {
             const string code = @"
                 public static class Leap
@@ -33,11 +34,39 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
+            await ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
         }
 
         [Fact]
-        public void ApproveAsOptimalWhenUsingMinimumNumberOfChecksWithUnneededParenthesesUsingExpressionBody()
+        public async Task ApproveAsOptimalWhenUsingMinimumNumberOfChecksWithParenthesesUsingExpressionBody()
+        {
+            const string code = @"
+                public static class Leap
+                {
+                    public static bool IsLeapYear(int year) =>
+                        year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+                }";
+
+            await ShouldBeApprovedAsOptimal(code);
+        }
+
+        [Fact]
+        public async Task ApproveWithCommentWhenUsingMinimumNumberOfChecksWithParenthesesUsingBlockBody()
+        {
+            const string code = @"
+                public static class Leap
+                {
+                    public static bool IsLeapYear(int year)
+                    {
+                        return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+                    }
+                }";
+
+            await ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
+        }
+
+        [Fact]
+        public async Task ApproveAsOptimalWhenUsingMinimumNumberOfChecksWithUnneededParenthesesUsingExpressionBody()
         {
             const string code = @"
                 public static class Leap
@@ -46,11 +75,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
                 }";
 
-            ShouldBeApprovedAsOptimal(code);
+            await ShouldBeApprovedAsOptimal(code);
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingMinimumNumberOfChecksWithUnneededParenthesesUsingBlockBody()
+        public async Task ApproveWithCommentWhenUsingMinimumNumberOfChecksWithUnneededParenthesesUsingBlockBody()
         {
             const string code = @"
                 public static class Leap
@@ -61,11 +90,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
+            await ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
         }
 
         [Fact]
-        public void DisapproveWithCommentWhenUsingTooManyChecksInExpressionBody()
+        public async Task DisapproveWithCommentWhenUsingTooManyChecksInExpressionBody()
         {
             const string code = @"
                 public static class Leap
@@ -74,11 +103,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         year % 4 == 0 && year % 100 != 0 || year % 100 == 0 && year % 400 == 0;
                 }";
 
-            ShouldBeDisapprovedWithComment(code, "Use minimum number of checks");
+            await ShouldBeDisapprovedWithComment(code, "Use minimum number of checks");
         }
 
         [Fact]
-        public void DisapproveWithCommentWhenUsingTooManyChecksUsingBlockBody()
+        public async Task DisapproveWithCommentWhenUsingTooManyChecksUsingBlockBody()
         {
             const string code = @"
                 public static class Leap
@@ -89,7 +118,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            ShouldBeDisapprovedWithComment(code, "Use minimum number of checks");
+            await ShouldBeDisapprovedWithComment(code, "Use minimum number of checks");
         }
     }
 }

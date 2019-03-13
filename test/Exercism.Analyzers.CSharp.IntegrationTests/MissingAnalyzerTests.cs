@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
@@ -9,7 +10,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
         
         [Fact]
-        public void ReferToMentorWhenNoAnalyzerHasBeenImplementedForExercise() =>
-            ShouldBeReferredToMentor(code: string.Empty);
+        public async Task ReferToMentorWhenNoAnalyzerHasBeenImplementedForExercise() =>
+            await ShouldBeReferredToMentor(code: string.Empty);
     }
 }
