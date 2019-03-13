@@ -17,14 +17,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         protected void ShouldBeApprovedWithComment(string code, string comment) =>
             ShouldHaveStatusWithComment(code, "approve_with_comment", comment);
 
-        protected void ShouldBeApprovedWithComments(string code, params string[] comments) =>
-            ShouldHaveStatusWithComments(code, "approve_with_comment", comments);
-
         protected void ShouldBeDisapprovedWithComment(string code, string comment) =>
             ShouldHaveStatusWithComment(code, "disapprove_with_comment", comment);
-
-        protected void ShouldBeDisapprovedWithComments(string code, params string[] comments) =>
-            ShouldHaveStatusWithComments(code, "disapprove_with_comment", comments);
 
         protected void ShouldBeReferredToMentor(string code) =>
             ShouldHaveStatusWithoutComment(code, "refer_to_mentor");

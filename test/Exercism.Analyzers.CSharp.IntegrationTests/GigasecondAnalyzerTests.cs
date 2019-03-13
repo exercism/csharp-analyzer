@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ApproveAsOptimalWhenUsingAddSecondsWithScientificNotationUsingExpressionBody()
+        public void ApproveAsOptimalWhenUsingAddSecondsWithScientificNotationInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -40,7 +40,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingAddSecondsWithMathPowUsingExpressionBody()
+        public void ApproveWithCommentWhenUsingAddSecondsWithMathPowInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -54,7 +54,24 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void ApproveWithCommentWhenUsingAddSecondsWithDigitsWithoutSeparatorUsingExpressionBody()
+        public void ApproveWithCommentWhenUsingAddSecondsWithMathPowUsingBlockBody()
+        {
+            const string code = @"
+                using System;
+                
+                public static class Gigasecond
+                {
+                    public static DateTime Add(DateTime birthDate) 
+                    {
+                        return birthDate.AddSeconds(Math.Pow(10, 9));
+                    }
+                }";
+
+            ShouldBeApprovedWithComment(code, "Use 1e9 instead of Math.Pow(10, 9)");
+        }
+
+        [Fact]
+        public void ApproveWithCommentWhenUsingAddSecondsWithDigitsWithoutSeparatorInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -68,7 +85,24 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void DisapproveWithCommentWhenUsingAddUsingExpressionBody()
+        public void ApproveWithCommentWhenUsingAddSecondsWithDigitsWithoutSeparatorUsingBlockBody()
+        {
+            const string code = @"
+                using System;
+                
+                public static class Gigasecond
+                {
+                    public static DateTime Add(DateTime birthDate)
+                    {
+                        return birthDate.AddSeconds(1000000);
+                    }
+                }";
+
+            ShouldBeApprovedWithComment(code,"Use 1e9 or 1_000_000 instead of 1000000");
+        }
+
+        [Fact]
+        public void DisapproveWithCommentWhenUsingAddInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -82,7 +116,24 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         [Fact]
-        public void DisapproveWithCommentWhenUsingPlusOperatorUsingExpressionBody()
+        public void DisapproveWithCommentWhenUsingAddUsingBlockBody()
+        {
+            const string code = @"
+                using System;
+                
+                public static class Gigasecond
+                {
+                    public static DateTime Add(DateTime birthDate)
+                    {
+                        return birthDate.Add(TimeSpan.FromSeconds(1000000000));
+                    }
+                }";
+
+            ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
+        }
+
+        [Fact]
+        public void DisapproveWithCommentWhenUsingPlusOperatorInExpressionBody()
         {
             const string code = @"
                 using System;
@@ -90,6 +141,23 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                 public static class Gigasecond
                 {
                     public static DateTime Add(DateTime birthDate) => birthDate + TimeSpan.FromSeconds(1000000000);
+                }";
+
+            ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
+        }
+
+        [Fact]
+        public void DisapproveWithCommentWhenUsingPlusOperatorUsingBlockBody()
+        {
+            const string code = @"
+                using System;
+                
+                public static class Gigasecond
+                {
+                    public static DateTime Add(DateTime birthDate)
+                    {
+                        return birthDate + TimeSpan.FromSeconds(1000000000);
+                    }
                 }";
 
             ShouldBeDisapprovedWithComment(code, "Use AddSeconds");

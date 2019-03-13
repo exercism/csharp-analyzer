@@ -8,13 +8,16 @@ namespace Exercism.Analyzers.CSharp.Analyzers
     {
         public static SolutionAnalysis Analyze(SolutionImplementation solution)
         {
-            if (solution.IsEquivalentTo(MinimumNumberOfChecks))
+            if (solution.IsEquivalentTo(MinimumNumberOfChecksInExpressionBody))
                 return solution.ApproveAsOptimal();
 
-            if (solution.IsEquivalentTo(UnneededParentheses))
+            if (solution.IsEquivalentTo(MinimumNumberOfChecksInBlockBody))
+                return solution.ApproveWithComment("You could write the method an an expression-bodied member");
+
+            if (solution.IsEquivalentTo(MinimumNumberOfChecksWithUnneededParenthesesInExpressionBody))
                 return solution.ApproveAsOptimal();
 
-            if (solution.IsEquivalentTo(MethodWithBlockBody))
+            if (solution.IsEquivalentTo(MinimumNumberOfChecksWithUnneededParenthesesInBlockBody))
                 return solution.ApproveWithComment("You could write the method an an expression-bodied member");
 
             if (solution.UsesTooManyChecks())

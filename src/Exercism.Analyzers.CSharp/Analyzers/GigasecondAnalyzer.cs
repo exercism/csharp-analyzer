@@ -6,22 +6,34 @@ namespace Exercism.Analyzers.CSharp.Analyzers
     {
         public static SolutionAnalysis Analyze(SolutionImplementation solution)
         {
-            if (solution.IsEquivalentTo(AddSecondsWithScientificNotation))
+            if (solution.IsEquivalentTo(AddSecondsWithScientificNotationInExpressionBody))
                 return solution.ApproveAsOptimal();
-
-            if (solution.IsEquivalentTo(AddSecondsWithMathPow))
-                return solution.ApproveWithComment("Use 1e9 instead of Math.Pow(10, 9)");
-
-            if (solution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparator))
-                return solution.ApproveWithComment("Use 1e9 or 1_000_000 instead of 1000000");
 
             if (solution.IsEquivalentTo(AddSecondsWithScientificNotationInBlockBody))
                 return solution.ApproveWithComment("You could write the method an an expression-bodied member");
 
-            if (solution.IsEquivalentTo(Add))
+            if (solution.IsEquivalentTo(AddSecondsWithMathPowInExpressionBody))
+                return solution.ApproveWithComment("Use 1e9 instead of Math.Pow(10, 9)");
+
+            if (solution.IsEquivalentTo(AddSecondsWithMathPowInBlockBody))
+                return solution.ApproveWithComment("Use 1e9 instead of Math.Pow(10, 9)");
+
+            if (solution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInExpressionBody))
+                return solution.ApproveWithComment("Use 1e9 or 1_000_000 instead of 1000000");
+
+            if (solution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInBlockBody))
+                return solution.ApproveWithComment("Use 1e9 or 1_000_000 instead of 1000000");
+
+            if (solution.IsEquivalentTo(AddInExpressionBody))
                 return solution.DisapproveWithComment("Use AddSeconds");
 
-            if (solution.IsEquivalentTo(PlusOperator))
+            if (solution.IsEquivalentTo(AddInBlockBody))
+                return solution.DisapproveWithComment("Use AddSeconds");
+
+            if (solution.IsEquivalentTo(PlusOperatorInExpressionBody))
+                return solution.DisapproveWithComment("Use AddSeconds");
+
+            if (solution.IsEquivalentTo(PlusOperatorInBlockBody))
                 return solution.DisapproveWithComment("Use AddSeconds");
 
             return solution.ReferToMentor();
