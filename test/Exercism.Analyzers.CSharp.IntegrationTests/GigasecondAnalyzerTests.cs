@@ -37,7 +37,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_expression_bodied_member");
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(Math.Pow(10, 9));
                 }";
 
-            await ShouldBeApprovedWithComment(code, "Use 1e9 instead of Math.Pow(10, 9)");
+            await ShouldBeApprovedWithComment(code, "csharp.gigasecond.use_1e9_not_math_pow");
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeApprovedWithComment(code, "Use 1e9 instead of Math.Pow(10, 9)");
+            await ShouldBeApprovedWithComment(code, "csharp.gigasecond.use_1e9_not_math_pow");
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1000000);
                 }";
 
-            await ShouldBeApprovedWithComment(code,"Use 1e9 or 1_000_000 instead of 1000000");
+            await ShouldBeApprovedWithComment(code,"csharp.gigasecond.use_1e9_or_digit_separator");
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeApprovedWithComment(code,"Use 1e9 or 1_000_000 instead of 1000000");
+            await ShouldBeApprovedWithComment(code,"csharp.gigasecond.use_1e9_or_digit_separator");
         }
 
         [Fact]
@@ -113,7 +113,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate.Add(TimeSpan.FromSeconds(1000000000));
                 }";
 
-            await ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
+            await ShouldBeDisapprovedWithComment(code, "csharp.gigasecond.use_add_seconds");
         }
 
         [Fact]
@@ -130,7 +130,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
+            await ShouldBeDisapprovedWithComment(code, "csharp.gigasecond.use_add_seconds");
         }
 
         [Fact]
@@ -144,7 +144,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add(DateTime birthDate) => birthDate + TimeSpan.FromSeconds(1000000000);
                 }";
 
-            await ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
+            await ShouldBeDisapprovedWithComment(code, "csharp.gigasecond.use_add_seconds");
         }
 
         [Fact]
@@ -161,7 +161,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeDisapprovedWithComment(code, "Use AddSeconds");
+            await ShouldBeDisapprovedWithComment(code, "csharp.gigasecond.use_add_seconds");
         }
     }
 }

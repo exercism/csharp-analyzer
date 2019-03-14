@@ -1,4 +1,6 @@
 using static Exercism.Analyzers.CSharp.Analyzers.GigasecondSolutions;
+using static Exercism.Analyzers.CSharp.Analyzers.GigasecondComments;
+using static Exercism.Analyzers.CSharp.Analyzers.DefaultComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers
 {
@@ -10,31 +12,31 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                 return compiledSolution.ApproveAsOptimal();
 
             if (compiledSolution.IsEquivalentTo(AddSecondsWithScientificNotationInBlockBody))
-                return compiledSolution.ApproveWithComment("You could write the method an an expression-bodied member");
+                return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
 
             if (compiledSolution.IsEquivalentTo(AddSecondsWithMathPowInExpressionBody))
-                return compiledSolution.ApproveWithComment("Use 1e9 instead of Math.Pow(10, 9)");
+                return compiledSolution.ApproveWithComment(UseScientificNotationNotMathPow);
 
             if (compiledSolution.IsEquivalentTo(AddSecondsWithMathPowInBlockBody))
-                return compiledSolution.ApproveWithComment("Use 1e9 instead of Math.Pow(10, 9)");
+                return compiledSolution.ApproveWithComment(UseScientificNotationNotMathPow);
 
             if (compiledSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInExpressionBody))
-                return compiledSolution.ApproveWithComment("Use 1e9 or 1_000_000 instead of 1000000");
+                return compiledSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators);
 
             if (compiledSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInBlockBody))
-                return compiledSolution.ApproveWithComment("Use 1e9 or 1_000_000 instead of 1000000");
+                return compiledSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators);
 
             if (compiledSolution.IsEquivalentTo(AddInExpressionBody))
-                return compiledSolution.DisapproveWithComment("Use AddSeconds");
+                return compiledSolution.DisapproveWithComment(UseAddSeconds);
 
             if (compiledSolution.IsEquivalentTo(AddInBlockBody))
-                return compiledSolution.DisapproveWithComment("Use AddSeconds");
+                return compiledSolution.DisapproveWithComment(UseAddSeconds);
 
             if (compiledSolution.IsEquivalentTo(PlusOperatorInExpressionBody))
-                return compiledSolution.DisapproveWithComment("Use AddSeconds");
+                return compiledSolution.DisapproveWithComment(UseAddSeconds);
 
             if (compiledSolution.IsEquivalentTo(PlusOperatorInBlockBody))
-                return compiledSolution.DisapproveWithComment("Use AddSeconds");
+                return compiledSolution.DisapproveWithComment(UseAddSeconds);
 
             return compiledSolution.ReferToMentor();
         }

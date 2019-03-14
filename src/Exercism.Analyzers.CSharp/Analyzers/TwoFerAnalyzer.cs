@@ -1,7 +1,8 @@
 using static Exercism.Analyzers.CSharp.Analyzers.TwoFerSolutions;
+using static Exercism.Analyzers.CSharp.Analyzers.DefaultComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers
-{
+{   
     internal static class TwoFerAnalyzer
     {
         public static SolutionAnalysis Analyze(CompiledSolution compiledSolution)
@@ -10,37 +11,37 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                 return compiledSolution.ApproveAsOptimal();
 
             if (compiledSolution.IsEquivalentTo(DefaultValueWithStringInterpolationInBlockBody))
-                return compiledSolution.ApproveWithComment("You could write the method an an expression-bodied member");
+                return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
 
             if (compiledSolution.IsEquivalentTo(DefaultValueWithStringConcatenationInExpressionBody))
-                return compiledSolution.ApproveWithComment("You can use string interpolation");
+                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
 
             if (compiledSolution.IsEquivalentTo(DefaultValueWithStringConcatenationInBlockBody))
-                return compiledSolution.ApproveWithComment("You can use string interpolation");
+                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
             
             if (compiledSolution.IsEquivalentTo(DefaultValueWithStringFormatInExpressionBody))
-                return compiledSolution.ApproveWithComment("You can use string interpolation");
+                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
 
             if (compiledSolution.IsEquivalentTo(DefaultValueWithStringFormatInBlockBody))
-                return compiledSolution.ApproveWithComment("You can use string interpolation");
+                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
 
             if (compiledSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInExpressionBody))
                 return compiledSolution.ApproveAsOptimal();
 
             if (compiledSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInBlockBody))
-                return compiledSolution.ApproveWithComment("You could write the method an an expression-bodied member");
+                return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
             
             if (compiledSolution.IsEquivalentTo(StringConcatenationWithInlinedNullCoalescingOperatorInExpressionBody))
-                return compiledSolution.ApproveWithComment("You can use string interpolation");
+                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
 
             if (compiledSolution.IsEquivalentTo(StringConcatenationWithInlinedNullCoalescingOperatorInBlockBody))
-                return compiledSolution.ApproveWithComment("You can use string interpolation");
+                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
             
             if (compiledSolution.IsEquivalentTo(StringFormatWithInlinedNullCoalescingOperatorInExpressionBody))
-                return compiledSolution.ApproveWithComment("You can use string interpolation");
+                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
 
             if (compiledSolution.IsEquivalentTo(StringFormatWithInlinedNullCoalescingOperatorInBlockBody))
-                return compiledSolution.ApproveWithComment("You can use string interpolation");
+                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
 
             if (compiledSolution.IsEquivalentTo(StringInterpolationWithNullCoalescingOperatorAndVariableForName))
                 return compiledSolution.ApproveAsOptimal();

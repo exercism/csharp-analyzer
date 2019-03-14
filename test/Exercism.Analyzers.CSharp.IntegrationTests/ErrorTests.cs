@@ -18,7 +18,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     public static DateTime Add
                 }";
 
-            await ShouldBeDisapprovedWithComment(code, "Has errors");
+            await ShouldBeDisapprovedWithComment(code, "csharp.general.has_compile_errors");
         }
     }
 }

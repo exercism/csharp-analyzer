@@ -38,7 +38,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_expression_bodied_member");
         }
         
         [Fact]
@@ -53,7 +53,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         ""One for "" + input + "", one for me."";
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_string_interpolation_not_string_concatenation");
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_string_interpolation_not_string_concatenation");
         }
         
         [Fact]
@@ -85,7 +85,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         string.Format(""One for {0}, one for me."", input);
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_string_interpolation_not_string_format");
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_string_interpolation_not_string_format");
         }
         
         [Fact]
@@ -134,7 +134,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_expression_bodied_member");
         }
 
         [Fact]
@@ -167,7 +167,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         ""One for "" + (input ?? ""you"") + "", one for me."";
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_string_interpolation_not_string_concatenation");
         }
 
         [Fact]
@@ -184,7 +184,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_string_interpolation_not_string_concatenation");
         }
 
         [Fact]
@@ -199,7 +199,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         string.Format(""One for {0}, one for me."", input ?? ""you"");
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_string_interpolation_not_string_format");
         }
 
         [Fact]
@@ -216,7 +216,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You can use string interpolation");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_string_interpolation_not_string_format");
         }
     }
 }
