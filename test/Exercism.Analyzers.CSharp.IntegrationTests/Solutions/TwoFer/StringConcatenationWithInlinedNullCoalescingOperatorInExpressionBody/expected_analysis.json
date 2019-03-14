@@ -1,0 +1,4 @@
+{
+  "status": "approve_with_comment", 
+  "comments": ["csharp.general.use_string_interpolation_not_string_concatenation"]
+}
