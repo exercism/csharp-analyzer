@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analyzers;
 using Serilog;
+using static Exercism.Analyzers.CSharp.Analyzers.DefaultComments;
 
 namespace Exercism.Analyzers.CSharp
 {
@@ -22,7 +23,7 @@ namespace Exercism.Analyzers.CSharp
         private static SolutionAnalysis AnalyzeCompiledSolution(CompiledSolution compiledSolution)
         {
             if (compiledSolution.HasErrors())
-                return compiledSolution.DisapproveWithComment("Has errors");
+                return compiledSolution.DisapproveWithComment(HasCompileErrors);
 
             switch (compiledSolution.Solution.Slug)
             {

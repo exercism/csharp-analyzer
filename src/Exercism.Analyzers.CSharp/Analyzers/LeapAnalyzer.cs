@@ -1,6 +1,8 @@
 using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.LeapSolutions;
+using static Exercism.Analyzers.CSharp.Analyzers.LeapComments;
+using static Exercism.Analyzers.CSharp.Analyzers.DefaultComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers
 {
@@ -12,16 +14,16 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                 return compiledSolution.ApproveAsOptimal();
 
             if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksInBlockBody))
-                return compiledSolution.ApproveWithComment("You could write the method an an expression-bodied member");
+                return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
 
             if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInExpressionBody))
                 return compiledSolution.ApproveAsOptimal();
 
             if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInBlockBody))
-                return compiledSolution.ApproveWithComment("You could write the method an an expression-bodied member");
+                return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
 
             if (compiledSolution.UsesTooManyChecks())
-                return compiledSolution.DisapproveWithComment("Use minimum number of checks");
+                return compiledSolution.DisapproveWithComment(UseMinimumNumberOfChecks);
 
             return compiledSolution.ReferToMentor();
         }

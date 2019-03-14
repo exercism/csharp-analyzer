@@ -34,7 +34,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_expression_bodied_member");
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_expression_bodied_member");
         }
 
         [Fact]
@@ -90,7 +90,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeApprovedWithComment(code, "You could write the method an an expression-bodied member");
+            await ShouldBeApprovedWithComment(code, "csharp.general.use_expression_bodied_member");
         }
 
         [Fact]
@@ -103,7 +103,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                         year % 4 == 0 && year % 100 != 0 || year % 100 == 0 && year % 400 == 0;
                 }";
 
-            await ShouldBeDisapprovedWithComment(code, "Use minimum number of checks");
+            await ShouldBeDisapprovedWithComment(code, "csharp.leap.use_minimum_number_of_checks");
         }
 
         [Fact]
@@ -118,7 +118,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                     }
                 }";
 
-            await ShouldBeDisapprovedWithComment(code, "Use minimum number of checks");
+            await ShouldBeDisapprovedWithComment(code, "csharp.leap.use_minimum_number_of_checks");
         }
     }
 }
