@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     {
         public static async Task<TestSolutionAnalysisRun> Run(TestSolution testSolution)
         {
-            await Program.Main(new[] {testSolution.Slug, testSolution.Directory});
+            await Program.Main(new[] { testSolution.Slug, testSolution.Directory });
 
             return CreateTestSolutionAnalyisRun(testSolution);
         }
@@ -19,7 +19,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
 
             var expectedAnalysisResult = TestSolutionAnalysisResultReader.Read(expectedAnalysisJsonFilePath);
             var actualAnalysisResult = TestSolutionAnalysisResultReader.Read(actualAnalysisJsonFilePath);
-            
+
             return new TestSolutionAnalysisRun(expectedAnalysisResult, actualAnalysisResult);
         }
     }

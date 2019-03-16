@@ -8,7 +8,7 @@ namespace Exercism.Analyzers.CSharp
         public string SolutionFilePath { get; }
         public string AnalysisFilePath { get; }
         public string ImplementationFilePath { get; }
-        
+
         public SolutionPaths(string name, string directory)
         {
             Directory = directory;

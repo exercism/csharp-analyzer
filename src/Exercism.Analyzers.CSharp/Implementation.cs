@@ -15,7 +15,7 @@ namespace Exercism.Analyzers.CSharp
             Document = document;
             Compilation = compilation;
         }
-        
+
         public bool HasErrors() => SyntaxNode.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
 
         public bool IsEquivalentTo(string expectedCode)

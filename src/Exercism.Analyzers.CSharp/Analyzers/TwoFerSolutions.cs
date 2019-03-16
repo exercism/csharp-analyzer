@@ -21,7 +21,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                     return $""One for {input}, one for me."";
                 }
             }";
-        
+
         public const string DefaultValueWithStringConcatenationInExpressionBody = @"
             using System;
 
@@ -41,7 +41,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                     return ""One for "" + input + "", one for me."";
                 }
             }";
-        
+
         public const string DefaultValueWithStringFormatInExpressionBody = @"
             using System;
 
@@ -61,7 +61,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                     return string.Format(""One for {0}, one for me."", input);
                 }
             }";
-        
+
         public const string StringInterpolationWithInlinedNullCoalescingOperatorInExpressionBody = @"
             using System;
 
@@ -93,7 +93,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                     return $""One for {name}, one for me."";
                 }
             }";
-        
+
         public const string StringConcatenationWithInlinedNullCoalescingOperatorInExpressionBody = @"
             using System;
 
@@ -113,7 +113,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                     return ""One for "" + (input ?? ""you"") + "", one for me."";
                 }
             }";
-        
+
         public const string StringFormatWithInlinedNullCoalescingOperatorInExpressionBody = @"
             using System;
 

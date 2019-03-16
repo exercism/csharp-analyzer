@@ -39,7 +39,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             return addMethod
                 .DescendantNodes()
                 .OfType<BinaryExpressionSyntax>()
-                .Count(BinaryExpressionUsesYearParameter) > minimalNumberOfChecks;    
+                .Count(BinaryExpressionUsesYearParameter) > minimalNumberOfChecks;
 
             bool BinaryExpressionUsesYearParameter(BinaryExpressionSyntax binaryExpression) =>
                 ExpressionUsesYearParameter(binaryExpression.Left) ||
@@ -48,6 +48,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             bool ExpressionUsesYearParameter(ExpressionSyntax expression) =>
                 expression is IdentifierNameSyntax nameSyntax &&
                 nameSyntax.Identifier.Text == "year";
-        }        
+        }
     }
 }

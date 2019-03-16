@@ -1,7 +1,7 @@
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
     public class TestSolution
-    {   
+    {
         public string Slug { get; }
         public string Name { get; }
         public string Directory { get; }
