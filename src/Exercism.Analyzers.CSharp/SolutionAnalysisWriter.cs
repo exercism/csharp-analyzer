@@ -10,7 +10,7 @@ namespace Exercism.Analyzers.CSharp
         public static void Write(SolutionAnalysis solutionAnalysis)
         {
             Log.Information("Writing analyzed solution to analysis file.");
-            
+
             using (var fileWriter = File.CreateText(solutionAnalysis.Solution.Paths.AnalysisFilePath))
             using (var jsonTextWriter = new JsonTextWriter(fileWriter))
             {

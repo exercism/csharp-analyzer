@@ -2,7 +2,7 @@ using static Exercism.Analyzers.CSharp.Analyzers.TwoFerSolutions;
 using static Exercism.Analyzers.CSharp.Analyzers.DefaultComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers
-{   
+{
     internal static class TwoFerAnalyzer
     {
         public static SolutionAnalysis Analyze(CompiledSolution compiledSolution)
@@ -18,7 +18,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 
             if (compiledSolution.IsEquivalentTo(DefaultValueWithStringConcatenationInBlockBody))
                 return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
-            
+
             if (compiledSolution.IsEquivalentTo(DefaultValueWithStringFormatInExpressionBody))
                 return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
 
@@ -30,13 +30,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 
             if (compiledSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInBlockBody))
                 return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
-            
+
             if (compiledSolution.IsEquivalentTo(StringConcatenationWithInlinedNullCoalescingOperatorInExpressionBody))
                 return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
 
             if (compiledSolution.IsEquivalentTo(StringConcatenationWithInlinedNullCoalescingOperatorInBlockBody))
                 return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
-            
+
             if (compiledSolution.IsEquivalentTo(StringFormatWithInlinedNullCoalescingOperatorInExpressionBody))
                 return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
 

@@ -20,7 +20,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                     return birthDate.AddSeconds(1e9);
                 }
             }";
-        
+
         public const string AddSecondsWithMathPowInExpressionBody = @"
             using System;
             
@@ -28,7 +28,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             {
                 public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(Math.Pow(10, 9));
             }";
-        
+
         public const string AddSecondsWithMathPowInBlockBody = @"
             using System;
             
@@ -39,7 +39,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                     return birthDate.AddSeconds(Math.Pow(10, 9));
                 }
             }";
-        
+
         public const string AddSecondsWithDigitsWithoutSeparatorInExpressionBody = @"
             using System;
             
@@ -47,7 +47,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             {
                 public static DateTime Add(DateTime birthDate) => birthDate.AddSeconds(1000000);
             }";
-        
+
         public const string AddSecondsWithDigitsWithoutSeparatorInBlockBody = @"
             using System;
             
@@ -58,7 +58,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                     return birthDate.AddSeconds(1000000);
                 }
             }";
-        
+
         public const string AddInExpressionBody = @"
             using System;
             
@@ -66,7 +66,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             {
                 public static DateTime Add(DateTime birthDate) => birthDate.Add(TimeSpan.FromSeconds(1000000000));
             }";
-        
+
         public const string AddInBlockBody = @"
             using System;
             
@@ -77,7 +77,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                     return birthDate.Add(TimeSpan.FromSeconds(1000000000));
                 }
             }";
-        
+
         public const string PlusOperatorInExpressionBody = @"
             using System;
             
@@ -85,7 +85,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             {
                 public static DateTime Add(DateTime birthDate) => birthDate + TimeSpan.FromSeconds(1000000000);
             }";
-        
+
         public const string PlusOperatorInBlockBody = @"
             using System;
             

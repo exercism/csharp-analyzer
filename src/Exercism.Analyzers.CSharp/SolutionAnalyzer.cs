@@ -16,7 +16,7 @@ namespace Exercism.Analyzers.CSharp
 
             var solutionAnalysis = AnalyzeCompiledSolution(compiledSolution);
             Log.Information("Analyzed exercise {Exercise} with status {Status} and comments {Comments}.", solution.Slug, solutionAnalysis.Result.Status, solutionAnalysis.Result.Comments);
-            
+
             return solutionAnalysis;
         }
 

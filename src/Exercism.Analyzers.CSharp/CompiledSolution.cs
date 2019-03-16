@@ -3,11 +3,11 @@ namespace Exercism.Analyzers.CSharp
     internal class CompiledSolution
     {
         public Solution Solution { get; }
-        public Implementation Implementation { get; }        
+        public Implementation Implementation { get; }
 
         public CompiledSolution(Solution solution, Implementation implementation) =>
             (Solution, Implementation) = (solution, implementation);
-        
+
         public SolutionAnalysis ApproveAsOptimal() =>
             ToSolutionAnalysis(SolutionStatus.ApproveAsOptimal);
 
