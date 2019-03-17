@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Humanizer;
 
 namespace Exercism.Analyzers.CSharp
 {
@@ -13,9 +14,12 @@ namespace Exercism.Analyzers.CSharp
 
         private static async Task Analyze(Options options)
         {
-            var solution = new Solution(options.Slug, options.Directory);
+            var solution = CreateSolution(options);
             var solutionAnalysisResult = await SolutionAnalyzer.Analyze(solution);
             SolutionAnalysisWriter.Write(solutionAnalysisResult);
         }
+
+        private static Solution CreateSolution(Options options) =>
+            new Solution(options.Slug,options.Slug.Dehumanize().Pascalize(), options.Directory);
     }
 }

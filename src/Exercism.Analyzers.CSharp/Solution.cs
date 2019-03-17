@@ -1,5 +1,3 @@
-using Humanizer;
-
 namespace Exercism.Analyzers.CSharp
 {
     internal class Solution
@@ -8,11 +6,7 @@ namespace Exercism.Analyzers.CSharp
         public string Slug { get; }
         public SolutionPaths Paths { get; }
 
-        public Solution(string slug, string directory)
-        {
-            Slug = slug;
-            Name = slug.Dehumanize().Pascalize();
-            Paths = new SolutionPaths(Name, directory);
-        }
+        public Solution(string slug, string name, string directory) =>
+            (Slug, Name, Paths) = (slug, name, new SolutionPaths(name, directory));
     }
 }
