@@ -5,7 +5,7 @@ using Humanizer;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
-    public static class TestSolutionReader
+    public static class TestSolutionsReader
     {
         public static IEnumerable<TestSolution> ReadAll() =>
             from exerciseDirectory in GetExerciseDirectories("Solutions")
