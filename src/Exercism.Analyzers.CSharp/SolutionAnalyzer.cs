@@ -12,7 +12,7 @@ namespace Exercism.Analyzers.CSharp
             Log.Information("Compiling exercise {Exercise}.", solution.Slug);
             var compiledSolution = await SolutionCompiler.Compile(solution);
             if (compiledSolution == null)
-                return null;
+                return new SolutionAnalysis(solution, new SolutionAnalysisResult(SolutionStatus.ReferToMentor));
 
             var solutionAnalysis = AnalyzeCompiledSolution(compiledSolution);
             Log.Information("Analyzed exercise {Exercise} with status {Status} and comments {Comments}.", solution.Slug, solutionAnalysis.Result.Status, solutionAnalysis.Result.Comments);

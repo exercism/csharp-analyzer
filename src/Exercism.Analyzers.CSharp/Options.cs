@@ -1,6 +1,6 @@
 namespace Exercism.Analyzers.CSharp
 {
-    public class Options
+    internal class Options
     {
         public string Slug { get; }
         public string Directory { get; }
