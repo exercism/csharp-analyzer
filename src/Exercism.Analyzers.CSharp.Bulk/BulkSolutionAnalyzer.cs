@@ -9,8 +9,6 @@ namespace Exercism.Analyzers.CSharp.Bulk
     {
         public static async Task<BulkSolutionAnalysisRun> Run(BulkSolution testSolution)
         {
-            // TODO: add option to skip actually running the analysis
-            
             var stopwatch = Stopwatch.StartNew();
             await CSharp.Program.Main(new[] { testSolution.Slug, testSolution.Directory });
             stopwatch.Stop();
