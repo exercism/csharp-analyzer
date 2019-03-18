@@ -10,16 +10,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers
     {
         public static SolutionAnalysis Analyze(CompiledSolution compiledSolution)
         {
-            if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksInExpressionBody))
+            if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksInExpressionBody) ||
+                compiledSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInExpressionBody))
                 return compiledSolution.ApproveAsOptimal();
 
-            if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksInBlockBody))
-                return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
-
-            if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInExpressionBody))
-                return compiledSolution.ApproveAsOptimal();
-
-            if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInBlockBody))
+            if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksInBlockBody) ||
+                compiledSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInBlockBody))
                 return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
 
             if (compiledSolution.UsesTooManyChecks())

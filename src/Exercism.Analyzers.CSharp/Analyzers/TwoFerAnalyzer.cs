@@ -8,52 +8,30 @@ namespace Exercism.Analyzers.CSharp.Analyzers
     {
         public static SolutionAnalysis Analyze(CompiledSolution compiledSolution)
         {
-            if (compiledSolution.IsEquivalentTo(DefaultValueWithStringInterpolationInExpressionBody))
+            if (compiledSolution.IsEquivalentTo(DefaultValueWithStringInterpolationInExpressionBody) ||
+                compiledSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInExpressionBody) ||
+                compiledSolution.IsEquivalentTo(StringInterpolationWithNullCoalescingOperatorAndVariableForName))
                 return compiledSolution.ApproveAsOptimal();
 
-            if (compiledSolution.IsEquivalentTo(DefaultValueWithStringInterpolationInBlockBody))
+            if (compiledSolution.IsEquivalentTo(DefaultValueWithStringInterpolationInBlockBody) ||
+                compiledSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInBlockBody))
                 return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
 
-            if (compiledSolution.IsEquivalentTo(DefaultValueWithStringConcatenationInExpressionBody))
+            if (compiledSolution.IsEquivalentTo(DefaultValueWithStringConcatenationInExpressionBody) ||
+                compiledSolution.IsEquivalentTo(DefaultValueWithStringConcatenationInBlockBody) ||
+                compiledSolution.IsEquivalentTo(StringConcatenationWithInlinedNullCoalescingOperatorInExpressionBody) ||
+                compiledSolution.IsEquivalentTo(StringConcatenationWithInlinedNullCoalescingOperatorInBlockBody))
                 return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
 
-            if (compiledSolution.IsEquivalentTo(DefaultValueWithStringConcatenationInBlockBody))
-                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
-
-            if (compiledSolution.IsEquivalentTo(DefaultValueWithStringFormatInExpressionBody))
+            if (compiledSolution.IsEquivalentTo(DefaultValueWithStringFormatInExpressionBody) ||
+                compiledSolution.IsEquivalentTo(DefaultValueWithStringFormatInBlockBody) ||
+                compiledSolution.IsEquivalentTo(StringFormatWithInlinedNullCoalescingOperatorInExpressionBody) ||
+                compiledSolution.IsEquivalentTo(StringFormatWithInlinedNullCoalescingOperatorInBlockBody))
                 return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
 
-            if (compiledSolution.IsEquivalentTo(DefaultValueWithStringFormatInBlockBody))
-                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
-
-            if (compiledSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInExpressionBody))
-                return compiledSolution.ApproveAsOptimal();
-
-            if (compiledSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInBlockBody))
-                return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
-
-            if (compiledSolution.IsEquivalentTo(StringConcatenationWithInlinedNullCoalescingOperatorInExpressionBody))
-                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
-
-            if (compiledSolution.IsEquivalentTo(StringConcatenationWithInlinedNullCoalescingOperatorInBlockBody))
-                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
-
-            if (compiledSolution.IsEquivalentTo(StringFormatWithInlinedNullCoalescingOperatorInExpressionBody))
-                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
-
-            if (compiledSolution.IsEquivalentTo(StringFormatWithInlinedNullCoalescingOperatorInBlockBody))
-                return compiledSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
-
-            if (compiledSolution.IsEquivalentTo(StringInterpolationWithNullCoalescingOperatorAndVariableForName))
-                return compiledSolution.ApproveAsOptimal();
-
-            if (compiledSolution.IsEquivalentTo(StringConcatenationWithIfStatementUsingBlockDelimitersInBlockBody))
-                return compiledSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
-
-            if (compiledSolution.IsEquivalentTo(StringConcatenationWithIfStatementWithoutBlockDelimitersAndNoElseInBlockBody))
-                return compiledSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
-
-            if (compiledSolution.IsEquivalentTo(StringConcatenationWithIfStatementWithoutBlockDelimitersInBlockBody))
+            if (compiledSolution.IsEquivalentTo(StringConcatenationWithIfStatementUsingBlockDelimitersInBlockBody) ||
+                compiledSolution.IsEquivalentTo(StringConcatenationWithIfStatementWithoutBlockDelimitersAndNoElseInBlockBody) ||
+                compiledSolution.IsEquivalentTo(StringConcatenationWithIfStatementWithoutBlockDelimitersInBlockBody))
                 return compiledSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
 
             return compiledSolution.ReferToMentor();

@@ -14,28 +14,18 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             if (compiledSolution.IsEquivalentTo(AddSecondsWithScientificNotationInBlockBody))
                 return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
 
-            if (compiledSolution.IsEquivalentTo(AddSecondsWithMathPowInExpressionBody))
+            if (compiledSolution.IsEquivalentTo(AddSecondsWithMathPowInExpressionBody) || 
+                compiledSolution.IsEquivalentTo(AddSecondsWithMathPowInBlockBody))
                 return compiledSolution.ApproveWithComment(UseScientificNotationNotMathPow);
 
-            if (compiledSolution.IsEquivalentTo(AddSecondsWithMathPowInBlockBody))
-                return compiledSolution.ApproveWithComment(UseScientificNotationNotMathPow);
-
-            if (compiledSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInExpressionBody))
+            if (compiledSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInExpressionBody) || 
+                compiledSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInBlockBody))
                 return compiledSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators);
 
-            if (compiledSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInBlockBody))
-                return compiledSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators);
-
-            if (compiledSolution.IsEquivalentTo(AddInExpressionBody))
-                return compiledSolution.DisapproveWithComment(UseAddSeconds);
-
-            if (compiledSolution.IsEquivalentTo(AddInBlockBody))
-                return compiledSolution.DisapproveWithComment(UseAddSeconds);
-
-            if (compiledSolution.IsEquivalentTo(PlusOperatorInExpressionBody))
-                return compiledSolution.DisapproveWithComment(UseAddSeconds);
-
-            if (compiledSolution.IsEquivalentTo(PlusOperatorInBlockBody))
+            if (compiledSolution.IsEquivalentTo(AddInExpressionBody) || 
+                compiledSolution.IsEquivalentTo(AddInBlockBody) || 
+                compiledSolution.IsEquivalentTo(PlusOperatorInExpressionBody) || 
+                compiledSolution.IsEquivalentTo(PlusOperatorInBlockBody))
                 return compiledSolution.DisapproveWithComment(UseAddSeconds);
 
             return compiledSolution.ReferToMentor();
