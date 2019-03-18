@@ -8,7 +8,7 @@ namespace Exercism.Analyzers.CSharp.Bulk
         private const int StatisticsCountColumnWidth = 5;
         private const int StatisticsCommentsColumnWidth = 8;
         private const int StatisticsAverageColumnWidth = 6;
-        private const int StatisticsTotalColumnWidth = 6;
+        private const int StatisticsTotalColumnWidth = 8;
         
         public static StringBuilder AddStatistics(this StringBuilder report, BulkSolutionsAnalysisRun analysisRun) =>
             report
@@ -22,7 +22,7 @@ namespace Exercism.Analyzers.CSharp.Bulk
         private static StringBuilder AddStatisticsHeader(this StringBuilder report) =>
             report
                 .AppendLine("## Statistics")
-                .AppendLine($"| {"Status",StatisticsStatusColumnWidth} | {"Count",StatisticsCountColumnWidth} | {"Comments",StatisticsCommentsColumnWidth} | {"Avg",StatisticsAverageColumnWidth} | {"Max",StatisticsTotalColumnWidth} |")
+                .AppendLine($"| {"Status",StatisticsStatusColumnWidth} | {"Count",StatisticsCountColumnWidth} | {"Comments",StatisticsCommentsColumnWidth} | {"Avg",StatisticsAverageColumnWidth} | {"Total",StatisticsTotalColumnWidth} |")
                 .AppendLine($"| {"".PadRight(StatisticsStatusColumnWidth, '-')}:| {"".PadRight(StatisticsCountColumnWidth, '-')}:| {"".PadRight(StatisticsCommentsColumnWidth, '-')}:| {"".PadRight(StatisticsAverageColumnWidth, '-')}:| {"".PadRight(StatisticsTotalColumnWidth, '-')}:|");
         
         private static StringBuilder AddStatisticsForStatus(this StringBuilder report,
