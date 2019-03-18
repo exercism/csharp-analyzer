@@ -13,6 +13,8 @@ namespace Exercism.Analyzers.CSharp.Bulk
                 .AddStatistics(analysisRun)
                 .AppendLine()
                 .AddComments(analysisRun)
+                .AppendLine()
+                .AddDirectories(analysisRun, options)
                 .ToString();
 
         private static StringBuilder AddHeader(this StringBuilder report) =>

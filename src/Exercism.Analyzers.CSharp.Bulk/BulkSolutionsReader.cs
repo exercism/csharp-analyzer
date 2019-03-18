@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,8 +11,8 @@ namespace Exercism.Analyzers.CSharp.Bulk
             from solutionDirectory in GetSolutionDirectories(exerciseDirectory)
             select CreateBulkSolution(slug, solutionDirectory);
 
-        private static string[] GetSolutionDirectories(string exerciseDirectory) =>
-            Directory.GetDirectories(exerciseDirectory);
+        private static IEnumerable<string> GetSolutionDirectories(string exerciseDirectory) =>
+            Directory.GetDirectories(exerciseDirectory).OrderBy(directory => directory, StringComparer.Ordinal);
 
         private static BulkSolution CreateBulkSolution(string slug, string solutionDirectory) =>
             new BulkSolution(slug, solutionDirectory);

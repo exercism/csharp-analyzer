@@ -22,7 +22,7 @@ namespace Exercism.Analyzers.CSharp.Bulk
         private static StringBuilder AddStatisticsHeader(this StringBuilder report) =>
             report
                 .AppendLine("## Statistics")
-                .AppendLine($"| {"Status",StatisticsStatusColumnWidth} | {"Count",StatisticsCountColumnWidth} | {"Comments",StatisticsCommentsColumnWidth} | {"Avg",StatisticsAverageColumnWidth} | {"Total",StatisticsTotalColumnWidth} |")
+                .AppendLine($"| {"Status",StatisticsStatusColumnWidth} | {"Count",StatisticsCountColumnWidth} | {"Comments",StatisticsCommentsColumnWidth} | {"Avg",StatisticsAverageColumnWidth} | {"Max",StatisticsTotalColumnWidth} |")
                 .AppendLine($"| {"".PadRight(StatisticsStatusColumnWidth, '-')}:| {"".PadRight(StatisticsCountColumnWidth, '-')}:| {"".PadRight(StatisticsCommentsColumnWidth, '-')}:| {"".PadRight(StatisticsAverageColumnWidth, '-')}:| {"".PadRight(StatisticsTotalColumnWidth, '-')}:|");
         
         private static StringBuilder AddStatisticsForStatus(this StringBuilder report,

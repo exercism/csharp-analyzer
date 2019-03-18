@@ -11,11 +11,8 @@ namespace Exercism.Analyzers.CSharp.Bulk
         public static StringBuilder AddComments(this StringBuilder report, BulkSolutionsAnalysisRun analysisRun) =>
             report
                 .AddCommentsHeader()
-                .AppendLine()
                 .AddCommentsForStatus(analysisRun.ApprovedWithComment, "Approve (comment)")
-                .AppendLine()
                 .AddCommentsForStatus(analysisRun.DisapprovedWithComment, "Disapprove (comment)")
-                .AppendLine()
                 .AddCommentsForStatus(analysisRun.All, "Total");
 
         private static StringBuilder AddCommentsHeader(this StringBuilder report) =>
@@ -30,6 +27,7 @@ namespace Exercism.Analyzers.CSharp.Bulk
             var maxCommentLength = statistics.CommentsWithCount.Keys.Max(comment => comment.Length);
                 
             report
+                .AppendLine()
                 .AddCommentsForStatusHeader(status)
                 .AppendLine($"| {"Comment".PadRight(maxCommentLength, ' ')} | {"Count".PadRight(CommentsCountColumnWidth, ' ')} |")
                 .AppendLine($"| {"".PadRight(maxCommentLength, '-')}:| {"".PadRight(CommentsCountColumnWidth, '-')}:|");
