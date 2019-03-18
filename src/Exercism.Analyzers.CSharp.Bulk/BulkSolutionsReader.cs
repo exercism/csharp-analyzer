@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Humanizer;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
@@ -15,6 +14,6 @@ namespace Exercism.Analyzers.CSharp.Bulk
             Directory.GetDirectories(exerciseDirectory);
 
         private static BulkSolution CreateBulkSolution(string slug, string solutionDirectory) =>
-            new BulkSolution(slug, slug.Dehumanize().Pascalize(), solutionDirectory);
+            new BulkSolution(slug, solutionDirectory);
     }
 }

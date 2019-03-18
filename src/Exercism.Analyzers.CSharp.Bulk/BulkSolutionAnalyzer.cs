@@ -7,13 +7,13 @@ namespace Exercism.Analyzers.CSharp.Bulk
 {
     public static class BulkSolutionAnalyzer
     {
-        public static async Task<BulkSolutionAnalysisRun> Run(BulkSolution testSolution)
+        public static async Task<BulkSolutionAnalysisRun> Run(BulkSolution solution)
         {
             var stopwatch = Stopwatch.StartNew();
-            await CSharp.Program.Main(new[] { testSolution.Slug, testSolution.Directory });
+            await CSharp.Program.Main(new[] { solution.Slug, solution.Directory });
             stopwatch.Stop();
 
-            return CreateTestSolutionAnalyisRun(testSolution, stopwatch.Elapsed);
+            return CreateTestSolutionAnalyisRun(solution, stopwatch.Elapsed);
         }
 
         private static BulkSolutionAnalysisRun CreateTestSolutionAnalyisRun(BulkSolution solution, TimeSpan elapsed)

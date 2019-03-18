@@ -8,8 +8,7 @@ namespace Exercism.Analyzers.CSharp.Bulk
         private const int StatisticsCountColumnWidth = 5;
         private const int StatisticsCommentsColumnWidth = 8;
         private const int StatisticsAverageColumnWidth = 6;
-        private const int StatisticsMaximumColumnWidth = 6;
-        private const int StatisticsMinimumColumnWidth = 6;
+        private const int StatisticsTotalColumnWidth = 6;
         
         public static StringBuilder AddStatistics(this StringBuilder report, BulkSolutionsAnalysisRun analysisRun) =>
             report
@@ -23,11 +22,11 @@ namespace Exercism.Analyzers.CSharp.Bulk
         private static StringBuilder AddStatisticsHeader(this StringBuilder report) =>
             report
                 .AppendLine("## Statistics")
-                .AppendLine($"| {"Status",StatisticsStatusColumnWidth} | {"Count",StatisticsCountColumnWidth} | {"Comments",StatisticsCommentsColumnWidth} | {"Avg",StatisticsAverageColumnWidth} | {"Max",StatisticsMaximumColumnWidth} | {"Min",StatisticsMinimumColumnWidth} |")
-                .AppendLine($"| {"".PadRight(StatisticsStatusColumnWidth, '-')}:| {"".PadRight(StatisticsCountColumnWidth, '-')}:| {"".PadRight(StatisticsCommentsColumnWidth, '-')}:| {"".PadRight(StatisticsAverageColumnWidth, '-')}:| {"".PadRight(StatisticsMaximumColumnWidth, '-')}:| {"".PadRight(StatisticsMinimumColumnWidth, '-')}:|");
+                .AppendLine($"| {"Status",StatisticsStatusColumnWidth} | {"Count",StatisticsCountColumnWidth} | {"Comments",StatisticsCommentsColumnWidth} | {"Avg",StatisticsAverageColumnWidth} | {"Total",StatisticsTotalColumnWidth} |")
+                .AppendLine($"| {"".PadRight(StatisticsStatusColumnWidth, '-')}:| {"".PadRight(StatisticsCountColumnWidth, '-')}:| {"".PadRight(StatisticsCommentsColumnWidth, '-')}:| {"".PadRight(StatisticsAverageColumnWidth, '-')}:| {"".PadRight(StatisticsTotalColumnWidth, '-')}:|");
         
         private static StringBuilder AddStatisticsForStatus(this StringBuilder report,
             BulkSolutionsAnalysisRunStatistics statistics, string status) =>
-            report.AppendLine($"| {status,StatisticsStatusColumnWidth} | {statistics.Count,StatisticsCountColumnWidth} | {statistics.CommentsWithCount.Count,StatisticsCommentsColumnWidth} | {statistics.Performance.AverageInMilliseconds,4:#0}ms | {statistics.Performance.MaximumInMilliseconds,4:#0}ms | {statistics.Performance.MinimumInMilliseconds,4:#0}ms | ");
+            report.AppendLine($"| {status,StatisticsStatusColumnWidth} | {statistics.Count,StatisticsCountColumnWidth} | {statistics.CommentsWithCount.Count,StatisticsCommentsColumnWidth} | {statistics.Performance.AverageInMilliseconds,4:#0}ms | {statistics.Performance.TotalInMilliseconds,4:#0}ms | ");
     }
 }
