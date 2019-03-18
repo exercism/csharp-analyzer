@@ -133,5 +133,51 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                     return string.Format(""One for {0}, one for me."", input ?? ""you"");
                 }
             }";
+
+        public const string StringConcatenationWithIfStatementUsingBlockDelimitersInBlockBody = @"
+            using System;
+    
+            public static class TwoFer
+            {
+                public static string Name(string input = null)
+                {
+                    if (input == null)
+                    {
+                        return ""One for you, one for me."";
+                    }
+                    else
+                    {
+                        return ""One for "" + input + "", one for me."";
+                    }
+                }
+            }";
+        
+        public const string StringConcatenationWithIfStatementWithoutBlockDelimitersAndNoElseInBlockBody = @"
+            using System;
+                
+            public static class TwoFer
+            {
+                public static string Name(string input = null)
+                {
+                    if (input == null)
+                        return ""One for you, one for me."";
+                    
+                    return ""One for "" + input + "", one for me."";
+                }
+            }";
+
+        public const string StringConcatenationWithIfStatementWithoutBlockDelimitersInBlockBody = @"
+            using System;
+                
+            public static class TwoFer
+            {
+                public static string Name(string input = null)
+                {
+                    if (input == null)
+                        return ""One for you, one for me."";
+                    else
+                    return ""One for "" + input + "", one for me."";
+                }
+            }";
     }
 }

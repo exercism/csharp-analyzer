@@ -1,5 +1,6 @@
 using static Exercism.Analyzers.CSharp.Analyzers.TwoFerSolutions;
 using static Exercism.Analyzers.CSharp.Analyzers.DefaultComments;
+using static Exercism.Analyzers.CSharp.Analyzers.TwoFerComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers
 {
@@ -45,6 +46,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 
             if (compiledSolution.IsEquivalentTo(StringInterpolationWithNullCoalescingOperatorAndVariableForName))
                 return compiledSolution.ApproveAsOptimal();
+
+            if (compiledSolution.IsEquivalentTo(StringConcatenationWithIfStatementUsingBlockDelimitersInBlockBody))
+                return compiledSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
+
+            if (compiledSolution.IsEquivalentTo(StringConcatenationWithIfStatementWithoutBlockDelimitersAndNoElseInBlockBody))
+                return compiledSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
+
+            if (compiledSolution.IsEquivalentTo(StringConcatenationWithIfStatementWithoutBlockDelimitersInBlockBody))
+                return compiledSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
 
             return compiledSolution.ReferToMentor();
         }
