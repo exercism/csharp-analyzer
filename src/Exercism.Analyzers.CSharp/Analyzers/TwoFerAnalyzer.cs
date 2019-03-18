@@ -13,6 +13,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                 compiledSolution.IsEquivalentTo(StringInterpolationWithNullCoalescingOperatorAndVariableForName))
                 return compiledSolution.ApproveAsOptimal();
 
+            if (compiledSolution.IsEquivalentTo(StringInterpolationWithTernaryOperatorInExpressionBody) ||
+                compiledSolution.IsEquivalentTo(StringInterpolationWithTernaryOperatorInBlockBody))
+                return compiledSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
+
             if (compiledSolution.IsEquivalentTo(DefaultValueWithStringInterpolationInBlockBody) ||
                 compiledSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInBlockBody))
                 return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
