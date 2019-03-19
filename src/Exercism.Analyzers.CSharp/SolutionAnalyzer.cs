@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Exercism.Analyzers.CSharp.Analyzers;
 using Serilog;
 using static Exercism.Analyzers.CSharp.Analyzers.DefaultComments;
@@ -7,30 +6,30 @@ namespace Exercism.Analyzers.CSharp
 {
     internal static class SolutionAnalyzer
     {
-        public static async Task<SolutionAnalysis> Analyze(Solution solution)
+        public static SolutionAnalysis Analyze(Solution solution)
         {
             Log.Information("Compiling exercise {Exercise}.", solution.Slug);
-            var compiledSolution = await SolutionCompiler.Compile(solution);
-            if (compiledSolution == null)
+            var parsedSolution = SolutionParser.Parse(solution);
+            if (parsedSolution == null)
                 return new SolutionAnalysis(solution, new SolutionAnalysisResult(SolutionStatus.ReferToMentor));
 
-            var solutionAnalysis = AnalyzeCompiledSolution(compiledSolution);
+            var solutionAnalysis = AnalyzeParsedSolution(parsedSolution);
             Log.Information("Analyzed exercise {Exercise} with status {Status} and comments {Comments}.", solution.Slug, solutionAnalysis.Result.Status, solutionAnalysis.Result.Comments);
 
             return solutionAnalysis;
         }
 
-        private static SolutionAnalysis AnalyzeCompiledSolution(CompiledSolution compiledSolution)
+        private static SolutionAnalysis AnalyzeParsedSolution(ParsedSolution parsedSolution)
         {
-            if (compiledSolution.HasErrors())
-                return compiledSolution.DisapproveWithComment(HasCompileErrors);
+            if (parsedSolution.SyntaxRoot.HasErrorDiagnostics())
+                return parsedSolution.DisapproveWithComment(HasCompileErrors);
 
-            switch (compiledSolution.Solution.Slug)
+            switch (parsedSolution.Solution.Slug)
             {
-                case Exercises.TwoFer: return TwoFerAnalyzer.Analyze(compiledSolution);
-                case Exercises.Gigasecond: return GigasecondAnalyzer.Analyze(compiledSolution);
-                case Exercises.Leap: return LeapAnalyzer.Analyze(compiledSolution);
-                default: return DefaultAnalyzer.Analyze(compiledSolution);
+                case Exercises.TwoFer: return TwoFerAnalyzer.Analyze(parsedSolution);
+                case Exercises.Gigasecond: return GigasecondAnalyzer.Analyze(parsedSolution);
+                case Exercises.Leap: return LeapAnalyzer.Analyze(parsedSolution);
+                default: return DefaultAnalyzer.Analyze(parsedSolution);
             }
         }
     }

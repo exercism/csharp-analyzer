@@ -1,21 +1,22 @@
 ﻿using System;
-using System.Threading.Tasks;
+using CommandLine;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
     public static class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             Logging.Configure();
 
-            await Analyze(new Options(args));
+            Parser.Default.ParseArguments<Options>(args)
+                .WithParsed(Analyze);
         }
 
-        private static async Task Analyze(Options options)
+        private static void Analyze(Options options)
         {
             var bulkSolutions = BulkSolutionsReader.ReadAll(options.Slug, options.Directory);
-            var bulkSolutionsAnalysisRun = await BulkSolutionsAnalyzer.Run(bulkSolutions);
+            var bulkSolutionsAnalysisRun = BulkSolutionsAnalyzer.Run(bulkSolutions);
             var bulkSolutionsAnalysisReport = BulkSolutionAnalysisReport.Create(bulkSolutionsAnalysisRun, options);
             
             Console.WriteLine(bulkSolutionsAnalysisReport);

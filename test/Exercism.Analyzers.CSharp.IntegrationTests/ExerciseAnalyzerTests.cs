@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
@@ -7,9 +6,9 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     {
         [Theory]
         [TestSolutionsDataAttribute]
-        public async Task SolutionShouldBeCorrectlyAnalyzed(TestSolution testSolution)
-        {
-            var analysisRun = await TestSolutionAnalyzer.Run(testSolution);
+        public void SolutionShouldBeCorrectlyAnalyzed(TestSolution testSolution)
+        {   
+            var analysisRun = TestSolutionAnalyzer.Run(testSolution);
 
             Assert.Equal(analysisRun.Expected.Status, analysisRun.Actual.Status);
             Assert.Equal(analysisRun.Expected.Comments, analysisRun.Actual.Comments);
