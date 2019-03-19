@@ -1,4 +1,5 @@
 ﻿using System;
+using CommandLine;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
@@ -8,8 +9,8 @@ namespace Exercism.Analyzers.CSharp.Bulk
         {
             Logging.Configure();
 
-            // TODO: use library to parse options
-            Analyze(new Options(args));
+            Parser.Default.ParseArguments<Options>(args)
+                .WithParsed(Analyze);
         }
 
         private static void Analyze(Options options)

@@ -1,4 +1,3 @@
-using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace Exercism.Analyzers.CSharp

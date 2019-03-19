@@ -9,5 +9,9 @@
     <ItemGroup>
       <ProjectReference Include="..\Exercism.Analyzers.CSharp\Exercism.Analyzers.CSharp.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="CommandLineParser" Version="2.4.3" />
+    </ItemGroup>
 
 </Project>

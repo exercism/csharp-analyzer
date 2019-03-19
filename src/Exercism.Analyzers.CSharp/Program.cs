@@ -1,4 +1,5 @@
-﻿using Humanizer;
+﻿using CommandLine;
+using Humanizer;
 
 namespace Exercism.Analyzers.CSharp
 {
@@ -8,8 +9,8 @@ namespace Exercism.Analyzers.CSharp
         {
             Logging.Configure();
 
-            // TODO: use library for options
-            Analyze(new Options(args));
+            Parser.Default.ParseArguments<Options>(args)
+                .WithParsed(Analyze);
         }
 
         private static void Analyze(Options options)
