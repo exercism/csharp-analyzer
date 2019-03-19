@@ -1,21 +1,17 @@
-using System.Collections.Generic;
+using System.Linq;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
-    public static class BulkSolutionsAnalyzer
+    internal static class BulkSolutionsAnalyzer
     {
-        public static BulkSolutionsAnalysisRun Run(IEnumerable<BulkSolution> bulkSolutions)
+        public static BulkSolutionsAnalysisRun Run(Options options)
         {
-            var bulkSolutionAnalysisRuns = new List<BulkSolutionAnalysisRun>();
-
-            // We perform a sequential analysis, not parallel
-            foreach (var bulkSolution in bulkSolutions)
-                bulkSolutionAnalysisRuns.Add(BulkSolutionAnalyzer.Run(bulkSolution));
-
-            return CreateTestSolutionAnalyisRun(bulkSolutionAnalysisRuns.ToArray());
+            var bulkSolutions = BulkSolutionsReader.ReadAll(options);
+            var bulkSolutionAnalysisRuns = bulkSolutions.Select(BulkSolutionAnalyzer.Run).ToArray();
+            return CreateTestSolutionAnalyisRun(bulkSolutionAnalysisRuns, options);
         }
 
-        private static BulkSolutionsAnalysisRun CreateTestSolutionAnalyisRun(BulkSolutionAnalysisRun[] bulkSolution) =>
-            new BulkSolutionsAnalysisRun(bulkSolution);
+        private static BulkSolutionsAnalysisRun CreateTestSolutionAnalyisRun(BulkSolutionAnalysisRun[] bulkSolution, Options options) =>
+            new BulkSolutionsAnalysisRun(bulkSolution, options);
     }
 }

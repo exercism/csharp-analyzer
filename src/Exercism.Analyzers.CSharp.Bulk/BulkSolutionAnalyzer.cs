@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
-    public static class BulkSolutionAnalyzer
+    internal static class BulkSolutionAnalyzer
     {
         public static BulkSolutionAnalysisRun Run(BulkSolution solution)
         {

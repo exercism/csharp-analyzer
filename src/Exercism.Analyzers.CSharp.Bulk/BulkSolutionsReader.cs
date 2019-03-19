@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
-    public static class BulkSolutionsReader
+    internal static class BulkSolutionsReader
     {
-        public static IEnumerable<BulkSolution> ReadAll(string slug, string exerciseDirectory) =>
-            from solutionDirectory in GetSolutionDirectories(exerciseDirectory)
-            select CreateBulkSolution(slug, solutionDirectory);
+        public static IEnumerable<BulkSolution> ReadAll(Options options) =>
+            from solutionDirectory in GetSolutionDirectories(options.Directory)
+            select CreateBulkSolution(options.Slug, solutionDirectory);
 
         private static IEnumerable<string> GetSolutionDirectories(string exerciseDirectory) =>
             Directory.GetDirectories(exerciseDirectory).OrderBy(directory => directory, StringComparer.Ordinal);

@@ -1,5 +1,4 @@
-﻿using System;
-using CommandLine;
+﻿using CommandLine;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
@@ -14,12 +13,10 @@ namespace Exercism.Analyzers.CSharp.Bulk
         }
 
         private static void Analyze(Options options)
-        {
-            var bulkSolutions = BulkSolutionsReader.ReadAll(options.Slug, options.Directory);
-            var bulkSolutionsAnalysisRun = BulkSolutionsAnalyzer.Run(bulkSolutions);
-            var bulkSolutionsAnalysisReport = BulkSolutionAnalysisReport.Create(bulkSolutionsAnalysisRun, options);
-            
-            Console.WriteLine(bulkSolutionsAnalysisReport);
+        {   
+            var bulkSolutionsAnalysisRun = BulkSolutionsAnalyzer.Run(options);
+            BulkSolutionAnalysisReport.Output(bulkSolutionsAnalysisRun);
+            BulkSolutionsAnalysisRunWriter.Write(bulkSolutionsAnalysisRun);
         }
     }
 }

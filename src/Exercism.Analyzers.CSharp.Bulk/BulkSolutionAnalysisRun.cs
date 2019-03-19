@@ -2,7 +2,7 @@ using System;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
-    public class BulkSolutionAnalysisRun
+    internal class BulkSolutionAnalysisRun
     {
         public BulkSolution Solution { get; }
         public BulkSolutionAnalysisResult AnalysisResult { get; }
