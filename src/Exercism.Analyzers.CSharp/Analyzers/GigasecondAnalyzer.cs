@@ -6,29 +6,29 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 {
     internal static class GigasecondAnalyzer
     {
-        public static SolutionAnalysis Analyze(CompiledSolution compiledSolution)
+        public static SolutionAnalysis Analyze(ParsedSolution parsedSolution)
         {
-            if (compiledSolution.IsEquivalentTo(AddSecondsWithScientificNotationInExpressionBody))
-                return compiledSolution.ApproveAsOptimal();
+            if (parsedSolution.IsEquivalentTo(AddSecondsWithScientificNotationInExpressionBody))
+                return parsedSolution.ApproveAsOptimal();
 
-            if (compiledSolution.IsEquivalentTo(AddSecondsWithScientificNotationInBlockBody))
-                return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
+            if (parsedSolution.IsEquivalentTo(AddSecondsWithScientificNotationInBlockBody))
+                return parsedSolution.ApproveWithComment(UseExpressionBodiedMember);
 
-            if (compiledSolution.IsEquivalentTo(AddSecondsWithMathPowInExpressionBody) || 
-                compiledSolution.IsEquivalentTo(AddSecondsWithMathPowInBlockBody))
-                return compiledSolution.ApproveWithComment(UseScientificNotationNotMathPow);
+            if (parsedSolution.IsEquivalentTo(AddSecondsWithMathPowInExpressionBody) || 
+                parsedSolution.IsEquivalentTo(AddSecondsWithMathPowInBlockBody))
+                return parsedSolution.ApproveWithComment(UseScientificNotationNotMathPow);
 
-            if (compiledSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInExpressionBody) || 
-                compiledSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInBlockBody))
-                return compiledSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators);
+            if (parsedSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInExpressionBody) || 
+                parsedSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInBlockBody))
+                return parsedSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators);
 
-            if (compiledSolution.IsEquivalentTo(AddInExpressionBody) || 
-                compiledSolution.IsEquivalentTo(AddInBlockBody) || 
-                compiledSolution.IsEquivalentTo(PlusOperatorInExpressionBody) || 
-                compiledSolution.IsEquivalentTo(PlusOperatorInBlockBody))
-                return compiledSolution.DisapproveWithComment(UseAddSeconds);
+            if (parsedSolution.IsEquivalentTo(AddInExpressionBody) || 
+                parsedSolution.IsEquivalentTo(AddInBlockBody) || 
+                parsedSolution.IsEquivalentTo(PlusOperatorInExpressionBody) || 
+                parsedSolution.IsEquivalentTo(PlusOperatorInBlockBody))
+                return parsedSolution.DisapproveWithComment(UseAddSeconds);
 
-            return compiledSolution.ReferToMentor();
+            return parsedSolution.ReferToMentor();
         }
     }
 }

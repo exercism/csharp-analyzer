@@ -1,12 +1,16 @@
+using System.Linq;
+using Microsoft.CodeAnalysis;
+
 namespace Exercism.Analyzers.CSharp
 {
-    internal class CompiledSolution
+    internal class ParsedSolution
     {
         public Solution Solution { get; }
-        public Implementation Implementation { get; }
+        
+        public SyntaxNode SyntaxRoot { get; }
 
-        public CompiledSolution(Solution solution, Implementation implementation) =>
-            (Solution, Implementation) = (solution, implementation);
+        public ParsedSolution(Solution solution, SyntaxNode syntaxRoot) =>
+            (Solution, SyntaxRoot) = (solution, syntaxRoot);
 
         public SolutionAnalysis ApproveAsOptimal() =>
             ToSolutionAnalysis(SolutionStatus.ApproveAsOptimal);
@@ -23,9 +27,11 @@ namespace Exercism.Analyzers.CSharp
         private SolutionAnalysis ToSolutionAnalysis(SolutionStatus status, params string[] comments) =>
             new SolutionAnalysis(Solution, new SolutionAnalysisResult(status, comments));
 
-        // TODO: consider removing this
-        public bool HasErrors() => Implementation.HasErrors();
-
-        public bool IsEquivalentTo(string expectedCode) => Implementation.IsEquivalentTo(expectedCode);
+        public bool IsEquivalentTo(string expectedCode)
+        {
+            // TODO: consider doing string comparison (syntaxroot is already normalised)
+            var expectedSyntaxNode = SyntaxNodeParser.ParseNormalizedRoot(expectedCode);
+            return SyntaxRoot.IsEquivalentTo(expectedSyntaxNode);
+        }
     }
 }

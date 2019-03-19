@@ -1,21 +1,21 @@
-﻿using System.Threading.Tasks;
-using Humanizer;
+﻿using Humanizer;
 
 namespace Exercism.Analyzers.CSharp
 {
     public static class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             Logging.Configure();
 
-            await Analyze(new Options(args));
+            // TODO: use library for options
+            Analyze(new Options(args));
         }
 
-        private static async Task Analyze(Options options)
+        private static void Analyze(Options options)
         {
             var solution = CreateSolution(options);
-            var solutionAnalysisResult = await SolutionAnalyzer.Analyze(solution);
+            var solutionAnalysisResult = SolutionAnalyzer.Analyze(solution);
             SolutionAnalysisWriter.Write(solutionAnalysisResult);
         }
 

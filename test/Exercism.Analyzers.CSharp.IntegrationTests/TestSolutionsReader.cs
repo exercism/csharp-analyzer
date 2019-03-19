@@ -19,12 +19,19 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             Directory.GetDirectories(exerciseDirectory);
 
         private static TestSolution CreateTestSolution(string exerciseDirectory, string solutionDirectory) =>
-            new TestSolution(GetExerciseSlug(exerciseDirectory), GetExerciseName(exerciseDirectory), solutionDirectory);
+            new TestSolution(
+                GetExerciseSlug(exerciseDirectory),
+                GetExerciseName(exerciseDirectory),
+                solutionDirectory,
+                IgnoreTestSolution(solutionDirectory));
 
         private static string GetExerciseSlug(string exerciseDirectory) =>
             GetExerciseName(exerciseDirectory).Kebaberize();
 
         private static string GetExerciseName(string exerciseDirectory) =>
             Path.GetFileName(exerciseDirectory);
+
+        private static bool IgnoreTestSolution(string solutionDirectory) =>
+            File.Exists(Path.Combine(solutionDirectory, "ignore"));
     }
 }

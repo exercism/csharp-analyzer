@@ -27,6 +27,6 @@ namespace Exercism.Analyzers.CSharp.Bulk
         
         private static StringBuilder AddStatisticsForStatus(this StringBuilder report,
             BulkSolutionsAnalysisRunStatistics statistics, string status) =>
-            report.AppendLine($"| {status,StatisticsStatusColumnWidth} | {statistics.Count,StatisticsCountColumnWidth} | {statistics.CommentsWithCount.Count,StatisticsCommentsColumnWidth} | {statistics.Performance.AverageInMilliseconds,4:#0}ms | {statistics.Performance.TotalInMilliseconds,4:#0}ms | ");
+            report.AppendLine($"| {status,StatisticsStatusColumnWidth} | {statistics.Count,StatisticsCountColumnWidth} | {statistics.CommentsWithCount.Count,StatisticsCommentsColumnWidth} | {statistics.Performance.AverageInMilliseconds,4:#0}ms | {statistics.Performance.TotalInMilliseconds,6:#0}ms | ");
     }
 }

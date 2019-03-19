@@ -8,27 +8,27 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 {
     internal static class LeapAnalyzer
     {
-        public static SolutionAnalysis Analyze(CompiledSolution compiledSolution)
+        public static SolutionAnalysis Analyze(ParsedSolution parsedSolution)
         {
-            if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksInExpressionBody) ||
-                compiledSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInExpressionBody))
-                return compiledSolution.ApproveAsOptimal();
+            if (parsedSolution.IsEquivalentTo(MinimumNumberOfChecksInExpressionBody) ||
+                parsedSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInExpressionBody))
+                return parsedSolution.ApproveAsOptimal();
 
-            if (compiledSolution.IsEquivalentTo(MinimumNumberOfChecksInBlockBody) ||
-                compiledSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInBlockBody))
-                return compiledSolution.ApproveWithComment(UseExpressionBodiedMember);
+            if (parsedSolution.IsEquivalentTo(MinimumNumberOfChecksInBlockBody) ||
+                parsedSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInBlockBody))
+                return parsedSolution.ApproveWithComment(UseExpressionBodiedMember);
 
-            if (compiledSolution.UsesTooManyChecks())
-                return compiledSolution.DisapproveWithComment(UseMinimumNumberOfChecks);
+            if (parsedSolution.UsesTooManyChecks())
+                return parsedSolution.DisapproveWithComment(UseMinimumNumberOfChecks);
 
-            return compiledSolution.ReferToMentor();
+            return parsedSolution.ReferToMentor();
         }
 
-        private static bool UsesTooManyChecks(this CompiledSolution compiledSolution)
+        private static bool UsesTooManyChecks(this ParsedSolution parsedSolution)
         {
             const int minimalNumberOfChecks = 3;
 
-            var addMethod = compiledSolution.Implementation.SyntaxNode
+            var addMethod = parsedSolution.SyntaxRoot
                 .GetClass("Leap")
                 .GetMethod("IsLeapYear");
 

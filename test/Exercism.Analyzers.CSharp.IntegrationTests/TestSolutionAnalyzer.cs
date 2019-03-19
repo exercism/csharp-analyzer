@@ -1,13 +1,12 @@
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
     public static class TestSolutionAnalyzer
     {
-        public static async Task<TestSolutionAnalysisRun> Run(TestSolution testSolution)
+        public static TestSolutionAnalysisRun Run(TestSolution testSolution)
         {
-            await Program.Main(new[] { testSolution.Slug, testSolution.Directory });
+            Program.Main(new[] { testSolution.Slug, testSolution.Directory });
 
             return CreateTestSolutionAnalyisRun(testSolution);
         }

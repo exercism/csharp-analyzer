@@ -6,6 +6,9 @@ namespace Exercism.Analyzers.CSharp
 {
     internal static class SyntaxNodeExtensions
     {
+        public static bool HasErrorDiagnostics(this SyntaxNode syntaxNode) =>
+            syntaxNode.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
+        
         public static ClassDeclarationSyntax GetClass(this SyntaxNode syntaxNode, string className) =>
             syntaxNode?
                 .DescendantNodes()

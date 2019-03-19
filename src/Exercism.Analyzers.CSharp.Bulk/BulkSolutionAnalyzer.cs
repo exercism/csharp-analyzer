@@ -1,16 +1,15 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
     public static class BulkSolutionAnalyzer
     {
-        public static async Task<BulkSolutionAnalysisRun> Run(BulkSolution solution)
+        public static BulkSolutionAnalysisRun Run(BulkSolution solution)
         {
             var stopwatch = Stopwatch.StartNew();
-            await CSharp.Program.Main(new[] { solution.Slug, solution.Directory });
+            CSharp.Program.Main(new[] { solution.Slug, solution.Directory });
             stopwatch.Stop();
 
             return CreateTestSolutionAnalyisRun(solution, stopwatch.Elapsed);
