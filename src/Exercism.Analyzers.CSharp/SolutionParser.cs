@@ -1,4 +1,6 @@
 using System.IO;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
 using Serilog;
 
 namespace Exercism.Analyzers.CSharp
@@ -13,8 +15,17 @@ namespace Exercism.Analyzers.CSharp
                 return null;
             }
 
-            var syntaxRoot = SyntaxNodeParser.ParseNormalizedRoot(File.ReadAllText(solution.Paths.ImplementationFilePath));
-            return new ParsedSolution(solution, syntaxRoot);
+            var document = solution.ToDocument();
+            return new ParsedSolution(solution, document.GetReducedSyntaxRoot());
+        }
+
+        private static Document ToDocument(this Solution solution)
+        {
+            var workspace = new AdhocWorkspace();
+            
+            var sourceText = SourceText.From(File.ReadAllText(solution.Paths.ImplementationFilePath));
+            var project = workspace.AddProject(solution.Name, LanguageNames.CSharp);
+            return project.AddDocument($"{solution.Name}.cs", sourceText);
         }
     }
 }

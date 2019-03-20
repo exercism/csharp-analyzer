@@ -22,16 +22,12 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             new TestSolution(
                 GetExerciseSlug(exerciseDirectory),
                 GetExerciseName(exerciseDirectory),
-                solutionDirectory,
-                IgnoreTestSolution(solutionDirectory));
+                solutionDirectory);
 
         private static string GetExerciseSlug(string exerciseDirectory) =>
             GetExerciseName(exerciseDirectory).Kebaberize();
 
         private static string GetExerciseName(string exerciseDirectory) =>
             Path.GetFileName(exerciseDirectory);
-
-        private static bool IgnoreTestSolution(string solutionDirectory) =>
-            File.Exists(Path.Combine(solutionDirectory, "ignore"));
     }
 }
