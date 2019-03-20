@@ -1,5 +1,4 @@
 ﻿using CommandLine;
-using Humanizer;
 
 namespace Exercism.Analyzers.CSharp
 {
@@ -15,12 +14,8 @@ namespace Exercism.Analyzers.CSharp
 
         private static void Analyze(Options options)
         {
-            var solution = CreateSolution(options);
-            var solutionAnalysisResult = SolutionAnalyzer.Analyze(solution);
+            var solutionAnalysisResult = SolutionAnalyzer.Analyze(options);
             SolutionAnalysisWriter.Write(solutionAnalysisResult);
         }
-
-        private static Solution CreateSolution(Options options) =>
-            new Solution(options.Slug,options.Slug.Dehumanize().Pascalize(), options.Directory);
     }
 }

@@ -3,21 +3,23 @@ using System.Linq;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
-    public class BulkSolutionsAnalysisRun
+    internal class BulkSolutionsAnalysisRun
     {   
         public BulkSolutionsAnalysisRunStatistics All { get; }
         public BulkSolutionsAnalysisRunStatistics ApprovedAsOptimal { get; }
         public BulkSolutionsAnalysisRunStatistics ApprovedWithComment { get; }
         public BulkSolutionsAnalysisRunStatistics DisapprovedWithComment { get; }
         public BulkSolutionsAnalysisRunStatistics ReferredToMentor { get; }
+        public Options Options { get; }
 
-        public BulkSolutionsAnalysisRun(BulkSolutionAnalysisRun[] analyses)
+        public BulkSolutionsAnalysisRun(BulkSolutionAnalysisRun[] analyses, Options options)
         {
             All = ToStats(analyses, _ => true);
             ApprovedAsOptimal = ToStats(analyses, IsApprovedAsOptimal);
             ApprovedWithComment = ToStats(analyses, IsApprovedWithComment);
             DisapprovedWithComment = ToStats(analyses, IsDisapprovedWithComment);
             ReferredToMentor = ToStats(analyses, IsReferredToMentor);
+            Options = options;
         }
 
         private static BulkSolutionsAnalysisRunStatistics ToStats(BulkSolutionAnalysisRun[] analyses,

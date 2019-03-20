@@ -2,7 +2,7 @@ using System.Linq;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
-    public class BulkSolutionsAnalysisRunPerformance
+    internal class BulkSolutionsAnalysisRunPerformance
     {
         public double TotalInMilliseconds { get; }
         public double AverageInMilliseconds { get; }

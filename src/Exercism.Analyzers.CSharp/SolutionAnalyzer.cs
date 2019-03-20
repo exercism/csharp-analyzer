@@ -1,4 +1,5 @@
 using Exercism.Analyzers.CSharp.Analyzers;
+using Humanizer;
 using Serilog;
 using static Exercism.Analyzers.CSharp.Analyzers.DefaultComments;
 
@@ -6,8 +7,10 @@ namespace Exercism.Analyzers.CSharp
 {
     internal static class SolutionAnalyzer
     {
-        public static SolutionAnalysis Analyze(Solution solution)
+        public static SolutionAnalysis Analyze(Options options)
         {
+            var solution = CreateSolution(options);
+            
             Log.Information("Compiling exercise {Exercise}.", solution.Slug);
             var parsedSolution = SolutionParser.Parse(solution);
             if (parsedSolution == null)
@@ -32,5 +35,8 @@ namespace Exercism.Analyzers.CSharp
                 default: return DefaultAnalyzer.Analyze(parsedSolution);
             }
         }
+
+        private static Solution CreateSolution(Options options) =>
+            new Solution(options.Slug,options.Slug.Dehumanize().Pascalize(), options.Directory);
     }
 }

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
-    public class BulkSolutionsAnalysisRunStatistics
+    internal class BulkSolutionsAnalysisRunStatistics
     {
         public int Count { get; }
         public string[] Directories { get; }
