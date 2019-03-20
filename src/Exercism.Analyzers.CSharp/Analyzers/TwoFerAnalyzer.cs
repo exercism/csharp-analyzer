@@ -92,9 +92,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         }
 
         private static bool AssignsToParameter(this ParsedSolution parsedSolution) =>
-            parsedSolution
-                .GetNameMethod()
-                .AssignsToIdentifier("input");
+            parsedSolution.GetNameMethod().AssignsToParameter("input") ||
+            parsedSolution.GetNameMethod().AssignsToParameter("name");
 
         private static MethodDeclarationSyntax GetNameMethod(this ParsedSolution parsedSolution) =>
             parsedSolution.SyntaxRoot

@@ -37,6 +37,16 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                 .OfType<MethodDeclarationSyntax>()
                 .Any(syntax => syntax.Identifier.Text == methodName) ?? false;
 
+        public static bool HasParameter(this MethodDeclarationSyntax methodDeclaration, string parameterName) =>
+            methodDeclaration?
+                .ParameterList
+                .Parameters
+                .Any(parameter => parameter.Identifier.ValueText == parameterName) ?? false;
+
+        public static bool AssignsToParameter(this MethodDeclarationSyntax methodDeclaration, string parameterName) =>
+            methodDeclaration.HasParameter(parameterName) &&
+            methodDeclaration.AssignsToIdentifier(parameterName);
+
         public static bool AssignsToIdentifier(this SyntaxNode syntaxNode, string identifierName) =>
             syntaxNode?
                 .DescendantNodes()
