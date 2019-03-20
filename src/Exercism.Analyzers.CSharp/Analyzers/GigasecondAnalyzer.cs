@@ -1,6 +1,6 @@
 using static Exercism.Analyzers.CSharp.Analyzers.GigasecondSolutions;
 using static Exercism.Analyzers.CSharp.Analyzers.GigasecondComments;
-using static Exercism.Analyzers.CSharp.Analyzers.DefaultComments;
+using static Exercism.Analyzers.CSharp.Analyzers.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers
 {

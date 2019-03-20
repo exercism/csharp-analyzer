@@ -2,7 +2,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.LeapSolutions;
 using static Exercism.Analyzers.CSharp.Analyzers.LeapComments;
-using static Exercism.Analyzers.CSharp.Analyzers.DefaultComments;
+using static Exercism.Analyzers.CSharp.Analyzers.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers
 {
@@ -31,6 +31,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             var addMethod = parsedSolution.SyntaxRoot
                 .GetClass("Leap")
                 .GetMethod("IsLeapYear");
+
+            if (addMethod == null)
+                return false;
 
             return addMethod
                 .DescendantNodes()
