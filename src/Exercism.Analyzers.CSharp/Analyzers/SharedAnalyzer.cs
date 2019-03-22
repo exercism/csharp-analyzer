@@ -1,5 +1,7 @@
 using System.Linq;
+using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Microsoft.CodeAnalysis;
+using static Exercism.Analyzers.CSharp.Analyzers.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers
 {
@@ -8,10 +10,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         public static SolutionAnalysis Analyze(ParsedSolution parsedSolution)
         {
             if (parsedSolution.HasCompileErrors())
-                return parsedSolution.DisapproveWithComment(SharedComments.HasCompileErrors);
-            
+                return parsedSolution.DisapproveWithComment(FixCompileErrors);
+
             if (parsedSolution.HasMainMethod())
-                return parsedSolution.DisapproveWithComment(SharedComments.HasMainMethod);
+                return parsedSolution.DisapproveWithComment(RemoveMainMethod);
+
+            if (parsedSolution.ThrowsNotImplementedException())
+                return parsedSolution.DisapproveWithComment(RemoveThrowNotImplementedException);
             
             return null;
         }
@@ -22,5 +27,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         private static bool HasMainMethod(this ParsedSolution parsedSolution) =>
             parsedSolution.SyntaxRoot.HasClass("Program") &&
             parsedSolution.SyntaxRoot.HasMethod("Main");
+
+        private static bool ThrowsNotImplementedException(this ParsedSolution parsedSolution) =>
+            parsedSolution.SyntaxRoot.ThrowsException("NotImplementedException") ||
+            parsedSolution.SyntaxRoot.ThrowsException("System.NotImplementedException");
     }
 }

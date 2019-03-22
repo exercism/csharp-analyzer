@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Exercism.Analyzers.CSharp.Analyzers
+namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
 {
     internal static class SyntaxNodeExtensions
     {
@@ -37,21 +37,17 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                 .OfType<MethodDeclarationSyntax>()
                 .Any(syntax => syntax.Identifier.Text == methodName) ?? false;
 
-        public static bool HasParameter(this MethodDeclarationSyntax methodDeclaration, string parameterName) =>
-            methodDeclaration?
-                .ParameterList
-                .Parameters
-                .Any(parameter => parameter.Identifier.ValueText == parameterName) ?? false;
-
-        public static bool AssignsToParameter(this MethodDeclarationSyntax methodDeclaration, string parameterName) =>
-            methodDeclaration.HasParameter(parameterName) &&
-            methodDeclaration.AssignsToIdentifier(parameterName);
-
         public static bool AssignsToIdentifier(this SyntaxNode syntaxNode, string identifierName) =>
             syntaxNode?
                 .DescendantNodes()
                 .OfType<AssignmentExpressionSyntax>()
                 .Any(assignmentExpression => assignmentExpression.Left is IdentifierNameSyntax name &&
                                              name.Identifier.ValueText == identifierName) ?? false;
+
+        public static bool ThrowsException(this SyntaxNode syntaxNode, string exceptionType) =>
+            syntaxNode?
+                .DescendantNodes()
+                .OfType<ThrowStatementSyntax>()
+                .Any(throwsStatement => throwsStatement.Expression.CreatesObjectOfType(exceptionType)) ?? false;
     }
 }

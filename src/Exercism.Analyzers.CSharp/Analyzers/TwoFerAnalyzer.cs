@@ -1,4 +1,5 @@
 using System.Linq;
+using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.TwoFerSolutions;
 using static Exercism.Analyzers.CSharp.Analyzers.SharedComments;
@@ -13,9 +14,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             if (parsedSolution.UsesOverloads() ||
                 parsedSolution.UsesDuplicateString())
                 return parsedSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
-            
+
             if (parsedSolution.UsesStringReplace())
                 return parsedSolution.DisapproveWithComment(UseStringInterpolationNotStringReplace);
+
+            if (parsedSolution.UsesStringJoin())
+                return parsedSolution.DisapproveWithComment(UseStringInterpolationNotStringJoin);
+
+            if (parsedSolution.UsesStringConcat())
+                return parsedSolution.DisapproveWithComment(UseStringInterpolationNotStringConcat);
             
             if (parsedSolution.AssignsToParameter())
                 return parsedSolution.DisapproveWithComment(DontAssignToParameter);
@@ -89,6 +96,20 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 
             var secondArgumentIdentifierName = invocationExpression.ArgumentList.Arguments[1].Expression as IdentifierNameSyntax;
             return secondArgumentIdentifierName?.Identifier.ValueText == "input";
+        }
+
+        private static bool UsesStringJoin(this ParsedSolution parsedSolution)
+        {
+            var nameMethod = parsedSolution.GetNameMethod();
+            return nameMethod.InvokesMethod("string", "Join") ||
+                   nameMethod.InvokesMethod("String", "Join");
+        }
+
+        private static bool UsesStringConcat(this ParsedSolution parsedSolution)
+        {
+            var nameMethod = parsedSolution.GetNameMethod();
+            return nameMethod.InvokesMethod("string", "Concat") ||
+                   nameMethod.InvokesMethod("String", "Concat");
         }
 
         private static bool AssignsToParameter(this ParsedSolution parsedSolution) =>
