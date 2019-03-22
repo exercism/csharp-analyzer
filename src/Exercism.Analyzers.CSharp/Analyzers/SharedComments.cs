@@ -10,5 +10,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         public const string UseStringInterpolationNotStringConcatenation = "csharp.general.use_string_interpolation_not_string_concatenation";
         public const string DontAssignToParameter = "csharp.general.dont_assign_to_parameter";
         public const string RemoveThrowNotImplementedException = "csharp.general.remove_throw_not_implemented_exception";
+        public const string DontWriteToConsole = "csharp.general.dont_write_to_console";
     }
 }

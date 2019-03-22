@@ -49,5 +49,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
                 .DescendantNodes()
                 .OfType<ThrowStatementSyntax>()
                 .Any(throwsStatement => throwsStatement.Expression.CreatesObjectOfType(exceptionType)) ?? false;
+
+        
+        public static bool InvokesMethod(this SyntaxNode syntaxNode, string className, string methodName) =>
+            syntaxNode?
+                .DescendantNodes()
+                .OfType<MemberAccessExpressionSyntax>()
+                .Any(memberAccessExpression =>  memberAccessExpression.ToFullString() == $"{className}.{methodName}") ?? false;
     }
 }

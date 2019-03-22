@@ -17,6 +17,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 
             if (parsedSolution.ThrowsNotImplementedException())
                 return parsedSolution.DisapproveWithComment(RemoveThrowNotImplementedException);
+
+            if (parsedSolution.WritesToConsole())
+                return parsedSolution.DisapproveWithComment(DontWriteToConsole);
             
             return null;
         }
@@ -31,5 +34,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         private static bool ThrowsNotImplementedException(this ParsedSolution parsedSolution) =>
             parsedSolution.SyntaxRoot.ThrowsException("NotImplementedException") ||
             parsedSolution.SyntaxRoot.ThrowsException("System.NotImplementedException");
+
+        private static bool WritesToConsole(this ParsedSolution parsedSolution) =>
+            parsedSolution.SyntaxRoot.InvokesMethod("Console", "WriteLine") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("Console", "ReadLine") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("System.Console", "WriteLine") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("System.Console", "ReadLine");
     }
 }
