@@ -14,17 +14,17 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             if (parsedSolution.IsEquivalentTo(AddSecondsWithScientificNotationInBlockBody))
                 return parsedSolution.ApproveWithComment(UseExpressionBodiedMember);
 
-            if (parsedSolution.IsEquivalentTo(AddSecondsWithMathPowInExpressionBody) || 
+            if (parsedSolution.IsEquivalentTo(AddSecondsWithMathPowInExpressionBody) ||
                 parsedSolution.IsEquivalentTo(AddSecondsWithMathPowInBlockBody))
                 return parsedSolution.ApproveWithComment(UseScientificNotationNotMathPow);
 
-            if (parsedSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInExpressionBody) || 
+            if (parsedSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInExpressionBody) ||
                 parsedSolution.IsEquivalentTo(AddSecondsWithDigitsWithoutSeparatorInBlockBody))
                 return parsedSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators);
 
-            if (parsedSolution.IsEquivalentTo(AddInExpressionBody) || 
-                parsedSolution.IsEquivalentTo(AddInBlockBody) || 
-                parsedSolution.IsEquivalentTo(PlusOperatorInExpressionBody) || 
+            if (parsedSolution.IsEquivalentTo(AddInExpressionBody) ||
+                parsedSolution.IsEquivalentTo(AddInBlockBody) ||
+                parsedSolution.IsEquivalentTo(PlusOperatorInExpressionBody) ||
                 parsedSolution.IsEquivalentTo(PlusOperatorInBlockBody))
                 return parsedSolution.DisapproveWithComment(UseAddSeconds);
 

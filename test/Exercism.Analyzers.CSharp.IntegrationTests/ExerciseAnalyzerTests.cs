@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         [Theory]
         [TestSolutionsDataAttribute]
         public void SolutionShouldBeCorrectlyAnalyzed(TestSolution testSolution)
-        {   
+        {
             var analysisRun = TestSolutionAnalyzer.Run(testSolution);
 
             Assert.Equal(analysisRun.Expected.Status, analysisRun.Actual.Status);

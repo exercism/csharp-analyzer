@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp
         public static SolutionAnalysis Analyze(Options options)
         {
             var solution = CreateSolution(options);
-            
+
             Log.Information("Parsing exercise {Exercise} in {Directory}.", options.Slug, options.Directory);
             var parsedSolution = SolutionParser.Parse(solution);
             if (parsedSolution == null)
@@ -22,7 +22,7 @@ namespace Exercism.Analyzers.CSharp
         }
 
         private static Solution CreateSolution(Options options) =>
-            new Solution(options.Slug,options.Slug.Dehumanize().Pascalize(), options.Directory);
+            new Solution(options.Slug, options.Slug.Dehumanize().Pascalize(), options.Directory);
 
         private static SolutionAnalysis AnalyzeSolution(ParsedSolution parsedSolution) =>
             AnalyzeSharesRules(parsedSolution) ??

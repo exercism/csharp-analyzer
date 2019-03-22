@@ -4,7 +4,7 @@ using System.Linq;
 namespace Exercism.Analyzers.CSharp.Bulk
 {
     internal class BulkSolutionsAnalysisRun
-    {   
+    {
         public BulkSolutionsAnalysisRunStatistics All { get; }
         public BulkSolutionsAnalysisRunStatistics ApprovedAsOptimal { get; }
         public BulkSolutionsAnalysisRunStatistics ApprovedWithComment { get; }
@@ -28,13 +28,13 @@ namespace Exercism.Analyzers.CSharp.Bulk
 
         private static bool IsApprovedAsOptimal(BulkSolutionAnalysisRun analysis) =>
             analysis.AnalysisResult.Status == "approve_as_optimal";
-        
+
         private static bool IsApprovedWithComment(BulkSolutionAnalysisRun analysis) =>
             analysis.AnalysisResult.Status == "approve_with_comment";
-        
+
         private static bool IsDisapprovedWithComment(BulkSolutionAnalysisRun analysis) =>
             analysis.AnalysisResult.Status == "disapprove_with_comment";
-        
+
         private static bool IsReferredToMentor(BulkSolutionAnalysisRun analysis) =>
             analysis.AnalysisResult.Status == "refer_to_mentor";
     }

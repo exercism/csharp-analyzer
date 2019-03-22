@@ -22,7 +22,7 @@ namespace Exercism.Analyzers.CSharp
         private static Document ToDocument(this Solution solution)
         {
             var workspace = new AdhocWorkspace();
-            
+
             var sourceText = SourceText.From(File.ReadAllText(solution.Paths.ImplementationFilePath));
             var project = workspace.AddProject(solution.Name, LanguageNames.CSharp);
             return project.AddDocument($"{solution.Name}.cs", sourceText);

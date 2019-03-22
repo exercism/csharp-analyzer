@@ -5,7 +5,7 @@ namespace Exercism.Analyzers.CSharp
     internal class ParsedSolution
     {
         public Solution Solution { get; }
-        
+
         public SyntaxNode SyntaxRoot { get; }
 
         public ParsedSolution(Solution solution, SyntaxNode syntaxRoot) =>

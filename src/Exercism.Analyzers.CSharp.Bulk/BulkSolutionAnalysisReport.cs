@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.Bulk
     {
         public static void Output(BulkSolutionsAnalysisRun analysisRun) =>
             Console.WriteLine(Create(analysisRun));
-        
+
         public static string Create(BulkSolutionsAnalysisRun analysisRun) =>
             new StringBuilder()
                 .AddHeader()

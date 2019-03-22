@@ -13,7 +13,7 @@ namespace Exercism.Analyzers.CSharp.Bulk
         }
 
         private static void Analyze(Options options)
-        {   
+        {
             var bulkSolutionsAnalysisRun = BulkSolutionsAnalyzer.Run(options);
             BulkSolutionAnalysisReport.Output(bulkSolutionsAnalysisRun);
             BulkSolutionsAnalysisRunWriter.Write(bulkSolutionsAnalysisRun);

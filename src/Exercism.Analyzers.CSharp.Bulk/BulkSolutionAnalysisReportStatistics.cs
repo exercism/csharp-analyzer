@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.Bulk
         private const int StatisticsCommentsColumnWidth = 8;
         private const int StatisticsAverageColumnWidth = 6;
         private const int StatisticsTotalColumnWidth = 8;
-        
+
         public static StringBuilder AddStatistics(this StringBuilder report, BulkSolutionsAnalysisRun analysisRun) =>
             report
                 .AddStatisticsHeader()
@@ -24,7 +24,7 @@ namespace Exercism.Analyzers.CSharp.Bulk
                 .AppendLine("## Statistics")
                 .AppendLine($"| {"Status",StatisticsStatusColumnWidth} | {"Count",StatisticsCountColumnWidth} | {"Comments",StatisticsCommentsColumnWidth} | {"Avg",StatisticsAverageColumnWidth} | {"Total",StatisticsTotalColumnWidth} |")
                 .AppendLine($"| {"".PadRight(StatisticsStatusColumnWidth, '-')}:| {"".PadRight(StatisticsCountColumnWidth, '-')}:| {"".PadRight(StatisticsCommentsColumnWidth, '-')}:| {"".PadRight(StatisticsAverageColumnWidth, '-')}:| {"".PadRight(StatisticsTotalColumnWidth, '-')}:|");
-        
+
         private static StringBuilder AddStatisticsForStatus(this StringBuilder report,
             BulkSolutionsAnalysisRunStatistics statistics, string status) =>
             report.AppendLine($"| {status,StatisticsStatusColumnWidth} | {statistics.Count,StatisticsCountColumnWidth} | {statistics.CommentsWithCount.Count,StatisticsCommentsColumnWidth} | {statistics.Performance.AverageInMilliseconds,4:#0}ms | {statistics.Performance.TotalInMilliseconds,6:#0}ms | ");

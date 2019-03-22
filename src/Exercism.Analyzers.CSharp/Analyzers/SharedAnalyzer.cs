@@ -20,7 +20,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 
             if (parsedSolution.WritesToConsole())
                 return parsedSolution.DisapproveWithComment(DontWriteToConsole);
-            
+
             return null;
         }
 

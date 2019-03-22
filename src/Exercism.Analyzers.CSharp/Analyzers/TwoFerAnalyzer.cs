@@ -23,10 +23,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 
             if (parsedSolution.UsesStringConcat())
                 return parsedSolution.DisapproveWithComment(UseStringInterpolationNotStringConcat);
-            
+
             if (parsedSolution.AssignsToParameter())
                 return parsedSolution.DisapproveWithComment(DontAssignToParameter);
-            
+
             if (parsedSolution.IsEquivalentTo(DefaultValueWithStringInterpolationInExpressionBody) ||
                 parsedSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInExpressionBody) ||
                 parsedSolution.IsEquivalentTo(StringInterpolationWithNullCoalescingOperatorAndVariableForName))

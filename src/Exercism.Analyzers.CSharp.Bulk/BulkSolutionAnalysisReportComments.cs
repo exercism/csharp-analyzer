@@ -23,15 +23,15 @@ namespace Exercism.Analyzers.CSharp.Bulk
         {
             if (statistics.CommentsWithCount.Count == 0)
                 return report;
-            
+
             var maxCommentLength = statistics.CommentsWithCount.Keys.Max(comment => comment.Length);
-                
+
             report
                 .AppendLine()
                 .AddCommentsForStatusHeader(status)
                 .AppendLine($"| {"Comment".PadRight(maxCommentLength, ' ')} | {"Count".PadRight(CommentsCountColumnWidth, ' ')} |")
                 .AppendLine($"| {"".PadRight(maxCommentLength, '-')}:| {"".PadRight(CommentsCountColumnWidth, '-')}:|");
-           
+
             foreach (var commentWithCount in statistics.CommentsWithCount)
                 report.AddCommentCount(commentWithCount, maxCommentLength);
 
