@@ -14,5 +14,14 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
         public static bool AssignsToParameter(this MethodDeclarationSyntax methodDeclaration, string parameterName) =>
             methodDeclaration.HasParameter(parameterName) &&
             methodDeclaration.AssignsToIdentifier(parameterName);
+
+        public static bool IsBlockBody(this MethodDeclarationSyntax methodDeclaration) =>
+            methodDeclaration.Body != null;
+        
+        public static bool IsExpressionBody(this MethodDeclarationSyntax methodDeclaration) =>
+            methodDeclaration.ExpressionBody != null;
+
+        public static bool CanBeConvertedToBlockBody(this MethodDeclarationSyntax methodDeclaration) =>
+            methodDeclaration.Body.Statements.Count <= 1;
     }
 }

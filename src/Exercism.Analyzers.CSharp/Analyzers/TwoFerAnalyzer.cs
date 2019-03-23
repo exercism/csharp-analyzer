@@ -1,5 +1,6 @@
 using System.Linq;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.TwoFerSolutions;
 using static Exercism.Analyzers.CSharp.Analyzers.SharedComments;
@@ -8,72 +9,72 @@ using static Exercism.Analyzers.CSharp.Analyzers.TwoFerComments;
 namespace Exercism.Analyzers.CSharp.Analyzers
 {
     internal static class TwoFerAnalyzer
-    {
+    {   
         public static SolutionAnalysis Analyze(ParsedSolution parsedSolution)
         {
-            if (parsedSolution.UsesOverloads() ||
-                parsedSolution.UsesDuplicateString())
-                return parsedSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
+            var twoFerSolution = new TwoFerSolution(parsedSolution);
 
-            if (parsedSolution.UsesStringReplace())
-                return parsedSolution.DisapproveWithComment(UseStringInterpolationNotStringReplace);
+            if (twoFerSolution.MissingNameMethod())
+                return twoFerSolution.DisapproveWithComment(FixCompileErrors);
+            
+            if (twoFerSolution.UsesOverloads() ||
+                twoFerSolution.UsesDuplicateString())
+                return twoFerSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
 
-            if (parsedSolution.UsesStringJoin())
+            if (twoFerSolution.UsesStringReplace())
+                return twoFerSolution.DisapproveWithComment(UseStringInterpolationNotStringReplace);
+
+            if (twoFerSolution.UsesStringJoin())
                 return parsedSolution.DisapproveWithComment(UseStringInterpolationNotStringJoin);
 
-            if (parsedSolution.UsesStringConcat())
-                return parsedSolution.DisapproveWithComment(UseStringInterpolationNotStringConcat);
+            if (twoFerSolution.UsesStringConcat())
+                return twoFerSolution.DisapproveWithComment(UseStringInterpolationNotStringConcat);
 
-            if (parsedSolution.AssignsToParameter())
-                return parsedSolution.DisapproveWithComment(DontAssignToParameter);
+            if (twoFerSolution.AssignsToParameter())
+                return twoFerSolution.DisapproveWithComment(DontAssignToParameter);
 
-            if (parsedSolution.IsEquivalentTo(DefaultValueWithStringInterpolationInExpressionBody) ||
-                parsedSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInExpressionBody) ||
-                parsedSolution.IsEquivalentTo(StringInterpolationWithNullCoalescingOperatorAndVariableForName))
-                return parsedSolution.ApproveAsOptimal();
+            if (twoFerSolution.IsEquivalentTo(DefaultValueWithStringInterpolationInExpressionBody) ||
+                twoFerSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInExpressionBody) ||
+                twoFerSolution.IsEquivalentTo(StringInterpolationWithNullCoalescingOperatorAndVariableForName))
+                return twoFerSolution.ApproveAsOptimal();
 
-            if (parsedSolution.IsEquivalentTo(StringInterpolationWithTernaryOperatorInExpressionBody) ||
-                parsedSolution.IsEquivalentTo(StringInterpolationWithTernaryOperatorInBlockBody))
-                return parsedSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
+            if (twoFerSolution.IsEquivalentTo(StringInterpolationWithTernaryOperatorInExpressionBody) ||
+                twoFerSolution.IsEquivalentTo(StringInterpolationWithTernaryOperatorInBlockBody))
+                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
 
-            if (parsedSolution.IsEquivalentTo(DefaultValueWithStringInterpolationInBlockBody) ||
-                parsedSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInBlockBody))
-                return parsedSolution.ApproveWithComment(UseExpressionBodiedMember);
+            if (twoFerSolution.IsEquivalentTo(DefaultValueWithStringInterpolationInBlockBody) ||
+                twoFerSolution.IsEquivalentTo(StringInterpolationWithInlinedNullCoalescingOperatorInBlockBody))
+                return twoFerSolution.ApproveWithComment(UseExpressionBodiedMember);
 
-            if (parsedSolution.IsEquivalentTo(DefaultValueWithStringConcatenationInExpressionBody) ||
-                parsedSolution.IsEquivalentTo(DefaultValueWithStringConcatenationInBlockBody) ||
-                parsedSolution.IsEquivalentTo(StringConcatenationWithInlinedNullCoalescingOperatorInExpressionBody) ||
-                parsedSolution.IsEquivalentTo(StringConcatenationWithInlinedNullCoalescingOperatorInBlockBody))
-                return parsedSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
+            if (twoFerSolution.IsEquivalentTo(DefaultValueWithStringConcatenationInExpressionBody) ||
+                twoFerSolution.IsEquivalentTo(DefaultValueWithStringConcatenationInBlockBody) ||
+                twoFerSolution.IsEquivalentTo(StringConcatenationWithInlinedNullCoalescingOperatorInExpressionBody) ||
+                twoFerSolution.IsEquivalentTo(StringConcatenationWithInlinedNullCoalescingOperatorInBlockBody))
+                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
 
-            if (parsedSolution.IsEquivalentTo(DefaultValueWithStringFormatInExpressionBody) ||
-                parsedSolution.IsEquivalentTo(DefaultValueWithStringFormatInBlockBody) ||
-                parsedSolution.IsEquivalentTo(StringFormatWithInlinedNullCoalescingOperatorInExpressionBody) ||
-                parsedSolution.IsEquivalentTo(StringFormatWithInlinedNullCoalescingOperatorInBlockBody))
-                return parsedSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
+            if (twoFerSolution.IsEquivalentTo(DefaultValueWithStringFormatInExpressionBody) ||
+                twoFerSolution.IsEquivalentTo(DefaultValueWithStringFormatInBlockBody) ||
+                twoFerSolution.IsEquivalentTo(StringFormatWithInlinedNullCoalescingOperatorInExpressionBody) ||
+                twoFerSolution.IsEquivalentTo(StringFormatWithInlinedNullCoalescingOperatorInBlockBody))
+                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
 
-            return parsedSolution.ReferToMentor();
+            return twoFerSolution.ReferToMentor();
         }
 
-        private static bool UsesOverloads(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot
-                .GetClass("TwoFer")
-                .GetMethods("Name")
-                .Count() > 1;
+        private static bool MissingNameMethod(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.NameMethod == null;
 
-        private static bool UsesDuplicateString(this ParsedSolution parsedSolution)
+        private static bool UsesOverloads(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.TwoFerClass.GetMethods("Name").Count() > 1;
+
+        private static bool UsesDuplicateString(this TwoFerSolution twoFerSolution)
         {
-            var nameMethod = parsedSolution.GetNameMethod();
-
-            if (nameMethod == null)
-                return false;
-
-            var literalExpressionCount = nameMethod
+            var literalExpressionCount = twoFerSolution.NameMethod
                 .DescendantNodes()
                 .OfType<LiteralExpressionSyntax>()
                 .Count(literalExpression => literalExpression.Token.ValueText.Contains("one for me"));
 
-            var interpolatedStringTextCount = nameMethod
+            var interpolatedStringTextCount = twoFerSolution.NameMethod
                 .DescendantNodes()
                 .OfType<InterpolatedStringTextSyntax>()
                 .Count(interpolatedStringText => interpolatedStringText.TextToken.ValueText.Contains("one for me"));
@@ -81,11 +82,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             return literalExpressionCount + interpolatedStringTextCount > 1;
         }
 
-        private static bool UsesStringReplace(this ParsedSolution parsedSolution)
+        private static bool UsesStringReplace(this TwoFerSolution twoFerSolution)
         {
-            var nameMethod = parsedSolution.GetNameMethod();
-
-            var replaceExpression = nameMethod
+            var replaceExpression = twoFerSolution.NameMethod
                 .DescendantNodes()
                 .OfType<MemberAccessExpressionSyntax>()
                 .FirstOrDefault(memberAccessExpression => memberAccessExpression.Name.Identifier.ValueText == "Replace");
@@ -98,27 +97,28 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             return secondArgumentIdentifierName?.Identifier.ValueText == "input";
         }
 
-        private static bool UsesStringJoin(this ParsedSolution parsedSolution)
+        private static bool UsesStringJoin(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.NameMethod.InvokesMethod("System","string","Join") ||
+            twoFerSolution.NameMethod.InvokesMethod("System","String","Join");
+
+        private static bool UsesStringConcat(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.NameMethod.InvokesMethod("System","string","Concat") ||
+            twoFerSolution.NameMethod.InvokesMethod("System","String","Concat");
+
+        private static bool AssignsToParameter(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.NameMethod.AssignsToParameter("input") ||
+            twoFerSolution.NameMethod.AssignsToParameter("name");
+
+        private class TwoFerSolution : ParsedSolution
         {
-            var nameMethod = parsedSolution.GetNameMethod();
-            return nameMethod.InvokesMethod("string", "Join") ||
-                   nameMethod.InvokesMethod("String", "Join");
+            public ClassDeclarationSyntax TwoFerClass { get; }
+            public MethodDeclarationSyntax NameMethod { get; }
+
+            public TwoFerSolution(ParsedSolution solution) : base(solution.Solution, solution.SyntaxRoot)
+            {
+                TwoFerClass = solution.SyntaxRoot.GetClass("TwoFer");
+                NameMethod = TwoFerClass.GetMethod("Name");
+            }
         }
-
-        private static bool UsesStringConcat(this ParsedSolution parsedSolution)
-        {
-            var nameMethod = parsedSolution.GetNameMethod();
-            return nameMethod.InvokesMethod("string", "Concat") ||
-                   nameMethod.InvokesMethod("String", "Concat");
-        }
-
-        private static bool AssignsToParameter(this ParsedSolution parsedSolution) =>
-            parsedSolution.GetNameMethod().AssignsToParameter("input") ||
-            parsedSolution.GetNameMethod().AssignsToParameter("name");
-
-        private static MethodDeclarationSyntax GetNameMethod(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot
-                .GetClass("TwoFer")
-                .GetMethod("Name");
     }
 }

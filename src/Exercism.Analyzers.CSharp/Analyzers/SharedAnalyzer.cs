@@ -32,13 +32,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             parsedSolution.SyntaxRoot.HasMethod("Main");
 
         private static bool ThrowsNotImplementedException(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot.ThrowsException("NotImplementedException") ||
-            parsedSolution.SyntaxRoot.ThrowsException("System.NotImplementedException");
+            parsedSolution.SyntaxRoot.ThrowsException("System", "NotImplementedException");
 
         private static bool WritesToConsole(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot.InvokesMethod("Console", "WriteLine") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("Console", "ReadLine") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("System.Console", "WriteLine") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("System.Console", "ReadLine");
+            parsedSolution.SyntaxRoot.InvokesMethod("System", "Console", "WriteLine") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("System", "Console", "ReadLine");
     }
 }

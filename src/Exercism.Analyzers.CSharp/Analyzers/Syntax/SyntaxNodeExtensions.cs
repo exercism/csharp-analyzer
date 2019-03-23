@@ -11,13 +11,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
             syntaxNode?
                 .DescendantNodes()
                 .OfType<ClassDeclarationSyntax>()
-                .SingleOrDefault(syntax => syntax.Identifier.Text == className);
+                .FirstOrDefault(syntax => syntax.Identifier.Text == className);
 
         public static MethodDeclarationSyntax GetMethod(this SyntaxNode syntaxNode, string methodName) =>
             syntaxNode?
                 .DescendantNodes()
                 .OfType<MethodDeclarationSyntax>()
-                .SingleOrDefault(syntax => syntax.Identifier.Text == methodName);
+                .FirstOrDefault(syntax => syntax.Identifier.Text == methodName);
 
         public static IEnumerable<MethodDeclarationSyntax> GetMethods(this SyntaxNode syntaxNode, string methodName) =>
             syntaxNode?
@@ -44,17 +44,22 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
                 .Any(assignmentExpression => assignmentExpression.Left is IdentifierNameSyntax name &&
                                              name.Identifier.ValueText == identifierName) ?? false;
 
-        public static bool ThrowsException(this SyntaxNode syntaxNode, string exceptionType) =>
+        public static bool ThrowsException(this SyntaxNode syntaxNode, string exceptionNamespace, string exceptionType) =>
             syntaxNode?
                 .DescendantNodes()
                 .OfType<ThrowStatementSyntax>()
-                .Any(throwsStatement => throwsStatement.Expression.CreatesObjectOfType(exceptionType)) ?? false;
+                .Any(throwsStatement =>
+                    throwsStatement.Expression.CreatesObjectOfType(exceptionType.StripNamespace(exceptionNamespace)) ||
+                    throwsStatement.Expression.CreatesObjectOfType($"{exceptionNamespace}.{exceptionType}")) ?? false;
 
-
-        public static bool InvokesMethod(this SyntaxNode syntaxNode, string className, string methodName) =>
+        public static bool InvokesMethod(this SyntaxNode syntaxNode, string classNamespace, string className, string methodName) =>
             syntaxNode?
                 .DescendantNodes()
                 .OfType<MemberAccessExpressionSyntax>()
-                .Any(memberAccessExpression => memberAccessExpression.ToFullString() == $"{className}.{methodName}") ?? false;
+                .Any(memberAccessExpression => 
+                    memberAccessExpression.ToFullString() == $"{classNamespace}.{className}.{methodName}" ||
+                    memberAccessExpression.ToFullString() == $"{className.StripNamespace(classNamespace)}.{methodName}") ?? false;
+
+        private static string StripNamespace(this string className, string classNamespace) => className.Replace($"{classNamespace}.", "");
     }
 }
