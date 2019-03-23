@@ -1,65 +1,65 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
 {
     internal static class SyntaxNodeExtensions
     {
+        public static bool IsSafeEquivalentTo(this SyntaxNode node, SyntaxNode other) =>
+            node.NormalizeWhitespace().WithoutTrivia().IsEquivalentTo(other.NormalizeWhitespace().WithoutTrivia());
+        
+        public static IEnumerable<TSyntaxNode> DescendantNodes<TSyntaxNode>(this SyntaxNode node)
+            where TSyntaxNode : SyntaxNode =>
+            node.DescendantNodes().OfType<TSyntaxNode>();
+
+        public static MethodDeclarationSyntax GetClassMethod(this SyntaxNode syntaxNode, string className,
+            string methodName) => syntaxNode.GetClass(className).GetMethod(methodName);
+
         public static ClassDeclarationSyntax GetClass(this SyntaxNode syntaxNode, string className) =>
             syntaxNode?
-                .DescendantNodes()
-                .OfType<ClassDeclarationSyntax>()
+                .DescendantNodes<ClassDeclarationSyntax>()
                 .FirstOrDefault(syntax => syntax.Identifier.Text == className);
 
         public static MethodDeclarationSyntax GetMethod(this SyntaxNode syntaxNode, string methodName) =>
             syntaxNode?
-                .DescendantNodes()
-                .OfType<MethodDeclarationSyntax>()
+                .DescendantNodes<MethodDeclarationSyntax>()
                 .FirstOrDefault(syntax => syntax.Identifier.Text == methodName);
 
         public static IEnumerable<MethodDeclarationSyntax> GetMethods(this SyntaxNode syntaxNode, string methodName) =>
             syntaxNode?
-                .DescendantNodes()
-                .OfType<MethodDeclarationSyntax>()
+                .DescendantNodes<MethodDeclarationSyntax>()
                 .Where(syntax => syntax.Identifier.Text == methodName) ?? Enumerable.Empty<MethodDeclarationSyntax>();
 
-        public static bool HasClass(this SyntaxNode syntaxNode, string className) =>
+        public static bool AssignsToIdentifier(this SyntaxNode syntaxNode, IdentifierNameSyntax identifierName) =>
             syntaxNode?
-                .DescendantNodes()
-                .OfType<ClassDeclarationSyntax>()
-                .Any(syntax => syntax.Identifier.Text == className) ?? false;
+                .DescendantNodes<AssignmentExpressionSyntax>()
+                .Any(assignmentExpression => assignmentExpression.Left.IsSafeEquivalentTo(identifierName)) ?? false;
 
-        public static bool HasMethod(this SyntaxNode syntaxNode, string methodName) =>
+        public static bool ThrowsExceptionOfType<TException>(this SyntaxNode syntaxNode) where TException : Exception =>
             syntaxNode?
-                .DescendantNodes()
-                .OfType<MethodDeclarationSyntax>()
-                .Any(syntax => syntax.Identifier.Text == methodName) ?? false;
-
-        public static bool AssignsToIdentifier(this SyntaxNode syntaxNode, string identifierName) =>
-            syntaxNode?
-                .DescendantNodes()
-                .OfType<AssignmentExpressionSyntax>()
-                .Any(assignmentExpression => assignmentExpression.Left is IdentifierNameSyntax name &&
-                                             name.Identifier.ValueText == identifierName) ?? false;
-
-        public static bool ThrowsException(this SyntaxNode syntaxNode, string exceptionNamespace, string exceptionType) =>
-            syntaxNode?
-                .DescendantNodes()
-                .OfType<ThrowStatementSyntax>()
+                .DescendantNodes<ThrowStatementSyntax>()
                 .Any(throwsStatement =>
-                    throwsStatement.Expression.CreatesObjectOfType(exceptionType.StripNamespace(exceptionNamespace)) ||
-                    throwsStatement.Expression.CreatesObjectOfType($"{exceptionNamespace}.{exceptionType}")) ?? false;
+                        throwsStatement.Expression is ObjectCreationExpressionSyntax objectCreationExpression &&
+                        objectCreationExpression.Type.IsSafeEquivalentTo(
+                            IdentifierName(typeof(TException).Name))) ?? false;
 
-        public static bool InvokesMethod(this SyntaxNode syntaxNode, string classNamespace, string className, string methodName) =>
+        public static bool InvokesMethod(this SyntaxNode syntaxNode, ExpressionSyntax expression, SimpleNameSyntax name) =>
             syntaxNode?
-                .DescendantNodes()
-                .OfType<MemberAccessExpressionSyntax>()
-                .Any(memberAccessExpression => 
-                    memberAccessExpression.ToFullString() == $"{classNamespace}.{className}.{methodName}" ||
-                    memberAccessExpression.ToFullString() == $"{className.StripNamespace(classNamespace)}.{methodName}") ?? false;
+                .DescendantNodes<MemberAccessExpressionSyntax>()
+                .Any(memberAccessExpression => memberAccessExpression.IsSafeEquivalentTo( 
+                        MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, expression, name))) ?? false;
 
-        private static string StripNamespace(this string className, string classNamespace) => className.Replace($"{classNamespace}.", "");
+        public static MethodDeclarationSyntax ParentMethod(this SyntaxNode syntaxNode)
+        {
+            if (syntaxNode.Parent is MethodDeclarationSyntax methodDeclaration)
+                return methodDeclaration;
+
+            return syntaxNode.Parent.ParentMethod();
+        }
     }
 }

@@ -1,6 +1,8 @@
+using System;
 using System.Linq;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using static Exercism.Analyzers.CSharp.Analyzers.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers
@@ -28,14 +30,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             parsedSolution.SyntaxRoot.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
 
         private static bool HasMainMethod(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot.HasClass("Program") &&
-            parsedSolution.SyntaxRoot.HasMethod("Main");
+            parsedSolution.SyntaxRoot.GetClassMethod("Program", "Main") != null;
 
         private static bool ThrowsNotImplementedException(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot.ThrowsException("System", "NotImplementedException");
+            parsedSolution.SyntaxRoot.ThrowsExceptionOfType<NotImplementedException>();
 
         private static bool WritesToConsole(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot.InvokesMethod("System", "Console", "WriteLine") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("System", "Console", "ReadLine");
+            parsedSolution.SyntaxRoot.InvokesMethod(SyntaxFactory.IdentifierName("Console"), SyntaxFactory.IdentifierName("WriteLine")) ||
+            parsedSolution.SyntaxRoot.InvokesMethod(SyntaxFactory.IdentifierName("Console"), SyntaxFactory.IdentifierName("ReadLine"));
     }
 }

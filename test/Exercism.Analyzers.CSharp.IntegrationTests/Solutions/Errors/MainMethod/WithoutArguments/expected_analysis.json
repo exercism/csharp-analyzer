@@ -1,0 +1,4 @@
+{
+  "status": "disapprove_with_comment", 
+  "comments": ["csharp.general.has_main_method"]
+}
