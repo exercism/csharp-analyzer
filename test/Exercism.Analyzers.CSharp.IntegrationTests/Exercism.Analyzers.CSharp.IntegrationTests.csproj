@@ -12,12 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Solutions\**" />
-    <None Include="Solutions\**" CopyToOutputDirectory="Always" />
+    <SolutionFiles Include="Solutions\**" />
+    <Compile Remove="@(SolutionFiles)" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Exercism.Analyzers.CSharp\Exercism.Analyzers.CSharp.csproj" />
   </ItemGroup>
+  
+  <Target Name="CopySolutions" AfterTargets="Build">
+    <RemoveDir Directories="$(OutputPath)\Solutions" />
+    <Copy SourceFiles="@(SolutionFiles)" DestinationFolder="$(OutputPath)\Solutions\%(RecursiveDir)" SkipUnchangedFiles="true" />
+  </Target>
 
 </Project>

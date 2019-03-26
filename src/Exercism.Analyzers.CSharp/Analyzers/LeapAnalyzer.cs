@@ -1,7 +1,7 @@
 using System.Linq;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using static Exercism.Analyzers.CSharp.Analyzers.LeapSolutions;
 using static Exercism.Analyzers.CSharp.Analyzers.LeapComments;
 using static Exercism.Analyzers.CSharp.Analyzers.SharedComments;
 
@@ -11,43 +11,44 @@ namespace Exercism.Analyzers.CSharp.Analyzers
     {
         public static SolutionAnalysis Analyze(ParsedSolution parsedSolution)
         {
-            if (parsedSolution.IsEquivalentTo(MinimumNumberOfChecksInExpressionBody) ||
-                parsedSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInExpressionBody))
-                return parsedSolution.ApproveAsOptimal();
+            var leapSolution = new LeapSolution(parsedSolution);
+            
+            if (leapSolution.UsesTooManyChecks())
+                return leapSolution.DisapproveWithComment(UseMinimumNumberOfChecks);
 
-            if (parsedSolution.IsEquivalentTo(MinimumNumberOfChecksInBlockBody) ||
-                parsedSolution.IsEquivalentTo(MinimumNumberOfChecksWithParenthesesInBlockBody))
-                return parsedSolution.ApproveWithComment(UseExpressionBodiedMember);
+            if (leapSolution.IsLeapYearMethod.IsExpressionBody())
+                return leapSolution.ApproveAsOptimal();
 
-            if (parsedSolution.UsesTooManyChecks())
-                return parsedSolution.DisapproveWithComment(UseMinimumNumberOfChecks);
+            if (leapSolution.IsLeapYearMethod.CanConvertToExpressionBody())
+                return leapSolution.ApproveWithComment(UseExpressionBodiedMember);
 
-            return parsedSolution.ReferToMentor();
+            return leapSolution.ReferToMentor();
         }
 
-        private static bool UsesTooManyChecks(this ParsedSolution parsedSolution)
+        private static bool UsesTooManyChecks(this LeapSolution leapSolution)
         {
             const int minimalNumberOfChecks = 3;
 
-            var addMethod = parsedSolution.SyntaxRoot
-                .GetClass("Leap")
-                .GetMethod("IsLeapYear");
-
-            if (addMethod == null)
-                return false;
-
-            return addMethod
+            return leapSolution.IsLeapYearMethod
                 .DescendantNodes()
                 .OfType<BinaryExpressionSyntax>()
                 .Count(BinaryExpressionUsesYearParameter) > minimalNumberOfChecks;
 
             bool BinaryExpressionUsesYearParameter(BinaryExpressionSyntax binaryExpression) =>
-                ExpressionUsesYearParameter(binaryExpression.Left) ||
-                ExpressionUsesYearParameter(binaryExpression.Right);
+                binaryExpression.Left.IsSafeEquivalentTo(SyntaxFactory.IdentifierName(leapSolution.YearParameter.Identifier)) ||
+                binaryExpression.Right.IsSafeEquivalentTo(SyntaxFactory.IdentifierName(leapSolution.YearParameter.Identifier));
+        }
 
-            bool ExpressionUsesYearParameter(ExpressionSyntax expression) =>
-                expression is IdentifierNameSyntax nameSyntax &&
-                nameSyntax.Identifier.Text == "year";
+        private class LeapSolution : ParsedSolution
+        {
+            public MethodDeclarationSyntax IsLeapYearMethod { get; }
+            public ParameterSyntax YearParameter { get; }
+
+            public LeapSolution(ParsedSolution solution) : base(solution.Solution, solution.SyntaxRoot)
+            {
+                IsLeapYearMethod = solution.SyntaxRoot.GetClassMethod("Leap","IsLeapYear");
+                YearParameter = IsLeapYearMethod.ParameterList.Parameters[0];
+            }
         }
     }
 }

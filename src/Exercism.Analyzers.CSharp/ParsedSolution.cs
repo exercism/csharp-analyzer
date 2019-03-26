@@ -25,12 +25,5 @@ namespace Exercism.Analyzers.CSharp
 
         private SolutionAnalysis ToSolutionAnalysis(SolutionStatus status, params string[] comments) =>
             new SolutionAnalysis(Solution, new SolutionAnalysisResult(status, comments));
-
-        public bool IsEquivalentTo(string expectedCode)
-        {
-            // TODO: consider doing string comparison (syntaxroot is already normalised)
-            var expectedSyntaxNode = SyntaxNodeParser.ParseNormalizedRoot(expectedCode);
-            return SyntaxRoot.IsEquivalentTo(expectedSyntaxNode);
-        }
     }
 }
