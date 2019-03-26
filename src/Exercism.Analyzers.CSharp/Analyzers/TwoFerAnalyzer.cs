@@ -45,46 +45,42 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             if (twoFerSolution.AssignsToParameter())
                 return twoFerSolution.DisapproveWithComment(DontAssignToParameter);
 
-            // TODO: simplify further
-            
-            if (twoFerSolution.NameMethod.IsExpressionBody() &&
-                twoFerSolution.NameMethod.SingleStatementExpression().IsDefaultInterpolatedStringExpression(twoFerSolution.InputParameter))
-                return twoFerSolution.ApproveAsOptimal();
-            
-            if (twoFerSolution.NameMethod.IsExpressionBody() &&
-                twoFerSolution.NameMethod.SingleStatementExpression().IsNullCoalescingInterpolatedStringExpression(twoFerSolution.InputParameter))
-                return twoFerSolution.ApproveAsOptimal();
-
-            if (twoFerSolution.NameMethod.SingleStatementExpression().IsDefaultInterpolatedStringExpression(twoFerSolution.InputParameter) ||
-                twoFerSolution.NameMethod.SingleStatementExpression().IsNullCoalescingInterpolatedStringExpression(twoFerSolution.InputParameter))
-                return twoFerSolution.ApproveWithComment(UseExpressionBodiedMember);
-            
-            if (twoFerSolution.NameMethod.SingleStatementExpression().IsIsNullOrEmptyInterpolatedStringExpression(twoFerSolution.InputParameter))
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
-            
-            if (twoFerSolution.NameMethod.SingleStatementExpression().IsIsNullOrWhiteSpaceInterpolatedStringExpression(twoFerSolution.InputParameter))
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
-
-            if (twoFerSolution.NameMethod.SingleStatementExpression().IsTernaryOperatorInterpolatedStringExpression(twoFerSolution.InputParameter))
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
-
-            if (twoFerSolution.UsesYouStringAsDefaultValue() &&
-                twoFerSolution.NameMethod.SingleStatementExpression().IsDefaultStringConcatenationExpression(twoFerSolution.InputParameter))
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
-            
-            if (twoFerSolution.UsesNullAsDefaultValue() &&
-                twoFerSolution.NameMethod.SingleStatementExpression().IsNullCoalescingStringConcatenationExpression(twoFerSolution.InputParameter))
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
-            
-            if (twoFerSolution.NameMethod.SingleStatementExpression().IsDefaultStringFormatExpression(twoFerSolution.InputParameter) ||
-                twoFerSolution.NameMethod.SingleStatementExpression().IsTernaryOperatorStringFormatExpression(twoFerSolution.InputParameter) ||
-                twoFerSolution.NameMethod.SingleStatementExpression().IsNullCoalescingStringFormatExpression(twoFerSolution.InputParameter))
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
-
+            if (twoFerSolution.NameMethod.SingleExpression())
+            {
+                if (twoFerSolution.NameMethod.IsExpressionBody() &&
+                    (twoFerSolution.ReturnedExpression.IsDefaultInterpolatedStringExpression(twoFerSolution.InputParameter) ||
+                     twoFerSolution.ReturnedExpression.IsNullCoalescingInterpolatedStringExpression(twoFerSolution.InputParameter)))
+                    return twoFerSolution.ApproveAsOptimal();
+    
+                if (twoFerSolution.ReturnedExpression.IsDefaultInterpolatedStringExpression(twoFerSolution.InputParameter) ||
+                    twoFerSolution.ReturnedExpression.IsNullCoalescingInterpolatedStringExpression(twoFerSolution.InputParameter))
+                    return twoFerSolution.ApproveWithComment(UseExpressionBodiedMember);
+                
+                if (twoFerSolution.ReturnedExpression.IsIsNullOrEmptyInterpolatedStringExpression(twoFerSolution.InputParameter))
+                    return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
+                
+                if (twoFerSolution.ReturnedExpression.IsIsNullOrWhiteSpaceInterpolatedStringExpression(twoFerSolution.InputParameter))
+                    return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
+    
+                if (twoFerSolution.ReturnedExpression.IsTernaryOperatorInterpolatedStringExpression(twoFerSolution.InputParameter))
+                    return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
+    
+                if (twoFerSolution.UsesYouStringAsDefaultValue() &&
+                    twoFerSolution.ReturnedExpression.IsDefaultStringConcatenationExpression(twoFerSolution.InputParameter))
+                    return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
+                
+                if (twoFerSolution.UsesNullAsDefaultValue() &&
+                    twoFerSolution.ReturnedExpression.IsNullCoalescingStringConcatenationExpression(twoFerSolution.InputParameter))
+                    return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
+                
+                if (twoFerSolution.ReturnedExpression.IsDefaultStringFormatExpression(twoFerSolution.InputParameter) ||
+                    twoFerSolution.ReturnedExpression.IsTernaryOperatorStringFormatExpression(twoFerSolution.InputParameter) ||
+                    twoFerSolution.ReturnedExpression.IsNullCoalescingStringFormatExpression(twoFerSolution.InputParameter))
+                    return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
+            }
             
             if (AssignsVariable(twoFerSolution, out var returnStatement, out var variableDeclarator))
             {
-
                 var variableAssignUsingNullCoalescingOperator = variableDeclarator.Initializer.IsSafeEquivalentTo(
                     EqualsValueClause(
                         CreateCoalesceExpression(
@@ -447,14 +443,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         {
             public ClassDeclarationSyntax TwoFerClass { get; }
             public MethodDeclarationSyntax NameMethod { get; }
-
             public ParameterSyntax InputParameter { get; }
+            public ExpressionSyntax ReturnedExpression { get; }
 
             public TwoFerSolution(ParsedSolution solution) : base(solution.Solution, solution.SyntaxRoot)
             {
                 TwoFerClass = solution.SyntaxRoot.GetClass("TwoFer");
                 NameMethod = TwoFerClass.GetMethod("Name");
                 InputParameter = NameMethod?.ParameterList.Parameters.FirstOrDefault();
+                ReturnedExpression = NameMethod?.ReturnedExpression();
             }
         }
     }
