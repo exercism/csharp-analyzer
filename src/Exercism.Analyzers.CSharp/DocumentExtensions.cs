@@ -27,9 +27,10 @@ namespace Exercism.Analyzers.CSharp
         {
             CSharpSyntaxRewriter[] rewriters =
             {
-                new UnnecessaryParenthesesSyntaxRewriter(),
+                new RemoveOptionalParenthesesSyntaxRewriter(),
                 new SimplifyFullyQualifiedNameSyntaxRewriter(),
                 new UseBuiltInKeywordSyntaxRewriter(),
+                new InvertNegativeConditionalSyntaxRewriter()
             };
 
             return rewriters.Aggregate(reducedSyntaxRoot, (acc, rewriter) => rewriter.Visit(acc));

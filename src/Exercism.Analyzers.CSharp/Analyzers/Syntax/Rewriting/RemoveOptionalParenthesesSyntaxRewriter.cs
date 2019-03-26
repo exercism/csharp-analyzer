@@ -4,11 +4,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 {
-    public class UnnecessaryParenthesesSyntaxRewriter : CSharpSyntaxRewriter
+    public class RemoveOptionalParenthesesSyntaxRewriter : CSharpSyntaxRewriter
     {
         public override SyntaxNode VisitParenthesizedExpression(ParenthesizedExpressionSyntax node)
         {
-            if (node.Parent is InterpolationSyntax)
+            if (node.Parent is InterpolationSyntax ||
+                node.Parent is ConditionalExpressionSyntax)
                 return node.Expression;
             
             return base.VisitParenthesizedExpression(node);

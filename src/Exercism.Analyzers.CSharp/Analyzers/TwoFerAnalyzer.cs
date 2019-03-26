@@ -58,6 +58,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             if (twoFerSolution.NameMethod.SingleStatementExpression().IsDefaultInterpolatedStringExpression(twoFerSolution.InputParameter) ||
                 twoFerSolution.NameMethod.SingleStatementExpression().IsNullCoalescingInterpolatedStringExpression(twoFerSolution.InputParameter))
                 return twoFerSolution.ApproveWithComment(UseExpressionBodiedMember);
+            
+            if (twoFerSolution.NameMethod.SingleStatementExpression().IsIsNullOrEmptyInterpolatedStringExpression(twoFerSolution.InputParameter))
+                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
+            
+            if (twoFerSolution.NameMethod.SingleStatementExpression().IsIsNullOrWhiteSpaceInterpolatedStringExpression(twoFerSolution.InputParameter))
+                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
 
             if (twoFerSolution.NameMethod.SingleStatementExpression().IsTernaryOperatorInterpolatedStringExpression(twoFerSolution.InputParameter))
                 return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
@@ -71,17 +77,74 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                 return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
             
             if (twoFerSolution.NameMethod.SingleStatementExpression().IsDefaultStringFormatExpression(twoFerSolution.InputParameter) ||
+                twoFerSolution.NameMethod.SingleStatementExpression().IsTernaryOperatorStringFormatExpression(twoFerSolution.InputParameter) ||
                 twoFerSolution.NameMethod.SingleStatementExpression().IsNullCoalescingStringFormatExpression(twoFerSolution.InputParameter))
                 return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
 
-            if (twoFerSolution.AssignsVariableAndUsesThatInStringInterpolation())
-                return twoFerSolution.ApproveAsOptimal();
             
-            if (twoFerSolution.AssignsVariableAndUsesThatInStringFormat())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
+            if (AssignsVariable(twoFerSolution, out var returnStatement, out var variableDeclarator))
+            {
+
+                var variableAssignUsingNullCoalescingOperator = variableDeclarator.Initializer.IsSafeEquivalentTo(
+                    EqualsValueClause(
+                        CreateCoalesceExpression(
+                            IdentifierName(twoFerSolution.InputParameter.Identifier))));
+
+                var variableAssignUsingTernaryOperator = variableDeclarator.Initializer.IsSafeEquivalentTo(
+                    EqualsValueClause(
+                        CreateConditionalExpression(
+                            BinaryExpression(
+                                SyntaxKind.EqualsExpression,
+                                IdentifierName(twoFerSolution.InputParameter.Identifier),
+                                LiteralExpression(
+                                    SyntaxKind.NullLiteralExpression)), IdentifierName(twoFerSolution.InputParameter.Identifier))));
+
+                var variableAssignUsingIsNullOrEmpty = variableDeclarator.Initializer.IsSafeEquivalentTo(
+                    EqualsValueClause(
+                        CreateConditionalExpression(
+                            CreateStringInvocationExpressionOnParameter("IsNullOrEmpty", twoFerSolution.InputParameter),
+                            IdentifierName(twoFerSolution.InputParameter.Identifier))));
+
+                var variableAssignUsingIsNullOrWhiteSpace = variableDeclarator.Initializer.IsSafeEquivalentTo(
+                    EqualsValueClause(
+                        CreateConditionalExpression(
+                            CreateStringInvocationExpressionOnParameter("IsNullOrWhiteSpace", twoFerSolution.InputParameter),
+                            IdentifierName(twoFerSolution.InputParameter.Identifier))));
+
+                if (!variableAssignUsingNullCoalescingOperator &&
+                    !variableAssignUsingTernaryOperator &&
+                    !variableAssignUsingIsNullOrEmpty &&
+                    !variableAssignUsingIsNullOrWhiteSpace)
+                    return twoFerSolution.ReferToMentor();
+
+                if (returnStatement.Expression.IsSafeEquivalentTo(
+                    CreateStringFormatInvocationExpression(
+                        IdentifierName(variableDeclarator.Identifier))))
+                    return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
             
-            if (twoFerSolution.AssignsVariableAndUsesThatInStringConcatenation())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
+                if (returnStatement.Expression.IsSafeEquivalentTo(
+                    CreateStringConcatenationExpression(
+                        IdentifierName(variableDeclarator.Identifier))))
+                    return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
+                
+                
+                if (returnStatement.Expression.IsInterpolatedStringExpression(
+                    Interpolation(
+                            IdentifierName(variableDeclarator.Identifier))))
+                {
+                    if (variableAssignUsingNullCoalescingOperator)
+                        return twoFerSolution.ApproveAsOptimal();
+                    
+                    if (variableAssignUsingTernaryOperator)
+                        return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
+                    
+                    if (variableAssignUsingIsNullOrEmpty)
+                        return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
+                    
+                    if (variableAssignUsingIsNullOrWhiteSpace)
+                        return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
+                }
+            }
             
             return twoFerSolution.ReferToMentor();
         }
@@ -165,16 +228,63 @@ namespace Exercism.Analyzers.CSharp.Analyzers
 
         private static bool IsTernaryOperatorInterpolatedStringExpression(this ExpressionSyntax expression, ParameterSyntax inputParameter) =>
             expression.IsInterpolatedStringExpression(
-                Interpolation(
-                        CreateConditionalExpressionForInterpolation(IdentifierName(inputParameter.Identifier)))
-                    .WithFormatClause(
-                        CreateInterpolationFormatClauseForConditional()));
+                CreateInterpolationWithConditionalExpression(
+                    BinaryExpression(
+                        SyntaxKind.EqualsExpression,
+                        IdentifierName(inputParameter.Identifier),
+                        LiteralExpression(
+                            SyntaxKind.NullLiteralExpression))));
 
-        private static bool IsNullCoalescingInterpolatedStringExpression(this ExpressionSyntax expression, ParameterSyntax inputParameter) =>
+        private static InterpolationSyntax CreateInterpolationWithConditionalExpression(ExpressionSyntax conditional) =>
+            Interpolation(
+                    ConditionalExpression(
+                    conditional,
+                    LiteralExpression(
+                        SyntaxKind.StringLiteralExpression,
+                        Literal("you")),
+                    IdentifierName(
+                        MissingToken(SyntaxKind.IdentifierToken)))
+                .WithColonToken(
+                    MissingToken(SyntaxKind.ColonToken).WithoutTrivia()))
+                .WithFormatClause(
+                    InterpolationFormatClause(
+                            Token(SyntaxKind.ColonToken))
+                        .WithFormatStringToken(
+                            Token(
+                                TriviaList(),
+                                SyntaxKind.InterpolatedStringTextToken,
+                                " input",
+                                " input",
+                                TriviaList())));
+
+        private static bool IsNullCoalescingInterpolatedStringExpression(this ExpressionSyntax expression, ParameterSyntax parameter) =>
             expression.IsInterpolatedStringExpression(
                 Interpolation(
                     CreateCoalesceExpression(
-                        IdentifierName(inputParameter.Identifier))));
+                        IdentifierName(parameter.Identifier))));
+
+        private static bool IsIsNullOrEmptyInterpolatedStringExpression(this ExpressionSyntax expression, ParameterSyntax parameter) =>
+            expression.IsInterpolatedStringExpression(
+                CreateInterpolationWithConditionalExpression(
+                    CreateStringInvocationExpressionOnParameter("IsNullOrEmpty", parameter)));
+
+        private static bool IsIsNullOrWhiteSpaceInterpolatedStringExpression(this ExpressionSyntax expression, ParameterSyntax parameter) =>
+            expression.IsInterpolatedStringExpression(
+                CreateInterpolationWithConditionalExpression(
+                    CreateStringInvocationExpressionOnParameter("IsNullOrWhiteSpace", parameter)));
+
+        private static InvocationExpressionSyntax CreateStringInvocationExpressionOnParameter(string methodName, ParameterSyntax parameter) =>
+            InvocationExpression(
+                    MemberAccessExpression(
+                        SyntaxKind.SimpleMemberAccessExpression,
+                        PredefinedType(
+                            Token(SyntaxKind.StringKeyword)),
+                        IdentifierName(methodName)))
+                .WithArgumentList(
+                    ArgumentList(
+                        SingletonSeparatedList(
+                            Argument(
+                                IdentifierName(parameter.Identifier)))));
 
         private static BinaryExpressionSyntax CreateCoalesceExpression(IdentifierNameSyntax identifierName) =>
             BinaryExpression(
@@ -187,7 +297,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         private static bool IsInterpolatedStringExpression(this ExpressionSyntax expression, InterpolationSyntax interpolation)
         {
             var triviaRemover = new TriviaRemoverSyntaxRewriter();
-            return triviaRemover.Visit(expression).IsEquivalentTo(triviaRemover.Visit(CreateInterpolatedStringExpression(interpolation)));
+            var interpolatedStringExpressionSyntax = CreateInterpolatedStringExpression(interpolation);
+            var syntaxNode = triviaRemover.Visit(expression);
+            var visit = triviaRemover.Visit(interpolatedStringExpressionSyntax);
+
+
+            return syntaxNode.ToFullString() == visit.ToFullString();
         }
 
         private static InterpolatedStringExpressionSyntax CreateInterpolatedStringExpression(InterpolationSyntax interpolation) =>
@@ -214,39 +329,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                                         TriviaList()))
                             }));
 
-        private static InterpolationFormatClauseSyntax CreateInterpolationFormatClauseForConditional() =>
-            InterpolationFormatClause(
-                    Token(SyntaxKind.ColonToken))
-                .WithFormatStringToken(
-                    Token(
-                        TriviaList(),
-                        SyntaxKind.InterpolatedStringTextToken,
-                        " input",
-                        " input",
-                        TriviaList()));
-
-        private static ConditionalExpressionSyntax CreateConditionalExpressionForInterpolation(IdentifierNameSyntax identifierName) =>
+        private static ConditionalExpressionSyntax CreateConditionalExpression(ExpressionSyntax condition, IdentifierNameSyntax identifierName) =>
             ConditionalExpression(
-                BinaryExpression(
-                    SyntaxKind.EqualsExpression,
-                    identifierName,
-                    LiteralExpression(
-                        SyntaxKind.NullLiteralExpression)),
-                LiteralExpression(
-                    SyntaxKind.StringLiteralExpression,
-                    Literal("you")),
-                IdentifierName(
-                    MissingToken(SyntaxKind.IdentifierToken)))
-                .WithColonToken(
-                    MissingToken(SyntaxKind.ColonToken).WithoutTrivia());
-
-        private static ConditionalExpressionSyntax CreateConditionalExpression(IdentifierNameSyntax identifierName) =>
-            ConditionalExpression(
-                BinaryExpression(
-                    SyntaxKind.EqualsExpression,
-                    identifierName,
-                    LiteralExpression(
-                        SyntaxKind.NullLiteralExpression)),
+                condition,
                 LiteralExpression(
                     SyntaxKind.StringLiteralExpression,
                     Literal("you")),
@@ -284,6 +369,28 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                 CreateStringFormatInvocationExpression(
                     IdentifierName(inputParameter.Identifier)));
 
+        private static bool IsTernaryOperatorStringFormatExpression(this ExpressionSyntax expression,
+            ParameterSyntax inputParameter) =>
+            expression.IsSafeEquivalentTo(
+                CreateStringFormatInvocationExpression(
+                    CreateConditionalExpression(
+                        BinaryExpression(
+                        SyntaxKind.EqualsExpression,
+                        IdentifierName(inputParameter.Identifier),
+                        LiteralExpression(
+                            SyntaxKind.NullLiteralExpression)),
+                        IdentifierName(inputParameter.Identifier)))) ||
+            expression.IsSafeEquivalentTo(
+                CreateStringFormatInvocationExpression(
+                    CreateConditionalExpression(
+                        CreateStringInvocationExpressionOnParameter("IsNullOrEmpty", inputParameter),
+                        IdentifierName(inputParameter.Identifier)))) ||
+            expression.IsSafeEquivalentTo(
+                CreateStringFormatInvocationExpression(
+                    CreateConditionalExpression(
+                        CreateStringInvocationExpressionOnParameter("IsNullOrWhiteSpace", inputParameter),
+                        IdentifierName(inputParameter.Identifier))));
+
         private static bool IsNullCoalescingStringFormatExpression(this ExpressionSyntax expression,
             ParameterSyntax inputParameter) =>
             expression.IsSafeEquivalentTo(
@@ -309,58 +416,31 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                             Token(SyntaxKind.CommaToken),
                             Argument(argumentExpression)})));
 
-        private static bool AssignsVariableAndUsesThatInStringConcatenation(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.AssignsVariableAndUsesThatInReturnStatement(
-                (returnStatement, variable) =>
-                    returnStatement.Expression.IsSafeEquivalentTo(
-                        CreateStringConcatenationExpression(
-                            IdentifierName(variable.Identifier))));
-
-        private static bool AssignsVariableAndUsesThatInStringFormat(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.AssignsVariableAndUsesThatInReturnStatement(
-                (returnStatement, variable) =>
-                    returnStatement.Expression.IsSafeEquivalentTo(
-                        CreateStringFormatInvocationExpression(
-                            IdentifierName(variable.Identifier))));
-
-        private static bool AssignsVariableAndUsesThatInStringInterpolation(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.AssignsVariableAndUsesThatInReturnStatement(
-                (returnStatement, variable) =>
-                    returnStatement.Expression.IsInterpolatedStringExpression(
-                        Interpolation(
-                            IdentifierName(variable.Identifier))));
-
-        private static bool AssignsVariableAndUsesThatInReturnStatement(this TwoFerSolution twoFerSolution, Func<ReturnStatementSyntax, VariableDeclaratorSyntax, bool> variableUsedInReturnStatement)
+        private static bool AssignsVariable(TwoFerSolution twoFerSolution,
+            out ReturnStatementSyntax returnStatement,
+            out VariableDeclaratorSyntax variableDeclarator)
         {
-            if (twoFerSolution.NameMethod.Body.Statements.Count != 2)
+            returnStatement = null;
+            variableDeclarator = null;
+            
+            if (twoFerSolution.NameMethod.Body == null ||
+                twoFerSolution.NameMethod.Body.Statements.Count != 2)
                 return false;
 
             var localDeclaration = twoFerSolution.NameMethod.Body.Statements[0] as LocalDeclarationStatementSyntax;
-            var returnStatement = twoFerSolution.NameMethod.Body.Statements[1] as ReturnStatementSyntax;
+            returnStatement = twoFerSolution.NameMethod.Body.Statements[1] as ReturnStatementSyntax;
 
             if (returnStatement == null ||
-                localDeclaration == null || 
+                localDeclaration == null ||
                 localDeclaration.Declaration.Variables.Count != 1)
                 return false;
 
             if (!localDeclaration.Declaration.Type.IsSafeEquivalentTo(PredefinedType(Token(SyntaxKind.StringKeyword))) &&
                 !localDeclaration.Declaration.Type.IsSafeEquivalentTo(IdentifierName("var")))
                 return false;
-            
-            var variable = localDeclaration.Declaration.Variables[0];
-            if (!variable.Initializer.IsSafeEquivalentTo(
-                    EqualsValueClause(
-                        CreateCoalesceExpression( // create twoFerSolution.InputParameter.ToCoalesceExpression()
-                            IdentifierName(twoFerSolution.InputParameter.Identifier)))) &&
-                !variable.Initializer.IsSafeEquivalentTo(
-                    EqualsValueClause(
-                        CreateConditionalExpression( // create twoFerSolution.InputParameter.ToConditionalExpression()
-                            IdentifierName(twoFerSolution.InputParameter.Identifier)))))
-            {
-                return false;
-            }
 
-            return variableUsedInReturnStatement(returnStatement, variable);
+            variableDeclarator = localDeclaration.Declaration.Variables[0];
+            return true;
         }
 
         private class TwoFerSolution : ParsedSolution

@@ -9,9 +9,22 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
         public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
         {   
             if (node.Expression.IsSafeEquivalentTo(SyntaxFactory.IdentifierName("String")))
-                return node.WithExpression(SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.StringKeyword)));
+                return node.WithExpression(
+                    SyntaxFactory.PredefinedType(
+                        SyntaxFactory.Token(SyntaxKind.StringKeyword)));
 
             return base.VisitMemberAccessExpression(node);
+        }
+
+        public override SyntaxNode VisitVariableDeclaration(VariableDeclarationSyntax node)
+        {
+            if (node.Type.IsSafeEquivalentTo(SyntaxFactory.IdentifierName("String")))
+                return node.WithType(
+                    SyntaxFactory.PredefinedType(
+                        SyntaxFactory.Token(SyntaxKind.StringKeyword))
+                    .WithTriviaFrom(node.Type));
+            
+            return base.VisitVariableDeclaration(node);
         }
 
         public override SyntaxNode VisitQualifiedName(QualifiedNameSyntax node)

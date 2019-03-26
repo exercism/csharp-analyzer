@@ -19,6 +19,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Exercism.Analyzers.CSharp\Exercism.Analyzers.CSharp.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Solutions\TwoFer\StringFormat\NullCoalescingOperator" />
+  </ItemGroup>
   
   <Target Name="CopySolutions" AfterTargets="Build">
     <RemoveDir Directories="$(OutputPath)\Solutions" />
