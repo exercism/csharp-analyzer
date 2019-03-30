@@ -12,7 +12,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
             new RemoveOptionalParenthesesSyntaxRewriter(),
             new SimplifyFullyQualifiedNameSyntaxRewriter(),
             new UseBuiltInKeywordSyntaxRewriter(),
-            new InvertNegativeConditionalSyntaxRewriter()
+            new InvertNegativeConditionalSyntaxRewriter(),
+            new AddBracesSyntaxRewriter()
         };
 
         public static SyntaxNode Simplify(SyntaxNode reducedSyntaxRoot) =>

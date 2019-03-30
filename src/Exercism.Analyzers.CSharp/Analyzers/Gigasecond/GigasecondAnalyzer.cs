@@ -93,7 +93,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                         binaryExpression
                             .DescendantNodes<IdentifierNameSyntax>()
                             .Any(identifierName =>
-                                identifierName.IsSafeEquivalentTo(
+                                identifierName.IsEquivalentToNormalized(
                                     SyntaxFactory.IdentifierName(gigasecondSolution.BirthDateParameter.Identifier))));
 
         private class GigasecondSolution : ParsedSolution

@@ -21,7 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Solutions\TwoFer\StringFormat\NullCoalescingOperator" />
+    <Folder Include="Solutions\TwoFer\Invalid" />
+    <Folder Include="Solutions\TwoFer\Concatenation\Default" />
+    <Folder Include="Solutions\TwoFer\Format\Default" />
   </ItemGroup>
   
   <Target Name="CopySolutions" AfterTargets="Build">

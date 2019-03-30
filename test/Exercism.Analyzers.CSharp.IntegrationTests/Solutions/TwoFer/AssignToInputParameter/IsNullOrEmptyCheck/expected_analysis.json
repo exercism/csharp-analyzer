@@ -1,4 +1,0 @@
-{
-  "status": "disapprove_with_comment", 
-  "comments": ["csharp.general.dont_assign_to_parameter"]
-}

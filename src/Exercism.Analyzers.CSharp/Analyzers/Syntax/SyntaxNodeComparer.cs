@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
     {
         private static readonly NormalizeSyntaxRewriter NormalizeSyntaxRewriter = new NormalizeSyntaxRewriter();
 
-        public static bool IsEquivalentTo(SyntaxNode node, SyntaxNode other) =>
+        public static bool IsEquivalentToNormalized(SyntaxNode node, SyntaxNode other) =>
             node.Normalize().IsEquivalentTo(other.Normalize());
 
         private static SyntaxNode Normalize(this SyntaxNode node) => NormalizeSyntaxRewriter.Visit(node);

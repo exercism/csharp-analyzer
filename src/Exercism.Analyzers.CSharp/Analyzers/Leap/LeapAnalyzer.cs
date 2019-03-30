@@ -34,8 +34,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
                 .Count(BinaryExpressionUsesYearParameter) > minimalNumberOfChecks;
 
             bool BinaryExpressionUsesYearParameter(BinaryExpressionSyntax binaryExpression) =>
-                binaryExpression.Left.IsSafeEquivalentTo(SyntaxFactory.IdentifierName(leapSolution.YearParameter.Identifier)) ||
-                binaryExpression.Right.IsSafeEquivalentTo(SyntaxFactory.IdentifierName(leapSolution.YearParameter.Identifier));
+                binaryExpression.Left.IsEquivalentToNormalized(SyntaxFactory.IdentifierName(leapSolution.YearParameter.Identifier)) ||
+                binaryExpression.Right.IsEquivalentToNormalized(SyntaxFactory.IdentifierName(leapSolution.YearParameter.Identifier));
         }
 
         private class LeapSolution : ParsedSolution
