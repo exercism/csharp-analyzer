@@ -1,4 +1,4 @@
-namespace Exercism.Analyzers.CSharp.Analyzers
+namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 {
     internal static class LeapComments
     {

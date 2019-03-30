@@ -1,4 +1,4 @@
-namespace Exercism.Analyzers.CSharp.Analyzers
+namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
     internal static class GigasecondComments
     {

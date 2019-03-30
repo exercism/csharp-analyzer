@@ -1,4 +1,8 @@
 using Exercism.Analyzers.CSharp.Analyzers;
+using Exercism.Analyzers.CSharp.Analyzers.Gigasecond;
+using Exercism.Analyzers.CSharp.Analyzers.Leap;
+using Exercism.Analyzers.CSharp.Analyzers.Shared;
+using Exercism.Analyzers.CSharp.Analyzers.TwoFer;
 using Humanizer;
 using Serilog;
 

@@ -8,8 +8,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
     {
         public override SyntaxNode VisitParenthesizedExpression(ParenthesizedExpressionSyntax node)
         {
-            if (node.Parent is InterpolationSyntax ||
-                node.Parent is ConditionalExpressionSyntax)
+            if (node.Parent is ConditionalExpressionSyntax)
                 return node.Expression;
             
             return base.VisitParenthesizedExpression(node);

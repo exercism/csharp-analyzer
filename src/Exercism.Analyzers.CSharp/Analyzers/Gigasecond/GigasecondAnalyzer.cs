@@ -1,13 +1,11 @@
 using System.Linq;
+using Exercism.Analyzers.CSharp.Analyzers.Shared;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using static Exercism.Analyzers.CSharp.Analyzers.GigasecondComments;
-using static Exercism.Analyzers.CSharp.Analyzers.SharedComments;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Exercism.Analyzers.CSharp.Analyzers
+namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
     internal static class GigasecondAnalyzer
     {
@@ -18,17 +16,17 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             if (gigasecondSolution.UsesAddSecondsMethodWithScientificNotation())
                 return gigasecondSolution.AddMethod.IsExpressionBody()
                     ? gigasecondSolution.ApproveAsOptimal()
-                    : gigasecondSolution.ApproveWithComment(UseExpressionBodiedMember);
+                    : gigasecondSolution.ApproveWithComment(SharedComments.UseExpressionBodiedMember);
 
             if (gigasecondSolution.UsesAddSecondsMethodWithMathPow())
-                return gigasecondSolution.ApproveWithComment(UseScientificNotationNotMathPow);
+                return gigasecondSolution.ApproveWithComment(GigasecondComments.UseScientificNotationNotMathPow);
 
             if (gigasecondSolution.UsesAddSecondsMethodWithDigitsWithoutSeparator())
-                return gigasecondSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators);
+                return gigasecondSolution.ApproveWithComment(GigasecondComments.UseScientificNotationOrDigitSeparators);
 
             if (gigasecondSolution.UsesAddMethod() ||
                 gigasecondSolution.UsesPlusOperator())
-                return gigasecondSolution.DisapproveWithComment(UseAddSeconds);
+                return gigasecondSolution.DisapproveWithComment(GigasecondComments.UseAddSeconds);
 
             return gigasecondSolution.ReferToMentor();
         }
@@ -36,52 +34,52 @@ namespace Exercism.Analyzers.CSharp.Analyzers
         private static bool UsesAddSecondsMethodWithScientificNotation(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution
                 .UsesAddSecondsMethodWithArgument(
-                    LiteralExpression(
+                    SyntaxFactory.LiteralExpression(
                         SyntaxKind.NumericLiteralExpression,
-                        Literal("1e9", 1e9))) ||
+                        SyntaxFactory.Literal("1e9", 1e9))) ||
             gigasecondSolution
                 .UsesAddSecondsMethodWithArgument(
-                    LiteralExpression(
+                    SyntaxFactory.LiteralExpression(
                         SyntaxKind.NumericLiteralExpression,
-                        Literal("1E9", 1e9)));
+                        SyntaxFactory.Literal("1E9", 1e9)));
 
         private static bool UsesAddSecondsMethodWithDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution
                 .UsesAddSecondsMethodWithArgument(
-                    LiteralExpression(
+                    SyntaxFactory.LiteralExpression(
                         SyntaxKind.NumericLiteralExpression,
-                        Literal(1000000000)));
+                        SyntaxFactory.Literal(1000000000)));
 
         private static bool UsesAddSecondsMethodWithMathPow(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution
                 .UsesAddSecondsMethodWithArgument(
-                    InvocationExpression(
-                            MemberAccessExpression(
+                    SyntaxFactory.InvocationExpression(
+                            SyntaxFactory.MemberAccessExpression(
                                 SyntaxKind.SimpleMemberAccessExpression,
-                                IdentifierName("Math"),
-                                IdentifierName("Pow")))
+                                SyntaxFactory.IdentifierName("Math"),
+                                SyntaxFactory.IdentifierName("Pow")))
                         .WithArgumentList(
-                            ArgumentList(
-                                SeparatedList<ArgumentSyntax>(
+                            SyntaxFactory.ArgumentList(
+                                SyntaxFactory.SeparatedList<ArgumentSyntax>(
                                     new SyntaxNodeOrToken[]{
-                                        Argument(
-                                            LiteralExpression(
+                                        SyntaxFactory.Argument(
+                                            SyntaxFactory.LiteralExpression(
                                                 SyntaxKind.NumericLiteralExpression,
-                                                Literal(10))),
-                                        Token(SyntaxKind.CommaToken),
-                                        Argument(
-                                            LiteralExpression(
+                                                SyntaxFactory.Literal(10))),
+                                        SyntaxFactory.Token(SyntaxKind.CommaToken),
+                                        SyntaxFactory.Argument(
+                                            SyntaxFactory.LiteralExpression(
                                                 SyntaxKind.NumericLiteralExpression,
-                                                Literal(9)))}))));
+                                                SyntaxFactory.Literal(9)))}))));
         
         private static bool UsesAddSecondsMethodWithArgument(this GigasecondSolution gigasecondSolution, ExpressionSyntax argumentExpression) =>
             gigasecondSolution.AddMethod.InvokesExpression(
-                InvocationExpression(
+                SyntaxFactory.InvocationExpression(
                         gigasecondSolution.BirthDateParameter.ToMemberAccessExpression("AddSeconds"))
                     .WithArgumentList(
-                        ArgumentList(
-                            SingletonSeparatedList(
-                                Argument(argumentExpression)))));
+                        SyntaxFactory.ArgumentList(
+                            SyntaxFactory.SingletonSeparatedList(
+                                SyntaxFactory.Argument(argumentExpression)))));
 
         private static bool UsesAddMethod(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.AddMethod.InvokesExpression(
@@ -96,7 +94,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
                             .DescendantNodes<IdentifierNameSyntax>()
                             .Any(identifierName =>
                                 identifierName.IsSafeEquivalentTo(
-                                    IdentifierName(gigasecondSolution.BirthDateParameter.Identifier))));
+                                    SyntaxFactory.IdentifierName(gigasecondSolution.BirthDateParameter.Identifier))));
 
         private class GigasecondSolution : ParsedSolution
         {

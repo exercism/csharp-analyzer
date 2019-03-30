@@ -3,25 +3,24 @@ using System.Linq;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using static Exercism.Analyzers.CSharp.Analyzers.SharedComments;
 
-namespace Exercism.Analyzers.CSharp.Analyzers
+namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 {
     internal static class SharedAnalyzer
     {
         public static SolutionAnalysis Analyze(ParsedSolution parsedSolution)
         {
             if (parsedSolution.HasCompileErrors())
-                return parsedSolution.DisapproveWithComment(FixCompileErrors);
+                return parsedSolution.DisapproveWithComment(SharedComments.FixCompileErrors);
 
             if (parsedSolution.HasMainMethod())
-                return parsedSolution.DisapproveWithComment(RemoveMainMethod);
+                return parsedSolution.DisapproveWithComment(SharedComments.RemoveMainMethod);
 
             if (parsedSolution.ThrowsNotImplementedException())
-                return parsedSolution.DisapproveWithComment(RemoveThrowNotImplementedException);
+                return parsedSolution.DisapproveWithComment(SharedComments.RemoveThrowNotImplementedException);
 
             if (parsedSolution.WritesToConsole())
-                return parsedSolution.DisapproveWithComment(DontWriteToConsole);
+                return parsedSolution.DisapproveWithComment(SharedComments.DontWriteToConsole);
 
             return null;
         }

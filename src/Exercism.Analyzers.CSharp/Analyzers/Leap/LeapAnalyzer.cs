@@ -1,11 +1,10 @@
 using System.Linq;
+using Exercism.Analyzers.CSharp.Analyzers.Shared;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using static Exercism.Analyzers.CSharp.Analyzers.LeapComments;
-using static Exercism.Analyzers.CSharp.Analyzers.SharedComments;
 
-namespace Exercism.Analyzers.CSharp.Analyzers
+namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 {
     internal static class LeapAnalyzer
     {
@@ -14,13 +13,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers
             var leapSolution = new LeapSolution(parsedSolution);
             
             if (leapSolution.UsesTooManyChecks())
-                return leapSolution.DisapproveWithComment(UseMinimumNumberOfChecks);
+                return leapSolution.DisapproveWithComment(LeapComments.UseMinimumNumberOfChecks);
 
             if (leapSolution.IsLeapYearMethod.IsExpressionBody())
                 return leapSolution.ApproveAsOptimal();
 
             if (leapSolution.IsLeapYearMethod.CanConvertToExpressionBody())
-                return leapSolution.ApproveWithComment(UseExpressionBodiedMember);
+                return leapSolution.ApproveWithComment(SharedComments.UseExpressionBodiedMember);
 
             return leapSolution.ReferToMentor();
         }

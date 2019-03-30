@@ -10,8 +10,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
 {
     internal static class SyntaxNodeExtensions
     {
+        public static SyntaxNode Simplify(this SyntaxNode reducedSyntaxRoot) =>
+            SyntaxNodeSimplifier.Simplify(reducedSyntaxRoot);
+        
         public static bool IsSafeEquivalentTo(this SyntaxNode node, SyntaxNode other) =>
-            node.NormalizeWhitespace().WithoutTrivia().IsEquivalentTo(other.NormalizeWhitespace().WithoutTrivia());
+            SyntaxNodeComparer.IsEquivalentTo(node, other);
         
         public static IEnumerable<TSyntaxNode> DescendantNodes<TSyntaxNode>(this SyntaxNode node)
             where TSyntaxNode : SyntaxNode =>

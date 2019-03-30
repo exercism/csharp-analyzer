@@ -21,9 +21,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 
         private static ConditionalExpressionSyntax InvertConditionalExpression(ConditionalExpressionSyntax node, ExpressionSyntax condition) =>
             node
-                .WithCondition(condition)
-                .WithWhenTrue(node.WhenFalse)
-                .WithWhenFalse(node.WhenTrue);
+                .WithCondition(condition.WithTriviaFrom(node.Condition))
+                .WithWhenTrue(node.WhenFalse.WithTriviaFrom(node.WhenTrue))
+                .WithWhenFalse(node.WhenTrue.WithTriviaFrom(node.WhenFalse));
 
         private static BinaryExpressionSyntax InvertBinaryExpression(BinaryExpressionSyntax binaryExpression) =>
             SyntaxFactory.BinaryExpression(
