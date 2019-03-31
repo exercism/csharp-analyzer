@@ -49,12 +49,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 StringLiteralExpression("you"),
                 identifierName);
 
-        public static ConditionalExpressionSyntax TwoFerTernaryOperatorConditionalExpression(ParameterSyntax inputParameter) =>
+        public static ConditionalExpressionSyntax TwoFerTernaryOperatorConditionalExpression(TwoFerSolution twoFerSolution) =>
             TwoFerConditionalExpression(
                 EqualsExpression(
-                    IdentifierName(inputParameter.Identifier),
+                    IdentifierName(twoFerSolution.InputParameter.Identifier),
                     NullLiteralExpression()),
-                IdentifierName(inputParameter.Identifier));
+                IdentifierName(twoFerSolution.InputParameter.Identifier));
 
         public static BinaryExpressionSyntax TwoFerStringConcatenationExpression(ExpressionSyntax middleExpression) =>
             AddExpression(

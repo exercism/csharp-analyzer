@@ -102,7 +102,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             twoFerSolution.Returns(
                 TwoFerStringConcatenationExpression(
                     ParenthesizedExpression(
-                        TwoFerTernaryOperatorConditionalExpression(twoFerSolution.InputParameter))));
+                        TwoFerTernaryOperatorConditionalExpression(twoFerSolution))));
 
         public static bool UsesStringFormat(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.ReturnsDefaultStringFormatExpression() ||
@@ -142,7 +142,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         private static bool ReturnsNullCheckTernaryOperatorStringFormatExpression(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringFormatInvocationExpression(
-                    TwoFerTernaryOperatorConditionalExpression(twoFerSolution.InputParameter)));
+                    TwoFerTernaryOperatorConditionalExpression(twoFerSolution)));
 
         public static bool UsesStringInterpolation(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.ReturnsDefaultInterpolatedStringExpression() ||
