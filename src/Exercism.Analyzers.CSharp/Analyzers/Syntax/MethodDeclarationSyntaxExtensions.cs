@@ -19,7 +19,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
         public static bool AssignsToParameter(this MethodDeclarationSyntax methodDeclaration, ParameterSyntax parameter) =>
             methodDeclaration.AssignsToIdentifier(SyntaxFactory.IdentifierName(parameter.Identifier));
 
-        public static bool SingleExpression(this MethodDeclarationSyntax methodDeclaration) =>
+        public static bool SingleLine(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration.ExpressionBody != null ||
             methodDeclaration.Body.Statements.Count == 1;
 

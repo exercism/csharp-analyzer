@@ -24,6 +24,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         public static IdentifierNameSyntax TwoFerParameterIdentifierName(TwoFerSolution twoFerSolution) =>
             IdentifierName(twoFerSolution.InputParameter.Identifier);
 
+        public static IdentifierNameSyntax TwoFerVariableIdentifierName(TwoFerSolution twoFerSolution) =>
+            IdentifierName(twoFerSolution.Variable.Identifier);
+
         public static BinaryExpressionSyntax TwoFerCoalesceExpression(IdentifierNameSyntax identifierName) =>
             CoalesceExpression(
                 identifierName,
@@ -78,7 +81,14 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         public static InvocationExpressionSyntax TwoFerIsNullOrWhiteSpaceInvocationExpression(TwoFerSolution twoFerSolution) =>
             TwoFerStringInvocationExpression(twoFerSolution, IdentifierName("IsNullOrWhiteSpace"));
 
-        public static InvocationExpressionSyntax TwoFerStringInvocationExpression(TwoFerSolution twoFerSolution, IdentifierNameSyntax stringMethodIdentifierName) =>
-            StringInvocationExpression(stringMethodIdentifierName, TwoFerParameterIdentifierName(twoFerSolution));
+        private static InvocationExpressionSyntax TwoFerStringInvocationExpression(TwoFerSolution twoFerSolution, IdentifierNameSyntax stringMethodIdentifierName) =>
+            StringInvocationExpression(
+                stringMethodIdentifierName, 
+                TwoFerParameterIdentifierName(twoFerSolution));
+        
+        public static InterpolatedStringExpressionSyntax TwoFerConditionalInterpolatedStringExpression(ExpressionSyntax condition, IdentifierNameSyntax identifierName) =>
+            TwoFerInterpolatedStringExpression(
+                ParenthesizedExpression(
+                    TwoFerConditionalExpression(condition, identifierName)));
     }
 }
