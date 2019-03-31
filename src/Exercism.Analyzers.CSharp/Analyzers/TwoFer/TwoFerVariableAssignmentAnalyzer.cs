@@ -89,5 +89,24 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             twoFerSolution.Returns(
                 TwoFerStringFormatInvocationExpression(
                     IdentifierName(twoFerSolution.Variable.Identifier)));
+
+        public static VariableDeclaratorSyntax AssignedVariable(this MethodDeclarationSyntax nameMethod)
+        {
+            if (nameMethod == null ||
+                nameMethod.Body == null ||
+                nameMethod.Body.Statements.Count != 2)
+                return null;
+
+            if (!(nameMethod.Body.Statements[1] is ReturnStatementSyntax) ||
+                !(nameMethod.Body.Statements[0] is LocalDeclarationStatementSyntax localDeclaration))
+                return null;
+            
+            if (localDeclaration.Declaration.Variables.Count != 1 ||
+                !localDeclaration.Declaration.Type.IsEquivalentWhenNormalized(PredefinedType(Token(SyntaxKind.StringKeyword))) &&
+                !localDeclaration.Declaration.Type.IsEquivalentWhenNormalized(IdentifierName("var")))
+                return null;
+
+            return localDeclaration.Declaration.Variables[0];
+        }
     }
 }

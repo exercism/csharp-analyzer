@@ -8,7 +8,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         private static SolutionAnalysis Analyze(TwoFerSolution twoFerSolution) =>
             twoFerSolution.AnalyzeError() ??
             twoFerSolution.AnalyzeSingleLine() ??
-            twoFerSolution.AnalyzeMultiLine() ??
+            twoFerSolution.AnalyzeParameterAssignment() ??
+            twoFerSolution.AnalyzeVariableAssignment() ??
             twoFerSolution.ReferToMentor();
     }
 }
