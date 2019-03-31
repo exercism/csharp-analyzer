@@ -8,7 +8,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
     {
         public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
         {
-            if (node.Expression.IsEquivalentToNormalized(SyntaxFactory.IdentifierName("System")))
+            if (node.Expression.IsEquivalentWhenNormalized(SyntaxFactory.IdentifierName("System")))
                 return node.Name;
 
             return base.VisitMemberAccessExpression(node);
@@ -16,7 +16,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 
         public override SyntaxNode VisitQualifiedName(QualifiedNameSyntax node)
         {
-            if (node.Left.IsEquivalentToNormalized(SyntaxFactory.IdentifierName("System")))
+            if (node.Left.IsEquivalentWhenNormalized(SyntaxFactory.IdentifierName("System")))
                 return node.Right;
 
             return base.VisitQualifiedName(node);

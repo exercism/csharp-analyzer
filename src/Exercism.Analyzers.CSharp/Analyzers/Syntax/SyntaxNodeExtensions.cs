@@ -13,7 +13,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
         public static SyntaxNode Simplify(this SyntaxNode reducedSyntaxRoot) =>
             SyntaxNodeSimplifier.Simplify(reducedSyntaxRoot);
         
-        public static bool IsEquivalentToNormalized(this SyntaxNode node, SyntaxNode other) =>
+        public static bool IsEquivalentWhenNormalized(this SyntaxNode node, SyntaxNode other) =>
             SyntaxNodeComparer.IsEquivalentToNormalized(node, other);
         
         public static IEnumerable<TSyntaxNode> DescendantNodes<TSyntaxNode>(this SyntaxNode node)
@@ -41,21 +41,27 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
         public static bool AssignsToIdentifier(this SyntaxNode syntaxNode, IdentifierNameSyntax identifierName) =>
             syntaxNode?
                 .DescendantNodes<AssignmentExpressionSyntax>()
-                .Any(assignmentExpression => assignmentExpression.Left.IsEquivalentToNormalized(identifierName)) ?? false;
+                .Any(assignmentExpression => assignmentExpression.Left.IsEquivalentWhenNormalized(identifierName)) ?? false;
 
         public static bool ThrowsExceptionOfType<TException>(this SyntaxNode syntaxNode) where TException : Exception =>
             syntaxNode?
                 .DescendantNodes<ThrowStatementSyntax>()
                 .Any(throwsStatement =>
                         throwsStatement.Expression is ObjectCreationExpressionSyntax objectCreationExpression &&
-                        objectCreationExpression.Type.IsEquivalentToNormalized(
+                        objectCreationExpression.Type.IsEquivalentWhenNormalized(
                             IdentifierName(typeof(TException).Name))) ?? false;
 
-        public static bool InvokesMethod(this SyntaxNode syntaxNode, ExpressionSyntax expression, SimpleNameSyntax name) =>
+        public static bool InvokesMethod(this SyntaxNode syntaxNode, MemberAccessExpressionSyntax memberAccessExpression) =>
             syntaxNode?
-                .DescendantNodes<MemberAccessExpressionSyntax>()
-                .Any(memberAccessExpression => memberAccessExpression.IsEquivalentToNormalized( 
-                        MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, expression, name))) ?? false;
+                .DescendantNodes<InvocationExpressionSyntax>()
+                .Any(invocationExpression => invocationExpression.Expression.IsEquivalentWhenNormalized(memberAccessExpression)) ?? false;
+        
+        public static bool InvokesMethod(this SyntaxNode syntaxNode, SimpleNameSyntax methodName) =>
+            syntaxNode?
+                .DescendantNodes<InvocationExpressionSyntax>()
+                .Any(invocationExpression =>
+                        invocationExpression.Expression is MemberAccessExpressionSyntax memberAccessExpression &&
+                        memberAccessExpression.Name.IsEquivalentWhenNormalized(methodName)) ?? false;
 
         public static MethodDeclarationSyntax ParentMethod(this SyntaxNode syntaxNode)
         {

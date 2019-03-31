@@ -9,12 +9,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
         public static bool InvokesExpression(this MethodDeclarationSyntax methodDeclaration, InvocationExpressionSyntax invocationExpression) =>
             methodDeclaration?
                 .DescendantNodes<InvocationExpressionSyntax>()
-                .Any(descendantInvocationExpression => descendantInvocationExpression.IsEquivalentToNormalized(invocationExpression)) ?? false;
+                .Any(descendantInvocationExpression => descendantInvocationExpression.IsEquivalentWhenNormalized(invocationExpression)) ?? false;
         
         public static bool InvokesExpression(this MethodDeclarationSyntax methodDeclaration, ExpressionSyntax expression) =>
             methodDeclaration?
                 .DescendantNodes<InvocationExpressionSyntax>()
-                .Any(invocationExpression => invocationExpression.Expression.IsEquivalentToNormalized(expression)) ?? false;
+                .Any(invocationExpression => invocationExpression.Expression.IsEquivalentWhenNormalized(expression)) ?? false;
 
         public static bool AssignsToParameter(this MethodDeclarationSyntax methodDeclaration, ParameterSyntax parameter) =>
             methodDeclaration.AssignsToIdentifier(SyntaxFactory.IdentifierName(parameter.Identifier));

@@ -1,4 +1,5 @@
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
@@ -19,5 +20,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             ReturnedExpression = NameMethod?.ReturnedExpression();
             Variable = NameMethod?.AssignedVariable();
         }
+
+        public bool Returns(SyntaxNode returned) =>
+            ReturnedExpression.IsEquivalentWhenNormalized(returned);
     }
 }

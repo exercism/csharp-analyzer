@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
     {
         public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
         {   
-            if (node.Expression.IsEquivalentToNormalized(IdentifierName("String")))
+            if (node.Expression.IsEquivalentWhenNormalized(IdentifierName("String")))
                 return node.WithExpression(
                     PredefinedType(
                         Token(SyntaxKind.StringKeyword)));
@@ -19,7 +19,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 
         public override SyntaxNode VisitVariableDeclaration(VariableDeclarationSyntax node)
         {
-            if (node.Type.IsEquivalentToNormalized(IdentifierName("String")))
+            if (node.Type.IsEquivalentWhenNormalized(IdentifierName("String")))
                 return node.WithType(
                     PredefinedType(
                         Token(SyntaxKind.StringKeyword))
@@ -30,7 +30,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 
         public override SyntaxNode VisitQualifiedName(QualifiedNameSyntax node)
         {   
-            if (node.Left.IsEquivalentToNormalized(IdentifierName("String")))
+            if (node.Left.IsEquivalentWhenNormalized(IdentifierName("String")))
                 return node.WithLeft(
                     IdentifierName("string").WithTriviaFrom(node.Left));
 
