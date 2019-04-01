@@ -4,6 +4,7 @@ using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Shared
@@ -37,8 +38,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
             parsedSolution.SyntaxRoot.ThrowsExceptionOfType<NotImplementedException>();
 
         private static bool WritesToConsole(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot.InvokesMethod(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName("Console"), IdentifierName("WriteLine"))) ||
-            parsedSolution.SyntaxRoot.InvokesMethod(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName("Console"), IdentifierName("ReadLine")));
-            // TODO: consider helper method to create method invocation
+            parsedSolution.SyntaxRoot.InvokesMethod(
+                SimpleMemberAccessExpression(
+                    IdentifierName("Console"),
+                    IdentifierName("WriteLine"))) ||
+            parsedSolution.SyntaxRoot.InvokesMethod(
+                SimpleMemberAccessExpression(
+                    IdentifierName("Console"),
+                    IdentifierName("Write")));
     }
 }

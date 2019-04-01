@@ -6,13 +6,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 {
     internal static class SharedSyntaxFactory
     {
-        public static BinaryExpressionSyntax EqualsExpression(IdentifierNameSyntax left, LiteralExpressionSyntax right) =>
+        public static BinaryExpressionSyntax EqualsExpression(ExpressionSyntax left, ExpressionSyntax right) =>
             BinaryExpression(SyntaxKind.EqualsExpression, left, right);
 
         public static BinaryExpressionSyntax AddExpression(ExpressionSyntax left, ExpressionSyntax right) =>
             BinaryExpression(SyntaxKind.AddExpression, left, right);
 
-        public static BinaryExpressionSyntax CoalesceExpression(IdentifierNameSyntax left, LiteralExpressionSyntax right) =>
+        public static BinaryExpressionSyntax CoalesceExpression(ExpressionSyntax left, ExpressionSyntax right) =>
             BinaryExpression(SyntaxKind.CoalesceExpression, left, right);
         
         public static LiteralExpressionSyntax NullLiteralExpression() =>
@@ -21,21 +21,24 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         public static LiteralExpressionSyntax StringLiteralExpression(string value) =>
             LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value));
         
-        public static InvocationExpressionSyntax StringInvocationExpression(IdentifierNameSyntax methodIdentifierName, IdentifierNameSyntax argumentIdentifierName) =>
+        public static InvocationExpressionSyntax StringInvocationExpression(IdentifierNameSyntax methodName, IdentifierNameSyntax argumentName) =>
             InvocationExpression(
-                    StringMemberAccessExpression(methodIdentifierName))
+                    StringMemberAccessExpression(methodName))
                 .WithArgumentList(
                     ArgumentList(
                         SingletonSeparatedList(
                             Argument(
-                                argumentIdentifierName))));
+                                argumentName))));
 
-        public static MemberAccessExpressionSyntax StringMemberAccessExpression(IdentifierNameSyntax methodIdentifierName) =>
+        public static MemberAccessExpressionSyntax StringMemberAccessExpression(IdentifierNameSyntax name) =>
+            SimpleMemberAccessExpression(PredefinedType(Token(SyntaxKind.StringKeyword)), name);
+
+        public static MemberAccessExpressionSyntax SimpleMemberAccessExpression(ExpressionSyntax expression, IdentifierNameSyntax name) =>
             MemberAccessExpression(
                 SyntaxKind.SimpleMemberAccessExpression,
-                PredefinedType(Token(SyntaxKind.StringKeyword)),
-                methodIdentifierName);
-        
+                expression,
+                name);
+
         public static AssignmentExpressionSyntax SimpleAssignmentExpression(ExpressionSyntax left, ExpressionSyntax right) =>
             AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, left, right);
 

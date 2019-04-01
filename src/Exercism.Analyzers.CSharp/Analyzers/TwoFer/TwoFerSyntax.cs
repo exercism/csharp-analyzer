@@ -26,11 +26,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         {
             var literalExpressionCount = twoFerSolution.NameMethod
                 .DescendantNodes<LiteralExpressionSyntax>()
-                .Count(literalExpression => literalExpression.Token.ValueText.Contains("one for me"));
+                .Count(literalExpression => literalExpression.Token.ValueText.Contains("One for"));
 
             var interpolatedStringTextCount = twoFerSolution.NameMethod
                 .DescendantNodes<InterpolatedStringTextSyntax>()
-                .Count(interpolatedStringText => interpolatedStringText.TextToken.ValueText.Contains("one for me"));
+                .Count(interpolatedStringText => interpolatedStringText.TextToken.ValueText.Contains("One for"));
 
             return literalExpressionCount + interpolatedStringTextCount > 1;
         }
