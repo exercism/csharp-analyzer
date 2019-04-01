@@ -18,6 +18,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         public static LiteralExpressionSyntax NullLiteralExpression() =>
             LiteralExpression(SyntaxKind.NullLiteralExpression);
 
+        public static LiteralExpressionSyntax NumericLiteralExpression(int value) =>
+            LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value));
+
+        public static LiteralExpressionSyntax NumericLiteralExpression(string text, double value) =>
+            LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(text, value));
+
         public static LiteralExpressionSyntax StringLiteralExpression(string value) =>
             LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value));
 
