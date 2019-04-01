@@ -9,22 +9,26 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
         public static bool InvokesExpression(this MethodDeclarationSyntax methodDeclaration, InvocationExpressionSyntax invocationExpression) =>
             methodDeclaration?
                 .DescendantNodes<InvocationExpressionSyntax>()
-                .Any(descendantInvocationExpression => descendantInvocationExpression.IsSafeEquivalentTo(invocationExpression)) ?? false;
+                .Any(descendantInvocationExpression => descendantInvocationExpression.IsEquivalentWhenNormalized(invocationExpression)) ?? false;
         
         public static bool InvokesExpression(this MethodDeclarationSyntax methodDeclaration, ExpressionSyntax expression) =>
             methodDeclaration?
                 .DescendantNodes<InvocationExpressionSyntax>()
-                .Any(invocationExpression => invocationExpression.Expression.IsSafeEquivalentTo(expression)) ?? false;
+                .Any(invocationExpression => invocationExpression.Expression.IsEquivalentWhenNormalized(expression)) ?? false;
 
         public static bool AssignsToParameter(this MethodDeclarationSyntax methodDeclaration, ParameterSyntax parameter) =>
             methodDeclaration.AssignsToIdentifier(SyntaxFactory.IdentifierName(parameter.Identifier));
 
-        public static ExpressionSyntax SingleStatementExpression(this MethodDeclarationSyntax methodDeclaration) =>
+        public static bool SingleLine(this MethodDeclarationSyntax methodDeclaration) =>
+            methodDeclaration.ExpressionBody != null ||
+            methodDeclaration.Body.Statements.Count == 1;
+
+        public static ExpressionSyntax ReturnedExpression(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration.ExpressionBody?.Expression ??
             methodDeclaration.Body
                 .DescendantNodes<ReturnStatementSyntax>()
                 .Select(returnStatement => returnStatement.Expression)
-                .FirstOrDefault();
+                .LastOrDefault();
 
         public static bool IsBlockBody(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration.Body != null;

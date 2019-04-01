@@ -19,6 +19,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Exercism.Analyzers.CSharp\Exercism.Analyzers.CSharp.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Solutions\TwoFer\Invalid" />
+    <Folder Include="Solutions\TwoFer\Concatenation\Default" />
+    <Folder Include="Solutions\TwoFer\Format\Default" />
+  </ItemGroup>
   
   <Target Name="CopySolutions" AfterTargets="Build">
     <RemoveDir Directories="$(OutputPath)\Solutions" />
