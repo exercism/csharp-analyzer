@@ -8,6 +8,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
     internal static class TwoFerSyntaxFactory
     {
+        public static ExpressionStatementSyntax TwoFerAssignParameterStatement(ExpressionSyntax condition, IdentifierNameSyntax parameterName) =>
+            ExpressionStatement(
+                SimpleAssignmentExpression(
+                    parameterName,
+                    condition));
+
         public static IfStatementSyntax TwoFerAssignParameterIfStatement(ExpressionSyntax condition, IdentifierNameSyntax parameterName) =>
             IfStatement(
                 condition,
@@ -93,5 +99,20 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             TwoFerInterpolatedStringExpression(
                 ParenthesizedExpression(
                     TwoFerConditionalExpression(condition, identifierName)));
+
+        public static ConditionalExpressionSyntax TwoFerParameterIsNullConditionalExpression(TwoFerSolution twoFerSolution) =>
+            TwoFerConditionalExpression(
+                TwoFerParameterIsNullExpression(twoFerSolution),
+                TwoFerParameterIdentifierName(twoFerSolution));
+
+        public static ConditionalExpressionSyntax TwoFerParameterIsNullOrEmptyConditionalExpression(TwoFerSolution twoFerSolution) =>
+            TwoFerConditionalExpression(
+                TwoFerIsNullOrEmptyInvocationExpression(twoFerSolution),
+                TwoFerParameterIdentifierName(twoFerSolution));
+
+        public static ConditionalExpressionSyntax TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(TwoFerSolution twoFerSolution) =>
+            TwoFerConditionalExpression(
+                TwoFerIsNullOrWhiteSpaceInvocationExpression(twoFerSolution),
+                TwoFerParameterIdentifierName(twoFerSolution));
     }
 }

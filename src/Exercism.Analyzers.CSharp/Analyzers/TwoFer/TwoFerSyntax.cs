@@ -184,27 +184,48 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         public static bool AssignsParameterUsingKnownExpression(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.AssignsParameterUsingNullCoalescingOperator() ||
+            twoFerSolution.AssignsParameterUsingNullCheck() ||
             twoFerSolution.AssignsParameterUsingIfNullCheck() ||
+            twoFerSolution.AssignsParameterUsingIsNullOrEmptyCheck() ||
             twoFerSolution.AssignsParameterUsingIfIsNullOrEmptyCheck() ||
+            twoFerSolution.AssignsParameterUsingIsNullOrWhiteSpaceCheck() ||
             twoFerSolution.AssignsParameterUsingIfIsNullOrWhiteSpaceCheck();
 
         public static bool AssignsParameterUsingNullCoalescingOperator(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.ParameterAssignedUsingStatement(
-                ExpressionStatement(
-                    SimpleAssignmentExpression(
-                        IdentifierName(twoFerSolution.InputParameter.Identifier), 
-                        TwoFerCoalesceExpression(TwoFerParameterIdentifierName(twoFerSolution)))));
+                TwoFerAssignParameterStatement(
+                    TwoFerCoalesceExpression(
+                        TwoFerParameterIdentifierName(twoFerSolution)),
+                    TwoFerParameterIdentifierName(twoFerSolution)));
+
+        public static bool AssignsParameterUsingNullCheck(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.ParameterAssignedUsingStatement(
+                TwoFerAssignParameterStatement(
+                    TwoFerParameterIsNullConditionalExpression(twoFerSolution),
+                    TwoFerParameterIdentifierName(twoFerSolution)));
 
         public static bool AssignsParameterUsingIfNullCheck(this TwoFerSolution twoFerSolution) =>
-        twoFerSolution.ParameterAssignedUsingStatement(
-            TwoFerAssignParameterIfStatement(
-                TwoFerParameterIsNullExpression(twoFerSolution),
-                TwoFerParameterIdentifierName(twoFerSolution)));
+            twoFerSolution.ParameterAssignedUsingStatement(
+                TwoFerAssignParameterIfStatement(
+                    TwoFerParameterIsNullExpression(twoFerSolution),
+                    TwoFerParameterIdentifierName(twoFerSolution)));
+
+        public static bool AssignsParameterUsingIsNullOrEmptyCheck(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.ParameterAssignedUsingStatement(
+                TwoFerAssignParameterStatement(
+                    TwoFerParameterIsNullOrEmptyConditionalExpression(twoFerSolution),
+                    TwoFerParameterIdentifierName(twoFerSolution)));
 
         public static bool AssignsParameterUsingIfIsNullOrEmptyCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.ParameterAssignedUsingStatement(
                 TwoFerAssignParameterIfStatement(
                     TwoFerIsNullOrEmptyInvocationExpression(twoFerSolution),
+                    TwoFerParameterIdentifierName(twoFerSolution)));
+
+        public static bool AssignsParameterUsingIsNullOrWhiteSpaceCheck(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.ParameterAssignedUsingStatement(
+                TwoFerAssignParameterStatement(
+                    TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(twoFerSolution),
                     TwoFerParameterIdentifierName(twoFerSolution)));
 
         public static bool AssignsParameterUsingIfIsNullOrWhiteSpaceCheck(this TwoFerSolution twoFerSolution) =>
@@ -235,24 +256,19 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         public static bool AssignsVariableUsingNullCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.AssignsVariableUsingExpression(
-                TwoFerConditionalExpression(
-                    TwoFerParameterIsNullExpression(twoFerSolution), 
-                    TwoFerParameterIdentifierName(twoFerSolution)));
+                TwoFerParameterIsNullConditionalExpression(twoFerSolution));
 
         public static bool AssignsVariableUsingIsNullOrEmptyCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.AssignsVariableUsingExpression(
-                TwoFerConditionalExpression(
-                    TwoFerIsNullOrEmptyInvocationExpression(twoFerSolution),
-                    TwoFerParameterIdentifierName(twoFerSolution)));
+                TwoFerParameterIsNullOrEmptyConditionalExpression(twoFerSolution));
 
         public static bool AssignsVariableUsingIsNullOrWhiteSpaceCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.AssignsVariableUsingExpression(
-                TwoFerConditionalExpression(
-                    TwoFerIsNullOrWhiteSpaceInvocationExpression(twoFerSolution),
-                    TwoFerParameterIdentifierName(twoFerSolution)));
+                TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(twoFerSolution));
 
         private static bool AssignsVariableUsingExpression(this TwoFerSolution twoFerSolution, ExpressionSyntax initializer) =>
-            twoFerSolution.Variable.Initializer.IsEquivalentWhenNormalized(EqualsValueClause(initializer));
+            twoFerSolution.Variable.Initializer.IsEquivalentWhenNormalized(
+                EqualsValueClause(initializer));
 
         public static bool ReturnsStringInterpolationWithVariable(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
