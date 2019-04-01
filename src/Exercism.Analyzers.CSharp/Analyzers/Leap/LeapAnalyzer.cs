@@ -18,6 +18,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
             if (leapSolution.IsLeapYearMethod.IsExpressionBody())
                 return leapSolution.ApproveAsOptimal();
 
+            // TODO: simplify
             if (leapSolution.IsLeapYearMethod.CanConvertToExpressionBody())
                 return leapSolution.ApproveWithComment(SharedComments.UseExpressionBodiedMember);
 

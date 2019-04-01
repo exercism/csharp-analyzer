@@ -21,7 +21,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             Variable = NameMethod?.AssignedVariable();
         }
 
-        public bool Returns(SyntaxNode returned) =>
-            ReturnedExpression.IsEquivalentWhenNormalized(returned);
+        public bool Returns(SyntaxNode returned) => ReturnedExpression.IsEquivalentWhenNormalized(returned);
     }
 }

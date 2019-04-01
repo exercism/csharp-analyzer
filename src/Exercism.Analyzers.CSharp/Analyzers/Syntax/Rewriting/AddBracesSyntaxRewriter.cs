@@ -1,6 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 {
@@ -13,8 +14,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 
             return base.VisitIfStatement(
                 ifStatement.WithStatement(
-                    SyntaxFactory.Block(
-                        SyntaxFactory.SingletonList(
+                    Block(
+                        SingletonList(
                             ifStatement.Statement))));
         }
     }

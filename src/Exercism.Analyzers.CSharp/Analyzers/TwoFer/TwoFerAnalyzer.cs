@@ -1,7 +1,4 @@
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
-using Exercism.Analyzers.CSharp.Analyzers.Syntax;
-using static Exercism.Analyzers.CSharp.Analyzers.TwoFer.TwoFerSyntaxFactory;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
