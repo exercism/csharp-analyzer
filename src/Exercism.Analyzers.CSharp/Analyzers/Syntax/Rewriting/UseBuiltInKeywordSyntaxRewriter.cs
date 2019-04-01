@@ -10,9 +10,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
         public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
         {   
             if (node.Expression.IsEquivalentWhenNormalized(IdentifierName("String")))
-                return node.WithExpression(
-                    PredefinedType(
-                        Token(SyntaxKind.StringKeyword)));
+                return base.Visit(
+                    node.WithExpression(
+                        PredefinedType(
+                            Token(SyntaxKind.StringKeyword))));
 
             return base.VisitMemberAccessExpression(node);
         }
@@ -20,10 +21,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
         public override SyntaxNode VisitVariableDeclaration(VariableDeclarationSyntax node)
         {
             if (node.Type.IsEquivalentWhenNormalized(IdentifierName("String")))
-                return node.WithType(
-                    PredefinedType(
-                        Token(SyntaxKind.StringKeyword))
-                    .WithTriviaFrom(node.Type));
+                return base.Visit(
+                    node.WithType(
+                        PredefinedType(
+                            Token(SyntaxKind.StringKeyword))
+                        .WithTriviaFrom(node.Type)));
             
             return base.VisitVariableDeclaration(node);
         }
@@ -31,8 +33,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
         public override SyntaxNode VisitQualifiedName(QualifiedNameSyntax node)
         {   
             if (node.Left.IsEquivalentWhenNormalized(IdentifierName("String")))
-                return node.WithLeft(
-                    IdentifierName("string").WithTriviaFrom(node.Left));
+                return base.Visit(
+                    node.WithLeft(
+                        IdentifierName("string").WithTriviaFrom(node.Left)));
 
             return base.VisitQualifiedName(node);
         }

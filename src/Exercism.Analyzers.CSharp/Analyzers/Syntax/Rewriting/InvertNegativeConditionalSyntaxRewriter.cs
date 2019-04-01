@@ -10,11 +10,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
         {
             if (node.Condition is BinaryExpressionSyntax binaryExpression &&
                 binaryExpression.IsKind(SyntaxKind.NotEqualsExpression))
-                return InvertConditionalExpression(node, InvertBinaryExpression(binaryExpression));
+                return base.VisitConditionalExpression(InvertConditionalExpression(node, InvertBinaryExpression(binaryExpression)));
 
             if (node.Condition is PrefixUnaryExpressionSyntax prefixUnaryExpression &&
                 prefixUnaryExpression.IsKind(SyntaxKind.LogicalNotExpression))
-                return InvertConditionalExpression(node, InvertPrefixUnaryExpression(prefixUnaryExpression));
+                return base.VisitConditionalExpression(InvertConditionalExpression(node, InvertPrefixUnaryExpression(prefixUnaryExpression)));
 
             return base.VisitConditionalExpression(node);
         }

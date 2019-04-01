@@ -98,13 +98,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             if (twoFerSolution.AssignsParameterUsingNullCoalescingOperator())
                 return twoFerSolution.ApproveWithComment(SharedComments.InlineVariable);
 
-            if (twoFerSolution.AssignsParameterUsingNullCheck())
+            if (twoFerSolution.AssignsParameterUsingIfNullCheck())
                 return twoFerSolution.ApproveWithComment(SharedComments.UseNullCoalescingOperatorNotNullCheck);
 
-            if (twoFerSolution.AssignsParameterUsingIsNullOrEmptyCheck())
+            if (twoFerSolution.AssignsParameterUsingIfIsNullOrEmptyCheck())
                 return twoFerSolution.ApproveWithComment(TwoFerComments.UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
 
-            if (twoFerSolution.AssignsParameterUsingIsNullOrWhiteSpaceCheck())
+            if (twoFerSolution.AssignsParameterUsingIfIsNullOrWhiteSpaceCheck())
                 return twoFerSolution.ApproveWithComment(TwoFerComments.UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
             return null;

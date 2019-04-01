@@ -9,12 +9,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
         public override SyntaxNode VisitIfStatement(IfStatementSyntax ifStatement)
         {
             if (ifStatement.Statement is BlockSyntax)
-                return ifStatement;
+                return base.VisitIfStatement(ifStatement);
 
-            return ifStatement.WithStatement(
+            return base.VisitIfStatement(
+                ifStatement.WithStatement(
                     SyntaxFactory.Block(
                         SyntaxFactory.SingletonList(
-                            ifStatement.Statement)));
+                            ifStatement.Statement))));
         }
     }
 }

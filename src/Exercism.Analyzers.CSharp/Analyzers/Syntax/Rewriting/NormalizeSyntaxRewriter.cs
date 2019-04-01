@@ -10,8 +10,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
             if (node == null)
                 return null;
 
-            var withoutTrivia = node.WithoutTrivia().NormalizeWhitespace();
-            return base.Visit(withoutTrivia);
+            var normalizedNode = node.WithoutTrivia().NormalizeWhitespace();
+            return base.Visit(normalizedNode);
         }
     }
 }

@@ -184,9 +184,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         public static bool AssignsParameterUsingKnownExpression(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.AssignsParameterUsingNullCoalescingOperator() ||
-            twoFerSolution.AssignsParameterUsingNullCheck() ||
-            twoFerSolution.AssignsParameterUsingIsNullOrEmptyCheck() ||
-            twoFerSolution.AssignsParameterUsingIsNullOrWhiteSpaceCheck();
+            twoFerSolution.AssignsParameterUsingIfNullCheck() ||
+            twoFerSolution.AssignsParameterUsingIfIsNullOrEmptyCheck() ||
+            twoFerSolution.AssignsParameterUsingIfIsNullOrWhiteSpaceCheck();
 
         public static bool AssignsParameterUsingNullCoalescingOperator(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.ParameterAssignedUsingStatement(
@@ -195,19 +195,19 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                         IdentifierName(twoFerSolution.InputParameter.Identifier), 
                         TwoFerCoalesceExpression(TwoFerParameterIdentifierName(twoFerSolution)))));
 
-        public static bool AssignsParameterUsingNullCheck(this TwoFerSolution twoFerSolution) =>
+        public static bool AssignsParameterUsingIfNullCheck(this TwoFerSolution twoFerSolution) =>
         twoFerSolution.ParameterAssignedUsingStatement(
             TwoFerAssignParameterIfStatement(
                 TwoFerParameterIsNullExpression(twoFerSolution),
                 TwoFerParameterIdentifierName(twoFerSolution)));
 
-        public static bool AssignsParameterUsingIsNullOrEmptyCheck(this TwoFerSolution twoFerSolution) =>
+        public static bool AssignsParameterUsingIfIsNullOrEmptyCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.ParameterAssignedUsingStatement(
                 TwoFerAssignParameterIfStatement(
                     TwoFerIsNullOrEmptyInvocationExpression(twoFerSolution),
                     TwoFerParameterIdentifierName(twoFerSolution)));
 
-        public static bool AssignsParameterUsingIsNullOrWhiteSpaceCheck(this TwoFerSolution twoFerSolution) =>
+        public static bool AssignsParameterUsingIfIsNullOrWhiteSpaceCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.ParameterAssignedUsingStatement(
                 TwoFerAssignParameterIfStatement(
                     TwoFerIsNullOrWhiteSpaceInvocationExpression(twoFerSolution),
