@@ -2,25 +2,33 @@
 
 A tool that can analyze C# solutions submitted to [Exercism](https://exercism.io).
 
-## Build and running in Docker
+## Analyzing a solution
 
-The C# analyzer can also be run as a Docker container:
+To analyze a solution, follow these steps:
 
 1. Open a command prompt in the root directory.
-1. Run `./run-in-docker.ps1 <slug> <directory>`. This script will:
-   1. Build the analyzer Docker image (if necessary).
-   1. Run the analyzer Docker image (as a container), passing the specified `slug` and `directory` arguments.
-1. Once the script has completed, the analysis result can be found at `<directory>/analysis.json`.
+1. Run `./analyze.ps1 <slug> <directory>`. This script will run the analyzer on the specified directory.
+1. Once the script has completed, the analysis results  will be written to `<directory>/analysis.json`.
 
-## Running bulk analyzer
+## Analyzing multiple solutions
 
-If you want to analyze multiple solutions at once, you can use the bulk analyzer:
+To analyze multiple solutions at once, follow these steps:
 
 1. Open a command prompt in the root directory.
 1. Run `./bulk-analyze.ps1 <slug> <directory>`. This script will run the analyzer on each directory sub-directory of `<directory>`.
 1. Once the script has completed, it will:
    1. Output general staticics to the console.
    1. Write detailed analysis results to `<directory>/bulk_analysis.json`.
+
+## Analyzing a solution using Docker
+
+To analyze a solution using a Docker container, follow these steps:
+
+1. Open a command prompt in the root directory.
+1. Run `./run-in-docker.ps1 <slug> <directory>`. This script will:
+   1. Build the analyzer Docker image (if necessary).
+   1. Run the analyzer Docker image (as a container), passing the specified `slug` and `directory` arguments.
+1. Once the script has completed, the analysis result can be found at `<directory>/analysis.json`.
 
 ## Source code formatting
 
