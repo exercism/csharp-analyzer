@@ -8,7 +8,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
     public class UseBuiltInKeywordSyntaxRewriter : CSharpSyntaxRewriter
     {
         public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
-        {   
+        {
             if (node.Expression.IsEquivalentWhenNormalized(IdentifierName("String")))
                 return base.Visit(
                     node.WithExpression(
@@ -26,12 +26,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
                         PredefinedType(
                             Token(SyntaxKind.StringKeyword))
                         .WithTriviaFrom(node.Type)));
-            
+
             return base.VisitVariableDeclaration(node);
         }
 
         public override SyntaxNode VisitQualifiedName(QualifiedNameSyntax node)
-        {   
+        {
             if (node.Left.IsEquivalentWhenNormalized(IdentifierName("String")))
                 return base.Visit(
                     node.WithLeft(

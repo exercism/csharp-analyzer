@@ -10,7 +10,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
     internal static class TwoFerSyntax
-    {   
+    {
         public static bool MissingNameMethod(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.NameMethod == null;
 
@@ -43,7 +43,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         public static bool UsesStringReplace(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.NameMethod.InvokesMethod(IdentifierName("Replace"));
-        
+
         public static bool AssignsToParameter(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.NameMethod.AssignsToParameter(twoFerSolution.InputParameter);
 
@@ -150,7 +150,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             twoFerSolution.ReturnsStringInterpolationWithNullCoalescingOperator() ||
             twoFerSolution.ReturnsStringInterpolationWithIsNullOrEmptyCheck() ||
             twoFerSolution.ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck();
-        
+
         public static bool ReturnsStringInterpolationWithDefaultValue(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerInterpolatedStringExpression(
@@ -295,7 +295,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             if (!(nameMethod.Body.Statements[1] is ReturnStatementSyntax) ||
                 !(nameMethod.Body.Statements[0] is LocalDeclarationStatementSyntax localDeclaration))
                 return null;
-            
+
             if (localDeclaration.Declaration.Variables.Count != 1 ||
                 !localDeclaration.Declaration.Type.IsEquivalentWhenNormalized(PredefinedType(Token(SyntaxKind.StringKeyword))) &&
                 !localDeclaration.Declaration.Type.IsEquivalentWhenNormalized(IdentifierName("var")))

@@ -14,13 +14,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 
         public static BinaryExpressionSyntax CoalesceExpression(ExpressionSyntax left, ExpressionSyntax right) =>
             BinaryExpression(SyntaxKind.CoalesceExpression, left, right);
-        
+
         public static LiteralExpressionSyntax NullLiteralExpression() =>
             LiteralExpression(SyntaxKind.NullLiteralExpression);
-        
+
         public static LiteralExpressionSyntax StringLiteralExpression(string value) =>
             LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value));
-        
+
         public static InvocationExpressionSyntax StringInvocationExpression(IdentifierNameSyntax methodName, IdentifierNameSyntax argumentName) =>
             InvocationExpression(
                     StringMemberAccessExpression(methodName))

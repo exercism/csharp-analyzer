@@ -11,7 +11,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
         public static SolutionAnalysis Analyze(ParsedSolution parsedSolution)
         {
             var leapSolution = new LeapSolution(parsedSolution);
-            
+
             if (leapSolution.UsesTooManyChecks())
                 return leapSolution.DisapproveWithComment(LeapComments.UseMinimumNumberOfChecks);
 
@@ -45,7 +45,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 
             public LeapSolution(ParsedSolution solution) : base(solution.Solution, solution.SyntaxRoot)
             {
-                IsLeapYearMethod = solution.SyntaxRoot.GetClassMethod("Leap","IsLeapYear");
+                IsLeapYearMethod = solution.SyntaxRoot.GetClassMethod("Leap", "IsLeapYear");
                 YearParameter = IsLeapYearMethod.ParameterList.Parameters[0];
             }
         }

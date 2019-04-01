@@ -10,7 +10,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
             methodDeclaration?
                 .DescendantNodes<InvocationExpressionSyntax>()
                 .Any(descendantInvocationExpression => descendantInvocationExpression.IsEquivalentWhenNormalized(invocationExpression)) ?? false;
-        
+
         public static bool InvokesExpression(this MethodDeclarationSyntax methodDeclaration, ExpressionSyntax expression) =>
             methodDeclaration?
                 .DescendantNodes<InvocationExpressionSyntax>()
@@ -32,7 +32,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
 
         public static bool IsBlockBody(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration.Body != null;
-        
+
         public static bool IsExpressionBody(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration.ExpressionBody != null;
 

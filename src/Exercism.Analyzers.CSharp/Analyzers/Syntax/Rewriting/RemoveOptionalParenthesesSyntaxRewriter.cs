@@ -10,7 +10,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
         {
             if (node.Parent is ConditionalExpressionSyntax)
                 return base.Visit(node.Expression);
-            
+
             return base.VisitParenthesizedExpression(node);
         }
     }

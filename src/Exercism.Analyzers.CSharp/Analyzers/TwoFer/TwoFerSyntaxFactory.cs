@@ -92,9 +92,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         private static InvocationExpressionSyntax TwoFerStringInvocationExpression(TwoFerSolution twoFerSolution, IdentifierNameSyntax stringMethodIdentifierName) =>
             StringInvocationExpression(
-                stringMethodIdentifierName, 
+                stringMethodIdentifierName,
                 TwoFerParameterIdentifierName(twoFerSolution));
-        
+
         public static InterpolatedStringExpressionSyntax TwoFerConditionalInterpolatedStringExpression(ExpressionSyntax condition, IdentifierNameSyntax identifierName) =>
             TwoFerInterpolatedStringExpression(
                 ParenthesizedExpression(

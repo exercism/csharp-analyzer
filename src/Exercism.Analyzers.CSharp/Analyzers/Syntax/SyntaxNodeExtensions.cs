@@ -12,10 +12,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
     {
         public static SyntaxNode Simplify(this SyntaxNode reducedSyntaxRoot) =>
             SyntaxNodeSimplifier.Simplify(reducedSyntaxRoot);
-        
+
         public static bool IsEquivalentWhenNormalized(this SyntaxNode node, SyntaxNode other) =>
             SyntaxNodeComparer.IsEquivalentToNormalized(node, other);
-        
+
         public static IEnumerable<TSyntaxNode> DescendantNodes<TSyntaxNode>(this SyntaxNode node)
             where TSyntaxNode : SyntaxNode =>
             node.DescendantNodes().OfType<TSyntaxNode>();
@@ -55,7 +55,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
             syntaxNode?
                 .DescendantNodes<InvocationExpressionSyntax>()
                 .Any(invocationExpression => invocationExpression.Expression.IsEquivalentWhenNormalized(memberAccessExpression)) ?? false;
-        
+
         public static bool InvokesMethod(this SyntaxNode syntaxNode, SimpleNameSyntax methodName) =>
             syntaxNode?
                 .DescendantNodes<InvocationExpressionSyntax>()

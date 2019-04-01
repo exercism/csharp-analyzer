@@ -71,7 +71,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                                             SyntaxFactory.LiteralExpression(
                                                 SyntaxKind.NumericLiteralExpression,
                                                 SyntaxFactory.Literal(9)))}))));
-        
+
         private static bool UsesAddSecondsMethodWithArgument(this GigasecondSolution gigasecondSolution, ExpressionSyntax argumentExpression) =>
             gigasecondSolution.AddMethod.InvokesExpression(
                 SyntaxFactory.InvocationExpression(
@@ -103,7 +103,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 
             public GigasecondSolution(ParsedSolution solution) : base(solution.Solution, solution.SyntaxRoot)
             {
-                AddMethod = solution.SyntaxRoot.GetClassMethod("Gigasecond","Add");
+                AddMethod = solution.SyntaxRoot.GetClassMethod("Gigasecond", "Add");
                 BirthDateParameter = AddMethod.ParameterList.Parameters[0];
             }
         }
