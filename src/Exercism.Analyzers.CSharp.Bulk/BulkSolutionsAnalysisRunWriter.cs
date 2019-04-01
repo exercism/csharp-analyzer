@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.Bulk
     {
         public static void Write(BulkSolutionsAnalysisRun analysisRun)
         {
-            using (var fileWriter = File.CreateText(Path.Combine(analysisRun.Options.Directory, "analysis_run_results.json")))
+            using (var fileWriter = File.CreateText(Path.Combine(analysisRun.Options.Directory, "bulk_analysis.json")))
             using (var jsonTextWriter = new JsonTextWriter(fileWriter))
             {
                 jsonTextWriter.Formatting = Formatting.Indented;
