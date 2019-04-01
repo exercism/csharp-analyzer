@@ -27,9 +27,5 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
 
         public static bool IsExpressionBody(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration.ExpressionBody != null;
-
-        public static bool CanConvertToExpressionBody(this MethodDeclarationSyntax methodDeclaration) =>
-            methodDeclaration.Body != null &&
-            methodDeclaration.Body.Statements.Count == 1;
     }
 }

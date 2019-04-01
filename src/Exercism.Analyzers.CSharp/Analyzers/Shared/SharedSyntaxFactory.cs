@@ -9,8 +9,20 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         public static BinaryExpressionSyntax EqualsExpression(ExpressionSyntax left, ExpressionSyntax right) =>
             BinaryExpression(SyntaxKind.EqualsExpression, left, right);
 
+        public static BinaryExpressionSyntax NotEqualsExpression(ExpressionSyntax left, ExpressionSyntax right) =>
+            BinaryExpression(SyntaxKind.NotEqualsExpression, left, right);
+
         public static BinaryExpressionSyntax AddExpression(ExpressionSyntax left, ExpressionSyntax right) =>
             BinaryExpression(SyntaxKind.AddExpression, left, right);
+
+        public static BinaryExpressionSyntax LogicalOrExpression(ExpressionSyntax left, ExpressionSyntax right) =>
+            BinaryExpression(SyntaxKind.LogicalOrExpression, left, right);
+
+        public static BinaryExpressionSyntax LogicalAndExpression(ExpressionSyntax left, ExpressionSyntax right) =>
+            BinaryExpression(SyntaxKind.LogicalAndExpression, left, right);
+
+        public static BinaryExpressionSyntax ModuloExpression(ExpressionSyntax left, ExpressionSyntax right) =>
+            BinaryExpression(SyntaxKind.ModuloExpression, left, right);
 
         public static BinaryExpressionSyntax CoalesceExpression(ExpressionSyntax left, ExpressionSyntax right) =>
             BinaryExpression(SyntaxKind.CoalesceExpression, left, right);
