@@ -8,13 +8,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
     internal static class TwoFerSyntaxFactory
     {
-        public static BlockSyntax TwoFerAssignParameterToYou(TwoFerSolution twoFerSolution) =>
-            Block(
-                SingletonList<StatementSyntax>(
-                    ExpressionStatement(
-                        SimpleAssignmentExpression(
-                            TwoFerParameterIdentifierName(twoFerSolution),
-                            StringLiteralExpression("you")))));
+        public static IfStatementSyntax TwoFerAssignParameterIfStatement(ExpressionSyntax condition, IdentifierNameSyntax parameterName) =>
+            IfStatement(
+                condition,
+                Block(
+                    SingletonList<StatementSyntax>(
+                        ExpressionStatement(
+                            SimpleAssignmentExpression(
+                                parameterName,
+                                StringLiteralExpression("you"))))));
 
         public static BinaryExpressionSyntax TwoFerParameterIsNullExpression(TwoFerSolution twoFerSolution) =>
             EqualsExpression(
@@ -49,23 +51,24 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 StringLiteralExpression("you"),
                 identifierName);
 
-        public static ConditionalExpressionSyntax TwoFerTernaryOperatorConditionalExpression(TwoFerSolution twoFerSolution) =>
+        public static ConditionalExpressionSyntax TwoFerConditionalExpressionWithNullCheck(TwoFerSolution twoFerSolution) =>
             TwoFerConditionalExpression(
                 EqualsExpression(
                     IdentifierName(twoFerSolution.InputParameter.Identifier),
                     NullLiteralExpression()),
                 IdentifierName(twoFerSolution.InputParameter.Identifier));
 
-        public static BinaryExpressionSyntax TwoFerStringConcatenationExpression(ExpressionSyntax middleExpression) =>
+        public static BinaryExpressionSyntax TwoFerStringConcatenationExpression(ExpressionSyntax nameExpression) =>
             AddExpression(
                 AddExpression(
                     StringLiteralExpression("One for "),
-                    middleExpression),
+                    nameExpression),
                 StringLiteralExpression(", one for me."));
 
         public static InvocationExpressionSyntax TwoFerStringFormatInvocationExpression(ExpressionSyntax argumentExpression) =>
             InvocationExpression(
-                StringMemberAccessExpression(IdentifierName("Format")))
+                StringMemberAccessExpression(
+                    IdentifierName("Format")))
                 .WithArgumentList(
                     ArgumentList(
                         SeparatedList<ArgumentSyntax>(

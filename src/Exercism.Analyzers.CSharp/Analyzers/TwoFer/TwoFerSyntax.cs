@@ -60,29 +60,29 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             !twoFerSolution.InputParameter.Default.Value.IsEquivalentWhenNormalized(NullLiteralExpression()) &&
             !twoFerSolution.InputParameter.Default.Value.IsEquivalentWhenNormalized(StringLiteralExpression("you"));
 
-        public static bool UsesStringConcatenation(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.ReturnsDefaultStringConcatenationExpression() ||
-            twoFerSolution.ReturnsNullCoalescingStringConcatenationExpression() ||
-            twoFerSolution.ReturnsTernaryOperatorStringConcatenationExpression();
+        public static bool ReturnsStringConcatenation(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.ReturnsStringConcatenationWithDefaultValue() ||
+            twoFerSolution.ReturnsStringConcatenationWithNullCoalescingOperator() ||
+            twoFerSolution.ReturnsStringConcatenationWithTernaryOperator();
 
-        private static bool ReturnsDefaultStringConcatenationExpression(this TwoFerSolution twoFerSolution) =>
+        private static bool ReturnsStringConcatenationWithDefaultValue(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringConcatenationExpression(
                     TwoFerParameterIdentifierName(twoFerSolution)));
 
-        private static bool ReturnsNullCoalescingStringConcatenationExpression(this TwoFerSolution twoFerSolution) =>
+        private static bool ReturnsStringConcatenationWithNullCoalescingOperator(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringConcatenationExpression(
                     ParenthesizedExpression(
                         TwoFerCoalesceExpression(
                             TwoFerParameterIdentifierName(twoFerSolution)))));
 
-        private static bool ReturnsTernaryOperatorStringConcatenationExpression(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.ReturnsNullCheckTernaryOperatorStringConcatenationExpression() ||
-            twoFerSolution.ReturnsIsNullOrEmptyTernaryOperatorStringConcatenationExpression() ||
-            twoFerSolution.ReturnsIsNullOrWhiteSpaceTernaryOperatorStringConcatenationExpression();
+        private static bool ReturnsStringConcatenationWithTernaryOperator(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.ReturnsStringConcatenationWithNullCheck() ||
+            twoFerSolution.ReturnsStringConcatenationWithIsNullOrEmptyCheck() ||
+            twoFerSolution.ReturnsStringConcatenationWithIsNullOrWhiteSpaceCheck();
 
-        private static bool ReturnsIsNullOrWhiteSpaceTernaryOperatorStringConcatenationExpression(this TwoFerSolution twoFerSolution) =>
+        private static bool ReturnsStringConcatenationWithIsNullOrWhiteSpaceCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringConcatenationExpression(
                     ParenthesizedExpression(
@@ -90,7 +90,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                             TwoFerIsNullOrWhiteSpaceInvocationExpression(twoFerSolution),
                             TwoFerParameterIdentifierName(twoFerSolution)))));
 
-        private static bool ReturnsIsNullOrEmptyTernaryOperatorStringConcatenationExpression(this TwoFerSolution twoFerSolution) =>
+        private static bool ReturnsStringConcatenationWithIsNullOrEmptyCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringConcatenationExpression(
                     ParenthesizedExpression(
@@ -98,65 +98,65 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                             TwoFerIsNullOrEmptyInvocationExpression(twoFerSolution),
                             TwoFerParameterIdentifierName(twoFerSolution)))));
 
-        private static bool ReturnsNullCheckTernaryOperatorStringConcatenationExpression(this TwoFerSolution twoFerSolution) =>
+        private static bool ReturnsStringConcatenationWithNullCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringConcatenationExpression(
                     ParenthesizedExpression(
-                        TwoFerTernaryOperatorConditionalExpression(twoFerSolution))));
+                        TwoFerConditionalExpressionWithNullCheck(twoFerSolution))));
 
-        public static bool UsesStringFormat(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.ReturnsDefaultStringFormatExpression() ||
-            twoFerSolution.ReturnsNullCoalescingStringFormatExpression() ||
-            twoFerSolution.ReturnsTernaryOperatorStringFormatExpression();
+        public static bool ReturnsStringFormat(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.ReturnsStringFormatWithDefaultValue() ||
+            twoFerSolution.ReturnsStringFormatWithNullCoalescingOperator() ||
+            twoFerSolution.ReturnsStringFormatWithTernaryOperator();
 
-        private static bool ReturnsDefaultStringFormatExpression(this TwoFerSolution twoFerSolution) =>
+        private static bool ReturnsStringFormatWithDefaultValue(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringFormatInvocationExpression(
                     TwoFerParameterIdentifierName(twoFerSolution)));
 
-        private static bool ReturnsNullCoalescingStringFormatExpression(this TwoFerSolution twoFerSolution) =>
+        private static bool ReturnsStringFormatWithNullCoalescingOperator(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringFormatInvocationExpression(
                     TwoFerCoalesceExpression(
                         TwoFerParameterIdentifierName(twoFerSolution))));
 
-        private static bool ReturnsTernaryOperatorStringFormatExpression(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.ReturnsNullCheckTernaryOperatorStringFormatExpression() ||
-            twoFerSolution.ReturnsIsNullOrEmptyTernaryOperatorStringFormatExpression() ||
-            twoFerSolution.ReturnsIsNullOrWhiteSpaceTernaryOperatorStringFormatExpression();
+        private static bool ReturnsStringFormatWithTernaryOperator(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.ReturnsStringFormatWithNullCheck() ||
+            twoFerSolution.ReturnsStringFormatWithIsNullOrEmptyCheck() ||
+            twoFerSolution.ReturnsStringFormatWithIsNullOrWhiteSpaceCheck();
 
-        private static bool ReturnsIsNullOrWhiteSpaceTernaryOperatorStringFormatExpression(this TwoFerSolution twoFerSolution) =>
+        private static bool ReturnsStringFormatWithIsNullOrWhiteSpaceCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringFormatInvocationExpression(
                     TwoFerConditionalExpression(
                         TwoFerIsNullOrWhiteSpaceInvocationExpression(twoFerSolution),
                         TwoFerParameterIdentifierName(twoFerSolution))));
 
-        private static bool ReturnsIsNullOrEmptyTernaryOperatorStringFormatExpression(this TwoFerSolution twoFerSolution) =>
+        private static bool ReturnsStringFormatWithIsNullOrEmptyCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringFormatInvocationExpression(
                     TwoFerConditionalExpression(
                         TwoFerIsNullOrEmptyInvocationExpression(twoFerSolution),
                         TwoFerParameterIdentifierName(twoFerSolution))));
 
-        private static bool ReturnsNullCheckTernaryOperatorStringFormatExpression(this TwoFerSolution twoFerSolution) =>
+        private static bool ReturnsStringFormatWithNullCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringFormatInvocationExpression(
-                    TwoFerTernaryOperatorConditionalExpression(twoFerSolution)));
+                    TwoFerConditionalExpressionWithNullCheck(twoFerSolution)));
 
-        public static bool UsesStringInterpolation(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.ReturnsDefaultInterpolatedStringExpression() ||
-            twoFerSolution.ReturnsTernaryOperatorInInterpolatedStringExpression() ||
-            twoFerSolution.ReturnsNullCoalescingInInterpolatedStringExpression() ||
-            twoFerSolution.ReturnsIsNullOrEmptyInInterpolatedStringExpression() ||
-            twoFerSolution.ReturnsIsNullOrWhiteSpaceInInterpolatedStringExpression();
+        public static bool ReturnsStringInterpolation(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.ReturnsStringInterpolationWithDefaultValue() ||
+            twoFerSolution.ReturnsStringInterpolationWithNullCheck() ||
+            twoFerSolution.ReturnsStringInterpolationWithNullCoalescingOperator() ||
+            twoFerSolution.ReturnsStringInterpolationWithIsNullOrEmptyCheck() ||
+            twoFerSolution.ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck();
         
-        public static bool ReturnsDefaultInterpolatedStringExpression(this TwoFerSolution twoFerSolution) =>
+        public static bool ReturnsStringInterpolationWithDefaultValue(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerInterpolatedStringExpression(
                     TwoFerParameterIdentifierName(twoFerSolution)));
 
-        public static bool ReturnsTernaryOperatorInInterpolatedStringExpression(this TwoFerSolution twoFerSolution) =>
+        public static bool ReturnsStringInterpolationWithNullCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerConditionalInterpolatedStringExpression(
                     EqualsExpression(
@@ -164,53 +164,57 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                         NullLiteralExpression()),
                     TwoFerParameterIdentifierName(twoFerSolution)));
 
-        public static bool ReturnsNullCoalescingInInterpolatedStringExpression(this TwoFerSolution twoFerSolution) =>
+        public static bool ReturnsStringInterpolationWithNullCoalescingOperator(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerInterpolatedStringExpression(
                     TwoFerCoalesceExpression(
                         TwoFerParameterIdentifierName(twoFerSolution))));
 
-        public static bool ReturnsIsNullOrEmptyInInterpolatedStringExpression(this TwoFerSolution twoFerSolution) =>
+        public static bool ReturnsStringInterpolationWithIsNullOrEmptyCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
-                TwoFerConditionalInterpolatedStringExpression(TwoFerIsNullOrEmptyInvocationExpression(twoFerSolution), TwoFerParameterIdentifierName(twoFerSolution)));
+                TwoFerConditionalInterpolatedStringExpression(
+                    TwoFerIsNullOrEmptyInvocationExpression(twoFerSolution),
+                    TwoFerParameterIdentifierName(twoFerSolution)));
 
-        public static bool ReturnsIsNullOrWhiteSpaceInInterpolatedStringExpression(this TwoFerSolution twoFerSolution) =>
+        public static bool ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
-                TwoFerConditionalInterpolatedStringExpression(TwoFerIsNullOrWhiteSpaceInvocationExpression(twoFerSolution), TwoFerParameterIdentifierName(twoFerSolution)));
+                TwoFerConditionalInterpolatedStringExpression(
+                    TwoFerIsNullOrWhiteSpaceInvocationExpression(twoFerSolution),
+                    TwoFerParameterIdentifierName(twoFerSolution)));
 
-        public static bool ParameterAssignedUsingKnownExpression(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.AssignsParameterUsingNullCoalescingExpression() ||
+        public static bool AssignsParameterUsingKnownExpression(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.AssignsParameterUsingNullCoalescingOperator() ||
             twoFerSolution.AssignsParameterUsingNullCheck() ||
             twoFerSolution.AssignsParameterUsingIsNullOrEmptyCheck() ||
             twoFerSolution.AssignsParameterUsingIsNullOrWhiteSpaceCheck();
 
-        public static bool AssignsParameterUsingNullCoalescingExpression(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.ParameterAssignedUsingExpression(
+        public static bool AssignsParameterUsingNullCoalescingOperator(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.ParameterAssignedUsingStatement(
                 ExpressionStatement(
                     SimpleAssignmentExpression(
                         IdentifierName(twoFerSolution.InputParameter.Identifier), 
                         TwoFerCoalesceExpression(TwoFerParameterIdentifierName(twoFerSolution)))));
 
         public static bool AssignsParameterUsingNullCheck(this TwoFerSolution twoFerSolution) =>
-        twoFerSolution.ParameterAssignedUsingExpression(
-            IfStatement(
+        twoFerSolution.ParameterAssignedUsingStatement(
+            TwoFerAssignParameterIfStatement(
                 TwoFerParameterIsNullExpression(twoFerSolution),
-                TwoFerAssignParameterToYou(twoFerSolution)));
+                TwoFerParameterIdentifierName(twoFerSolution)));
 
         public static bool AssignsParameterUsingIsNullOrEmptyCheck(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.ParameterAssignedUsingExpression(
-                IfStatement(
+            twoFerSolution.ParameterAssignedUsingStatement(
+                TwoFerAssignParameterIfStatement(
                     TwoFerIsNullOrEmptyInvocationExpression(twoFerSolution),
-                    TwoFerAssignParameterToYou(twoFerSolution)));
+                    TwoFerParameterIdentifierName(twoFerSolution)));
 
         public static bool AssignsParameterUsingIsNullOrWhiteSpaceCheck(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.ParameterAssignedUsingExpression(
-                IfStatement(
+            twoFerSolution.ParameterAssignedUsingStatement(
+                TwoFerAssignParameterIfStatement(
                     TwoFerIsNullOrWhiteSpaceInvocationExpression(twoFerSolution),
-                    TwoFerAssignParameterToYou(twoFerSolution)));
+                    TwoFerParameterIdentifierName(twoFerSolution)));
 
-        private static bool ParameterAssignedUsingExpression(this TwoFerSolution twoFerSolution, SyntaxNode expressionStatement) =>
-            twoFerSolution.AssignmentStatement().IsEquivalentWhenNormalized(expressionStatement);
+        private static bool ParameterAssignedUsingStatement(this TwoFerSolution twoFerSolution, SyntaxNode statement) =>
+            twoFerSolution.AssignmentStatement().IsEquivalentWhenNormalized(statement);
 
         private static StatementSyntax AssignmentStatement(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.NameMethod.Body.Statements[0];
@@ -221,8 +225,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         public static bool AssignsVariableUsingKnownInitializer(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.AssignsVariableUsingNullCoalescingOperator() ||
             twoFerSolution.AssignsVariableUsingNullCheck() ||
-            twoFerSolution.AssignsVariableUsingIsNullOrEmpty() ||
-            twoFerSolution.AssignsVariableUsingIsNullOrWhiteSpace();
+            twoFerSolution.AssignsVariableUsingIsNullOrEmptyCheck() ||
+            twoFerSolution.AssignsVariableUsingIsNullOrWhiteSpaceCheck();
 
         public static bool AssignsVariableUsingNullCoalescingOperator(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.AssignsVariableUsingExpression(
@@ -235,13 +239,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                     TwoFerParameterIsNullExpression(twoFerSolution), 
                     TwoFerParameterIdentifierName(twoFerSolution)));
 
-        public static bool AssignsVariableUsingIsNullOrEmpty(this TwoFerSolution twoFerSolution) =>
+        public static bool AssignsVariableUsingIsNullOrEmptyCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.AssignsVariableUsingExpression(
                 TwoFerConditionalExpression(
                     TwoFerIsNullOrEmptyInvocationExpression(twoFerSolution),
                     TwoFerParameterIdentifierName(twoFerSolution)));
 
-        public static bool AssignsVariableUsingIsNullOrWhiteSpace(this TwoFerSolution twoFerSolution) =>
+        public static bool AssignsVariableUsingIsNullOrWhiteSpaceCheck(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.AssignsVariableUsingExpression(
                 TwoFerConditionalExpression(
                     TwoFerIsNullOrWhiteSpaceInvocationExpression(twoFerSolution),
@@ -250,17 +254,17 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         private static bool AssignsVariableUsingExpression(this TwoFerSolution twoFerSolution, ExpressionSyntax initializer) =>
             twoFerSolution.Variable.Initializer.IsEquivalentWhenNormalized(EqualsValueClause(initializer));
 
-        public static bool ReturnsStringInterpolationUsingVariable(this TwoFerSolution twoFerSolution) =>
+        public static bool ReturnsStringInterpolationWithVariable(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerInterpolatedStringExpression(
                     TwoFerVariableIdentifierName(twoFerSolution)));
 
-        public static bool ReturnsStringConcatenationUsingVariable(this TwoFerSolution twoFerSolution) =>
+        public static bool ReturnsStringConcatenationWithVariable(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringConcatenationExpression(
                     TwoFerVariableIdentifierName(twoFerSolution)));
 
-        public static bool ReturnsStringFormatUsingVariable(this TwoFerSolution twoFerSolution) =>
+        public static bool ReturnsStringFormatWithVariable(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
                 TwoFerStringFormatInvocationExpression(
                     TwoFerVariableIdentifierName(twoFerSolution)));

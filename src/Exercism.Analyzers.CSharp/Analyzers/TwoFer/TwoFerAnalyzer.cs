@@ -52,27 +52,27 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             if (!twoFerSolution.UsesSingleLine())
                 return null;
 
-            if (twoFerSolution.ReturnsDefaultInterpolatedStringExpression() ||
-                twoFerSolution.ReturnsNullCoalescingInInterpolatedStringExpression())
+            if (twoFerSolution.ReturnsStringInterpolationWithDefaultValue() ||
+                twoFerSolution.ReturnsStringInterpolationWithNullCoalescingOperator())
             {
                 return twoFerSolution.UsesExpressionBody() ?
                     twoFerSolution.ApproveAsOptimal() :
                     twoFerSolution.ApproveWithComment(SharedComments.UseExpressionBodiedMember);
             }
 
-            if (twoFerSolution.ReturnsIsNullOrEmptyInInterpolatedStringExpression())
+            if (twoFerSolution.ReturnsStringInterpolationWithIsNullOrEmptyCheck())
                 return twoFerSolution.ApproveWithComment(TwoFerComments.UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
 
-            if (twoFerSolution.ReturnsIsNullOrWhiteSpaceInInterpolatedStringExpression())
+            if (twoFerSolution.ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck())
                 return twoFerSolution.ApproveWithComment(TwoFerComments.UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
 
-            if (twoFerSolution.ReturnsTernaryOperatorInInterpolatedStringExpression())
+            if (twoFerSolution.ReturnsStringInterpolationWithNullCheck())
                 return twoFerSolution.ApproveWithComment(SharedComments.UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
 
-            if (twoFerSolution.UsesStringConcatenation())
+            if (twoFerSolution.ReturnsStringConcatenation())
                 return twoFerSolution.ApproveWithComment(SharedComments.UseStringInterpolationNotStringConcatenation);
 
-            if (twoFerSolution.UsesStringFormat())
+            if (twoFerSolution.ReturnsStringFormat())
                 return twoFerSolution.ApproveWithComment(SharedComments.UseStringInterpolationNotStringFormat);
 
             return null;
@@ -83,19 +83,19 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             if (!twoFerSolution.AssignsToParameter())
                 return null;
 
-            if (!twoFerSolution.ParameterAssignedUsingKnownExpression())
+            if (!twoFerSolution.AssignsParameterUsingKnownExpression())
                 return twoFerSolution.ReferToMentor();
 
-            if (twoFerSolution.UsesStringFormat())
+            if (twoFerSolution.ReturnsStringFormat())
                 return twoFerSolution.ApproveWithComment(SharedComments.UseStringInterpolationNotStringFormat);
 
-            if (twoFerSolution.UsesStringConcatenation())
+            if (twoFerSolution.ReturnsStringConcatenation())
                 return twoFerSolution.ApproveWithComment(SharedComments.UseStringInterpolationNotStringConcatenation);
 
-            if (!twoFerSolution.UsesStringInterpolation())
+            if (!twoFerSolution.ReturnsStringInterpolation())
                 return null;
 
-            if (twoFerSolution.AssignsParameterUsingNullCoalescingExpression())
+            if (twoFerSolution.AssignsParameterUsingNullCoalescingOperator())
                 return twoFerSolution.ApproveWithComment(SharedComments.InlineVariable);
 
             if (twoFerSolution.AssignsParameterUsingNullCheck())
@@ -118,13 +118,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             if (!twoFerSolution.AssignsVariableUsingKnownInitializer())
                 return twoFerSolution.ReferToMentor();
 
-            if (twoFerSolution.ReturnsStringFormatUsingVariable())
+            if (twoFerSolution.ReturnsStringFormatWithVariable())
                 return twoFerSolution.ApproveWithComment(SharedComments.UseStringInterpolationNotStringFormat);
 
-            if (twoFerSolution.ReturnsStringConcatenationUsingVariable())
+            if (twoFerSolution.ReturnsStringConcatenationWithVariable())
                 return twoFerSolution.ApproveWithComment(SharedComments.UseStringInterpolationNotStringConcatenation);
 
-            if (!twoFerSolution.ReturnsStringInterpolationUsingVariable())
+            if (!twoFerSolution.ReturnsStringInterpolationWithVariable())
                 return null;
 
             if (twoFerSolution.AssignsVariableUsingNullCoalescingOperator())
@@ -133,10 +133,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             if (twoFerSolution.AssignsVariableUsingNullCheck())
                 return twoFerSolution.ApproveWithComment(SharedComments.UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
 
-            if (twoFerSolution.AssignsVariableUsingIsNullOrEmpty())
+            if (twoFerSolution.AssignsVariableUsingIsNullOrEmptyCheck())
                 return twoFerSolution.ApproveWithComment(TwoFerComments.UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
 
-            if (twoFerSolution.AssignsVariableUsingIsNullOrWhiteSpace())
+            if (twoFerSolution.AssignsVariableUsingIsNullOrWhiteSpaceCheck())
                 return twoFerSolution.ApproveWithComment(TwoFerComments.UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
 
             return null;
