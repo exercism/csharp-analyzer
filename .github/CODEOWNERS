@@ -1,0 +1,3 @@
+/Dockerfile @exercism/ops
+/.dockerignore @exercism/ops
+/.github/CODEOWNERS @exercism/ops
