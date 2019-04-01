@@ -1,6 +1,6 @@
 # Build files
-bin/
-obj/
+*/**/bin/
+*/**/obj/
 
 # IDE files
 .vs/
