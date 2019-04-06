@@ -1,1 +1,0 @@
-dotnet Exercism.Analyzers.CSharp.dll $1 $2
