@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 {
-    public class SimplifyFullyQualifiedNameSyntaxRewriter : CSharpSyntaxRewriter
+    internal class SimplifyFullyQualifiedNameSyntaxRewriter : CSharpSyntaxRewriter
     {
         public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
         {

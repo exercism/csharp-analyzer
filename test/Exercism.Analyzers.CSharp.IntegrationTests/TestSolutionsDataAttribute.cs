@@ -5,7 +5,7 @@ using Xunit.Sdk;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
-    public class TestSolutionsDataAttribute : DataAttribute
+    internal class TestSolutionsDataAttribute : DataAttribute
     {
         public override IEnumerable<object[]> GetData(MethodInfo testMethod) =>
             TestSolutionsReader.ReadAll().Select(testSolution => new[] { testSolution });

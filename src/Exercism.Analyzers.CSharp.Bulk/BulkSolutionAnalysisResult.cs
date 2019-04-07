@@ -1,6 +1,6 @@
 namespace Exercism.Analyzers.CSharp.Bulk
 {
-    public class BulkSolutionAnalysisResult
+    internal class BulkSolutionAnalysisResult
     {
         public string Status { get; }
         public string[] Comments { get; }

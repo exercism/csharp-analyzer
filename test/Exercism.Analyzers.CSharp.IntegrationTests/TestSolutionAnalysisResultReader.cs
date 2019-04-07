@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
-    public static class TestSolutionAnalysisResultReader
+    internal static class TestSolutionAnalysisResultReader
     {
         public static TestSolutionAnalysisResult Read(string filePath)
         {

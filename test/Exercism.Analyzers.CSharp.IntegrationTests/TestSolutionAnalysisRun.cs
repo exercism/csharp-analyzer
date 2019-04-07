@@ -1,6 +1,6 @@
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
-    public class TestSolutionAnalysisRun
+    internal class TestSolutionAnalysisRun
     {
         public TestSolutionAnalysisResult Expected { get; }
         public TestSolutionAnalysisResult Actual { get; }

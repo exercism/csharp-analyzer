@@ -5,7 +5,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 {
-    public class UseBuiltInKeywordSyntaxRewriter : CSharpSyntaxRewriter
+    internal class UseBuiltInKeywordSyntaxRewriter : CSharpSyntaxRewriter
     {
         public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
         {

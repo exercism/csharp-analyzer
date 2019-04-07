@@ -2,7 +2,7 @@ using System.IO;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
-    public static class TestSolutionAnalyzer
+    internal static class TestSolutionAnalyzer
     {
         public static TestSolutionAnalysisRun Run(TestSolution testSolution)
         {

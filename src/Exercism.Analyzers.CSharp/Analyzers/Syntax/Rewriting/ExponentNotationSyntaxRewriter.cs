@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 {
-    public class ExponentNotationSyntaxRewriter : CSharpSyntaxRewriter
+    internal class ExponentNotationSyntaxRewriter : CSharpSyntaxRewriter
     {
         public override SyntaxNode VisitLiteralExpression(LiteralExpressionSyntax node)
         {

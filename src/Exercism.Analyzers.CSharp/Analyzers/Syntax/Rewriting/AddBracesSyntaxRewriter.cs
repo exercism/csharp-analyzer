@@ -5,7 +5,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 {
-    public class AddBracesSyntaxRewriter : CSharpSyntaxRewriter
+    internal class AddBracesSyntaxRewriter : CSharpSyntaxRewriter
     {
         public override SyntaxNode VisitIfStatement(IfStatementSyntax ifStatement)
         {

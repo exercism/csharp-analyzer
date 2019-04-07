@@ -1,6 +1,6 @@
 namespace Exercism.Analyzers.CSharp.Bulk
 {
-    public class BulkSolution
+    internal class BulkSolution
     {
         public string Slug { get; }
         public string Directory { get; }

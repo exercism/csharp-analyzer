@@ -1,6 +1,6 @@
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
-    public class TestSolutionAnalysisResult
+    internal class TestSolutionAnalysisResult
     {
         public string Status { get; }
         public string[] Comments { get; }

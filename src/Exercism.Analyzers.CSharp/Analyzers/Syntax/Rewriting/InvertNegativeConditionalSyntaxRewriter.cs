@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 {
-    public class InvertNegativeConditionalSyntaxRewriter : CSharpSyntaxRewriter
+    internal class InvertNegativeConditionalSyntaxRewriter : CSharpSyntaxRewriter
     {
         public override SyntaxNode VisitConditionalExpression(ConditionalExpressionSyntax node)
         {

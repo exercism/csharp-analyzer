@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
-    public static class BulkSolutionAnalysisResultReader
+    internal static class BulkSolutionAnalysisResultReader
     {
         public static BulkSolutionAnalysisResult Read(string filePath)
         {
