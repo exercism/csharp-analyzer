@@ -30,6 +30,8 @@ To analyze a solution using a Docker container, follow these steps:
    1. Run the analyzer Docker image (as a container), passing the specified `slug` and `directory` arguments.
 1. Once the script has completed, the analysis result can be found at `<directory>/analysis.json`.
 
+Note that the Docker image is built using the [.NET IL Linker](https://github.com/dotnet/core/blob/master/samples/linker-instructions.md#using-the-net-il-linker), which is why building can be quite slow.
+
 ## Source code formatting
 
 This repository uses the [dotnet-format tool](https://github.com/dotnet/format/) to format the source code. There are no custom rules; we just use the default formatting. You can format the code by running the `./format.ps1` command.
