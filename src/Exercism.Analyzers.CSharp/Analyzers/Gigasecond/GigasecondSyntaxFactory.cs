@@ -12,6 +12,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             GigasecondAddSecondsInvocationExpression(
                 gigasecondSolution,
                 NumericLiteralExpression(1000000000));
+
+        public static InvocationExpressionSyntax GigasecondAddSecondsWithDigitsWithSeparatorInvocationExpression(GigasecondSolution gigasecondSolution) =>
+            GigasecondAddSecondsInvocationExpression(
+                gigasecondSolution,
+                NumericLiteralExpression("1_000_000_000", 1000000000));
         
         public static InvocationExpressionSyntax GigasecondAddSecondsWithScientificNotationInvocationExpression(GigasecondSolution gigasecondSolution) =>
             GigasecondAddSecondsInvocationExpression(

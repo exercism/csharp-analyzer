@@ -20,6 +20,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             if (gigasecondSolution.ReturnsAddSecondsWithDigitsWithoutSeparator())
                 return gigasecondSolution.ApproveWithComment(GigasecondComments.UseScientificNotationOrDigitSeparators);
 
+            if (gigasecondSolution.ReturnsAddSecondsWithDigitsWithSeparator())
+                return gigasecondSolution.UsesExpressionBody()
+                    ? gigasecondSolution.ApproveAsOptimal()
+                    : gigasecondSolution.ApproveWithComment(SharedComments.UseExpressionBodiedMember);
+            
             if (gigasecondSolution.UsesAddMethod() ||
                 gigasecondSolution.UsesPlusOperator())
                 return gigasecondSolution.DisapproveWithComment(GigasecondComments.UseAddSeconds);

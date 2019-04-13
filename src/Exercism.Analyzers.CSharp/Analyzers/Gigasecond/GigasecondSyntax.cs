@@ -20,6 +20,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             gigasecondSolution.Returns(
                 GigasecondAddSecondsWithDigitsWithoutSeparatorInvocationExpression(gigasecondSolution));
 
+        public static bool ReturnsAddSecondsWithDigitsWithSeparator(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.Returns(
+                GigasecondAddSecondsWithDigitsWithSeparatorInvocationExpression(gigasecondSolution));
+
         public static bool ReturnsAddSecondsWithMathPow(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.Returns(
                 GigasecondAddSecondsInvocationExpression(
