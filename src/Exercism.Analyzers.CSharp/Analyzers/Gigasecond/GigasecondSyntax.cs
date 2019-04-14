@@ -1,9 +1,11 @@
+using System;
 using System.Linq;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondSyntaxFactory;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
@@ -29,6 +31,23 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                 GigasecondAddSecondsInvocationExpression(
                     gigasecondSolution,
                     GigasecondAddSecondsWithMathPowInvocationExpression()));
+        public static bool AssignsAndReturnsAddSecondsWithScientificNotation(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AssignsAndReturns(
+                GigasecondAddSecondsWithScientificNotationInvocationExpression(gigasecondSolution));
+
+        public static bool AssignsAndReturnsAddSecondsWithDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AssignsAndReturns(
+                GigasecondAddSecondsWithDigitsWithoutSeparatorInvocationExpression(gigasecondSolution));
+
+        public static bool AssignsAndReturnsAddSecondsWithDigitsWithSeparator(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AssignsAndReturns(
+                GigasecondAddSecondsWithDigitsWithSeparatorInvocationExpression(gigasecondSolution));
+
+        public static bool AssignsAndReturnsAddSecondsWithMathPow(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AssignsAndReturns(
+                GigasecondAddSecondsInvocationExpression(
+                    gigasecondSolution,
+                    GigasecondAddSecondsWithMathPowInvocationExpression()));
 
         public static bool UsesAddMethod(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.AddMethod.InvokesExpression(
@@ -43,5 +62,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                             .Any(identifierName =>
                                 identifierName.IsEquivalentWhenNormalized(
                                     GigasecondParameterIdentifierName(gigasecondSolution))));
+
+        public static bool CreatesDatetime(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddMethod.CreatesObjectOfType<DateTime>();
+
+        public static bool AssignsAndReturnsVariable(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.ReturnedVariableExpression != null;
     }
 }

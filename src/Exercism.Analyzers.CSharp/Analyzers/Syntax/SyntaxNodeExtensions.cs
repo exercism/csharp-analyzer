@@ -42,6 +42,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
                 .DescendantNodes<AssignmentExpressionSyntax>()
                 .Any(assignmentExpression => assignmentExpression.Left.IsEquivalentWhenNormalized(identifierName)) ?? false;
 
+        public static bool CreatesObjectOfType<T>(this SyntaxNode syntaxNode) =>
+            syntaxNode?
+                .DescendantNodes<ObjectCreationExpressionSyntax>()
+                .Any(objectCreationExpression => objectCreationExpression.Type.IsEquivalentWhenNormalized(
+                    IdentifierName(typeof(T).Name))) ?? false;
+
         public static bool ThrowsExceptionOfType<TException>(this SyntaxNode syntaxNode) where TException : Exception =>
             syntaxNode?
                 .DescendantNodes<ThrowStatementSyntax>()
@@ -61,13 +67,5 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
                 .Any(invocationExpression =>
                         invocationExpression.Expression is MemberAccessExpressionSyntax memberAccessExpression &&
                         memberAccessExpression.Name.IsEquivalentWhenNormalized(methodName)) ?? false;
-
-        public static MethodDeclarationSyntax ParentMethod(this SyntaxNode syntaxNode)
-        {
-            if (syntaxNode.Parent is MethodDeclarationSyntax methodDeclaration)
-                return methodDeclaration;
-
-            return syntaxNode.Parent.ParentMethod();
-        }
     }
 }
