@@ -12,7 +12,7 @@ RUN dotnet publish -c Release -r linux-musl-x64 -o /opt/analyzer
 
 # Create analyze script
 RUN mkdir /opt/analyzer/bin && \
-    echo "/opt/analyzer/Exercism.Analyzers.CSharp \$1 \$2" > /opt/analyzer/bin/analyze.sh && \
+    printf "#!/bin/sh\n\nexport DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true\n/opt/analyzer/Exercism.Analyzers.CSharp \$1 \$2\n" >/opt/analyzer/bin/analyze.sh && \
     chmod +x /opt/analyzer/bin/analyze.sh
 
 # Build runtime image
