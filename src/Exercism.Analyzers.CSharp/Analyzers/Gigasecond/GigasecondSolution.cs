@@ -6,28 +6,28 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
     internal class GigasecondSolution : ParsedSolution
     {
+        private readonly ExpressionSyntax _returnedSingleLineExpression;
+        private readonly ExpressionSyntax _returnedVariableExpression;
+        private readonly ExpressionSyntax _returnedParameterExpression;
+        
         public MethodDeclarationSyntax AddMethod { get; }
         public ParameterSyntax BirthDateParameter { get; }
-        public ExpressionSyntax ReturnedExpression { get; }
-        public ExpressionSyntax ReturnedVariableExpression { get; }
-        public ExpressionSyntax ReturnedParameterExpression { get; }
+
+        public bool UsesVariableInReturnedExpression => _returnedVariableExpression != null;
+        public bool UsesParameterInReturnedExpression => _returnedParameterExpression != null;
 
         public GigasecondSolution(ParsedSolution solution) : base(solution.Solution, solution.SyntaxRoot)
         {
             AddMethod = solution.SyntaxRoot.GetClassMethod("Gigasecond", "Add");
             BirthDateParameter = AddMethod?.ParameterList.Parameters.FirstOrDefault();
-            ReturnedExpression = AddMethod?.ReturnedExpression();
-            ReturnedVariableExpression = AddMethod?.ExpressionAssignedToVariableAndReturned();
-            ReturnedParameterExpression = AddMethod?.ExpressionAssignedToParameterAndReturned(BirthDateParameter);
+            _returnedSingleLineExpression = AddMethod?.ExpressionDirectlyReturned();
+            _returnedVariableExpression = AddMethod?.ExpressionAssignedToVariableAndReturned();
+            _returnedParameterExpression = AddMethod?.ExpressionAssignedToParameterAndReturned(BirthDateParameter);
         }
 
         public bool Returns(SyntaxNode returned) =>
-            ReturnedExpression.IsEquivalentWhenNormalized(returned);
-
-        public bool AssignsVariableAndReturns(SyntaxNode returned) =>
-            ReturnedVariableExpression.IsEquivalentWhenNormalized(returned);
-
-        public bool AssignsParameterAndReturns(SyntaxNode returned) =>
-            ReturnedParameterExpression.IsEquivalentWhenNormalized(returned);
+            _returnedSingleLineExpression.IsEquivalentWhenNormalized(returned) ||
+            _returnedVariableExpression.IsEquivalentWhenNormalized(returned) ||
+            _returnedParameterExpression.IsEquivalentWhenNormalized(returned);
     }
 }

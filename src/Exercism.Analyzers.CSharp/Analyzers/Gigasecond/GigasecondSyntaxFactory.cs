@@ -22,18 +22,20 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             GigasecondAddSecondsInvocationExpression(
                 gigasecondSolution,
                 NumericLiteralExpression("1E9", 1e9));
-        
-        public static MemberAccessExpressionSyntax GigasecondAddMemberAccessExpression(GigasecondSolution gigasecondSolution) =>
-            GigasecondMemberAccessExpression(gigasecondSolution, IdentifierName("Add"));
-        
+
         public static InvocationExpressionSyntax GigasecondAddSecondsInvocationExpression(GigasecondSolution gigasecondSolution, ExpressionSyntax argumentExpression) =>
             // TODO: consider adding factory method to invocation with argument
             InvocationExpression(
-                    GigasecondMemberAccessExpression(gigasecondSolution, IdentifierName("AddSeconds")))
+                    GigasecondAddSecondsMemberAccessExpression(gigasecondSolution))
                 .WithArgumentList(
                     ArgumentList(
                         SingletonSeparatedList(
                             GigasecondBirthDateArgument(argumentExpression))));
+
+        public static MemberAccessExpressionSyntax GigasecondAddSecondsMemberAccessExpression(GigasecondSolution gigasecondSolution) =>
+            GigasecondMemberAccessExpression(
+                gigasecondSolution,
+                IdentifierName("AddSeconds"));
 
         private static MemberAccessExpressionSyntax GigasecondMemberAccessExpression(GigasecondSolution gigasecondSolution, IdentifierNameSyntax methodName) =>
             SimpleMemberAccessExpression(

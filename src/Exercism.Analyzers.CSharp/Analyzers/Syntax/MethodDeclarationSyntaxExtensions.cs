@@ -26,6 +26,18 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
                 .Select(returnStatement => returnStatement.Expression)
                 .LastOrDefault();
 
+        public static ExpressionSyntax ExpressionDirectlyReturned(this MethodDeclarationSyntax methodDeclaration)
+        {
+            if (methodDeclaration.ExpressionBody != null)
+                return methodDeclaration.ExpressionBody.Expression;
+
+            if (methodDeclaration.Body.Statements.Count != 1)
+                return null;
+
+            var returnStatement = methodDeclaration.Body.Statements[0] as ReturnStatementSyntax;
+            return returnStatement?.Expression;
+        }
+
         public static bool IsExpressionBody(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration.ExpressionBody != null;
 
