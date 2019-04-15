@@ -9,11 +9,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             Analyze(new GigasecondSolution(parsedSolution));
 
         private static SolutionAnalysis Analyze(GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.Disapprove() ??
-            gigasecondSolution.Approve() ??
+            gigasecondSolution.DisapproveWhenInvalid() ??
+            gigasecondSolution.ApproveWhenValid() ??
             gigasecondSolution.ReferToMentor();
 
-        private static SolutionAnalysis Disapprove(this GigasecondSolution gigasecondSolution) =>
+        private static SolutionAnalysis DisapproveWhenInvalid(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.DisapproveWhenCreatingNewDateTime() ??
             gigasecondSolution.DisapproveWhenNotUsingAddSeconds();
 
@@ -27,7 +27,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                 ? gigasecondSolution.DisapproveWithComment(DontCreateDateTime)
                 : null;
 
-        private static SolutionAnalysis Approve(this GigasecondSolution gigasecondSolution) =>
+        private static SolutionAnalysis ApproveWhenValid(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.ApproveWhenUsingAddSecondsWithScientificNotation() ??
             gigasecondSolution.ApproveWhenUsingDigitsWithoutSeparator() ??
             gigasecondSolution.ApproveWhenUsingAddSecondsWithDigitsWithSeparator() ??

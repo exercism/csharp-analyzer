@@ -11,7 +11,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         public ParameterSyntax InputParameter { get; }
         public ExpressionSyntax ReturnedExpression { get; }
         public VariableDeclaratorSyntax Variable { get; }
-
+    
         public TwoFerSolution(ParsedSolution solution) : base(solution.Solution, solution.SyntaxRoot)
         {
             TwoFerClass = solution.SyntaxRoot.GetClass("TwoFer");
