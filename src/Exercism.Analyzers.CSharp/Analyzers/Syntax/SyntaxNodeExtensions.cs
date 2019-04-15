@@ -65,7 +65,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
             syntaxNode?
                 .DescendantNodes<InvocationExpressionSyntax>()
                 .Any(invocationExpression =>
-                        invocationExpression.Expression is MemberAccessExpressionSyntax memberAccessExpression &&
-                        memberAccessExpression.Name.IsEquivalentWhenNormalized(methodName)) ?? false;
+                    invocationExpression.Expression is MemberAccessExpressionSyntax memberAccessExpression &&
+                    memberAccessExpression.Name.IsEquivalentWhenNormalized(methodName)) ?? false;
     }
 }

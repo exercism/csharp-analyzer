@@ -43,7 +43,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             
             if (gigasecondSolution.UsesVariableInReturnedExpression)
                 return gigasecondSolution.ApproveWithComment(InlineVariable);
-
+            
             return gigasecondSolution.UsesExpressionBody()
                 ? gigasecondSolution.ApproveAsOptimal()
                 : gigasecondSolution.ApproveWithComment(UseExpressionBodiedMember);

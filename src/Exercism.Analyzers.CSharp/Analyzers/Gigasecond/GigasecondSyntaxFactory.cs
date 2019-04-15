@@ -1,5 +1,3 @@
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -24,43 +22,33 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                 NumericLiteralExpression("1E9", 1e9));
 
         public static InvocationExpressionSyntax GigasecondAddSecondsInvocationExpression(GigasecondSolution gigasecondSolution, ExpressionSyntax argumentExpression) =>
-            // TODO: consider adding factory method to invocation with argument
             InvocationExpression(
-                    GigasecondAddSecondsMemberAccessExpression(gigasecondSolution))
-                .WithArgumentList(
-                    ArgumentList(
-                        SingletonSeparatedList(
-                            GigasecondBirthDateArgument(argumentExpression))));
+                GigasecondAddSecondsMemberAccessExpression(gigasecondSolution),
+                GigasecondBirthDateArgument(argumentExpression));
 
         public static MemberAccessExpressionSyntax GigasecondAddSecondsMemberAccessExpression(GigasecondSolution gigasecondSolution) =>
-            GigasecondMemberAccessExpression(
+            GigasecondParameterMemberAccessExpression(
                 gigasecondSolution,
                 IdentifierName("AddSeconds"));
 
-        private static MemberAccessExpressionSyntax GigasecondMemberAccessExpression(GigasecondSolution gigasecondSolution, IdentifierNameSyntax methodName) =>
+        private static MemberAccessExpressionSyntax GigasecondParameterMemberAccessExpression(GigasecondSolution gigasecondSolution, IdentifierNameSyntax methodName) =>
             SimpleMemberAccessExpression(
                 GigasecondParameterIdentifierName(gigasecondSolution),
                 methodName);
 
         public static IdentifierNameSyntax GigasecondParameterIdentifierName(GigasecondSolution gigasecondSolution) =>
-            IdentifierName(gigasecondSolution.BirthDateParameter.Identifier);
+            IdentifierName(gigasecondSolution.BirthDateParameter);
 
         private static ArgumentSyntax GigasecondBirthDateArgument(ExpressionSyntax argumentExpression) =>
             Argument(argumentExpression);
         
         public static InvocationExpressionSyntax GigasecondAddSecondsWithMathPowInvocationExpression() =>
-            // TODO: consider adding factory method to invocation with arguments
             InvocationExpression(
-                    GigasecondMathPowExpression())
-                .WithArgumentList(
-                    ArgumentList(
-                        SeparatedList<ArgumentSyntax>(
-                            new SyntaxNodeOrToken[]{
-                                Argument(
-                                    NumericLiteralExpression(10)),
-                                Token(SyntaxKind.CommaToken),
-                                Argument(
-                                    NumericLiteralExpression(9))})));
+                GigasecondMathPowExpression(),
+                Argument(
+                    NumericLiteralExpression(10)),
+                Argument(
+                    NumericLiteralExpression(9)));
 
         private static MemberAccessExpressionSyntax GigasecondMathPowExpression() =>
             SimpleMemberAccessExpression(

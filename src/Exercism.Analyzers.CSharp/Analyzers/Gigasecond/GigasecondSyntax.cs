@@ -1,6 +1,9 @@
 using System;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondSyntaxFactory;
+using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
@@ -33,5 +36,17 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 
         public static bool CreatesNewDatetime(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.AddMethod.CreatesObjectOfType<DateTime>();
+        
+        public static ArgumentSyntax AddSecondsArgument(this ExpressionSyntax expression, ParameterSyntax parameter)
+        {
+            if (expression is InvocationExpressionSyntax invocationExpression &&
+                invocationExpression.Expression.IsEquivalentWhenNormalized(
+                    SimpleMemberAccessExpression(
+                        IdentifierName(parameter),
+                        IdentifierName("AddSeconds"))))
+                return invocationExpression.ArgumentList.Arguments[0];
+
+            return null;
+        }
     }
 }

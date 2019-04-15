@@ -1,5 +1,6 @@
 using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
@@ -12,8 +13,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
                 .Any(invocationExpression => invocationExpression.Expression.IsEquivalentWhenNormalized(expression)) ?? false;
 
         public static bool AssignsToParameter(this MethodDeclarationSyntax methodDeclaration, ParameterSyntax parameter) =>
-            methodDeclaration.AssignsToIdentifier(
-                IdentifierName(parameter.Identifier));
+            methodDeclaration.AssignsToIdentifier(IdentifierName(parameter));
 
         public static bool SingleLine(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration.ExpressionBody != null ||
