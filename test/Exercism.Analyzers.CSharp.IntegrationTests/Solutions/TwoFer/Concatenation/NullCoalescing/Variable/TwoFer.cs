@@ -2,7 +2,7 @@
     
     public static class TwoFer
     {
-        public static string Name(string input = null)
+        public static string Speak(string input = null)
         {
             var nameOrYou = input ?? "you";
             return "One for " + nameOrYou + ", one for me.";

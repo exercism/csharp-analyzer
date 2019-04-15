@@ -11,24 +11,24 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
     internal static class TwoFerSyntax
     {
-        public static bool MissingNameMethod(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.NameMethod == null;
+        public static bool MissingSpeakMethod(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.SpeakMethod == null;
 
-        public static bool InvalidNameMethod(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.NameMethod.ParameterList.Parameters.Count != 1 ||
+        public static bool InvalidSpeakMethod(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.SpeakMethod.ParameterList.Parameters.Count != 1 ||
             !twoFerSolution.InputParameter.Type.IsEquivalentWhenNormalized(
                 PredefinedType(Token(SyntaxKind.StringKeyword)));
 
         public static bool UsesOverloads(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.TwoFerClass.GetMethods("Name").Count() > 1;
+            twoFerSolution.TwoFerClass.GetMethods("Speak").Count() > 1;
 
         public static bool UsesDuplicateString(this TwoFerSolution twoFerSolution)
         {
-            var literalExpressionCount = twoFerSolution.NameMethod
+            var literalExpressionCount = twoFerSolution.SpeakMethod
                 .DescendantNodes<LiteralExpressionSyntax>()
                 .Count(literalExpression => literalExpression.Token.ValueText.Contains("One for"));
 
-            var interpolatedStringTextCount = twoFerSolution.NameMethod
+            var interpolatedStringTextCount = twoFerSolution.SpeakMethod
                 .DescendantNodes<InterpolatedStringTextSyntax>()
                 .Count(interpolatedStringText => interpolatedStringText.TextToken.ValueText.Contains("One for"));
 
@@ -36,25 +36,25 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         }
 
         public static bool UsesStringJoin(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.NameMethod.InvokesMethod(StringMemberAccessExpression(IdentifierName("Join")));
+            twoFerSolution.SpeakMethod.InvokesMethod(StringMemberAccessExpression(IdentifierName("Join")));
 
         public static bool UsesStringConcat(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.NameMethod.InvokesMethod(StringMemberAccessExpression(IdentifierName("Concat")));
+            twoFerSolution.SpeakMethod.InvokesMethod(StringMemberAccessExpression(IdentifierName("Concat")));
 
         public static bool UsesStringReplace(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.NameMethod.InvokesMethod(IdentifierName("Replace"));
+            twoFerSolution.SpeakMethod.InvokesMethod(IdentifierName("Replace"));
 
         public static bool AssignsToParameter(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.NameMethod.AssignsToParameter(twoFerSolution.InputParameter);
+            twoFerSolution.SpeakMethod.AssignsToParameter(twoFerSolution.InputParameter);
 
         public static bool NoDefaultValue(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.NameMethod.ParameterList.Parameters.All(parameter => parameter.Default == null);
+            twoFerSolution.SpeakMethod.ParameterList.Parameters.All(parameter => parameter.Default == null);
 
         public static bool UsesSingleLine(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.NameMethod.SingleLine();
+            twoFerSolution.SpeakMethod.SingleLine();
 
         public static bool UsesExpressionBody(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.NameMethod.IsExpressionBody();
+            twoFerSolution.SpeakMethod.IsExpressionBody();
 
         public static bool UsesInvalidDefaultValue(this TwoFerSolution twoFerSolution) =>
             !twoFerSolution.InputParameter.Default.Value.IsEquivalentWhenNormalized(NullLiteralExpression()) &&
@@ -238,7 +238,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             twoFerSolution.AssignmentStatement().IsEquivalentWhenNormalized(statement);
 
         private static StatementSyntax AssignmentStatement(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.NameMethod.Body.Statements[0];
+            twoFerSolution.SpeakMethod.Body.Statements[0];
 
         public static bool AssignsVariable(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Variable != null;
@@ -285,15 +285,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 TwoFerStringFormatInvocationExpression(
                     TwoFerVariableIdentifierName(twoFerSolution)));
 
-        public static VariableDeclaratorSyntax AssignedVariable(this MethodDeclarationSyntax nameMethod)
+        public static VariableDeclaratorSyntax AssignedVariable(this MethodDeclarationSyntax speakMethod)
         {
-            if (nameMethod == null ||
-                nameMethod.Body == null ||
-                nameMethod.Body.Statements.Count != 2)
+            if (speakMethod == null ||
+                speakMethod.Body == null ||
+                speakMethod.Body.Statements.Count != 2)
                 return null;
 
-            if (!(nameMethod.Body.Statements[1] is ReturnStatementSyntax) ||
-                !(nameMethod.Body.Statements[0] is LocalDeclarationStatementSyntax localDeclaration))
+            if (!(speakMethod.Body.Statements[1] is ReturnStatementSyntax) ||
+                !(speakMethod.Body.Statements[0] is LocalDeclarationStatementSyntax localDeclaration))
                 return null;
 
             if (localDeclaration.Declaration.Variables.Count != 1 ||
