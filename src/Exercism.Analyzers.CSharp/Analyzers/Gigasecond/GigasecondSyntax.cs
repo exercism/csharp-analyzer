@@ -31,20 +31,39 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                 GigasecondAddSecondsInvocationExpression(
                     gigasecondSolution,
                     GigasecondAddSecondsWithMathPowInvocationExpression()));
-        public static bool AssignsAndReturnsAddSecondsWithScientificNotation(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.AssignsAndReturns(
+
+        public static bool AssignsVariableUsingAddSecondsWithScientificNotation(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AssignsVariableAndReturns(
                 GigasecondAddSecondsWithScientificNotationInvocationExpression(gigasecondSolution));
 
-        public static bool AssignsAndReturnsAddSecondsWithDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.AssignsAndReturns(
+        public static bool AssignsVariableUsingAddSecondsWithDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AssignsVariableAndReturns(
                 GigasecondAddSecondsWithDigitsWithoutSeparatorInvocationExpression(gigasecondSolution));
 
-        public static bool AssignsAndReturnsAddSecondsWithDigitsWithSeparator(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.AssignsAndReturns(
+        public static bool AssignsVariableUsingAddSecondsWithDigitsWithSeparator(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AssignsVariableAndReturns(
                 GigasecondAddSecondsWithDigitsWithSeparatorInvocationExpression(gigasecondSolution));
 
-        public static bool AssignsAndReturnsAddSecondsWithMathPow(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.AssignsAndReturns(
+        public static bool AssignsVariableUsingAddSecondsWithMathPow(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AssignsVariableAndReturns(
+                GigasecondAddSecondsInvocationExpression(
+                    gigasecondSolution,
+                    GigasecondAddSecondsWithMathPowInvocationExpression()));
+
+        public static bool AssignsParameterUsingAddSecondsWithScientificNotation(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AssignsParameterAndReturns(
+                GigasecondAddSecondsWithScientificNotationInvocationExpression(gigasecondSolution));
+
+        public static bool AssignsParameterUsingAddSecondsWithDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AssignsParameterAndReturns(
+                GigasecondAddSecondsWithDigitsWithoutSeparatorInvocationExpression(gigasecondSolution));
+
+        public static bool AssignsParameterUsingAddSecondsWithDigitsWithSeparator(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AssignsParameterAndReturns(
+                GigasecondAddSecondsWithDigitsWithSeparatorInvocationExpression(gigasecondSolution));
+
+        public static bool AssignsParameterUsingAddSecondsWithMathPow(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AssignsParameterAndReturns(
                 GigasecondAddSecondsInvocationExpression(
                     gigasecondSolution,
                     GigasecondAddSecondsWithMathPowInvocationExpression()));
@@ -68,5 +87,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 
         public static bool AssignsAndReturnsVariable(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.ReturnedVariableExpression != null;
+
+        public static bool AssignsAndReturnsParameter(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.ReturnedParameterExpression != null;
     }
 }

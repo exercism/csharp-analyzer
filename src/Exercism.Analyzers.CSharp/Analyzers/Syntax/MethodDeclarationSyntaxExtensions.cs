@@ -29,7 +29,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
         public static bool IsExpressionBody(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration.ExpressionBody != null;
 
-        public static ExpressionSyntax AssignedAndReturnedExpression(this MethodDeclarationSyntax nameMethod)
+        public static ExpressionSyntax ExpressionAssignedToVariableAndReturned(this MethodDeclarationSyntax nameMethod)
         {
             if (nameMethod?.Body?.Statements.Count != 2)
                 return null;
@@ -45,6 +45,28 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
                 return null;
 
             return localDeclaration.Declaration.Variables[0].Initializer.Value;
+        }
+
+        public static ExpressionSyntax ExpressionAssignedToParameterAndReturned(this MethodDeclarationSyntax nameMethod, ParameterSyntax parameter)
+        {
+            if (nameMethod?.Body?.Statements.Count != 2 || parameter == null)
+                return null;
+
+            var expressionStatementSyntax = nameMethod.Body.Statements[0] as ExpressionStatementSyntax;
+            var returnStatement = nameMethod.Body.Statements[1] as ReturnStatementSyntax;
+
+            if (expressionStatementSyntax == null || returnStatement == null)
+                return null;
+
+            var assignmentExpression = expressionStatementSyntax.Expression as AssignmentExpressionSyntax;
+            if (assignmentExpression == null)
+                return null;
+
+            if (!assignmentExpression.Left.IsEquivalentWhenNormalized(IdentifierName(parameter.Identifier)) ||
+                !returnStatement.ReturnsParameter(parameter))
+                return null;
+
+            return assignmentExpression.Right;
         }
     }
 }

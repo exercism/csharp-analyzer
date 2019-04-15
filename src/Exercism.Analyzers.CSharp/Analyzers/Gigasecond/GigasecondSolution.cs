@@ -10,19 +10,24 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         public ParameterSyntax BirthDateParameter { get; }
         public ExpressionSyntax ReturnedExpression { get; }
         public ExpressionSyntax ReturnedVariableExpression { get; }
+        public ExpressionSyntax ReturnedParameterExpression { get; }
 
         public GigasecondSolution(ParsedSolution solution) : base(solution.Solution, solution.SyntaxRoot)
         {
             AddMethod = solution.SyntaxRoot.GetClassMethod("Gigasecond", "Add");
             BirthDateParameter = AddMethod?.ParameterList.Parameters.FirstOrDefault();
             ReturnedExpression = AddMethod?.ReturnedExpression();
-            ReturnedVariableExpression = AddMethod?.AssignedAndReturnedExpression();
+            ReturnedVariableExpression = AddMethod?.ExpressionAssignedToVariableAndReturned();
+            ReturnedParameterExpression = AddMethod?.ExpressionAssignedToParameterAndReturned(BirthDateParameter);
         }
 
         public bool Returns(SyntaxNode returned) =>
             ReturnedExpression.IsEquivalentWhenNormalized(returned);
 
-        public bool AssignsAndReturns(SyntaxNode returned) =>
+        public bool AssignsVariableAndReturns(SyntaxNode returned) =>
             ReturnedVariableExpression.IsEquivalentWhenNormalized(returned);
+
+        public bool AssignsParameterAndReturns(SyntaxNode returned) =>
+            ReturnedParameterExpression.IsEquivalentWhenNormalized(returned);
     }
 }

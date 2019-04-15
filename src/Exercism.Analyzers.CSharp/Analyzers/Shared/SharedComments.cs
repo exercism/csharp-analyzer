@@ -12,5 +12,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         public const string RemoveThrowNotImplementedException = "csharp.general.remove_throw_not_implemented_exception";
         public const string DontWriteToConsole = "csharp.general.dont_write_to_console";
         public const string InlineVariable = "csharp.general.inline_variable";
+        public const string InlineParameter = "csharp.general.inline_parameter";
     }
 }

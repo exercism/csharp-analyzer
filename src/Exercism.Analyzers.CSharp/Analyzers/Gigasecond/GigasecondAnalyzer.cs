@@ -12,6 +12,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             gigasecondSolution.AnalyzeError() ??
             gigasecondSolution.AnalyzeSingleLine() ??
             gigasecondSolution.AnalyzeVariableAssignment() ??
+            gigasecondSolution.AnalyzeParameterAssignment() ??
             gigasecondSolution.ReferToMentor();
 
         private static SolutionAnalysis AnalyzeError(this GigasecondSolution gigasecondSolution)
@@ -47,19 +48,37 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             return null;
         }
 
+        private static SolutionAnalysis AnalyzeParameterAssignment(this GigasecondSolution gigasecondSolution)
+        {
+            if (!gigasecondSolution.AssignsAndReturnsParameter())
+                return null;
+
+            if (gigasecondSolution.AssignsParameterUsingAddSecondsWithScientificNotation() ||
+                gigasecondSolution.AssignsParameterUsingAddSecondsWithDigitsWithSeparator())
+                return gigasecondSolution.ApproveWithComment(InlineParameter);
+
+            if (gigasecondSolution.AssignsParameterUsingAddSecondsWithMathPow())
+                return gigasecondSolution.ApproveWithComment(UseScientificNotationNotMathPow);
+
+            if (gigasecondSolution.AssignsParameterUsingAddSecondsWithDigitsWithoutSeparator())
+                return gigasecondSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators);
+
+            return null;
+        }
+
         private static SolutionAnalysis AnalyzeVariableAssignment(this GigasecondSolution gigasecondSolution)
         {
             if (!gigasecondSolution.AssignsAndReturnsVariable())
                 return null;
 
-            if (gigasecondSolution.AssignsAndReturnsAddSecondsWithScientificNotation() ||
-                gigasecondSolution.AssignsAndReturnsAddSecondsWithDigitsWithSeparator())
+            if (gigasecondSolution.AssignsVariableUsingAddSecondsWithScientificNotation() ||
+                gigasecondSolution.AssignsVariableUsingAddSecondsWithDigitsWithSeparator())
                 return gigasecondSolution.ApproveWithComment(InlineVariable);
 
-            if (gigasecondSolution.AssignsAndReturnsAddSecondsWithMathPow())
+            if (gigasecondSolution.AssignsVariableUsingAddSecondsWithMathPow())
                 return gigasecondSolution.ApproveWithComment(UseScientificNotationNotMathPow);
 
-            if (gigasecondSolution.AssignsAndReturnsAddSecondsWithDigitsWithoutSeparator())
+            if (gigasecondSolution.AssignsVariableUsingAddSecondsWithDigitsWithoutSeparator())
                 return gigasecondSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators);
 
             return null;
