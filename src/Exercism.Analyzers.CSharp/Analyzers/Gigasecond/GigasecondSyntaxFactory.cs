@@ -6,20 +6,29 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
     internal static class GigasecondSyntaxFactory
     {
+        public static LiteralExpressionSyntax GigasecondDigitsWithoutSeparator() =>
+            NumericLiteralExpression(1000000000);
+
+        public static LiteralExpressionSyntax GigasecondDigitsWithSeparator() =>
+            NumericLiteralExpression("1_000_000_000", 1000000000);
+
+        public static LiteralExpressionSyntax GigasecondScientificNotation() =>
+            NumericLiteralExpression("1E9", 1e9);
+        
         public static InvocationExpressionSyntax GigasecondAddSecondsWithDigitsWithoutSeparatorInvocationExpression(GigasecondSolution gigasecondSolution) =>
             GigasecondAddSecondsInvocationExpression(
                 gigasecondSolution,
-                NumericLiteralExpression(1000000000));
+                GigasecondDigitsWithoutSeparator());
 
         public static InvocationExpressionSyntax GigasecondAddSecondsWithDigitsWithSeparatorInvocationExpression(GigasecondSolution gigasecondSolution) =>
             GigasecondAddSecondsInvocationExpression(
                 gigasecondSolution,
-                NumericLiteralExpression("1_000_000_000", 1000000000));
-        
+                GigasecondDigitsWithSeparator());
+
         public static InvocationExpressionSyntax GigasecondAddSecondsWithScientificNotationInvocationExpression(GigasecondSolution gigasecondSolution) =>
             GigasecondAddSecondsInvocationExpression(
                 gigasecondSolution,
-                NumericLiteralExpression("1E9", 1e9));
+                GigasecondScientificNotation());
 
         public static InvocationExpressionSyntax GigasecondAddSecondsInvocationExpression(GigasecondSolution gigasecondSolution, ExpressionSyntax argumentExpression) =>
             InvocationExpression(
@@ -36,21 +45,21 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                 GigasecondParameterIdentifierName(gigasecondSolution),
                 methodName);
 
-        public static IdentifierNameSyntax GigasecondParameterIdentifierName(GigasecondSolution gigasecondSolution) =>
+        private static IdentifierNameSyntax GigasecondParameterIdentifierName(GigasecondSolution gigasecondSolution) =>
             IdentifierName(gigasecondSolution.BirthDateParameter);
 
         private static ArgumentSyntax GigasecondBirthDateArgument(ExpressionSyntax argumentExpression) =>
             Argument(argumentExpression);
         
-        public static InvocationExpressionSyntax GigasecondAddSecondsWithMathPowInvocationExpression() =>
+        public static InvocationExpressionSyntax GigasecondMathPowInvocationExpression() =>
             InvocationExpression(
-                GigasecondMathPowExpression(),
+                GigasecondMathPowMemberAccessExpression(),
                 Argument(
                     NumericLiteralExpression(10)),
                 Argument(
                     NumericLiteralExpression(9)));
 
-        private static MemberAccessExpressionSyntax GigasecondMathPowExpression() =>
+        private static MemberAccessExpressionSyntax GigasecondMathPowMemberAccessExpression() =>
             SimpleMemberAccessExpression(
                 IdentifierName("Math"),
                 IdentifierName("Pow"));

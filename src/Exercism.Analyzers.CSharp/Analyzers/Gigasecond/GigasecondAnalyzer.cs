@@ -50,13 +50,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         }
 
         private static SolutionAnalysis ApproveWhenUsingDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.UsesAddSecondsWithDigitsWithoutSeparator()
+            gigasecondSolution.UsesAddSecondsWithDigitsWithoutSeparator() || 
+            gigasecondSolution.UsesAddSecondsWithDigitsWithoutSeparatorVariable()
                 ? gigasecondSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators)
                 : null;
 
         private static SolutionAnalysis ApproveWhenUsingAddSecondsWithDigitsWithSeparator(this GigasecondSolution gigasecondSolution)
         {
-            if (!gigasecondSolution.UsesAddSecondsWithDigitsWithSeparator())
+            if (!gigasecondSolution.UsesAddSecondsWithDigitsWithSeparator() &&
+                !gigasecondSolution.UsesAddSecondsWithDigitsWithSeparatorVariable())
                 return null;
 
             if (gigasecondSolution.UsesParameterInReturnedExpression)
@@ -71,7 +73,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         }
 
         private static SolutionAnalysis ApproveWhenUsingAddSecondsWithMathPow(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.UsesAddSecondsWithMathPow() 
+            gigasecondSolution.UsesAddSecondsWithMathPow() ||
+            gigasecondSolution.UsesAddSecondsWithMathPowVariable() 
                 ? gigasecondSolution.ApproveWithComment(UseScientificNotationNotMathPow)
                 : null;
     }

@@ -7,29 +7,35 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
     internal class GigasecondSolution : ParsedSolution
     {
         public MethodDeclarationSyntax AddMethod { get; }
+        public IdentifierNameSyntax AddSecondsArgumentName { get; }
+        public VariableDeclaratorSyntax AddSecondsArgumentVariable { get; }
         public ParameterSyntax BirthDateParameter { get; }
-        public ExpressionSyntax ReturnedSingleLineExpression { get; }
-        public ExpressionSyntax ReturnedVariableExpression { get; }
-        public ExpressionSyntax ReturnedParameterExpression { get; }
+        private ClassDeclarationSyntax GigasecondClass { get; }
+        private ExpressionSyntax ReturnedSingleLineExpression { get; }
+        private ExpressionSyntax ReturnedVariableExpression { get; }
+        private ExpressionSyntax ReturnedParameterExpression { get; }
 
-        public ArgumentSyntax AddSecondsArgument { get; }
-
-        public ExpressionSyntax ReturnedExpression =>
+        private ExpressionSyntax ReturnedExpression =>
             ReturnedSingleLineExpression ??
             ReturnedVariableExpression ??
             ReturnedParameterExpression;
 
         public bool UsesVariableInReturnedExpression => ReturnedVariableExpression != null;
         public bool UsesParameterInReturnedExpression => ReturnedParameterExpression != null;
+        public bool UsesVariableInAddSecondsInvocation => AddSecondsArgumentName != null;
 
         public GigasecondSolution(ParsedSolution solution) : base(solution.Solution, solution.SyntaxRoot)
         {
-            AddMethod = solution.SyntaxRoot.GetClassMethod("Gigasecond", "Add");
+            GigasecondClass = solution.SyntaxRoot.GetClass("Gigasecond");
+            AddMethod = GigasecondClass.GetMethod("Add");
             BirthDateParameter = AddMethod?.ParameterList.Parameters.FirstOrDefault();
             ReturnedSingleLineExpression = AddMethod?.ExpressionDirectlyReturned();
-            ReturnedVariableExpression = AddMethod?.ExpressionAssignedToVariableAndReturned();
+            ReturnedVariableExpression = 
+                AddMethod?.ExpressionAssignedToVariableAndReturned() ??
+                AddMethod?.ExpressionUsesVariableAndReturned();
             ReturnedParameterExpression = AddMethod?.ExpressionAssignedToParameterAndReturned(BirthDateParameter);
-            AddSecondsArgument = ReturnedExpression.AddSecondsArgument(BirthDateParameter);
+            AddSecondsArgumentName = ReturnedExpression.AddSecondsArgumentName(BirthDateParameter);
+            AddSecondsArgumentVariable = GigasecondClass.AssignedVariableWithName(AddSecondsArgumentName);
         }
 
         public bool Returns(SyntaxNode returned) =>
