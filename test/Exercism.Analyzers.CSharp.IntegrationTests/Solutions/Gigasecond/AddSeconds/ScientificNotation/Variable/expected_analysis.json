@@ -1,4 +1,4 @@
 {
   "status": "approve_with_comment", 
-  "comments": ["csharp.general.inline_variable"]
+  "comments": ["csharp.general.return_immediately"]
 }

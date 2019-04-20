@@ -17,19 +17,22 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             gigasecondSolution.Returns(
                 GigasecondAddSecondsWithScientificNotationInvocationExpression(gigasecondSolution));
 
+        public static bool UsesAddSecondsWithScientificNotationVariable(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.ReturnsAddSecondsUsingVariable(GigasecondScientificNotation());
+
         public static bool UsesAddSecondsWithDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.Returns(
                 GigasecondAddSecondsWithDigitsWithoutSeparatorInvocationExpression(gigasecondSolution));
 
         public static bool UsesAddSecondsWithDigitsWithoutSeparatorVariable(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.UsesAddSecondsWithVariable(GigasecondDigitsWithoutSeparator());
+            gigasecondSolution.ReturnsAddSecondsUsingVariable(GigasecondDigitsWithoutSeparator());
 
         public static bool UsesAddSecondsWithDigitsWithSeparator(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.Returns(
                 GigasecondAddSecondsWithDigitsWithSeparatorInvocationExpression(gigasecondSolution));
 
         public static bool UsesAddSecondsWithDigitsWithSeparatorVariable(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.UsesAddSecondsWithVariable(GigasecondDigitsWithSeparator());
+            gigasecondSolution.ReturnsAddSecondsUsingVariable(GigasecondDigitsWithSeparator());
 
         public static bool UsesAddSecondsWithMathPow(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.Returns(
@@ -38,9 +41,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                     GigasecondMathPowInvocationExpression()));
 
         public static bool UsesAddSecondsWithMathPowVariable(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.UsesAddSecondsWithVariable(GigasecondMathPowInvocationExpression());
+            gigasecondSolution.ReturnsAddSecondsUsingVariable(GigasecondMathPowInvocationExpression());
 
-        private static bool UsesAddSecondsWithVariable(this GigasecondSolution gigasecondSolution, ExpressionSyntax initializer) =>
+        private static bool ReturnsAddSecondsUsingVariable(this GigasecondSolution gigasecondSolution, ExpressionSyntax initializer) =>
             gigasecondSolution.UsesAddSecondsWithVariableArgument() &&
             gigasecondSolution.AddSecondsArgumentVariable.Initializer.Value.IsEquivalentWhenNormalized(initializer);
 

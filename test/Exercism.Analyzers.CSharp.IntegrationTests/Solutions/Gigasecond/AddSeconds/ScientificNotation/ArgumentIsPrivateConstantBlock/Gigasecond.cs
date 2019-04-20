@@ -2,7 +2,7 @@ using System;
 
 public static class Gigasecond
 {
-    private const int Seconds = 1000000000;
+    private const double Seconds = 1e9;
     
     public static DateTime Add(DateTime birthDate)
     {

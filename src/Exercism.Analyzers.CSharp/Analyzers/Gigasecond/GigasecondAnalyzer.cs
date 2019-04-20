@@ -29,27 +29,34 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 
         private static SolutionAnalysis ApproveWhenValid(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.ApproveWhenUsingAddSecondsWithScientificNotation() ??
-            gigasecondSolution.ApproveWhenUsingDigitsWithoutSeparator() ??
+            gigasecondSolution.ApproveWhenUsingAddSecondsWithDigitsWithoutSeparator() ??
             gigasecondSolution.ApproveWhenUsingAddSecondsWithDigitsWithSeparator() ??
             gigasecondSolution.ApproveWhenUsingAddSecondsWithMathPow();
 
         private static SolutionAnalysis ApproveWhenUsingAddSecondsWithScientificNotation(this GigasecondSolution gigasecondSolution)
         {
-            if (!gigasecondSolution.UsesAddSecondsWithScientificNotation())
+            if (!gigasecondSolution.UsesAddSecondsWithScientificNotation() &&
+                !gigasecondSolution.UsesAddSecondsWithScientificNotationVariable())
                 return null;
 
             if (gigasecondSolution.UsesParameterInReturnedExpression)
-                return gigasecondSolution.ApproveWithComment(InlineParameter);
+                return gigasecondSolution.ApproveWithComment(ReturnImmediately);
             
-            if (gigasecondSolution.UsesVariableInReturnedExpression)
-                return gigasecondSolution.ApproveWithComment(InlineVariable);
+            if (gigasecondSolution.ReturnsVariableInReturnedExpression)
+                return gigasecondSolution.ApproveWithComment(UseConstant);
+            
+            if (gigasecondSolution.UsesVariableInReturnedExpression &&
+                gigasecondSolution.VariableDefinedInLocalDeclaration)
+                    return gigasecondSolution.VariableIsConstant
+                        ? gigasecondSolution.ApproveAsOptimal()
+                        : gigasecondSolution.ApproveWithComment(UseConstant);
             
             return gigasecondSolution.UsesExpressionBody()
                 ? gigasecondSolution.ApproveAsOptimal()
                 : gigasecondSolution.ApproveWithComment(UseExpressionBodiedMember);
         }
 
-        private static SolutionAnalysis ApproveWhenUsingDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
+        private static SolutionAnalysis ApproveWhenUsingAddSecondsWithDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.UsesAddSecondsWithDigitsWithoutSeparator() || 
             gigasecondSolution.UsesAddSecondsWithDigitsWithoutSeparatorVariable()
                 ? gigasecondSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators)
@@ -61,11 +68,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                 !gigasecondSolution.UsesAddSecondsWithDigitsWithSeparatorVariable())
                 return null;
 
-            if (gigasecondSolution.UsesParameterInReturnedExpression)
-                return gigasecondSolution.ApproveWithComment(InlineParameter);
-
-            if (gigasecondSolution.UsesVariableInReturnedExpression)
-                return gigasecondSolution.ApproveWithComment(InlineVariable);
+            if (gigasecondSolution.UsesParameterInReturnedExpression ||
+                gigasecondSolution.ReturnsVariableInReturnedExpression)
+                return gigasecondSolution.ApproveWithComment(ReturnImmediately);
 
             return gigasecondSolution.UsesExpressionBody()
                 ? gigasecondSolution.ApproveAsOptimal()

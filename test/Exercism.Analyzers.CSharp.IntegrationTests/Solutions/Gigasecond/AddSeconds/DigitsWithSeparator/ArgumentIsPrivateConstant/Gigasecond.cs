@@ -2,7 +2,7 @@ using System;
 
 public static class Gigasecond
 {
-    private static readonly double Seconds = Math.Pow(10, 9);
+    private const int Seconds = 1_000_000_000;
     
     public static DateTime Add(DateTime birthDate)
     {

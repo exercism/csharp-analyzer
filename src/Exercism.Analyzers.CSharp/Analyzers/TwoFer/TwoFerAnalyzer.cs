@@ -97,7 +97,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 return null;
 
             if (twoFerSolution.AssignsParameterUsingNullCoalescingOperator())
-                return twoFerSolution.ApproveWithComment(InlineVariable);
+                return twoFerSolution.ApproveWithComment(ReturnImmediately);
 
             if (twoFerSolution.AssignsParameterUsingNullCheck() ||
                 twoFerSolution.AssignsParameterUsingIfNullCheck())
