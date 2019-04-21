@@ -36,6 +36,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             (AddSecondsArgumentVariableLocalDeclarationStatement?.IsConst ?? false) || 
             (AddSecondsArgumentVariableFieldDeclaration?.IsConst() ?? false);
 
+        public bool VariableIsPrivateField =>
+            AddSecondsArgumentVariableFieldDeclaration != null &&
+            AddSecondsArgumentVariableFieldDeclaration.IsPrivate();
+
         public GigasecondSolution(ParsedSolution solution) : base(solution.Solution, solution.SyntaxRoot)
         {
             GigasecondClass = solution.SyntaxRoot.GetClass("Gigasecond");
@@ -43,12 +47,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             BirthDateParameter = AddMethod?.ParameterList.Parameters.FirstOrDefault();
             ReturnedSingleLineExpression = AddMethod?.ExpressionDirectlyReturned();
             ReturnedVariableExpression = AddMethod.ExpressionAssignedToVariableAndReturned();
-            ReturnedUsingVariableExpression = AddMethod?.ExpressionUsesVariableAndReturned();
             ReturnedParameterExpression = AddMethod?.ExpressionAssignedToParameterAndReturned(BirthDateParameter);
             AddSecondsArgumentName = ReturnedExpression.AddSecondsArgumentName(BirthDateParameter);
             AddSecondsArgumentVariable = GigasecondClass.AssignedVariableWithName(AddSecondsArgumentName);
             AddSecondsArgumentVariableLocalDeclarationStatement = AddSecondsArgumentVariable?.LocalDeclarationStatement();
             AddSecondsArgumentVariableFieldDeclaration = AddSecondsArgumentVariable?.FieldDeclaration();
+            ReturnedUsingVariableExpression = AddMethod?.ExpressionUsesVariableAndReturned(AddSecondsArgumentVariable);
         }
 
         public bool Returns(SyntaxNode returned) =>

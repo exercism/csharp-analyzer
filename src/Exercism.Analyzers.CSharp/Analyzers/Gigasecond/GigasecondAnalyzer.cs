@@ -68,9 +68,26 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                 !gigasecondSolution.UsesAddSecondsWithDigitsWithSeparatorVariable())
                 return null;
 
-            if (gigasecondSolution.UsesParameterInReturnedExpression ||
-                gigasecondSolution.ReturnsVariableInReturnedExpression)
+            if (gigasecondSolution.UsesParameterInReturnedExpression)
                 return gigasecondSolution.ApproveWithComment(ReturnImmediately);
+            
+            if (gigasecondSolution.ReturnsVariableInReturnedExpression)
+                return gigasecondSolution.ApproveWithComment(UseConstant);
+            
+            if (gigasecondSolution.UsesVariableInReturnedExpression &&
+                gigasecondSolution.VariableDefinedInLocalDeclaration)
+                return gigasecondSolution.VariableIsConstant
+                    ? gigasecondSolution.ApproveAsOptimal()
+                    : gigasecondSolution.ApproveWithComment(UseConstant);
+            
+            if (gigasecondSolution.UsesVariableInReturnedExpression &&
+                gigasecondSolution.VariableDefinedInFieldDeclaration)
+                return gigasecondSolution.VariableIsConstant
+                    ? 
+                        gigasecondSolution.VariableIsPrivateField
+                        ? gigasecondSolution.ApproveAsOptimal()
+                        : gigasecondSolution.ApproveWithComment(UsePrivateVisibility)
+                    : gigasecondSolution.ApproveWithComment(UseConstant);
 
             return gigasecondSolution.UsesExpressionBody()
                 ? gigasecondSolution.ApproveAsOptimal()

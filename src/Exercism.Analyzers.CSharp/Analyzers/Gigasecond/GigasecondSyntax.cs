@@ -73,22 +73,37 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             return null;
         }
 
-        public static ExpressionSyntax ExpressionUsesVariableAndReturned(this MethodDeclarationSyntax nameMethod)
+        public static ExpressionSyntax ExpressionUsesVariableAndReturned(this MethodDeclarationSyntax nameMethod, VariableDeclaratorSyntax variableDeclarator)
         {
-            if (nameMethod?.Body?.Statements.Count != 2)
+            if (nameMethod == null || variableDeclarator == null)
                 return null;
-
-            var localDeclaration = nameMethod.Body.Statements[0] as LocalDeclarationStatementSyntax;
-            var returnStatement = nameMethod.Body.Statements[1] as ReturnStatementSyntax;
             
-            if (localDeclaration == null || returnStatement == null)
+            var statementsCount = nameMethod.ExpressionBody != null ? 1 : nameMethod.Body.Statements.Count;
+            if (statementsCount < 1 || statementsCount > 2)
                 return null;
 
-            if (localDeclaration.Declaration.Variables.Count != 1 ||
-                !returnStatement.UsesVariableAsArgument(localDeclaration.Declaration.Variables[0]))
-                return null;
+            if (statementsCount == 1)
+            {
+                if (nameMethod.ExpressionBody != null)
+                    return nameMethod.ExpressionBody.UsesVariableAsArgument(variableDeclarator)
+                        ? nameMethod.ExpressionBody.Expression
+                        : null;
+                
+                return 
+                    nameMethod.Body.Statements[0] is ReturnStatementSyntax singleReturnStatement &&
+                    singleReturnStatement.UsesVariableAsArgument(variableDeclarator)
+                        ? singleReturnStatement.Expression
+                        : null;
+            }
 
-            return returnStatement.Expression;
+            return
+                nameMethod.Body.Statements[0] is LocalDeclarationStatementSyntax localDeclaration &&
+                nameMethod.Body.Statements[1] is ReturnStatementSyntax returnStatement &&
+                localDeclaration.Declaration.Variables.Count == 1 &&
+                localDeclaration.Declaration.Variables[0].IsEquivalentWhenNormalized(variableDeclarator) &&
+                returnStatement.UsesVariableAsArgument(variableDeclarator)
+                    ? returnStatement.Expression
+                    : null;
         }
     }
 }

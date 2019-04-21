@@ -19,6 +19,5 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
             invocationExpression.ArgumentList.Arguments.Any(
                 argument => argument.Expression.IsEquivalentWhenNormalized(
                     IdentifierName(variableDeclarator)));
-
     }
 }

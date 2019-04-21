@@ -1,4 +1,4 @@
 {
-  "status": "approve_as_optimal",
-  "comments": []
+  "status": "approve_with_comment",
+  "comments": ["csharp.general.use_expression_bodied_member"]
 }
