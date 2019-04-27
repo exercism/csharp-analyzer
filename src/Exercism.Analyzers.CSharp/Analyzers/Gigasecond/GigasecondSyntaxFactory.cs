@@ -46,7 +46,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                 methodName);
 
         private static IdentifierNameSyntax GigasecondParameterIdentifierName(GigasecondSolution gigasecondSolution) =>
-            IdentifierName(gigasecondSolution.BirthDateParameter);
+            IdentifierName(gigasecondSolution.AddMethodParameter);
 
         private static ArgumentSyntax GigasecondBirthDateArgument(ExpressionSyntax argumentExpression) =>
             Argument(argumentExpression);
