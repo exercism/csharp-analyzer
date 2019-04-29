@@ -22,21 +22,18 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             AddSecondsArgumentValueType = this.AddSecondsArgumentValueType();
         }
 
-        public ExpressionSyntax AddSecondsArgumentValueExpression { get; }
-
-        public VariableDeclaratorSyntax AddSecondsArgumentVariable { get; }
-
         public ClassDeclarationSyntax GigasecondClass { get; }
         public MethodDeclarationSyntax AddMethod { get; }
-        public ParameterSyntax AddMethodParameter { get; }    
+        public ParameterSyntax AddMethodParameter { get; }
+        public ExpressionSyntax AddMethodReturnedExpression { get; }
         public InvocationExpressionSyntax AddSecondsInvocationExpression { get; }
         public ExpressionSyntax AddSecondsArgumentExpression { get; }
+        public ExpressionSyntax AddSecondsArgumentValueExpression { get; }
+        public VariableDeclaratorSyntax AddSecondsArgumentVariable { get; }
         public LocalDeclarationStatementSyntax AddSecondsArgumentVariableLocalDeclarationStatement { get; }
         public FieldDeclarationSyntax AddSecondsArgumentVariableFieldDeclaration { get; }
-        
         public ArgumentType AddSecondsArgumentType { get; }
         public AddSecondsArgumentValueType AddSecondsArgumentValueType { get; }
         public ReturnType AddSecondsReturnType { get; }
-        public ExpressionSyntax AddMethodReturnedExpression { get; }
     }
 }

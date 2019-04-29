@@ -113,16 +113,16 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             addSecondsInvocationExpression.Parent is AssignmentExpressionSyntax assignmentExpression
             && assignmentExpression.Left.IsEquivalentWhenNormalized(IdentifierName(addMethodParameter));
 
-        public static bool UsesAddSecondsWithScientificNotation(this GigasecondSolution gigasecondSolution) =>
+        public static bool UsesScientificNotation(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.AddSecondsArgumentValueType == Gigasecond.AddSecondsArgumentValueType.ScientificNotation;
 
-        public static bool UsesAddSecondsWithDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
+        public static bool UsesDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.AddSecondsArgumentValueType == Gigasecond.AddSecondsArgumentValueType.DigitsWithoutSeparator;
 
-        public static bool UsesAddSecondsWithDigitsWithSeparator(this GigasecondSolution gigasecondSolution) =>
+        public static bool UsesDigitsWithSeparator(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.AddSecondsArgumentValueType == Gigasecond.AddSecondsArgumentValueType.DigitsWithSeparator;
 
-        public static bool UsesAddSecondsWithMathPow(this GigasecondSolution gigasecondSolution) =>
+        public static bool UsesMathPow(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.AddSecondsArgumentValueType == Gigasecond.AddSecondsArgumentValueType.MathPow;
         
         public static bool AssignsToParameterAndReturns(this GigasecondSolution gigasecondSolution) =>
@@ -134,16 +134,27 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         public static bool UsesAddSecondsWithFieldVariable(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.AddSecondsArgumentType == ArgumentType.Field;
         
-        public static bool UsesAddSecondsWithLocalVariable(this GigasecondSolution gigasecondSolution) =>
+        public static bool UsesLocalVariable(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.AddSecondsArgumentType == ArgumentType.Local;
-       
-        public static bool UsesConstVariable(this GigasecondSolution gigasecondSolution) =>
-            (gigasecondSolution.AddSecondsArgumentVariableLocalDeclarationStatement?.IsConst ?? false) || 
-            (gigasecondSolution.AddSecondsArgumentVariableFieldDeclaration?.IsConst() ?? false);
+        
+        public static bool UsesLocalConstVariable(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.UsesLocalVariable() &&
+            gigasecondSolution.AddSecondsArgumentVariableLocalDeclarationStatement.IsConst;
+
+        public static bool UsesField(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddSecondsArgumentType == ArgumentType.Field;
 
         public static bool UsesPrivateField(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.AddSecondsArgumentVariableFieldDeclaration != null &&
+            gigasecondSolution.UsesField() &&
             gigasecondSolution.AddSecondsArgumentVariableFieldDeclaration.IsPrivate();
+
+        public static bool UsesConstField(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.UsesField() &&
+            gigasecondSolution.AddSecondsArgumentVariableFieldDeclaration.IsConst();
+
+        public static bool UsesPrivateConstField(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.UsesPrivateField() &&
+            gigasecondSolution.UsesConstField();
         
         public static bool UsesExpressionBody(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.AddMethod.IsExpressionBody();

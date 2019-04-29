@@ -26,33 +26,36 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 
         private static SolutionAnalysis ApproveWhenValid(this GigasecondSolution gigasecondSolution)
         {
-            if (gigasecondSolution.UsesAddSecondsWithMathPow())
+            if (gigasecondSolution.UsesMathPow())
                 return gigasecondSolution.ApproveWithComment(UseScientificNotationNotMathPow);
 
-            if (gigasecondSolution.UsesAddSecondsWithDigitsWithoutSeparator())
+            if (gigasecondSolution.UsesDigitsWithoutSeparator())
                 return gigasecondSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators);
 
-            if (!gigasecondSolution.UsesAddSecondsWithScientificNotation() &&
-                !gigasecondSolution.UsesAddSecondsWithDigitsWithSeparator())
+            if (!gigasecondSolution.UsesScientificNotation() &&
+                !gigasecondSolution.UsesDigitsWithSeparator())
                 return null;
 
             if (gigasecondSolution.AssignsToParameterAndReturns() ||
                 gigasecondSolution.AssignsToVariableAndReturns())
                 return gigasecondSolution.ApproveWithComment(ReturnImmediately);
             
-            if (gigasecondSolution.UsesAddSecondsWithLocalVariable())
-                return gigasecondSolution.UsesConstVariable()
+            if (gigasecondSolution.UsesLocalConstVariable())
+                return gigasecondSolution.ApproveAsOptimal();
+                    
+            if (gigasecondSolution.UsesLocalVariable())
+                return gigasecondSolution.ApproveWithComment(UseConstant);
+
+            if (gigasecondSolution.UsesPrivateConstField())
+                return gigasecondSolution.UsesExpressionBody()
                     ? gigasecondSolution.ApproveAsOptimal()
-                    : gigasecondSolution.ApproveWithComment(UseConstant);
+                    : gigasecondSolution.ApproveWithComment(UseExpressionBodiedMember);
+
+            if (gigasecondSolution.UsesConstField())
+                return gigasecondSolution.ApproveWithComment(UsePrivateVisibility);
             
-            if (gigasecondSolution.UsesAddSecondsWithFieldVariable())
-                return gigasecondSolution.UsesConstVariable()
-                    ? gigasecondSolution.UsesPrivateField()
-                        ?  gigasecondSolution.UsesExpressionBody()
-                            ? gigasecondSolution.ApproveAsOptimal()
-                            : gigasecondSolution.ApproveWithComment(UseExpressionBodiedMember)
-                        : gigasecondSolution.ApproveWithComment(UsePrivateVisibility)
-                    : gigasecondSolution.ApproveWithComment(UseConstant);
+            if (gigasecondSolution.UsesField())
+                return gigasecondSolution.ApproveWithComment(UseConstant);
             
             return gigasecondSolution.UsesExpressionBody()
                 ? gigasecondSolution.ApproveAsOptimal()
