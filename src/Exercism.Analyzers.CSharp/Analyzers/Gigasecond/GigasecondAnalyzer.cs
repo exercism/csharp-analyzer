@@ -1,4 +1,5 @@
-using Exercism.Analyzers.CSharp.Analyzers.Shared;
+using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondComments;
+using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
@@ -7,24 +8,58 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         public static SolutionAnalysis Analyze(ParsedSolution parsedSolution) =>
             Analyze(new GigasecondSolution(parsedSolution));
 
-        private static SolutionAnalysis Analyze(GigasecondSolution gigasecondSolution)
+        private static SolutionAnalysis Analyze(GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.DisapproveWhenInvalid() ??
+            gigasecondSolution.ApproveWhenValid() ??
+            gigasecondSolution.ReferToMentor();
+
+        private static SolutionAnalysis DisapproveWhenInvalid(this GigasecondSolution gigasecondSolution)
         {
-            if (gigasecondSolution.ReturnsAddSecondsWithScientificNotation())
+            if (gigasecondSolution.CreatesNewDatetime())
+                return gigasecondSolution.DisapproveWithComment(DontCreateDateTime);
+            
+            if (gigasecondSolution.DoesNotUseAddSeconds())
+                return gigasecondSolution.DisapproveWithComment(UseAddSeconds);
+
+            return null;
+        }
+
+        private static SolutionAnalysis ApproveWhenValid(this GigasecondSolution gigasecondSolution)
+        {
+            if (gigasecondSolution.UsesMathPow())
+                return gigasecondSolution.ApproveWithComment(UseScientificNotationNotMathPow);
+
+            if (gigasecondSolution.UsesDigitsWithoutSeparator())
+                return gigasecondSolution.ApproveWithComment(UseScientificNotationOrDigitSeparators);
+
+            if (!gigasecondSolution.UsesScientificNotation() &&
+                !gigasecondSolution.UsesDigitsWithSeparator())
+                return null;
+
+            if (gigasecondSolution.AssignsToParameterAndReturns() ||
+                gigasecondSolution.AssignsToVariableAndReturns())
+                return gigasecondSolution.ApproveWithComment(ReturnImmediately);
+            
+            if (gigasecondSolution.UsesLocalConstVariable())
+                return gigasecondSolution.ApproveAsOptimal();
+                    
+            if (gigasecondSolution.UsesLocalVariable())
+                return gigasecondSolution.ApproveWithComment(UseConstant);
+
+            if (gigasecondSolution.UsesPrivateConstField())
                 return gigasecondSolution.UsesExpressionBody()
                     ? gigasecondSolution.ApproveAsOptimal()
-                    : gigasecondSolution.ApproveWithComment(SharedComments.UseExpressionBodiedMember);
+                    : gigasecondSolution.ApproveWithComment(UseExpressionBodiedMember);
 
-            if (gigasecondSolution.ReturnsAddSecondsWithMathPow())
-                return gigasecondSolution.ApproveWithComment(GigasecondComments.UseScientificNotationNotMathPow);
-
-            if (gigasecondSolution.ReturnsAddSecondsWithDigitsWithoutSeparator())
-                return gigasecondSolution.ApproveWithComment(GigasecondComments.UseScientificNotationOrDigitSeparators);
-
-            if (gigasecondSolution.UsesAddMethod() ||
-                gigasecondSolution.UsesPlusOperator())
-                return gigasecondSolution.DisapproveWithComment(GigasecondComments.UseAddSeconds);
-
-            return gigasecondSolution.ReferToMentor();
+            if (gigasecondSolution.UsesConstField())
+                return gigasecondSolution.ApproveWithComment(UsePrivateVisibility);
+            
+            if (gigasecondSolution.UsesField())
+                return gigasecondSolution.ApproveWithComment(UseConstant);
+            
+            return gigasecondSolution.UsesExpressionBody()
+                ? gigasecondSolution.ApproveAsOptimal()
+                : gigasecondSolution.ApproveWithComment(UseExpressionBodiedMember);
         }
     }
 }

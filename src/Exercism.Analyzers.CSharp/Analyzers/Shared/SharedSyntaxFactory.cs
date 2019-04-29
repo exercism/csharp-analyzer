@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -41,12 +43,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 
         public static InvocationExpressionSyntax StringInvocationExpression(IdentifierNameSyntax methodName, IdentifierNameSyntax argumentName) =>
             InvocationExpression(
-                    StringMemberAccessExpression(methodName))
-                .WithArgumentList(
-                    ArgumentList(
-                        SingletonSeparatedList(
-                            Argument(
-                                argumentName))));
+                StringMemberAccessExpression(methodName),
+                Argument(argumentName));
 
         public static MemberAccessExpressionSyntax StringMemberAccessExpression(IdentifierNameSyntax name) =>
             SimpleMemberAccessExpression(PredefinedType(Token(SyntaxKind.StringKeyword)), name);
@@ -56,6 +54,27 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
                 SyntaxKind.SimpleMemberAccessExpression,
                 expression,
                 name);
+
+        public static InvocationExpressionSyntax InvocationExpression(ExpressionSyntax expression, params ArgumentSyntax[] arguments) =>
+            SyntaxFactory.InvocationExpression(expression)
+                .WithArgumentList(
+                    ArgumentList(
+                        SeparatedArgumentList(arguments)));
+
+        private static SeparatedSyntaxList<ArgumentSyntax> SeparatedArgumentList(ArgumentSyntax[] arguments)
+        {
+            var syntaxNodesOrTokens = new List<SyntaxNodeOrToken>(capacity: arguments.Length * 2);
+
+            for (var i = 0; i < arguments.Length; i++)
+            {
+                if (i > 0)
+                    syntaxNodesOrTokens.Add(Token(SyntaxKind.CommaToken));
+                
+                syntaxNodesOrTokens.Add(arguments[i]);
+            }
+
+            return SeparatedList<ArgumentSyntax>(syntaxNodesOrTokens);
+        }
 
         public static AssignmentExpressionSyntax SimpleAssignmentExpression(ExpressionSyntax left, ExpressionSyntax right) =>
             AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, left, right);
@@ -68,5 +87,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
                     text,
                     text,
                     TriviaList()));
+
+        public static IdentifierNameSyntax IdentifierName(ParameterSyntax parameter) =>
+            SyntaxFactory.IdentifierName(parameter.Identifier);
+
+        public static IdentifierNameSyntax IdentifierName(VariableDeclaratorSyntax variableDeclarator) =>
+            SyntaxFactory.IdentifierName(variableDeclarator.Identifier);
     }
 }
