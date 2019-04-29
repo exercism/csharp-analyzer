@@ -6,29 +6,29 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
     internal static class GigasecondSyntaxFactory
     {
-        public static LiteralExpressionSyntax GigasecondDigitsWithoutSeparator() =>
+        public static LiteralExpressionSyntax GigasecondAsDigitsWithoutSeparator() =>
             NumericLiteralExpression(1000000000);
 
-        public static LiteralExpressionSyntax GigasecondDigitsWithSeparator() =>
+        public static LiteralExpressionSyntax GigasecondAsDigitsWithSeparator() =>
             NumericLiteralExpression("1_000_000_000", 1000000000);
 
-        public static LiteralExpressionSyntax GigasecondScientificNotation() =>
+        public static LiteralExpressionSyntax GigasecondAsScientificNotation() =>
             NumericLiteralExpression("1E9", 1e9);
         
         public static InvocationExpressionSyntax GigasecondAddSecondsWithDigitsWithoutSeparatorInvocationExpression(GigasecondSolution gigasecondSolution) =>
             GigasecondAddSecondsInvocationExpression(
                 gigasecondSolution,
-                GigasecondDigitsWithoutSeparator());
+                GigasecondAsDigitsWithoutSeparator());
 
         public static InvocationExpressionSyntax GigasecondAddSecondsWithDigitsWithSeparatorInvocationExpression(GigasecondSolution gigasecondSolution) =>
             GigasecondAddSecondsInvocationExpression(
                 gigasecondSolution,
-                GigasecondDigitsWithSeparator());
+                GigasecondAsDigitsWithSeparator());
 
         public static InvocationExpressionSyntax GigasecondAddSecondsWithScientificNotationInvocationExpression(GigasecondSolution gigasecondSolution) =>
             GigasecondAddSecondsInvocationExpression(
                 gigasecondSolution,
-                GigasecondScientificNotation());
+                GigasecondAsScientificNotation());
 
         public static InvocationExpressionSyntax GigasecondAddSecondsInvocationExpression(GigasecondSolution gigasecondSolution, ExpressionSyntax argumentExpression) =>
             InvocationExpression(
@@ -51,7 +51,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         private static ArgumentSyntax GigasecondBirthDateArgument(ExpressionSyntax argumentExpression) =>
             Argument(argumentExpression);
         
-        public static InvocationExpressionSyntax GigasecondMathPowInvocationExpression() =>
+        public static InvocationExpressionSyntax GigasecondAsMathPowInvocationExpression() =>
             InvocationExpression(
                 GigasecondMathPowMemberAccessExpression(),
                 Argument(

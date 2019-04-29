@@ -1,6 +1,6 @@
 using System;
+using System.Linq;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondSyntaxFactory;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
@@ -10,100 +10,148 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
     internal static class GigasecondSyntax
     {
+        public static ClassDeclarationSyntax Class(this ParsedSolution solution) =>
+            solution.SyntaxRoot.GetClass("Gigasecond");
+        
+        public static MethodDeclarationSyntax AddMethod(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.GigasecondClass?.GetMethod("Add");
+        
+        public static ParameterSyntax AddMethodParameter(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddMethod?.ParameterList.Parameters[0];
+        
+        public static InvocationExpressionSyntax AddSecondsInvocationExpression(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddMethod.DescendantNodes<InvocationExpressionSyntax>().FirstOrDefault(
+                invocationExpression =>
+                    invocationExpression.Expression.IsEquivalentWhenNormalized(
+                        SimpleMemberAccessExpression(
+                            IdentifierName(gigasecondSolution.AddMethodParameter),
+                            IdentifierName("AddSeconds"))));
+        
+        public static ExpressionSyntax AddSecondsArgumentExpression(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddSecondsInvocationExpression?.ArgumentList.Arguments[0].Expression;
+        
+        public static VariableDeclaratorSyntax AddSecondsArgumentVariable(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.GigasecondClass.AssignedVariableWithName(gigasecondSolution.AddSecondsArgumentExpression as IdentifierNameSyntax);
+        
+        public static ExpressionSyntax AddSecondsArgumentValueExpression(this GigasecondSolution gigasecondSolution)
+        {
+            switch (gigasecondSolution.AddSecondsArgumentType)
+            {
+                case ArgumentType.Unknown:
+                    return null;
+                case ArgumentType.Value:
+                    return gigasecondSolution.AddSecondsArgumentExpression;
+                case ArgumentType.Local:
+                case ArgumentType.Field:
+                    return gigasecondSolution.AddSecondsArgumentVariable.Initializer.Value;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static AddSecondsArgumentValueType AddSecondsArgumentValueType(this GigasecondSolution gigasecondSolution)
+        {
+            if (gigasecondSolution.AddSecondsArgumentValueExpression.IsEquivalentWhenNormalized(GigasecondAsScientificNotation()))
+                return Gigasecond.AddSecondsArgumentValueType.ScientificNotation;
+            
+            if (gigasecondSolution.AddSecondsArgumentValueExpression.IsEquivalentWhenNormalized(GigasecondAsDigitsWithSeparator()))
+                return Gigasecond.AddSecondsArgumentValueType.DigitsWithSeparator;
+            
+            if (gigasecondSolution.AddSecondsArgumentValueExpression.IsEquivalentWhenNormalized(GigasecondAsDigitsWithoutSeparator()))
+                return Gigasecond.AddSecondsArgumentValueType.DigitsWithoutSeparator;
+            
+            if (gigasecondSolution.AddSecondsArgumentValueExpression.IsEquivalentWhenNormalized(GigasecondAsMathPowInvocationExpression()))
+                return Gigasecond.AddSecondsArgumentValueType.MathPow;
+
+            return Gigasecond.AddSecondsArgumentValueType.Unknown;
+        }
+
+        public static ReturnType AddSecondsReturnedAs(this GigasecondSolution gigasecondSolution)
+        {
+            if (gigasecondSolution.AddSecondsInvocationExpression.AssignedToVariable(out var variableDeclarator))
+                return gigasecondSolution.AddMethodReturnedExpression.IsEquivalentWhenNormalized(IdentifierName(variableDeclarator))
+                    ? ReturnType.VariableAssignment
+                    : ReturnType.Unknown;
+
+            if (gigasecondSolution.AddSecondsInvocationExpression.AssignedToParameter(gigasecondSolution.AddMethodParameter))
+                return gigasecondSolution.AddMethodReturnedExpression.IsEquivalentWhenNormalized(IdentifierName(gigasecondSolution.AddMethodParameter))
+                    ? ReturnType.ParameterAssigment
+                    : ReturnType.Unknown;
+
+            return gigasecondSolution.AddMethodReturnedExpression.IsEquivalentWhenNormalized(gigasecondSolution.AddSecondsInvocationExpression)
+                ? ReturnType.ImmediateValue
+                : ReturnType.Unknown;
+        }
+
+        public static ArgumentType AddSecondsArgumentDefinedAs(this GigasecondSolution gigasecondSolution)
+        {
+            if (gigasecondSolution.AddSecondsArgumentVariableFieldDeclaration != null)
+                return ArgumentType.Field;
+            
+            if (gigasecondSolution.AddSecondsArgumentVariableLocalDeclarationStatement != null)
+                return ArgumentType.Local;
+
+            if (gigasecondSolution.AddSecondsArgumentExpression != null)
+                return ArgumentType.Value;
+
+            return ArgumentType.Unknown;
+        }
+
+        private static bool AssignedToVariable(this InvocationExpressionSyntax addSecondsInvocationExpression, out VariableDeclaratorSyntax variableDeclarator)
+        {
+            variableDeclarator =
+                addSecondsInvocationExpression != null &&
+                addSecondsInvocationExpression.Parent is EqualsValueClauseSyntax equalsValueClause
+                ? equalsValueClause.Parent as VariableDeclaratorSyntax
+                : null;
+
+            return variableDeclarator != null;
+        }
+
+        private static bool AssignedToParameter(this InvocationExpressionSyntax addSecondsInvocationExpression, ParameterSyntax addMethodParameter) =>
+            addSecondsInvocationExpression != null &&
+            addSecondsInvocationExpression.Parent is AssignmentExpressionSyntax assignmentExpression
+            && assignmentExpression.Left.IsEquivalentWhenNormalized(IdentifierName(addMethodParameter));
+
+        public static bool UsesAddSecondsWithScientificNotation(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddSecondsArgumentValueType == Gigasecond.AddSecondsArgumentValueType.ScientificNotation;
+
+        public static bool UsesAddSecondsWithDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddSecondsArgumentValueType == Gigasecond.AddSecondsArgumentValueType.DigitsWithoutSeparator;
+
+        public static bool UsesAddSecondsWithDigitsWithSeparator(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddSecondsArgumentValueType == Gigasecond.AddSecondsArgumentValueType.DigitsWithSeparator;
+
+        public static bool UsesAddSecondsWithMathPow(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddSecondsArgumentValueType == Gigasecond.AddSecondsArgumentValueType.MathPow;
+        
+        public static bool AssignsToParameterAndReturns(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddSecondsReturnType == ReturnType.ParameterAssigment;
+        
+        public static bool AssignsToVariableAndReturns(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddSecondsReturnType == ReturnType.VariableAssignment;
+
+        public static bool UsesAddSecondsWithFieldVariable(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddSecondsArgumentType == ArgumentType.Field;
+        
+        public static bool UsesAddSecondsWithLocalVariable(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddSecondsArgumentType == ArgumentType.Local;
+       
+        public static bool UsesConstVariable(this GigasecondSolution gigasecondSolution) =>
+            (gigasecondSolution.AddSecondsArgumentVariableLocalDeclarationStatement?.IsConst ?? false) || 
+            (gigasecondSolution.AddSecondsArgumentVariableFieldDeclaration?.IsConst() ?? false);
+
+        public static bool UsesPrivateField(this GigasecondSolution gigasecondSolution) =>
+            gigasecondSolution.AddSecondsArgumentVariableFieldDeclaration != null &&
+            gigasecondSolution.AddSecondsArgumentVariableFieldDeclaration.IsPrivate();
+        
         public static bool UsesExpressionBody(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.AddMethod.IsExpressionBody();
 
-        public static bool UsesAddSecondsWithScientificNotation(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.Returns(
-                GigasecondAddSecondsWithScientificNotationInvocationExpression(gigasecondSolution));
-
-        public static bool UsesAddSecondsWithScientificNotationVariable(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.ReturnsAddSecondsUsingVariable(GigasecondScientificNotation());
-
-        public static bool UsesAddSecondsWithDigitsWithoutSeparator(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.Returns(
-                GigasecondAddSecondsWithDigitsWithoutSeparatorInvocationExpression(gigasecondSolution));
-
-        public static bool UsesAddSecondsWithDigitsWithoutSeparatorVariable(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.ReturnsAddSecondsUsingVariable(GigasecondDigitsWithoutSeparator());
-
-        public static bool UsesAddSecondsWithDigitsWithSeparator(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.Returns(
-                GigasecondAddSecondsWithDigitsWithSeparatorInvocationExpression(gigasecondSolution));
-
-        public static bool UsesAddSecondsWithDigitsWithSeparatorVariable(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.ReturnsAddSecondsUsingVariable(GigasecondDigitsWithSeparator());
-
-        public static bool UsesAddSecondsWithMathPow(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.Returns(
-                GigasecondAddSecondsInvocationExpression(
-                    gigasecondSolution,
-                    GigasecondMathPowInvocationExpression()));
-
-        public static bool UsesAddSecondsWithMathPowVariable(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.ReturnsAddSecondsUsingVariable(GigasecondMathPowInvocationExpression());
-
-        private static bool ReturnsAddSecondsUsingVariable(this GigasecondSolution gigasecondSolution, ExpressionSyntax initializer) =>
-            gigasecondSolution.UsesAddSecondsWithVariableArgument() &&
-            gigasecondSolution.AddSecondsArgumentVariable.Initializer.Value.IsEquivalentWhenNormalized(initializer);
-
-        private static bool UsesAddSecondsWithVariableArgument(this GigasecondSolution gigasecondSolution) =>
-            gigasecondSolution.UsesVariableInAddSecondsInvocation &&
-            gigasecondSolution.Returns(
-                GigasecondAddSecondsInvocationExpression(
-                    gigasecondSolution,
-                    gigasecondSolution.AddSecondsArgumentName));
-
         public static bool DoesNotUseAddSeconds(this GigasecondSolution gigasecondSolution) =>
-            !gigasecondSolution.AddMethod.InvokesExpression(
-                GigasecondAddSecondsMemberAccessExpression(gigasecondSolution));
+            gigasecondSolution.AddSecondsInvocationExpression == null;
 
         public static bool CreatesNewDatetime(this GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.AddMethod.CreatesObjectOfType<DateTime>();
-        
-        public static IdentifierNameSyntax AddSecondsArgumentName(this ExpressionSyntax expression, ParameterSyntax parameter)
-        {
-            if (expression is InvocationExpressionSyntax invocationExpression &&
-                invocationExpression.Expression.IsEquivalentWhenNormalized(
-                    SimpleMemberAccessExpression(
-                        IdentifierName(parameter),
-                        IdentifierName("AddSeconds"))))
-                return invocationExpression.ArgumentList.Arguments[0].Expression as IdentifierNameSyntax;
-
-            return null;
-        }
-
-        public static ExpressionSyntax ExpressionUsesVariableAndReturned(this MethodDeclarationSyntax nameMethod, VariableDeclaratorSyntax variableDeclarator)
-        {
-            if (nameMethod == null || variableDeclarator == null)
-                return null;
-            
-            var statementsCount = nameMethod.ExpressionBody != null ? 1 : nameMethod.Body.Statements.Count;
-            if (statementsCount < 1 || statementsCount > 2)
-                return null;
-
-            if (statementsCount == 1)
-            {
-                if (nameMethod.ExpressionBody != null)
-                    return nameMethod.ExpressionBody.UsesVariableAsArgument(variableDeclarator)
-                        ? nameMethod.ExpressionBody.Expression
-                        : null;
-                
-                return 
-                    nameMethod.Body.Statements[0] is ReturnStatementSyntax singleReturnStatement &&
-                    singleReturnStatement.UsesVariableAsArgument(variableDeclarator)
-                        ? singleReturnStatement.Expression
-                        : null;
-            }
-
-            return
-                nameMethod.Body.Statements[0] is LocalDeclarationStatementSyntax localDeclaration &&
-                nameMethod.Body.Statements[1] is ReturnStatementSyntax returnStatement &&
-                localDeclaration.Declaration.Variables.Count == 1 &&
-                localDeclaration.Declaration.Variables[0].IsEquivalentWhenNormalized(variableDeclarator) &&
-                returnStatement.UsesVariableAsArgument(variableDeclarator)
-                    ? returnStatement.Expression
-                    : null;
-        }
     }
 }
