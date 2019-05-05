@@ -14,14 +14,14 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         private readonly GigasecondValueType _gigasecondValueType;
         private readonly ReturnType _addMethodReturnType;
         
-        public GigasecondSolution(MethodDeclarationSyntax addMethod,
+        public GigasecondSolution(ParsedSolution solution,
+            MethodDeclarationSyntax addMethod,
             ReturnType addMethodReturnType,
             InvocationExpressionSyntax addSecondsInvocationExpression,
             LocalDeclarationStatementSyntax addSecondsLocalArgument,
             FieldDeclarationSyntax addSecondsFieldArgument,
             ArgumentType addSecondsArgumentType,
-            GigasecondValueType gigasecondValueType,
-            ParsedSolution solution) : base(solution.Solution, solution.SyntaxRoot)
+            GigasecondValueType gigasecondValueType) : base(solution.Solution, solution.SyntaxRoot)
         {
             _addMethod = addMethod;
             _addSecondsInvocationExpression = addSecondsInvocationExpression;

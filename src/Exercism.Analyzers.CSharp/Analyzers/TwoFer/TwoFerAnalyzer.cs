@@ -6,7 +6,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
     internal static class TwoFerAnalyzer
     {
         public static SolutionAnalysis Analyze(ParsedSolution parsedSolution) =>
-            Analyze(new TwoFerSolution(parsedSolution));
+            Analyze(TwoFerSolutionParser.Parse(parsedSolution));
 
         private static SolutionAnalysis Analyze(TwoFerSolution twoFerSolution) =>
             twoFerSolution.DisapproveWhenInvalid() ??
@@ -15,29 +15,29 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         private static SolutionAnalysis DisapproveWhenInvalid(this TwoFerSolution twoFerSolution)
         {
-            if (twoFerSolution.UsesOverloads())
+            if (twoFerSolution.UsesOverloads)
                 return twoFerSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
 
-            if (twoFerSolution.MissingSpeakMethod() ||
-                twoFerSolution.InvalidSpeakMethod())
+            if (twoFerSolution.MissingSpeakMethod ||
+                twoFerSolution.InvalidSpeakMethod)
                 return twoFerSolution.DisapproveWithComment(FixCompileErrors);
 
-            if (twoFerSolution.UsesDuplicateString())
+            if (twoFerSolution.UsesDuplicateString)
                 return twoFerSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
 
-            if (twoFerSolution.NoDefaultValue())
+            if (twoFerSolution.NoDefaultValue)
                 return twoFerSolution.DisapproveWithComment(UseDefaultValue);
 
-            if (twoFerSolution.UsesInvalidDefaultValue())
+            if (twoFerSolution.InvalidDefaultValue)
                 return twoFerSolution.DisapproveWithComment(InvalidDefaultValue);
 
-            if (twoFerSolution.UsesStringReplace())
+            if (twoFerSolution.UsesStringReplace)
                 return twoFerSolution.DisapproveWithComment(UseStringInterpolationNotStringReplace);
 
-            if (twoFerSolution.UsesStringJoin())
+            if (twoFerSolution.UsesStringJoin)
                 return twoFerSolution.DisapproveWithComment(UseStringInterpolationNotStringJoin);
 
-            if (twoFerSolution.UsesStringConcat())
+            if (twoFerSolution.UsesStringConcat)
                 return twoFerSolution.DisapproveWithComment(UseStringInterpolationNotStringConcat);
 
             return null;
