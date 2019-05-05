@@ -1,6 +1,6 @@
 namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
-    internal enum AddSecondsArgumentValueType
+    internal enum GigasecondValueType
     {
         Unknown,
         DigitsWithSeparator,

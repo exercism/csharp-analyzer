@@ -3,7 +3,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers
     public enum ArgumentType
     {
         Unknown,
-        Value,
+        Expression,
         Local,
         Field
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -9,15 +10,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
 {
     internal static class SyntaxNodeExtensions
     {
-        public static SyntaxNode Simplify(this SyntaxNode reducedSyntaxRoot) =>
-            SyntaxNodeSimplifier.Simplify(reducedSyntaxRoot);
-
-        public static bool IsEquivalentWhenNormalized(this SyntaxNode node, SyntaxNode other) =>
-            SyntaxNodeComparer.IsEquivalentToNormalized(node, other);
-
-        public static IEnumerable<TSyntaxNode> DescendantNodes<TSyntaxNode>(this SyntaxNode node)
+        public static IEnumerable<TSyntaxNode> DescendantNodes<TSyntaxNode>(this SyntaxNode syntaxNode)
             where TSyntaxNode : SyntaxNode =>
-            node.DescendantNodes().OfType<TSyntaxNode>();
+            syntaxNode.DescendantNodes().OfType<TSyntaxNode>();
 
         public static MethodDeclarationSyntax GetClassMethod(this SyntaxNode syntaxNode, string className,
             string methodName) => syntaxNode.GetClass(className).GetMethod(methodName);
