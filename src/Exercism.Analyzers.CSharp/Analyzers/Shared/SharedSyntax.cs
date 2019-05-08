@@ -21,24 +21,24 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
             return ArgumentType.Unknown;
         }
 
-        public static ReturnType ReturnedAs(InvocationExpressionSyntax invocationExpression, ExpressionSyntax returnedExpression, ParameterSyntax parameter)
+        public static ReturnType ReturnedAs(ExpressionSyntax expression, ExpressionSyntax returnedExpression, ParameterSyntax parameter)
         {
-            if (invocationExpression.AssignedToVariable(out var variableDeclarator))
+            if (expression.AssignedToVariable(out var variableDeclarator))
                 return returnedExpression.IsEquivalentWhenNormalized(SharedSyntaxFactory.IdentifierName(variableDeclarator))
                     ? ReturnType.VariableAssignment
                     : ReturnType.Unknown;
 
-            if (invocationExpression.AssignedToParameter(parameter))
+            if (expression.AssignedToParameter(parameter))
                 return returnedExpression.IsEquivalentWhenNormalized(SharedSyntaxFactory.IdentifierName(parameter))
                     ? ReturnType.ParameterAssigment
                     : ReturnType.Unknown;
 
-            return returnedExpression.IsEquivalentWhenNormalized(invocationExpression)
+            return returnedExpression.IsEquivalentWhenNormalized(expression)
                 ? ReturnType.ImmediateValue
                 : ReturnType.Unknown;
         }
 
-        public static ExpressionSyntax ArgumentValueExpression(ArgumentType argumentType, ExpressionSyntax argumentExpression, VariableDeclaratorSyntax addSecondsArgumentVariable)
+        public static ExpressionSyntax ArgumentValueExpression(ArgumentType argumentType, ExpressionSyntax argumentExpression, VariableDeclaratorSyntax variableDeclarator)
         {
             switch (argumentType)
             {
@@ -48,7 +48,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
                     return argumentExpression;
                 case ArgumentType.Local:
                 case ArgumentType.Field:
-                    return addSecondsArgumentVariable.Initializer.Value;
+                    return variableDeclarator.Initializer.Value;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

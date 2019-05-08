@@ -27,7 +27,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             var addMethodReturnType = ReturnedAs(addSecondsInvocationExpression, addMethodReturnedExpression, addMethodParameter);
             var addSecondsArgumentValueType = addSecondsArgumentValueExpression.GigasecondValueType();
             
-            return new GigasecondSolution(addMethod, addMethodReturnType, addSecondsInvocationExpression, addSecondsArgumentVariableLocalDeclarationStatement, addSecondsArgumentVariableFieldDeclaration, addSecondsArgumentType, addSecondsArgumentValueType, solution);
+            return new GigasecondSolution(solution, addMethod, addMethodReturnType, addSecondsInvocationExpression, addSecondsArgumentVariableLocalDeclarationStatement, addSecondsArgumentVariableFieldDeclaration, addSecondsArgumentType, addSecondsArgumentValueType);
         }
         
         private static ClassDeclarationSyntax GigasecondClass(this ParsedSolution solution) =>
