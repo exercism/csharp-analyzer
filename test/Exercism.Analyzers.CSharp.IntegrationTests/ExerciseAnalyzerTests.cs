@@ -5,13 +5,16 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     public class ExerciseAnalyzerTests
     {
         [Theory]
-        [TestSolutionsDataAttribute]
+        [TestSolutionsData]
         public void SolutionShouldBeCorrectlyAnalyzed(TestSolution testSolution)
         {
             var analysisRun = TestSolutionAnalyzer.Run(testSolution);
 
-            Assert.Equal(analysisRun.Expected.Status, analysisRun.Actual.Status);
-            Assert.Equal(analysisRun.Expected.Comments, analysisRun.Actual.Comments);
+            Assert.True(analysisRun.Expected.Status == analysisRun.Actual.Status, testSolution.Directory);
+            foreach(var expectedComment in analysisRun.Expected.Comments)
+            {
+                Assert.Contains(expectedComment, analysisRun.Actual.Comments);
+            }
         }
     }
 }
