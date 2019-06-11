@@ -81,7 +81,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 return twoFerSolution.ApproveWithComment(comments.ToArray());
 
             if (twoFerSolution.ReturnsStringInterpolationWithDefaultValue() ||
-                    twoFerSolution.ReturnsStringInterpolationWithNullCoalescingOperator())
+                twoFerSolution.ReturnsStringInterpolationWithNullCoalescingOperator())
                 return twoFerSolution.ApproveAsOptimal();
 
             return null;
