@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 using static Exercism.Analyzers.CSharp.Analyzers.TwoFer.TwoFerComments;
 
@@ -15,32 +17,34 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         private static SolutionAnalysis DisapproveWhenInvalid(this TwoFerSolution twoFerSolution)
         {
+            var comments = new List<string>();
+
             if (twoFerSolution.UsesOverloads)
-                return twoFerSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
+                comments.Add(UseSingleFormattedStringNotMultiple);
 
             if (twoFerSolution.MissingSpeakMethod ||
                 twoFerSolution.InvalidSpeakMethod)
-                return twoFerSolution.DisapproveWithComment(FixCompileErrors);
+                comments.Add(FixCompileErrors);
 
             if (twoFerSolution.UsesDuplicateString)
-                return twoFerSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
+                comments.Add(UseSingleFormattedStringNotMultiple);
 
             if (twoFerSolution.NoDefaultValue)
-                return twoFerSolution.DisapproveWithComment(UseDefaultValue);
+                comments.Add(UseDefaultValue);
 
             if (twoFerSolution.InvalidDefaultValue)
-                return twoFerSolution.DisapproveWithComment(InvalidDefaultValue);
+                comments.Add(InvalidDefaultValue);
 
             if (twoFerSolution.UsesStringReplace)
-                return twoFerSolution.DisapproveWithComment(UseStringInterpolationNotStringReplace);
+                comments.Add(UseStringInterpolationNotStringReplace);
 
             if (twoFerSolution.UsesStringJoin)
-                return twoFerSolution.DisapproveWithComment(UseStringInterpolationNotStringJoin);
+                comments.Add(UseStringInterpolationNotStringJoin);
 
             if (twoFerSolution.UsesStringConcat)
-                return twoFerSolution.DisapproveWithComment(UseStringInterpolationNotStringConcat);
+                comments.Add(UseStringInterpolationNotStringConcat);
 
-            return null;
+            return comments.Any() ? twoFerSolution.DisapproveWithComment(comments.ToArray()) : null;
         }
 
         private static SolutionAnalysis ApproveWhenValid(this TwoFerSolution twoFerSolution) =>
@@ -53,28 +57,32 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             if (!twoFerSolution.UsesSingleLine())
                 return null;
 
-            if (twoFerSolution.ReturnsStringInterpolationWithDefaultValue() ||
-                twoFerSolution.ReturnsStringInterpolationWithNullCoalescingOperator())
-            {
-                return twoFerSolution.UsesExpressionBody() ?
-                    twoFerSolution.ApproveAsOptimal() :
-                    twoFerSolution.ApproveWithComment(UseExpressionBodiedMember);
-            }
+            var comments = new List<string>();
 
             if (twoFerSolution.ReturnsStringInterpolationWithIsNullOrEmptyCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
+                comments.Add(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
 
             if (twoFerSolution.ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
+                comments.Add(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
 
             if (twoFerSolution.ReturnsStringInterpolationWithNullCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
+                comments.Add(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
 
             if (twoFerSolution.ReturnsStringConcatenation())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
+                comments.Add(UseStringInterpolationNotStringConcatenation);
 
             if (twoFerSolution.ReturnsStringFormat())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
+                comments.Add(UseStringInterpolationNotStringFormat);
+
+            if (!twoFerSolution.UsesExpressionBody())
+                comments.Add(UseExpressionBodiedMember);
+
+            if (comments.Any())
+                return twoFerSolution.ApproveWithComment(comments.ToArray());
+
+            if (twoFerSolution.ReturnsStringInterpolationWithDefaultValue() ||
+                twoFerSolution.ReturnsStringInterpolationWithNullCoalescingOperator())
+                return twoFerSolution.ApproveAsOptimal();
 
             return null;
         }
@@ -84,32 +92,37 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             if (!twoFerSolution.AssignsToParameter())
                 return null;
 
+            var comments = new List<string>();
+
             if (!twoFerSolution.AssignsParameterUsingKnownExpression())
                 return twoFerSolution.ReferToMentor();
 
             if (twoFerSolution.ReturnsStringFormat())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
+                comments.Add(UseStringInterpolationNotStringFormat);
 
             if (twoFerSolution.ReturnsStringConcatenation())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
-
-            if (!twoFerSolution.ReturnsStringInterpolation())
-                return null;
+                comments.Add(UseStringInterpolationNotStringConcatenation);
 
             if (twoFerSolution.AssignsParameterUsingNullCoalescingOperator())
-                return twoFerSolution.ApproveWithComment(ReturnImmediately);
+                comments.Add(ReturnImmediately);
 
             if (twoFerSolution.AssignsParameterUsingNullCheck() ||
                 twoFerSolution.AssignsParameterUsingIfNullCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotNullCheck);
+                comments.Add(UseNullCoalescingOperatorNotNullCheck);
 
             if (twoFerSolution.AssignsParameterUsingIsNullOrEmptyCheck() ||
                 twoFerSolution.AssignsParameterUsingIfIsNullOrEmptyCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
+                comments.Add(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
 
             if (twoFerSolution.AssignsParameterUsingIsNullOrWhiteSpaceCheck() ||
                 twoFerSolution.AssignsParameterUsingIfIsNullOrWhiteSpaceCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
+                comments.Add(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
+
+            if (comments.Any())
+                return twoFerSolution.ApproveWithComment(comments.ToArray());
+
+            if (twoFerSolution.ReturnsStringInterpolation())
+                return twoFerSolution.ApproveAsOptimal();
 
             return null;
         }
@@ -119,29 +132,32 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             if (!twoFerSolution.AssignsVariable())
                 return null;
 
+            var comments = new List<string>();
+
             if (!twoFerSolution.AssignsVariableUsingKnownInitializer())
                 return twoFerSolution.ReferToMentor();
 
             if (twoFerSolution.ReturnsStringFormatWithVariable())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
+                comments.Add(UseStringInterpolationNotStringFormat);
 
             if (twoFerSolution.ReturnsStringConcatenationWithVariable())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
-
-            if (!twoFerSolution.ReturnsStringInterpolationWithVariable())
-                return null;
-
-            if (twoFerSolution.AssignsVariableUsingNullCoalescingOperator())
-                return twoFerSolution.ApproveAsOptimal();
+                comments.Add(UseStringInterpolationNotStringConcatenation);
 
             if (twoFerSolution.AssignsVariableUsingNullCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
+                comments.Add(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
 
             if (twoFerSolution.AssignsVariableUsingIsNullOrEmptyCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
+                comments.Add(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
 
             if (twoFerSolution.AssignsVariableUsingIsNullOrWhiteSpaceCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
+                comments.Add(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
+
+            if (comments.Any())
+                return twoFerSolution.ApproveWithComment(comments.ToArray());
+
+            if (twoFerSolution.ReturnsStringInterpolationWithVariable() &&
+                twoFerSolution.AssignsVariableUsingNullCoalescingOperator())
+                return twoFerSolution.ApproveAsOptimal();
 
             return null;
         }

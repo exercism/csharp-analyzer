@@ -5,7 +5,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     public class ExerciseAnalyzerTests
     {
         [Theory]
-        [TestSolutionsDataAttribute]
+        [TestSolutionsData]
         public void SolutionShouldBeCorrectlyAnalyzed(TestSolution testSolution)
         {
             var analysisRun = TestSolutionAnalyzer.Run(testSolution);
