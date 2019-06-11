@@ -10,11 +10,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         {
             var analysisRun = TestSolutionAnalyzer.Run(testSolution);
 
-            Assert.True(analysisRun.Expected.Status == analysisRun.Actual.Status, testSolution.Directory);
-            foreach(var expectedComment in analysisRun.Expected.Comments)
-            {
-                Assert.Contains(expectedComment, analysisRun.Actual.Comments);
-            }
+            Assert.Equal(analysisRun.Expected.Status, analysisRun.Actual.Status);
+            Assert.Equal(analysisRun.Expected.Comments, analysisRun.Actual.Comments);
         }
     }
 }

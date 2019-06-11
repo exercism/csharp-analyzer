@@ -1,4 +1,7 @@
 {
-  "status": "approve_with_comment",
-  "comments": ["csharp.general.use_string_interpolation_not_string_format"]
+    "status": "approve_with_comment",
+    "comments": [
+        "csharp.general.use_string_interpolation_not_string_format",
+        "csharp.general.use_null_coalescing_operator_not_ternary_operator_with_null_check"
+    ]
 }
