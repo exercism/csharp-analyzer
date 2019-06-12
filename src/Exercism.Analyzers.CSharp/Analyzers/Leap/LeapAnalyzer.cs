@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Leap
@@ -7,17 +9,35 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
         public static SolutionAnalysis Analyze(ParsedSolution parsedSolution) =>
             Analyze(new LeapSolution(parsedSolution));
 
-        private static SolutionAnalysis Analyze(LeapSolution leapSolution)
-        {
-            if (leapSolution.UsesTooManyChecks())
-                return leapSolution.DisapproveWithComment(LeapComments.UseMinimumNumberOfChecks);
-            
-            if (leapSolution.ReturnsMinimumNumberOfChecksInSingleExpression())
-                return leapSolution.UsesExpressionBody()
-                    ? leapSolution.ApproveAsOptimal()
-                    : leapSolution.ApproveWithComment(SharedComments.UseExpressionBodiedMember);
+        private static SolutionAnalysis Analyze(LeapSolution twoFerSolution) =>
+            twoFerSolution.DisapproveWhenInvalid() ??
+            twoFerSolution.ApproveWhenValid() ??
+            twoFerSolution.ReferToMentor();
 
-            return leapSolution.ReferToMentor();
+        private static SolutionAnalysis DisapproveWhenInvalid(this LeapSolution leapSolution)
+        {
+            var comments = new List<string>();
+
+            if (leapSolution.UsesTooManyChecks())
+                comments.Add(LeapComments.UseMinimumNumberOfChecks);
+
+            return comments.Any() ? leapSolution.DisapproveWithComment(comments.ToArray()) : null;
+        }
+
+        private static SolutionAnalysis ApproveWhenValid(this LeapSolution leapSolution)
+        {
+            var comments = new List<string>();
+
+            if (leapSolution.ReturnsMinimumNumberOfChecksInSingleExpression() && !leapSolution.UsesExpressionBody())
+                comments.Add(SharedComments.UseExpressionBodiedMember);
+
+            if (comments.Any())
+                return leapSolution.ApproveWithComment(comments.ToArray());
+
+            if (leapSolution.UsesExpressionBody())
+                return leapSolution.ApproveAsOptimal();
+
+            return null;
         }
     }
 }
