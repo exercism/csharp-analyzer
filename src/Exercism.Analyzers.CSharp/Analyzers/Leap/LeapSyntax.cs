@@ -3,12 +3,17 @@ using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.Leap.LeapSyntaxFactory;
+using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 {
     internal static class LeapSyntax
     {
         private const int MinimalNumberOfChecks = 3;
+
+        public static bool UsesDateTimeIsLeapYear(this LeapSolution leapSolution) =>
+            leapSolution.IsLeapYearMethod.InvokesMethod(DateTimeMemberAccessExpression(IdentifierName("IsLeapYear")));
 
         public static bool ReturnsMinimumNumberOfChecksInSingleExpression(this LeapSolution leapSolution) =>
             leapSolution.Returns(LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpression(leapSolution)) ||
