@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
     internal static class LeapAnalyzer
     {
         public static SolutionAnalysis Analyze(ParsedSolution parsedSolution) =>
-            Analyze(new LeapSolution(parsedSolution));
+            Analyze(LeapSolutionParser.Parse(parsedSolution));
 
         private static SolutionAnalysis Analyze(LeapSolution twoFerSolution) =>
             twoFerSolution.DisapproveWhenInvalid() ??
@@ -17,6 +17,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
         private static SolutionAnalysis DisapproveWhenInvalid(this LeapSolution leapSolution)
         {
             var comments = new List<string>();
+
+            if (leapSolution.UsesDateTimeIsLeapYear())
+                 comments.Add(LeapComments.DoNotUseIsLeapYear);
 
             if (leapSolution.UsesTooManyChecks())
                 comments.Add(LeapComments.UseMinimumNumberOfChecks);

@@ -49,6 +49,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         public static MemberAccessExpressionSyntax StringMemberAccessExpression(IdentifierNameSyntax name) =>
             SimpleMemberAccessExpression(PredefinedType(Token(SyntaxKind.StringKeyword)), name);
 
+        public static MemberAccessExpressionSyntax DateTimeMemberAccessExpression(IdentifierNameSyntax name) =>
+            SimpleMemberAccessExpression(SyntaxFactory.IdentifierName("DateTime"), name);
+
         public static MemberAccessExpressionSyntax SimpleMemberAccessExpression(ExpressionSyntax expression, IdentifierNameSyntax name) =>
             MemberAccessExpression(
                 SyntaxKind.SimpleMemberAccessExpression,
