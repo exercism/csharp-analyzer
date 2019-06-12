@@ -28,13 +28,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
         {
             var comments = new List<string>();
 
-            if (leapSolution.ReturnsMinimumNumberOfChecksInSingleExpression() && !leapSolution.UsesExpressionBody())
+            if (!leapSolution.UsesExpressionBody())
                 comments.Add(SharedComments.UseExpressionBodiedMember);
 
             if (comments.Any())
                 return leapSolution.ApproveWithComment(comments.ToArray());
 
-            if (leapSolution.UsesExpressionBody())
+            if (leapSolution.ReturnsMinimumNumberOfChecksInSingleExpression())
                 return leapSolution.ApproveAsOptimal();
 
             return null;
