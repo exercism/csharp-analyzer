@@ -22,6 +22,19 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
                 LeapModuloExpression(leapSolution, 400),
                 NumericLiteralExpression(0)));
 
+        public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpressionReversed(LeapSolution leapSolution) =>
+            LogicalOrExpression(
+                EqualsExpression(
+                    LeapModuloExpression(leapSolution, 400),
+                    NumericLiteralExpression(0)),
+            LogicalAndExpression(
+                NotEqualsExpression(
+                    LeapModuloExpression(leapSolution, 100),
+                    NumericLiteralExpression(0)),
+            EqualsExpression(
+                LeapModuloExpression(leapSolution, 4),
+                NumericLiteralExpression(0))));
+
         public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithParenthesesBinaryExpression(LeapSolution leapSolution) =>
                 LogicalAndExpression(
                 EqualsExpression(
