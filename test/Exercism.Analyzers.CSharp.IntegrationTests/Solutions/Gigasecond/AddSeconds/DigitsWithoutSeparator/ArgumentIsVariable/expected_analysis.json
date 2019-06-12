@@ -1,4 +1,9 @@
 {
-  "status": "approve_with_comment", 
-  "comments": ["csharp.gigasecond.use_1e9_or_digit_separator"]
+
+  "status": "approve_with_comment",
+  "comments": [
+    "csharp.gigasecond.use_1e9_or_digit_separator",
+    "csharp.general.use_constant"
+  ]
+
 }

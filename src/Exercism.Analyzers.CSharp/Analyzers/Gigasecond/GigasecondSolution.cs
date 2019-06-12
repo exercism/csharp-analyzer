@@ -47,6 +47,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         public bool UsesExpressionBody() =>
             _addMethod.IsExpressionBody();
 
+        public bool UsesSingleLine() =>
+            _addMethod.SingleLine();
+
         public bool UsesConstField() =>
             UsesField() &&
             _addSecondsFieldArgument.IsConst();
@@ -55,7 +58,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             UsesPrivateField() &&
             UsesConstField();
 
-        private bool UsesPrivateField() =>
+        public bool UsesPrivateField() =>
             UsesField() &&
             _addSecondsFieldArgument.IsPrivate();
 

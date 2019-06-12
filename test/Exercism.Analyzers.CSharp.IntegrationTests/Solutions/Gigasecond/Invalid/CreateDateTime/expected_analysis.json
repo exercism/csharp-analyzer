@@ -1,4 +1,9 @@
 {
-  "status": "disapprove_with_comment", 
-  "comments": ["csharp.gigasecond.dont_create_datetime"]
+
+  "status": "disapprove_with_comment",
+  "comments": [
+    "csharp.gigasecond.dont_create_datetime",
+    "csharp.gigasecond.use_add_seconds"
+  ]
+
 }
