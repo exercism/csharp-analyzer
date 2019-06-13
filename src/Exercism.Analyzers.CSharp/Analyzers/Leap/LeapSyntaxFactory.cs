@@ -11,30 +11,40 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 
         public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpression(LeapSolution leapSolution) =>
             LogicalOrExpression(
-            LogicalAndExpression(
-                EqualsExpression(
-                    LeapModuloExpression(leapSolution, 4),
-                    NumericLiteralExpression(0)),
-                NotEqualsExpression(
-                    LeapModuloExpression(leapSolution, 100),
-                    NumericLiteralExpression(0))),
-            EqualsExpression(
-                LeapModuloExpression(leapSolution, 400),
-                NumericLiteralExpression(0)));
+                LogicalAndExpression(
+                    DivisbleByFour(leapSolution),
+                    NotDivisbleByHundred(leapSolution)),
+                DivisbleByFourHundred(leapSolution));
+
+        public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpressionReversed(LeapSolution leapSolution) =>
+            LogicalOrExpression(
+                DivisbleByFourHundred(leapSolution),
+                LogicalAndExpression(
+                    NotDivisbleByHundred(leapSolution),
+                    DivisbleByFour(leapSolution)));
 
         public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithParenthesesBinaryExpression(LeapSolution leapSolution) =>
-                LogicalAndExpression(
-                EqualsExpression(
-                    LeapModuloExpression(leapSolution, 4),
-                    NumericLiteralExpression(0)),
+            LogicalAndExpression(
+                DivisbleByFour(leapSolution),
                 ParenthesizedExpression(
-                        LogicalOrExpression(
-                        NotEqualsExpression(
-                            LeapModuloExpression(leapSolution, 100),
-                            NumericLiteralExpression(0)),
-                    EqualsExpression(
-                        LeapModuloExpression(leapSolution, 400),
-                        NumericLiteralExpression(0)))));
+                    LogicalOrExpression(
+                        NotDivisbleByHundred(leapSolution),
+                        DivisbleByFourHundred(leapSolution))));
+
+        private static BinaryExpressionSyntax DivisbleByFour(LeapSolution leapSolution) =>
+            EqualsExpression(
+                LeapModuloExpression(leapSolution, 4),
+                NumericLiteralExpression(0));
+
+        private static BinaryExpressionSyntax NotDivisbleByHundred(LeapSolution leapSolution) =>
+            NotEqualsExpression(
+                LeapModuloExpression(leapSolution, 100),
+                NumericLiteralExpression(0));
+
+        private static BinaryExpressionSyntax DivisbleByFourHundred(LeapSolution leapSolution) =>
+            EqualsExpression(
+                LeapModuloExpression(leapSolution, 400),
+                NumericLiteralExpression(0));
 
         private static BinaryExpressionSyntax LeapModuloExpression(LeapSolution leapSolution, int number) =>
             ModuloExpression(

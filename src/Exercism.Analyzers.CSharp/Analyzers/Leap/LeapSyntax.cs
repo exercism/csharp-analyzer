@@ -12,6 +12,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 
         public static bool ReturnsMinimumNumberOfChecksInSingleExpression(this LeapSolution leapSolution) =>
             leapSolution.Returns(LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpression(leapSolution)) ||
+            leapSolution.Returns(LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpressionReversed(leapSolution)) ||
             leapSolution.Returns(LeapMinimumNumberOfChecksWithParenthesesBinaryExpression(leapSolution));
 
         public static bool UsesExpressionBody(this LeapSolution leapSolution) =>
