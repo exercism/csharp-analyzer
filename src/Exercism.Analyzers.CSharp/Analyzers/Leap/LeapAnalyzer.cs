@@ -21,6 +21,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
             if (leapSolution.UsesDateTimeIsLeapYear())
                  comments.Add(LeapComments.DoNotUseIsLeapYear);
 
+            if (leapSolution.UsesIfStatement())
+                comments.Add(LeapComments.DoNotUseIfStatement);
+
             if (leapSolution.UsesTooManyChecks())
                 comments.Add(LeapComments.UseMinimumNumberOfChecks);
 

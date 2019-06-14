@@ -29,6 +29,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
                 .OfType<BinaryExpressionSyntax>()
                 .Count(leapSolution.BinaryExpressionUsesYearParameter) > MinimalNumberOfChecks;
 
+        public static bool UsesIfStatement(this LeapSolution leapSolution) =>
+            leapSolution.IsLeapYearMethod
+                .DescendantNodes()
+                .OfType<IfStatementSyntax>()
+                .Any();
+
         private static bool BinaryExpressionUsesYearParameter(this LeapSolution leapSolution, BinaryExpressionSyntax binaryExpression) =>
             binaryExpression.Left.IsEquivalentWhenNormalized(
                 LeapParameterIdentifierName(leapSolution)) ||
