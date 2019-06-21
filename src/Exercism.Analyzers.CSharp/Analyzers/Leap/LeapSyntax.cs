@@ -20,6 +20,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
             leapSolution.Returns(LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpressionReversed(leapSolution)) ||
             leapSolution.Returns(LeapMinimumNumberOfChecksWithParenthesesBinaryExpression(leapSolution));
 
+        public static bool UsesSingleLine(this LeapSolution leapSolution) =>
+            leapSolution.IsLeapYearMethod.SingleLine();
+
         public static bool UsesExpressionBody(this LeapSolution leapSolution) =>
             leapSolution.IsLeapYearMethod.IsExpressionBody();
         
@@ -34,6 +37,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
                 .DescendantNodes()
                 .OfType<IfStatementSyntax>()
                 .Any();
+
+        public static bool UsesNestedIfStatement(this LeapSolution leapSolution) =>
+            leapSolution.IsLeapYearMethod
+                .DescendantNodes()
+                .OfType<IfStatementSyntax>()
+                .Any(_ => _.DescendantNodes()
+                    .OfType<IfStatementSyntax>()
+                    .Any()
+                );
 
         private static bool BinaryExpressionUsesYearParameter(this LeapSolution leapSolution, BinaryExpressionSyntax binaryExpression) =>
             binaryExpression.Left.IsEquivalentWhenNormalized(
