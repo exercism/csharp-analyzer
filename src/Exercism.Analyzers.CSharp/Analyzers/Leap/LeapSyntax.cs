@@ -42,7 +42,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
             leapSolution.IsLeapYearMethod
                 .DescendantNodes()
                 .OfType<IfStatementSyntax>()
-                .Any(_ => _.DescendantNodes()
+                .Any(ifStatement => ifStatement.DescendantNodes()
                     .OfType<IfStatementSyntax>()
                     .Any()
                 );
