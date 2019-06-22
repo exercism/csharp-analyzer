@@ -21,6 +21,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
             if (leapSolution.UsesDateTimeIsLeapYear())
                  comments.Add(LeapComments.DoNotUseIsLeapYear);
 
+            if (leapSolution.UsesNestedIfStatement())
+                comments.Add(LeapComments.DoNotUseNestedIfStatement);
+
             if (leapSolution.UsesTooManyChecks())
                 comments.Add(LeapComments.UseMinimumNumberOfChecks);
 
@@ -31,7 +34,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
         {
             var comments = new List<string>();
 
-            if (!leapSolution.UsesExpressionBody())
+            if (leapSolution.UsesIfStatement())
+                comments.Add(LeapComments.DoNotUseIfStatement);
+
+            if (leapSolution.UsesSingleLine() && !leapSolution.UsesExpressionBody())
                 comments.Add(SharedComments.UseExpressionBodiedMember);
 
             if (comments.Any())
