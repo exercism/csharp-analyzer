@@ -9,6 +9,6 @@ public static class TwoFer
             return "One for you, one for me.";
         }
         else
-            return $"One for {name}, one for me.";
+            return $"One for {input}, one for me.";
     }
 }

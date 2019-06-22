@@ -1,7 +1,10 @@
 using System;
+using System.IO;
 using System.Linq;
+using System.Text;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -26,8 +29,22 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
             return null;
         }
 
-        private static bool HasCompileErrors(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
+        private static bool HasCompileErrors(this ParsedSolution parsedSolution)
+        {
+            var compilation = CSharpCompilation.Create(
+                parsedSolution.Solution.Slug,
+                new[] { SyntaxTree(parsedSolution.SyntaxRoot, null, "", Encoding.Default) },
+                new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+            );
+
+            using (var dllStream = new MemoryStream())
+            using (var pdbStream = new MemoryStream())
+            {
+                var emitResult = compilation.Emit(dllStream, pdbStream);
+                return !emitResult.Success && emitResult.Diagnostics.Any(result => result.Severity == DiagnosticSeverity.Error);
+            }
+        }
 
         private static bool HasMainMethod(this ParsedSolution parsedSolution) =>
             parsedSolution.SyntaxRoot.GetClassMethod("Program", "Main") != null;
