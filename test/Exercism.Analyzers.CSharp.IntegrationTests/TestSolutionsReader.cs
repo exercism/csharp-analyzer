@@ -23,7 +23,6 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         private static TestSolution CreateTestSolution(string exerciseDirectory, string solutionDirectory) =>
             new TestSolution(
                 GetExerciseSlug(exerciseDirectory),
-                GetExerciseName(exerciseDirectory),
                 solutionDirectory);
 
         private static string GetExerciseSlug(string exerciseDirectory) =>

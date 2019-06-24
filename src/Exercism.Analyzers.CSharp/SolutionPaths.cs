@@ -4,15 +4,11 @@ namespace Exercism.Analyzers.CSharp
 {
     internal class SolutionPaths
     {
-        public string Directory { get; }
-        public string SolutionFilePath { get; }
         public string AnalysisFilePath { get; }
         public string ImplementationFilePath { get; }
 
         public SolutionPaths(string name, string directory)
         {
-            Directory = directory;
-            SolutionFilePath = FilePath(directory, ".solution.json");
             AnalysisFilePath = FilePath(directory, "analysis.json");
             ImplementationFilePath = FilePath(directory, $"{name}.cs");
         }
