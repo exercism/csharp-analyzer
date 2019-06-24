@@ -19,7 +19,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             var speakMethodVariable = speakMethod?.AssignedVariable();
             var twoFerError = ToTwoFerError(twoFerClass, speakMethod, speakMethodParameter);
 
-            return new TwoFerSolution(solution, twoFerClass, speakMethod, speakMethodParameter, speakMethodReturnedExpression, speakMethodVariable, twoFerError);
+            return new TwoFerSolution(solution, speakMethod, speakMethodParameter, speakMethodReturnedExpression, speakMethodVariable, twoFerError);
         }
 
         private static TwoFerError ToTwoFerError(ClassDeclarationSyntax twoFerClass, MethodDeclarationSyntax speakMethod, ParameterSyntax speakMethodParameter)
@@ -93,5 +93,24 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         private static bool UsesInvalidDefaultValue(this ParameterSyntax speakMethodParameter) =>
             !speakMethodParameter.Default.Value.IsEquivalentWhenNormalized(NullLiteralExpression()) &&
             !speakMethodParameter.Default.Value.IsEquivalentWhenNormalized(StringLiteralExpression("you"));
+
+        private static VariableDeclaratorSyntax AssignedVariable(this MethodDeclarationSyntax speakMethod)
+        {
+            if (speakMethod == null ||
+                speakMethod.Body == null ||
+                speakMethod.Body.Statements.Count != 2)
+                return null;
+
+            if (!(speakMethod.Body.Statements[1] is ReturnStatementSyntax) ||
+                !(speakMethod.Body.Statements[0] is LocalDeclarationStatementSyntax localDeclaration))
+                return null;
+
+            if (localDeclaration.Declaration.Variables.Count != 1 ||
+                !localDeclaration.Declaration.Type.IsEquivalentWhenNormalized(PredefinedType(Token(SyntaxKind.StringKeyword))) &&
+                !localDeclaration.Declaration.Type.IsEquivalentWhenNormalized(IdentifierName("var")))
+                return null;
+
+            return localDeclaration.Declaration.Variables[0];
+        }
     }
 }
