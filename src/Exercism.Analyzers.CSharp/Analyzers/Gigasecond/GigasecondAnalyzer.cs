@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondComments;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
@@ -13,59 +11,62 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         private static SolutionAnalysis Analyze(GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.DisapproveWhenInvalid() ??
             gigasecondSolution.ApproveWhenValid() ??
+            gigasecondSolution.ApproveWhenOptimal() ??
             gigasecondSolution.ReferToMentor();
 
         private static SolutionAnalysis DisapproveWhenInvalid(this GigasecondSolution gigasecondSolution)
         {
-            var comments = new List<string>();
-
             if (gigasecondSolution.CreatesNewDatetime())
-                comments.Add(DontCreateDateTime);
+                gigasecondSolution.AddComment(DontCreateDateTime);
             
             if (gigasecondSolution.DoesNotUseAddSeconds())
-                comments.Add(UseAddSeconds);
+                gigasecondSolution.AddComment(UseAddSeconds);
 
-            return comments.Any() ? gigasecondSolution.DisapproveWithComment(comments.ToArray()) : null;
+            return gigasecondSolution.HasComments()
+                ? gigasecondSolution.DisapproveWithComment()
+                : gigasecondSolution.ContinueAnalysis();
         }
 
         private static SolutionAnalysis ApproveWhenValid(this GigasecondSolution gigasecondSolution)
         {
-            var comments = new List<string>();
-
             if (gigasecondSolution.UsesMathPow())
-                comments.Add(UseScientificNotationNotMathPow);
+                gigasecondSolution.AddComment(UseScientificNotationNotMathPow);
 
             if (gigasecondSolution.UsesDigitsWithoutSeparator())
-                comments.Add(UseScientificNotationOrDigitSeparators);
+                gigasecondSolution.AddComment(UseScientificNotationOrDigitSeparators);
 
             if (gigasecondSolution.AssignsToParameterAndReturns() ||
                 gigasecondSolution.AssignsToVariableAndReturns())
-                comments.Add(ReturnImmediately);
+                gigasecondSolution.AddComment(ReturnImmediately);
                     
             if (gigasecondSolution.UsesLocalVariable() &&
                 !gigasecondSolution.UsesLocalConstVariable())
-                comments.Add(UseConstant);
+                gigasecondSolution.AddComment(UseConstant);
                 
             if (gigasecondSolution.UsesField() &&
                 !gigasecondSolution.UsesConstField())
-                comments.Add(UseConstant);
+                gigasecondSolution.AddComment(UseConstant);
 
             if (gigasecondSolution.UsesField() &&
                 !gigasecondSolution.UsesPrivateField())
-                comments.Add(UsePrivateVisibility);
+                gigasecondSolution.AddComment(UsePrivateVisibility);
 
             if (gigasecondSolution.UsesSingleLine() &&
                 !gigasecondSolution.UsesExpressionBody())
-                comments.Add(UseExpressionBodiedMember);
+                gigasecondSolution.AddComment(UseExpressionBodiedMember);
 
-            if (comments.Any())
-                return gigasecondSolution.ApproveWithComment(comments.ToArray());
+            return gigasecondSolution.HasComments() ?
+                gigasecondSolution.ApproveWithComment() :
+                gigasecondSolution.ContinueAnalysis();
+        }
 
+        private static SolutionAnalysis ApproveWhenOptimal(this GigasecondSolution gigasecondSolution)
+        {
             if (gigasecondSolution.UsesScientificNotation() ||
                 gigasecondSolution.UsesDigitsWithSeparator())
                 return gigasecondSolution.ApproveAsOptimal();
 
-            return null;
+            return gigasecondSolution.ContinueAnalysis();
         }
     }
 }

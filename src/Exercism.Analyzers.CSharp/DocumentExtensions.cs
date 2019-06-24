@@ -1,4 +1,3 @@
-using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Simplification;

@@ -12,18 +12,20 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         public static SolutionAnalysis Analyze(ParsedSolution parsedSolution)
         {
             if (parsedSolution.HasCompileErrors())
-                return parsedSolution.DisapproveWithComment(SharedComments.FixCompileErrors);
+                parsedSolution.AddComment(SharedComments.FixCompileErrors);
 
             if (parsedSolution.HasMainMethod())
-                return parsedSolution.DisapproveWithComment(SharedComments.RemoveMainMethod);
+                parsedSolution.AddComment(SharedComments.RemoveMainMethod);
 
             if (parsedSolution.ThrowsNotImplementedException())
-                return parsedSolution.DisapproveWithComment(SharedComments.RemoveThrowNotImplementedException);
+                parsedSolution.AddComment(SharedComments.RemoveThrowNotImplementedException);
 
             if (parsedSolution.WritesToConsole())
-                return parsedSolution.DisapproveWithComment(SharedComments.DontWriteToConsole);
+                parsedSolution.AddComment(SharedComments.DontWriteToConsole);
 
-            return null;
+            return parsedSolution.HasComments()
+                ? parsedSolution.DisapproveWithComment()
+                : parsedSolution.ContinueAnalysis();
         }
 
         private static bool HasCompileErrors(this ParsedSolution parsedSolution) =>

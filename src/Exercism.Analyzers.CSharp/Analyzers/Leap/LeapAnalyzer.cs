@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Leap
@@ -12,41 +10,44 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
         private static SolutionAnalysis Analyze(LeapSolution twoFerSolution) =>
             twoFerSolution.DisapproveWhenInvalid() ??
             twoFerSolution.ApproveWhenValid() ??
+            twoFerSolution.ApproveWhenOptimal() ??
             twoFerSolution.ReferToMentor();
 
         private static SolutionAnalysis DisapproveWhenInvalid(this LeapSolution leapSolution)
         {
-            var comments = new List<string>();
-
             if (leapSolution.UsesDateTimeIsLeapYear())
-                 comments.Add(LeapComments.DoNotUseIsLeapYear);
+                leapSolution.AddComment(LeapComments.DoNotUseIsLeapYear);
 
             if (leapSolution.UsesNestedIfStatement())
-                comments.Add(LeapComments.DoNotUseNestedIfStatement);
+                leapSolution.AddComment(LeapComments.DoNotUseNestedIfStatement);
 
             if (leapSolution.UsesTooManyChecks())
-                comments.Add(LeapComments.UseMinimumNumberOfChecks);
+                leapSolution.AddComment(LeapComments.UseMinimumNumberOfChecks);
 
-            return comments.Any() ? leapSolution.DisapproveWithComment(comments.ToArray()) : null;
+            return leapSolution.HasComments()
+                ? leapSolution.DisapproveWithComment()
+                : leapSolution.ContinueAnalysis();
         }
 
         private static SolutionAnalysis ApproveWhenValid(this LeapSolution leapSolution)
         {
-            var comments = new List<string>();
-
             if (leapSolution.UsesIfStatement())
-                comments.Add(LeapComments.DoNotUseIfStatement);
+                leapSolution.AddComment(LeapComments.DoNotUseIfStatement);
 
             if (leapSolution.UsesSingleLine() && !leapSolution.UsesExpressionBody())
-                comments.Add(SharedComments.UseExpressionBodiedMember);
+                leapSolution.AddComment(SharedComments.UseExpressionBodiedMember);
 
-            if (comments.Any())
-                return leapSolution.ApproveWithComment(comments.ToArray());
+            return leapSolution.HasComments()
+                ? leapSolution.ApproveWithComment()
+                : leapSolution.ContinueAnalysis();
+        }
 
+        private static SolutionAnalysis ApproveWhenOptimal(this LeapSolution leapSolution)
+        {
             if (leapSolution.ReturnsMinimumNumberOfChecksInSingleExpression())
                 return leapSolution.ApproveAsOptimal();
 
-            return null;
+            return leapSolution.ContinueAnalysis();
         }
     }
 }

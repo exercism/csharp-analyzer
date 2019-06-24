@@ -1,9 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace Exercism.Analyzers.CSharp
 {
     internal class ParsedSolution
     {
+        private readonly List<string> _comments = new List<string>();
+    
         public Solution Solution { get; }
 
         public SyntaxNode SyntaxRoot { get; }
@@ -11,19 +16,25 @@ namespace Exercism.Analyzers.CSharp
         public ParsedSolution(Solution solution, SyntaxNode syntaxRoot) =>
             (Solution, SyntaxRoot) = (solution, syntaxRoot);
 
+        public void AddComment(string comment) => _comments.Add(comment);
+
+        public bool HasComments() => _comments.Any();
+
+        public SolutionAnalysis ContinueAnalysis() => null;
+        
+        public SolutionAnalysis DisapproveWithComment() =>
+            ToSolutionAnalysis(SolutionStatus.DisapproveWithComment, _comments.ToArray());
+        
+        public SolutionAnalysis ApproveWithComment() =>
+            ToSolutionAnalysis(SolutionStatus.ApproveWithComment, _comments.ToArray());
+
         public SolutionAnalysis ApproveAsOptimal() =>
-            ToSolutionAnalysis(SolutionStatus.ApproveAsOptimal);
+            ToSolutionAnalysis(SolutionStatus.ApproveAsOptimal, Array.Empty<string>());
 
-        public SolutionAnalysis ApproveWithComment(params string[] comments) =>
-            ToSolutionAnalysis(SolutionStatus.ApproveWithComment, comments);
+        public SolutionAnalysis ReferToMentor() =>
+            ToSolutionAnalysis(SolutionStatus.ReferToMentor, Array.Empty<string>());
 
-        public SolutionAnalysis DisapproveWithComment(params string[] comments) =>
-            ToSolutionAnalysis(SolutionStatus.DisapproveWithComment, comments);
-
-        public SolutionAnalysis ReferToMentor(params string[] comments) =>
-            ToSolutionAnalysis(SolutionStatus.ReferToMentor, comments);
-
-        private SolutionAnalysis ToSolutionAnalysis(SolutionStatus status, params string[] comments) =>
+        private SolutionAnalysis ToSolutionAnalysis(SolutionStatus status, string[] comments) =>
             new SolutionAnalysis(Solution, new SolutionAnalysisResult(status, comments));
     }
 }
