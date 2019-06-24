@@ -54,10 +54,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             UsesField() &&
             _addSecondsFieldArgument.IsConst();
 
-        public bool UsesPrivateConstField() =>
-            UsesPrivateField() &&
-            UsesConstField();
-
         public bool UsesPrivateField() =>
             UsesField() &&
             _addSecondsFieldArgument.IsPrivate();
