@@ -1,9 +1,8 @@
 using System.Linq;
-using Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
+namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 {
     internal static class SyntaxNodeSimplifier
     {
