@@ -12,43 +12,43 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
         public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpression(LeapSolution leapSolution) =>
             LogicalOrExpression(
                 LogicalAndExpression(
-                    DivisbleByFour(leapSolution),
-                    NotDivisbleByHundred(leapSolution)),
-                DivisbleByFourHundred(leapSolution));
+                    DivisibleByFour(leapSolution),
+                    NotDivisibleByHundred(leapSolution)),
+                DivisibleByFourHundred(leapSolution));
 
         public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpressionReversed(LeapSolution leapSolution) =>
             LogicalOrExpression(
-                DivisbleByFourHundred(leapSolution),
+                DivisibleByFourHundred(leapSolution),
                 LogicalAndExpression(
-                    NotDivisbleByHundred(leapSolution),
-                    DivisbleByFour(leapSolution)));
+                    NotDivisibleByHundred(leapSolution),
+                    DivisibleByFour(leapSolution)));
 
         public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithParenthesesBinaryExpression(LeapSolution leapSolution) =>
             LogicalAndExpression(
-                DivisbleByFour(leapSolution),
+                DivisibleByFour(leapSolution),
                 ParenthesizedExpression(
                     LogicalOrExpression(
-                        NotDivisbleByHundred(leapSolution),
-                        DivisbleByFourHundred(leapSolution))));
+                        NotDivisibleByHundred(leapSolution),
+                        DivisibleByFourHundred(leapSolution))));
 
-        private static BinaryExpressionSyntax DivisbleByFour(LeapSolution leapSolution) =>
+        private static BinaryExpressionSyntax DivisibleByFour(LeapSolution leapSolution) =>
             EqualsExpression(
                 LeapModuloExpression(leapSolution, 4),
                 NumericLiteralExpression(0));
 
-        private static BinaryExpressionSyntax NotDivisbleByHundred(LeapSolution leapSolution) =>
+        private static BinaryExpressionSyntax NotDivisibleByHundred(LeapSolution leapSolution) =>
             NotEqualsExpression(
                 LeapModuloExpression(leapSolution, 100),
                 NumericLiteralExpression(0));
 
-        private static BinaryExpressionSyntax DivisbleByFourHundred(LeapSolution leapSolution) =>
+        private static BinaryExpressionSyntax DivisibleByFourHundred(LeapSolution leapSolution) =>
             EqualsExpression(
                 LeapModuloExpression(leapSolution, 400),
                 NumericLiteralExpression(0));
 
-        private static BinaryExpressionSyntax LeapModuloExpression(LeapSolution leapSolution, int number) =>
+        private static BinaryExpressionSyntax LeapModuloExpression(LeapSolution leapSolution, int year) =>
             ModuloExpression(
                 LeapParameterIdentifierName(leapSolution),
-                NumericLiteralExpression(number));
+                NumericLiteralExpression(year));
     }
 }
