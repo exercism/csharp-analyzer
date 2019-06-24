@@ -6,9 +6,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 {
     internal class LeapSolution : ParsedSolution
     {
-        public readonly ParameterSyntax YearParameter;
-        public readonly MethodDeclarationSyntax IsLeapYearMethod;
-        public readonly SyntaxNode ReturnExpression;
+        public ParameterSyntax YearParameter { get; }
+        public MethodDeclarationSyntax IsLeapYearMethod { get; }
+        public SyntaxNode ReturnExpression { get; }
 
         public LeapSolution(ParsedSolution solution,
             MethodDeclarationSyntax isLeapYearMethod,

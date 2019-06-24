@@ -7,6 +7,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
     internal class TwoFerSolution : ParsedSolution
     {
         private readonly TwoFerError _twoFerError;
+
         public ClassDeclarationSyntax TwoFerClass { get; }
         public MethodDeclarationSyntax SpeakMethod { get; }
         public ParameterSyntax InputMethodParameter { get; }
