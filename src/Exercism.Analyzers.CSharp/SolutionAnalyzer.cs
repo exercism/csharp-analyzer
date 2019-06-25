@@ -1,3 +1,4 @@
+using System;
 using Exercism.Analyzers.CSharp.Analyzers;
 using Exercism.Analyzers.CSharp.Analyzers.Gigasecond;
 using Exercism.Analyzers.CSharp.Analyzers.Leap;
@@ -17,7 +18,7 @@ namespace Exercism.Analyzers.CSharp
             Log.Information("Parsing exercise {Exercise} in {Directory}.", options.Slug, options.Directory);
             var parsedSolution = SolutionParser.Parse(solution);
             if (parsedSolution == null)
-                return new SolutionAnalysis(solution, new SolutionAnalysisResult(SolutionStatus.ReferToMentor));
+                return new SolutionAnalysis(solution, new SolutionAnalysisResult(SolutionStatus.ReferToMentor, Array.Empty<SolutionComment>()));
 
             var solutionAnalysis = AnalyzeSolution(parsedSolution);
             Log.Information("Analyzed exercise {Exercise} with status {Status} and comments {Comments}.", solution.Slug, solutionAnalysis.Result.Status, solutionAnalysis.Result.Comments);

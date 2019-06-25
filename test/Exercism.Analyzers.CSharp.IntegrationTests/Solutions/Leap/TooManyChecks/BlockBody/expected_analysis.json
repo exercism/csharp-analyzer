@@ -1,4 +1,6 @@
 {
-  "status": "disapprove_with_comment", 
-  "comments": ["csharp.leap.use_minimum_number_of_checks"]
+  "status": "disapprove_with_comment",
+  "comments": [
+    { "comment": "csharp.leap.use_minimum_number_of_checks", "params": {} }
+  ]
 }

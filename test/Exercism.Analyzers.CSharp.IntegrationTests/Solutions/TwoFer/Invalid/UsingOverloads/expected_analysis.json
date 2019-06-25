@@ -1,4 +1,9 @@
 {
-  "status": "disapprove_with_comment", 
-  "comments": ["csharp.two-fer.use_single_formatted_string_not_multiple"]
+  "status": "disapprove_with_comment",
+  "comments": [
+    {
+      "comment": "csharp.two-fer.use_single_formatted_string_not_multiple",
+      "params": {}
+    }
+  ]
 }

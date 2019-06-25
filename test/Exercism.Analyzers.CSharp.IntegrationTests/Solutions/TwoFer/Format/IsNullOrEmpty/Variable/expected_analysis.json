@@ -1,7 +1,13 @@
 {
-    "status": "approve_with_comment",
-    "comments": [
-        "csharp.general.use_string_interpolation_not_string_format",
-        "csharp.two-fer.use_null_coalescing_operator_not_ternary_operator_with_is_null_or_empty"
-    ]
+  "status": "approve_with_comment",
+  "comments": [
+    {
+      "comment": "csharp.general.use_string_interpolation_not_string_format",
+      "params": {}
+    },
+    {
+      "comment": "csharp.two-fer.use_null_coalescing_operator_not_ternary_operator_with_is_null_or_empty",
+      "params": {}
+    }
+  ]
 }

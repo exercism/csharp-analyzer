@@ -1,4 +1,9 @@
 {
   "status": "approve_with_comment",
-  "comments": ["csharp.general.use_null_coalescing_operator_not_ternary_operator_with_null_check"]
+  "comments": [
+    {
+      "comment": "csharp.general.use_null_coalescing_operator_not_ternary_operator_with_null_check",
+      "params": {}
+    }
+  ]
 }

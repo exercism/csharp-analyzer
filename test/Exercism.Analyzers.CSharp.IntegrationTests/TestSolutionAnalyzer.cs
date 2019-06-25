@@ -8,10 +8,10 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         {
             Program.Main(new[] { testSolution.Slug, testSolution.Directory });
 
-            return CreateTestSolutionAnalyisRun(testSolution);
+            return CreateTestSolutionAnalysisRun(testSolution);
         }
 
-        private static TestSolutionAnalysisRun CreateTestSolutionAnalyisRun(TestSolution solution)
+        private static TestSolutionAnalysisRun CreateTestSolutionAnalysisRun(TestSolution solution)
         {
             var expectedAnalysisJsonFilePath = Path.Combine(solution.Directory, "expected_analysis.json");
             var actualAnalysisJsonFilePath = Path.Combine(solution.Directory, "analysis.json");

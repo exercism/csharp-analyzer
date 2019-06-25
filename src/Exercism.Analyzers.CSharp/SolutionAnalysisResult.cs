@@ -3,9 +3,9 @@ namespace Exercism.Analyzers.CSharp
     internal class SolutionAnalysisResult
     {
         public SolutionStatus Status { get; }
-        public string[] Comments { get; }
+        public SolutionComment[] Comments { get; }
 
-        public SolutionAnalysisResult(SolutionStatus status, params string[] comments) =>
+        public SolutionAnalysisResult(SolutionStatus status, SolutionComment[] comments) =>
             (Status, Comments) = (status, comments);
     }
 }

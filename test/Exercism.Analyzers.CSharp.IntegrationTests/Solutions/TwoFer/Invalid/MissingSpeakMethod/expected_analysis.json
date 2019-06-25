@@ -1,4 +1,4 @@
 {
-  "status": "disapprove_with_comment", 
-  "comments": ["csharp.general.has_compile_errors"]
+  "status": "disapprove_with_comment",
+  "comments": [{ "comment": "csharp.general.has_compile_errors", "params": {} }]
 }

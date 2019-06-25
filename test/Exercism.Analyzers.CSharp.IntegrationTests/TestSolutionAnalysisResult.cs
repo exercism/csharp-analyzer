@@ -3,9 +3,9 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     internal class TestSolutionAnalysisResult
     {
         public string Status { get; }
-        public string[] Comments { get; }
+        public TestSolutionComment[] Comments { get; }
 
-        public TestSolutionAnalysisResult(string status, string[] comments) =>
+        public TestSolutionAnalysisResult(string status, TestSolutionComment[] comments) =>
             (Status, Comments) = (status, comments);
     }
 }

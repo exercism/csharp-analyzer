@@ -1,10 +1,8 @@
 {
-
   "status": "approve_with_comment",
   "comments": [
-    "csharp.gigasecond.use_1e9_not_math_pow",
-    "csharp.general.use_constant",
-    "csharp.general.use_expression_bodied_member"
+    { "comment": "csharp.gigasecond.use_1e9_not_math_pow", "params": {} },
+    { "comment": "csharp.general.use_constant", "params": {} },
+    { "comment": "csharp.general.use_expression_bodied_member", "params": {} }
   ]
-
 }

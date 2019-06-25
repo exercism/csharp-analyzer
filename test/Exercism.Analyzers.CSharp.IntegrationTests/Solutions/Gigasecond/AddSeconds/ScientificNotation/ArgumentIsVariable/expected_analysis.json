@@ -1,4 +1,4 @@
 {
-  "status": "approve_with_comment", 
-  "comments": ["csharp.general.use_constant"]
+  "status": "approve_with_comment",
+  "comments": [{ "comment": "csharp.general.use_constant", "params": {} }]
 }

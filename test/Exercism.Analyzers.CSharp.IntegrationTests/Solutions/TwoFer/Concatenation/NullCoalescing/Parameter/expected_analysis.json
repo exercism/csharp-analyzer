@@ -1,7 +1,10 @@
 {
-    "status": "approve_with_comment",
-    "comments": [
-        "csharp.general.use_string_interpolation_not_string_concatenation",
-        "csharp.general.return_immediately"
-    ]
+  "status": "approve_with_comment",
+  "comments": [
+    {
+      "comment": "csharp.general.use_string_interpolation_not_string_concatenation",
+      "params": {}
+    },
+    { "comment": "csharp.general.return_immediately", "params": {} }
+  ]
 }

@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
@@ -10,8 +12,16 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         {
             var analysisRun = TestSolutionAnalyzer.Run(testSolution);
 
-            Assert.Equal(analysisRun.Expected.Status, analysisRun.Actual.Status);
-            Assert.Equal(analysisRun.Expected.Comments, analysisRun.Actual.Comments);
+            var expected = SerializeResult(analysisRun.Expected);
+            var actual = SerializeResult(analysisRun.Actual);
+
+            Assert.Equal(expected, actual);
         }
+
+        private static string SerializeResult(TestSolutionAnalysisResult result) =>
+            JsonConvert.SerializeObject(result, JsonSerializerSettings());
+
+        private static JsonSerializerSettings JsonSerializerSettings() =>
+            new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
     }
 }
