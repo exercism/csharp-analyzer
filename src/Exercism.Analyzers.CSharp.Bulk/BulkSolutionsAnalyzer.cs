@@ -8,10 +8,10 @@ namespace Exercism.Analyzers.CSharp.Bulk
         {
             var bulkSolutions = BulkSolutionsReader.ReadAll(options);
             var bulkSolutionAnalysisRuns = bulkSolutions.Select(BulkSolutionAnalyzer.Run).ToArray();
-            return CreateTestSolutionAnalyisRun(bulkSolutionAnalysisRuns, options);
+            return CreateTestSolutionAnalysisRun(bulkSolutionAnalysisRuns, options);
         }
 
-        private static BulkSolutionsAnalysisRun CreateTestSolutionAnalyisRun(BulkSolutionAnalysisRun[] bulkSolution, Options options) =>
+        private static BulkSolutionsAnalysisRun CreateTestSolutionAnalysisRun(BulkSolutionAnalysisRun[] bulkSolution, Options options) =>
             new BulkSolutionsAnalysisRun(bulkSolution, options);
     }
 }

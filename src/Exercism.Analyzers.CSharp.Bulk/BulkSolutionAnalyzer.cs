@@ -12,10 +12,10 @@ namespace Exercism.Analyzers.CSharp.Bulk
             CSharp.Program.Main(new[] { solution.Slug, solution.Directory });
             stopwatch.Stop();
 
-            return CreateTestSolutionAnalyisRun(solution, stopwatch.Elapsed);
+            return CreateTestSolutionAnalysisRun(solution, stopwatch.Elapsed);
         }
 
-        private static BulkSolutionAnalysisRun CreateTestSolutionAnalyisRun(BulkSolution solution, TimeSpan elapsed)
+        private static BulkSolutionAnalysisRun CreateTestSolutionAnalysisRun(BulkSolution solution, TimeSpan elapsed)
         {
             var analysisResultJsonFilePath = Path.Combine(solution.Directory, "analysis.json");
             var analysisResult = BulkSolutionAnalysisResultReader.Read(analysisResultJsonFilePath);
