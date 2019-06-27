@@ -25,5 +25,19 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
 
         public static ParameterSyntax FirstParameter(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration?.ParameterList.Parameters[0];
+        
+        public static bool UsesIfStatement(this MethodDeclarationSyntax methodDeclaration) =>
+            methodDeclaration
+                .DescendantNodes()
+                .OfType<IfStatementSyntax>()
+                .Any();
+
+        public static bool UsesNestedIfStatement(this MethodDeclarationSyntax methodDeclaration) =>
+            methodDeclaration
+                .DescendantNodes()
+                .OfType<IfStatementSyntax>()
+                .Any(ifStatement => ifStatement.DescendantNodes()
+                    .OfType<IfStatementSyntax>()
+                    .Any());
     }
 }

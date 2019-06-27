@@ -1,4 +1,5 @@
-using Exercism.Analyzers.CSharp.Analyzers.Shared;
+using static Exercism.Analyzers.CSharp.Analyzers.Leap.LeapComments;
+using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 {
@@ -16,13 +17,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
         private static SolutionAnalysis DisapproveWhenInvalid(this LeapSolution leapSolution)
         {
             if (leapSolution.UsesDateTimeIsLeapYear())
-                leapSolution.AddComment(LeapComments.DoNotUseIsLeapYear);
+                leapSolution.AddComment(DoNotUseIsLeapYear);
 
             if (leapSolution.UsesNestedIfStatement())
-                leapSolution.AddComment(SharedComments.DoNotUseNestedIfStatement);
+                leapSolution.AddComment(DoNotUseNestedIfStatement);
 
             if (leapSolution.UsesTooManyChecks())
-                leapSolution.AddComment(LeapComments.UseMinimumNumberOfChecks);
+                leapSolution.AddComment(UseMinimumNumberOfChecks);
 
             return leapSolution.HasComments()
                 ? leapSolution.DisapproveWithComment()
@@ -32,10 +33,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
         private static SolutionAnalysis ApproveWhenValid(this LeapSolution leapSolution)
         {
             if (leapSolution.UsesIfStatement())
-                leapSolution.AddComment(LeapComments.DoNotUseIfStatement);
+                leapSolution.AddComment(DoNotUseIfStatement);
 
             if (leapSolution.UsesSingleLine() && !leapSolution.UsesExpressionBody())
-                leapSolution.AddComment(SharedComments.UseExpressionBodiedMember);
+                leapSolution.AddComment(UseExpressionBodiedMember);
 
             return leapSolution.HasComments()
                 ? leapSolution.ApproveWithComment()

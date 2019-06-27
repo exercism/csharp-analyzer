@@ -45,18 +45,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
                 .Count(BinaryExpressionUsesYearParameter) > MinimalNumberOfChecks;
 
         public bool UsesIfStatement() =>
-            _isLeapYearMethod
-                .DescendantNodes()
-                .OfType<IfStatementSyntax>()
-                .Any();
+            _isLeapYearMethod.UsesIfStatement();
 
         public bool UsesNestedIfStatement() =>
-            _isLeapYearMethod
-                .DescendantNodes()
-                .OfType<IfStatementSyntax>()
-                .Any(ifStatement => ifStatement.DescendantNodes()
-                    .OfType<IfStatementSyntax>()
-                    .Any());
+            _isLeapYearMethod.UsesNestedIfStatement();
 
         public bool ReturnsMinimumNumberOfChecksInSingleExpression() =>
             Returns(LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpression(this)) ||
