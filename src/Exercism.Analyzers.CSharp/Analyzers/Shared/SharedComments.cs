@@ -14,5 +14,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         public const string ReturnImmediately = "csharp.general.return_immediately";
         public const string UseConstant = "csharp.general.use_constant";
         public const string UsePrivateVisibility = "csharp.general.use_private_visibility";
+        public const string DoNotUseNestedIfStatement = "csharp.general.do_not_use_nested_if_statement";
     }
 }

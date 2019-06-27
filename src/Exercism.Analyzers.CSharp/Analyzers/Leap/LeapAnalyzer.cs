@@ -19,7 +19,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
                 leapSolution.AddComment(LeapComments.DoNotUseIsLeapYear);
 
             if (leapSolution.UsesNestedIfStatement())
-                leapSolution.AddComment(LeapComments.DoNotUseNestedIfStatement);
+                leapSolution.AddComment(SharedComments.DoNotUseNestedIfStatement);
 
             if (leapSolution.UsesTooManyChecks())
                 leapSolution.AddComment(LeapComments.UseMinimumNumberOfChecks);
