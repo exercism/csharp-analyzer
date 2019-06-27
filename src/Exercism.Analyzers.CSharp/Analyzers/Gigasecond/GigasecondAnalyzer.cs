@@ -17,7 +17,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         private static SolutionAnalysis DisapproveWhenInvalid(this GigasecondSolution gigasecondSolution)
         {
             if (gigasecondSolution.CreatesNewDatetime())
-                gigasecondSolution.AddComment(DontCreateDateTime);
+                gigasecondSolution.AddComment(DoNotCreateDateTime);
             
             if (gigasecondSolution.DoesNotUseAddSeconds())
                 gigasecondSolution.AddComment(UseAddSeconds);

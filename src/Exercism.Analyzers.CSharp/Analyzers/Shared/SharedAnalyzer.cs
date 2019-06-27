@@ -21,7 +21,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
                 parsedSolution.AddComment(SharedComments.RemoveThrowNotImplementedException);
 
             if (parsedSolution.WritesToConsole())
-                parsedSolution.AddComment(SharedComments.DontWriteToConsole);
+                parsedSolution.AddComment(SharedComments.DoNotWriteToConsole);
 
             return parsedSolution.HasComments()
                 ? parsedSolution.DisapproveWithComment()

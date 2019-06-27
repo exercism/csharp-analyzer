@@ -10,7 +10,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         public const string UseStringInterpolationNotStringFormat = "csharp.general.use_string_interpolation_not_string_format";
         public const string UseStringInterpolationNotStringConcatenation = "csharp.general.use_string_interpolation_not_string_concatenation";
         public const string RemoveThrowNotImplementedException = "csharp.general.remove_throw_not_implemented_exception";
-        public const string DontWriteToConsole = "csharp.general.dont_write_to_console";
+        public const string DoNotWriteToConsole = "csharp.general.do_not_write_to_console";
         public const string ReturnImmediately = "csharp.general.return_immediately";
         public const string UseConstant = "csharp.general.use_constant";
         public const string UsePrivateVisibility = "csharp.general.use_private_visibility";
