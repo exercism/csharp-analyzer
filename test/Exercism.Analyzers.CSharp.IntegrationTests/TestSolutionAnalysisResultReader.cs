@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -32,7 +31,10 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         private static string ParseCommentText(this JToken comment) =>
             comment["comment"].ToString();
 
-        private static Dictionary<string, string> ParseCommentParameters(this JToken comment) =>
-            comment["params"].ToObject<Dictionary<string, string>>();
+        private static TestSolutionCommentParameter[] ParseCommentParameters(this JToken comment) =>
+            comment["params"].Children().Select(ParseCommentParameter).ToArray();
+        
+        private static TestSolutionCommentParameter ParseCommentParameter(this JToken parameter) =>
+            new TestSolutionCommentParameter(parameter["key"].ToString(), parameter["value"].ToString());
     }
 }

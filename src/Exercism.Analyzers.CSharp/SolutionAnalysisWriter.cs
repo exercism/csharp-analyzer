@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 using Humanizer;
 using Newtonsoft.Json;
@@ -64,7 +63,7 @@ namespace Exercism.Analyzers.CSharp
             jsonTextWriter.WriteEndObject();
         }
 
-        private static void WriteCommentParameter(this JsonTextWriter jsonTextWriter, KeyValuePair<string, string> parameter)
+        private static void WriteCommentParameter(this JsonTextWriter jsonTextWriter, SolutionCommentParameter parameter)
         {
             jsonTextWriter.WritePropertyName(parameter.Key);
             jsonTextWriter.WriteValue(parameter.Value);

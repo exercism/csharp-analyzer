@@ -16,8 +16,8 @@ namespace Exercism.Analyzers.CSharp
         public ParsedSolution(Solution solution, SyntaxNode syntaxRoot) =>
             (Solution, SyntaxRoot) = (solution, syntaxRoot);
 
-        public void AddComment(string comment) =>
-            _comments.Add(new SolutionComment(comment));
+        public void AddComment(string comment, params SolutionCommentParameter[] parameters) =>
+            _comments.Add(new SolutionComment(comment, parameters));
 
         public bool HasComments() => _comments.Any();
 
