@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
     internal static class LeapSyntaxFactory
     {
         public static IdentifierNameSyntax LeapParameterIdentifierName(LeapSolution leapSolution) =>
-            IdentifierName(leapSolution.YearParameter.Identifier);
+            IdentifierName(leapSolution.YearParameterName);
 
         public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpression(LeapSolution leapSolution) =>
             LogicalOrExpression(

@@ -12,9 +12,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
     internal class LeapSolution : ParsedSolution
     {
         private const int MinimalNumberOfChecks = 3;
-        
-        public ParameterSyntax YearParameter { get; }
 
+        private readonly ParameterSyntax _yearParameter;
         private readonly MethodDeclarationSyntax _isLeapYearMethod;
         private readonly SyntaxNode _returnExpression;
 
@@ -23,13 +22,16 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
             ParameterSyntax yearParameter,
             SyntaxNode returnExpression) : base(solution.Solution, solution.SyntaxRoot)
         {
-            YearParameter = yearParameter;
+            _yearParameter = yearParameter;
             _isLeapYearMethod = isLeapYearMethod;
             _returnExpression = returnExpression;
         }
 
         public string IsLeapYearMethodName =>
             _isLeapYearMethod.Identifier.Text;
+
+        public string YearParameterName =>
+            _yearParameter.Identifier.Text;
 
         public bool UsesDateTimeIsLeapYear() =>
             _isLeapYearMethod.InvokesMethod(

@@ -13,10 +13,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         private readonly TwoFerError _twoFerError;
         private readonly MethodDeclarationSyntax _speakMethod;
         private readonly ExpressionSyntax _twoFerExpression;
+        private readonly ParameterSyntax _inputMethodParameter;
+        private readonly VariableDeclaratorSyntax _twoFerVariable;
 
-        public ParameterSyntax InputMethodParameter { get; }
-        public VariableDeclaratorSyntax TwoFerVariable { get; }
-    
         public TwoFerSolution(
             ParsedSolution solution,
             MethodDeclarationSyntax speakMethod,
@@ -27,13 +26,19 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         {
             _twoFerError = twoFerError;
             _speakMethod = speakMethod;
-            InputMethodParameter = speakMethodParameter;
+            _inputMethodParameter = speakMethodParameter;
             _twoFerExpression = twoFerExpression;
-            TwoFerVariable = twoFerVariableDeclarator;
+            _twoFerVariable = twoFerVariableDeclarator;
         }
 
         public string SpeakMethodName =>
             _speakMethod.Identifier.Text;
+
+        public string InputMethodParameterName =>
+            _inputMethodParameter.Identifier.Text;
+
+        public string TwoFerVariableName =>
+            _twoFerVariable.Identifier.Text;
 
         public bool MissingSpeakMethod =>
             _twoFerError == TwoFerError.MissingSpeakMethod;
@@ -61,9 +66,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         public bool InvalidDefaultValue =>
             _twoFerError == TwoFerError.InvalidDefaultValue;
-        
+
         public bool AssignsToParameter() =>
-            _speakMethod.AssignsToParameter(InputMethodParameter);
+            _speakMethod.AssignsToParameter(_inputMethodParameter);
 
         public bool UsesSingleLine() =>
             _speakMethod.SingleLine();
@@ -252,7 +257,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             _speakMethod.Body.Statements[0];
 
         public bool AssignsVariable() =>
-            TwoFerVariable != null;
+            _twoFerVariable != null;
 
         public bool AssignsVariableUsingKnownInitializer() =>
             AssignsVariableUsingNullCoalescingOperator() ||
@@ -275,7 +280,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             AssignsVariableUsingExpression(TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(this));
 
         private bool AssignsVariableUsingExpression(ExpressionSyntax initializer) =>
-            TwoFerVariable.Initializer.IsEquivalentWhenNormalized(
+            _twoFerVariable.Initializer.IsEquivalentWhenNormalized(
                 EqualsValueClause(initializer));
 
         public bool ReturnsStringInterpolationWithVariable() =>
