@@ -1,4 +1,5 @@
 using static Exercism.Analyzers.CSharp.Analyzers.Leap.LeapComments;
+using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedCommentParameters;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Leap
@@ -36,7 +37,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
                 leapSolution.AddComment(DoNotUseIfStatement);
 
             if (leapSolution.UsesSingleLine() && !leapSolution.UsesExpressionBody())
-                leapSolution.AddComment(UseExpressionBodiedMember);
+                leapSolution.AddComment(UseExpressionBodiedMember, new SolutionCommentParameter(Method, leapSolution.IsLeapYearMethodName));
 
             return leapSolution.HasComments()
                 ? leapSolution.ApproveWithComment()

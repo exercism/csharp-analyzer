@@ -32,9 +32,9 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             comment["comment"].ToString();
 
         private static TestSolutionCommentParameter[] ParseCommentParameters(this JToken comment) =>
-            comment["params"].Children().Select(ParseCommentParameter).ToArray();
+            comment["params"].Children<JProperty>().Select(ParseCommentParameter).ToArray();
         
-        private static TestSolutionCommentParameter ParseCommentParameter(this JToken parameter) =>
-            new TestSolutionCommentParameter(parameter["key"].ToString(), parameter["value"].ToString());
+        private static TestSolutionCommentParameter ParseCommentParameter(this JProperty parameter) =>
+            new TestSolutionCommentParameter(parameter.Name, parameter.Value.ToString());
     }
 }

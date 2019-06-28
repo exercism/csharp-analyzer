@@ -1,4 +1,5 @@
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondComments;
+using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedCommentParameters;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
@@ -53,7 +54,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 
             if (gigasecondSolution.UsesSingleLine() &&
                 !gigasecondSolution.UsesExpressionBody())
-                gigasecondSolution.AddComment(UseExpressionBodiedMember);
+                gigasecondSolution.AddComment(UseExpressionBodiedMember, new SolutionCommentParameter(Method, gigasecondSolution.AddMethodName));
 
             return gigasecondSolution.HasComments() ?
                 gigasecondSolution.ApproveWithComment() :

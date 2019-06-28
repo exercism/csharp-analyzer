@@ -5,6 +5,9 @@
       "comment": "csharp.general.use_string_interpolation_not_string_format",
       "params": {}
     },
-    { "comment": "csharp.general.use_expression_bodied_member", "params": {} }
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "params": { "method": "Speak" }
+    }
   ]
 }

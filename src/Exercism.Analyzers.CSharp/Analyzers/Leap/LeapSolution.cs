@@ -28,6 +28,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
             _returnExpression = returnExpression;
         }
 
+        public string IsLeapYearMethodName =>
+            _isLeapYearMethod.Identifier.Text;
+
         public bool UsesDateTimeIsLeapYear() =>
             _isLeapYearMethod.InvokesMethod(
                 DateTimeMemberAccessExpression(SyntaxFactory.IdentifierName("IsLeapYear")));

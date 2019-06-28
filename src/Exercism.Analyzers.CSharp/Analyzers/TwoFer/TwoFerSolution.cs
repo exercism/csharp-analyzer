@@ -32,6 +32,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             TwoFerVariable = twoFerVariableDeclarator;
         }
 
+        public string SpeakMethodName =>
+            _speakMethod.Identifier.Text;
+
         public bool MissingSpeakMethod =>
             _twoFerError == TwoFerError.MissingSpeakMethod;
 

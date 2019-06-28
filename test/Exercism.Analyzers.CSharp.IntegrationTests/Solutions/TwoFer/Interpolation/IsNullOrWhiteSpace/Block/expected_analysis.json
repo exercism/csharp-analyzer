@@ -5,6 +5,9 @@
       "comment": "csharp.two-fer.use_null_coalescing_operator_not_ternary_operator_with_is_null_or_white_space",
       "params": {}
     },
-    { "comment": "csharp.general.use_expression_bodied_member", "params": {} }
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "params": { "method": "Speak" }
+    }
   ]
 }

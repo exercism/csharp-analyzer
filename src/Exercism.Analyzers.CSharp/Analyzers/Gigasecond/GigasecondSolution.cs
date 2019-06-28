@@ -32,6 +32,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             _addMethodReturnType = addMethodReturnType;
         }
 
+        public string AddMethodName =>
+            _addMethod.Identifier.Text;
+
         public bool UsesScientificNotation() =>
             _gigasecondValueType == GigasecondValueType.ScientificNotation;
 

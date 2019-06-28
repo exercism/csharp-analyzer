@@ -1,3 +1,4 @@
+using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedCommentParameters;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 using static Exercism.Analyzers.CSharp.Analyzers.TwoFer.TwoFerComments;
 
@@ -72,7 +73,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 twoFerSolution.AddComment(UseStringInterpolationNotStringFormat);
 
             if (!twoFerSolution.UsesExpressionBody())
-                twoFerSolution.AddComment(UseExpressionBodiedMember);
+                twoFerSolution.AddComment(UseExpressionBodiedMember, new SolutionCommentParameter(Method, twoFerSolution.SpeakMethodName));
 
             return twoFerSolution.HasComments()
                 ? twoFerSolution.ApproveWithComment()
