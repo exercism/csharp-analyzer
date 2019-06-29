@@ -28,7 +28,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 twoFerSolution.AddComment(UseSingleFormattedStringNotMultiple);
 
             if (twoFerSolution.NoDefaultValue)
-                twoFerSolution.AddComment(UseDefaultValue);
+                twoFerSolution.AddComment(UseDefaultValue(twoFerSolution.SpeakMethodParameterName));
 
             if (twoFerSolution.InvalidDefaultValue)
                 twoFerSolution.AddComment(InvalidDefaultValue(twoFerSolution.SpeakMethodParameterName, twoFerSolution.SpeakMethodParameterDefaultValue));
