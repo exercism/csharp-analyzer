@@ -54,7 +54,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 
             if (gigasecondSolution.UsesSingleLine() &&
                 !gigasecondSolution.UsesExpressionBody())
-                gigasecondSolution.AddComment(UseExpressionBodiedMember, new SolutionCommentParameter(Method, gigasecondSolution.AddMethodName));
+                gigasecondSolution.AddComment(UseExpressionBodiedMember(gigasecondSolution.AddMethodName));
 
             return gigasecondSolution.HasComments() ?
                 gigasecondSolution.ApproveWithComment() :

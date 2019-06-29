@@ -37,7 +37,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
                 leapSolution.AddComment(DoNotUseIfStatement);
 
             if (leapSolution.UsesSingleLine() && !leapSolution.UsesExpressionBody())
-                leapSolution.AddComment(UseExpressionBodiedMember, new SolutionCommentParameter(Method, leapSolution.IsLeapYearMethodName));
+                leapSolution.AddComment(UseExpressionBodiedMember(leapSolution.IsLeapYearMethodName));
 
             return leapSolution.HasComments()
                 ? leapSolution.ApproveWithComment()

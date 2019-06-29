@@ -73,7 +73,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 twoFerSolution.AddComment(UseStringInterpolationNotStringFormat);
 
             if (!twoFerSolution.UsesExpressionBody())
-                twoFerSolution.AddComment(UseExpressionBodiedMember, new SolutionCommentParameter(Method, twoFerSolution.SpeakMethodName));
+                twoFerSolution.AddComment(UseExpressionBodiedMember(twoFerSolution.SpeakMethodName));
 
             return twoFerSolution.HasComments()
                 ? twoFerSolution.ApproveWithComment()
