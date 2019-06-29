@@ -12,7 +12,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         public static readonly SolutionComment RemoveThrowNotImplementedException = new SolutionComment("csharp.general.remove_throw_not_implemented_exception");
         public static readonly SolutionComment DoNotWriteToConsole = new SolutionComment("csharp.general.do_not_write_to_console");
         public static readonly SolutionComment ReturnImmediately = new SolutionComment("csharp.general.return_immediately");
-        public static readonly SolutionComment UseConstant = new SolutionComment("csharp.general.use_constant");
+        public static readonly SolutionComment ConvertFieldToConst = new SolutionComment("csharp.general.convert_field_to_const");
+        public static readonly SolutionComment ConvertVariableToConst = new SolutionComment("csharp.general.convert_variable_to_const");
         public static readonly SolutionComment UsePrivateVisibility = new SolutionComment("csharp.general.use_private_visibility");
         public static readonly SolutionComment DoNotUseNestedIfStatement = new SolutionComment("csharp.general.do_not_use_nested_if_statement");
         

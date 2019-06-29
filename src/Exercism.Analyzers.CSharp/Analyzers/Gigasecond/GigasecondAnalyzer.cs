@@ -42,11 +42,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                     
             if (gigasecondSolution.UsesLocalVariable() &&
                 !gigasecondSolution.UsesLocalConstVariable())
-                gigasecondSolution.AddComment(UseConstant);
+                gigasecondSolution.AddComment(ConvertVariableToConst);
 
             if (gigasecondSolution.UsesField() &&
                 !gigasecondSolution.UsesConstField())
-                gigasecondSolution.AddComment(UseConstant);
+                gigasecondSolution.AddComment(ConvertFieldToConst);
 
             if (gigasecondSolution.UsesField() &&
                 !gigasecondSolution.UsesPrivateField())

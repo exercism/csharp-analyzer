@@ -1,7 +1,7 @@
 {
   "status": "approve_with_comment",
   "comments": [
-    { "comment": "csharp.general.use_constant", "params": {} },
+    { "comment": "csharp.general.convert_field_to_const", "params": {} },
     {
       "comment": "csharp.general.use_expression_bodied_member",
       "params": { "name": "Add" }

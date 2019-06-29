@@ -5,7 +5,7 @@
       "comment": "csharp.gigasecond.use_1e9_not_math_pow",
       "params": { "value": "Math.Pow(10, 9)" }
     },
-    { "comment": "csharp.general.use_constant", "params": {} },
+    { "comment": "csharp.general.convert_field_to_const", "params": {} },
     { "comment": "csharp.general.use_private_visibility", "params": {} },
     {
       "comment": "csharp.general.use_expression_bodied_member",
