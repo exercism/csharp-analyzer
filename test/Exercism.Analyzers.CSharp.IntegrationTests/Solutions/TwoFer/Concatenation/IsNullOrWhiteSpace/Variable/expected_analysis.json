@@ -6,7 +6,7 @@
       "params": {}
     },
     {
-      "comment": "csharp.two-fer.use_null_coalescing_operator_not_ternary_operator_with_is_null_or_white_space",
+      "comment": "csharp.two-fer.use_null_coalescing_operator_not_is_null_or_white_space",
       "params": {}
     }
   ]

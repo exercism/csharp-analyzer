@@ -2,7 +2,7 @@
   "status": "approve_with_comment",
   "comments": [
     {
-      "comment": "csharp.two-fer.use_null_coalescing_operator_not_ternary_operator_with_is_null_or_empty",
+      "comment": "csharp.two-fer.use_null_coalescing_operator_not_is_null_or_empty",
       "params": {}
     }
   ]

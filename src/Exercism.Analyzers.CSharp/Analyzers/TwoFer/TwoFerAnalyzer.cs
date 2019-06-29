@@ -58,10 +58,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 return null;
 
             if (twoFerSolution.ReturnsStringInterpolationWithIsNullOrEmptyCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
+                twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
 
             if (twoFerSolution.ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
+                twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
             if (twoFerSolution.ReturnsStringInterpolationWithNullCheck())
                 twoFerSolution.AddComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
@@ -132,10 +132,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 twoFerSolution.AddComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
 
             if (twoFerSolution.AssignsVariableUsingIsNullOrEmptyCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
+                twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
 
             if (twoFerSolution.AssignsVariableUsingIsNullOrWhiteSpaceCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
+                twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
             return twoFerSolution.HasComments()
                 ? twoFerSolution.ApproveWithComment()
