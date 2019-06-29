@@ -6,7 +6,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
     {
         public static readonly SolutionComment RemoveMainMethod = new SolutionComment("csharp.general.has_main_method");
         public static readonly SolutionComment FixCompileErrors = new SolutionComment("csharp.general.has_compile_errors");
-        public static readonly SolutionComment UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck = new SolutionComment("csharp.general.use_null_coalescing_operator_not_ternary_operator_with_null_check");
         public static readonly SolutionComment UseNullCoalescingOperatorNotNullCheck = new SolutionComment("csharp.general.use_null_coalescing_operator_not_null_check");
         public static readonly SolutionComment UseStringInterpolationNotStringFormat = new SolutionComment("csharp.general.use_string_interpolation_not_string_format");
         public static readonly SolutionComment UseStringInterpolationNotStringConcatenation = new SolutionComment("csharp.general.use_string_interpolation_not_string_concatenation");

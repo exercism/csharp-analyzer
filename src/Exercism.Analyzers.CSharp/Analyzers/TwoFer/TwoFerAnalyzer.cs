@@ -64,7 +64,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
             if (twoFerSolution.ReturnsStringInterpolationWithNullCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
+                twoFerSolution.AddComment(UseNullCoalescingOperatorNotNullCheck);
 
             if (twoFerSolution.ReturnsStringConcatenation())
                 twoFerSolution.AddComment(UseStringInterpolationNotStringConcatenation);
@@ -129,7 +129,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 twoFerSolution.AddComment(UseStringInterpolationNotStringConcatenation);
 
             if (twoFerSolution.AssignsVariableUsingNullCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
+                twoFerSolution.AddComment(UseNullCoalescingOperatorNotNullCheck);
 
             if (twoFerSolution.AssignsVariableUsingIsNullOrEmptyCheck())
                 twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
