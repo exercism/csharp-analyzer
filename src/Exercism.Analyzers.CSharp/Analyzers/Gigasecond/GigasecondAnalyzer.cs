@@ -49,7 +49,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 
             if (gigasecondSolution.UsesField() &&
                 !gigasecondSolution.UsesPrivateField())
-                gigasecondSolution.AddComment(UsePrivateVisibility);
+                gigasecondSolution.AddComment(UsePrivateVisibility(gigasecondSolution.GigasecondValueFieldName));
 
             if (gigasecondSolution.UsesSingleLine() &&
                 !gigasecondSolution.UsesExpressionBody())

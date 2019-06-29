@@ -1,7 +1,10 @@
 {
   "status": "approve_with_comment",
   "comments": [
-    { "comment": "csharp.general.use_private_visibility", "params": {} },
+    {
+      "comment": "csharp.general.use_private_visibility",
+      "params": { "name": "Seconds" }
+    },
     {
       "comment": "csharp.general.use_expression_bodied_member",
       "params": { "name": "Add" }
