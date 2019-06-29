@@ -41,6 +41,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         public string GigasecondValue =>
             _gigasecondValueExpression.ToFullString();
 
+        public string GigasecondValueVariableName =>
+            _addSecondsLocalArgument.Declaration.Variables[0].Identifier.Text;
+
+        public string GigasecondValueFieldName =>
+            _addSecondsFieldArgument.Declaration.Variables[0].Identifier.Text;
+
         public bool UsesScientificNotation() =>
             _gigasecondValueType == GigasecondValueType.ScientificNotation;
 

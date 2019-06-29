@@ -1,5 +1,4 @@
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondComments;
-using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedCommentParameters;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
@@ -42,11 +41,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                     
             if (gigasecondSolution.UsesLocalVariable() &&
                 !gigasecondSolution.UsesLocalConstVariable())
-                gigasecondSolution.AddComment(ConvertVariableToConst);
+                gigasecondSolution.AddComment(ConvertVariableToConst(gigasecondSolution.GigasecondValueVariableName));
 
             if (gigasecondSolution.UsesField() &&
                 !gigasecondSolution.UsesConstField())
-                gigasecondSolution.AddComment(ConvertFieldToConst);
+                gigasecondSolution.AddComment(ConvertFieldToConst(gigasecondSolution.GigasecondValueFieldName));
 
             if (gigasecondSolution.UsesField() &&
                 !gigasecondSolution.UsesPrivateField())

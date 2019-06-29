@@ -5,7 +5,10 @@
       "comment": "csharp.gigasecond.use_1e9_or_digit_separator",
       "params": { "value": 1000000000 }
     },
-    { "comment": "csharp.general.convert_field_to_const", "params": {} },
+    {
+      "comment": "csharp.general.convert_field_to_const",
+      "params": { "name": "Seconds" }
+    },
     {
       "comment": "csharp.general.use_expression_bodied_member",
       "params": { "name": "Add" }
