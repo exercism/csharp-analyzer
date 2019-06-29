@@ -4,7 +4,7 @@
     { "comment": "csharp.general.use_private_visibility", "params": {} },
     {
       "comment": "csharp.general.use_expression_bodied_member",
-      "params": { "method": "Add" }
+      "params": { "name": "Add" }
     }
   ]
 }

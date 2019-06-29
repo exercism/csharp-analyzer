@@ -1,7 +1,10 @@
 {
   "status": "approve_with_comment",
   "comments": [
-    { "comment": "csharp.gigasecond.use_1e9_not_math_pow", "params": {} },
+    {
+      "comment": "csharp.gigasecond.use_1e9_not_math_pow",
+      "params": { "value": "Math.Pow(10, 9)" }
+    },
     { "comment": "csharp.general.use_constant", "params": {} }
   ]
 }

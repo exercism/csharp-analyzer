@@ -7,7 +7,7 @@
     },
     {
       "comment": "csharp.general.use_expression_bodied_member",
-      "params": { "method": "Speak" }
+      "params": { "name": "Speak" }
     }
   ]
 }

@@ -7,12 +7,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
     internal class GigasecondSolution : ParsedSolution
     {
         private readonly MethodDeclarationSyntax _addMethod;
+        private readonly ReturnType _addMethodReturnType;
         private readonly InvocationExpressionSyntax _addSecondsInvocationExpression;
         private readonly LocalDeclarationStatementSyntax _addSecondsLocalArgument;
         private readonly FieldDeclarationSyntax _addSecondsFieldArgument;
         private readonly ArgumentType _addSecondsArgumentType;
+        private readonly ExpressionSyntax _gigasecondValueExpression;
         private readonly GigasecondValueType _gigasecondValueType;
-        private readonly ReturnType _addMethodReturnType;
         
         public GigasecondSolution(ParsedSolution solution,
             MethodDeclarationSyntax addMethod,
@@ -21,6 +22,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             LocalDeclarationStatementSyntax addSecondsLocalArgument,
             FieldDeclarationSyntax addSecondsFieldArgument,
             ArgumentType addSecondsArgumentType,
+            ExpressionSyntax gigasecondValueExpression,
             GigasecondValueType gigasecondValueType) : base(solution.Solution, solution.SyntaxRoot)
         {
             _addMethod = addMethod;
@@ -28,12 +30,16 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             _addSecondsLocalArgument = addSecondsLocalArgument;
             _addSecondsFieldArgument = addSecondsFieldArgument;
             _addSecondsArgumentType = addSecondsArgumentType;
+            _gigasecondValueExpression = gigasecondValueExpression;
             _gigasecondValueType = gigasecondValueType;
             _addMethodReturnType = addMethodReturnType;
         }
 
         public string AddMethodName =>
             _addMethod.Identifier.Text;
+
+        public string GigasecondValue =>
+            _gigasecondValueExpression.ToFullString();
 
         public bool UsesScientificNotation() =>
             _gigasecondValueType == GigasecondValueType.ScientificNotation;

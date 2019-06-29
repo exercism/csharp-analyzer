@@ -3,7 +3,7 @@
   "comments": [
     {
       "comment": "csharp.general.use_expression_bodied_member",
-      "params": { "method": "Add" }
+      "params": { "name": "Add" }
     }
   ]
 }

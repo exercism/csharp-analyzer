@@ -1,6 +1,9 @@
 {
   "status": "approve_with_comment",
   "comments": [
-    { "comment": "csharp.gigasecond.use_1e9_or_digit_separator", "params": {} }
+    {
+      "comment": "csharp.gigasecond.use_1e9_or_digit_separator",
+      "params": { "value": 1000000000 }
+    }
   ]
 }

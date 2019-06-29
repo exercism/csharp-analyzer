@@ -18,6 +18,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         public static readonly SolutionComment DoNotUseNestedIfStatement = new SolutionComment("csharp.general.do_not_use_nested_if_statement");
         
         public static SolutionComment UseExpressionBodiedMember(string method) =>
-            new SolutionComment("csharp.general.use_expression_bodied_member", new SolutionCommentParameter(Method, method));
+            new SolutionComment("csharp.general.use_expression_bodied_member", new SolutionCommentParameter(Name, method));
     }
 }

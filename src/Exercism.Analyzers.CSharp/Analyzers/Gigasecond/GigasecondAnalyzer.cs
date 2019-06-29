@@ -31,10 +31,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         private static SolutionAnalysis ApproveWhenValid(this GigasecondSolution gigasecondSolution)
         {
             if (gigasecondSolution.UsesMathPow())
-                gigasecondSolution.AddComment(UseScientificNotationNotMathPow);
+                gigasecondSolution.AddComment(UseScientificNotationNotMathPow(gigasecondSolution.GigasecondValue));
 
             if (gigasecondSolution.UsesDigitsWithoutSeparator())
-                gigasecondSolution.AddComment(UseScientificNotationOrDigitSeparators);
+                gigasecondSolution.AddComment(UseScientificNotationOrDigitSeparators(gigasecondSolution.GigasecondValue));
 
             if (gigasecondSolution.AssignsToParameterAndReturns() ||
                 gigasecondSolution.AssignsToVariableAndReturns())
@@ -43,7 +43,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             if (gigasecondSolution.UsesLocalVariable() &&
                 !gigasecondSolution.UsesLocalConstVariable())
                 gigasecondSolution.AddComment(UseConstant);
-                
+
             if (gigasecondSolution.UsesField() &&
                 !gigasecondSolution.UsesConstField())
                 gigasecondSolution.AddComment(UseConstant);
