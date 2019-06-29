@@ -13,7 +13,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         private readonly TwoFerError _twoFerError;
         private readonly MethodDeclarationSyntax _speakMethod;
         private readonly ExpressionSyntax _twoFerExpression;
-        private readonly ParameterSyntax _inputMethodParameter;
+        private readonly ParameterSyntax _speakMethodParameter;
         private readonly VariableDeclaratorSyntax _twoFerVariable;
 
         public TwoFerSolution(
@@ -26,7 +26,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         {
             _twoFerError = twoFerError;
             _speakMethod = speakMethod;
-            _inputMethodParameter = speakMethodParameter;
+            _speakMethodParameter = speakMethodParameter;
             _twoFerExpression = twoFerExpression;
             _twoFerVariable = twoFerVariableDeclarator;
         }
@@ -34,8 +34,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         public string SpeakMethodName =>
             _speakMethod.Identifier.Text;
 
-        public string InputMethodParameterName =>
-            _inputMethodParameter.Identifier.Text;
+        public string SpeakMethodParameterName =>
+            _speakMethodParameter.Identifier.Text;
+
+        public string SpeakMethodParameterDefaultValue =>
+            _speakMethodParameter.Default.Value.ToFullString();
 
         public string TwoFerVariableName =>
             _twoFerVariable.Identifier.Text;
@@ -68,7 +71,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             _twoFerError == TwoFerError.InvalidDefaultValue;
 
         public bool AssignsToParameter() =>
-            _speakMethod.AssignsToParameter(_inputMethodParameter);
+            _speakMethod.AssignsToParameter(_speakMethodParameter);
 
         public bool UsesSingleLine() =>
             _speakMethod.SingleLine();

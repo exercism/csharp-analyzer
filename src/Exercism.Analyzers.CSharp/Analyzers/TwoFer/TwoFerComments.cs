@@ -1,3 +1,5 @@
+using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedCommentParameters;
+
 namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
     internal static class TwoFerComments
@@ -11,6 +13,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         public static readonly SolutionComment UseNullCoalescingOperatorNotIsNullOrEmptyCheck = new SolutionComment("csharp.two-fer.use_null_coalescing_operator_not_is_null_or_empty");
         public static readonly SolutionComment UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck = new SolutionComment("csharp.two-fer.use_null_coalescing_operator_not_is_null_or_white_space");
         public static readonly SolutionComment UseDefaultValue = new SolutionComment("csharp.two-fer.use_default_value");
-        public static readonly SolutionComment InvalidDefaultValue = new SolutionComment("csharp.two-fer.invalid_default_value");
+        public static SolutionComment InvalidDefaultValue(string parameterName, string defaultValue) =>
+            new SolutionComment("csharp.two-fer.invalid_default_value", new SolutionCommentParameter(Name, parameterName), new SolutionCommentParameter(Value, defaultValue));
     }
 }

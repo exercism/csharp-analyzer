@@ -30,7 +30,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 NullLiteralExpression());
 
         public static IdentifierNameSyntax TwoFerParameterIdentifierName(TwoFerSolution twoFerSolution) =>
-            IdentifierName(twoFerSolution.InputMethodParameterName);
+            IdentifierName(twoFerSolution.SpeakMethodParameterName);
 
         public static IdentifierNameSyntax TwoFerVariableIdentifierName(TwoFerSolution twoFerSolution) =>
             IdentifierName(twoFerSolution.TwoFerVariableName);
@@ -60,9 +60,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         public static ConditionalExpressionSyntax TwoFerConditionalExpressionWithNullCheck(TwoFerSolution twoFerSolution) =>
             TwoFerConditionalExpression(
                 EqualsExpression(
-                    IdentifierName(twoFerSolution.InputMethodParameterName),
+                    IdentifierName(twoFerSolution.SpeakMethodParameterName),
                     NullLiteralExpression()),
-                IdentifierName(twoFerSolution.InputMethodParameterName));
+                IdentifierName(twoFerSolution.SpeakMethodParameterName));
 
         public static BinaryExpressionSyntax TwoFerStringConcatenationExpression(ExpressionSyntax nameExpression) =>
             AddExpression(

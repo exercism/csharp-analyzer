@@ -1,0 +1,9 @@
+{
+  "status": "disapprove_with_comment",
+  "comments": [
+    {
+      "comment": "csharp.two-fer.invalid_default_value",
+      "params": { "name": "input", "value": "\"hi\"" }
+    }
+  ]
+}

@@ -31,7 +31,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 twoFerSolution.AddComment(UseDefaultValue);
 
             if (twoFerSolution.InvalidDefaultValue)
-                twoFerSolution.AddComment(InvalidDefaultValue);
+                twoFerSolution.AddComment(InvalidDefaultValue(twoFerSolution.SpeakMethodParameterName, twoFerSolution.SpeakMethodParameterDefaultValue));
 
             if (twoFerSolution.UsesStringReplace)
                 twoFerSolution.AddComment(UseStringInterpolationNotStringReplace);
