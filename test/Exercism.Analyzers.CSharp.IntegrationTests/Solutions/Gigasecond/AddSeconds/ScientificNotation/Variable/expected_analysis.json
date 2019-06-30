@@ -1,4 +1,4 @@
 {
   "status": "approve_with_comment",
-  "comments": [{ "comment": "csharp.general.return_immediately", "params": {} }]
+  "comments": [{ "comment": "csharp.general.do_not_assign_and_return", "params": {} }]
 }

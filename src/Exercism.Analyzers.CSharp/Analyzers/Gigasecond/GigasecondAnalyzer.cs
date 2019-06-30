@@ -37,7 +37,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 
             if (gigasecondSolution.AssignsToParameterAndReturns() ||
                 gigasecondSolution.AssignsToVariableAndReturns())
-                gigasecondSolution.AddComment(ReturnImmediately);
+                gigasecondSolution.AddComment(DoNotAssignAndReturn);
                     
             if (gigasecondSolution.UsesLocalVariable() &&
                 !gigasecondSolution.UsesLocalConstVariable())

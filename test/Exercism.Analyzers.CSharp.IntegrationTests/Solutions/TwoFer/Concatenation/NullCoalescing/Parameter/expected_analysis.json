@@ -5,6 +5,6 @@
       "comment": "csharp.general.use_string_interpolation_not_string_concatenation",
       "params": {}
     },
-    { "comment": "csharp.general.return_immediately", "params": {} }
+    { "comment": "csharp.general.do_not_assign_and_return", "params": {} }
   ]
 }

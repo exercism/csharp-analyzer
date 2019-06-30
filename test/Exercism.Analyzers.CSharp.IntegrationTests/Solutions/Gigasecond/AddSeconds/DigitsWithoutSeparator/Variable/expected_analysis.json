@@ -5,6 +5,6 @@
       "comment": "csharp.gigasecond.use_1e9_or_digit_separator",
       "params": { "value": 1000000000 }
     },
-    { "comment": "csharp.general.return_immediately", "params": {} }
+    { "comment": "csharp.general.do_not_assign_and_return", "params": {} }
   ]
 }

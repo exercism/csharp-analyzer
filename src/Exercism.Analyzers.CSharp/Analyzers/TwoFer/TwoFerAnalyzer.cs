@@ -94,7 +94,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 twoFerSolution.AddComment(UseStringInterpolationNotStringConcatenation);
 
             if (twoFerSolution.AssignsParameterUsingNullCoalescingOperator())
-                twoFerSolution.AddComment(ReturnImmediately);
+                twoFerSolution.AddComment(DoNotAssignAndReturn);
 
             if (twoFerSolution.AssignsParameterUsingNullCheck() ||
                 twoFerSolution.AssignsParameterUsingIfNullCheck())

@@ -5,6 +5,6 @@
       "comment": "csharp.gigasecond.use_1e9_not_math_pow",
       "params": { "value": "Math.Pow(10, 9)" }
     },
-    { "comment": "csharp.general.return_immediately", "params": {} }
+    { "comment": "csharp.general.do_not_assign_and_return", "params": {} }
   ]
 }
