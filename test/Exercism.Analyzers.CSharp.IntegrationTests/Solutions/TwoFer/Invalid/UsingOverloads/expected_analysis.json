@@ -2,7 +2,7 @@
   "status": "disapprove_with_comment",
   "comments": [
     {
-      "comment": "csharp.two-fer.use_single_formatted_string_not_multiple",
+      "comment": "csharp.two-fer.use_default_value_not_overloads",
       "params": {}
     }
   ]

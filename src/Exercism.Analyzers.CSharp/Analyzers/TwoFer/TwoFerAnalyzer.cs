@@ -17,7 +17,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         private static SolutionAnalysis DisapproveWhenInvalid(this TwoFerSolution twoFerSolution)
         {
             if (twoFerSolution.UsesOverloads)
-                twoFerSolution.AddComment(UseSingleFormattedStringNotMultiple);
+                twoFerSolution.AddComment(UseDefaultValueNotOverloads);
 
             if (twoFerSolution.MissingSpeakMethod ||
                 twoFerSolution.InvalidSpeakMethod)
