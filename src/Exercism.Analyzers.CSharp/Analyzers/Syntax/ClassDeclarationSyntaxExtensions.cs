@@ -8,7 +8,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
     {
         public static VariableDeclaratorSyntax ArgumentVariable(this ClassDeclarationSyntax classDeclaration, ExpressionSyntax argumentExpression) =>
             classDeclaration.AssignedVariableWithName(argumentExpression as IdentifierNameSyntax);
-        
+
         public static VariableDeclaratorSyntax AssignedVariableWithName(this ClassDeclarationSyntax classDeclaration, IdentifierNameSyntax variableIdentifierName)
         {
             if (classDeclaration == null || variableIdentifierName == null)

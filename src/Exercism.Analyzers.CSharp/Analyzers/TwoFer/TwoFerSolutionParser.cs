@@ -39,7 +39,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             if (speakMethod.NoDefaultValue())
                 return TwoFerError.NoDefaultValue;
 
-            if (speakMethodParameter.UsesInvalidDefaultValue())
+            if (speakMethodParameter.UsesInvalidDefaultValue(twoFerClass))
                 return TwoFerError.InvalidDefaultValue;
 
             if (speakMethod.UsesStringReplace())
@@ -90,9 +90,21 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         private static bool NoDefaultValue(this MethodDeclarationSyntax speakMethod) =>
             speakMethod.ParameterList.Parameters.All(parameter => parameter.Default == null);
 
-        private static bool UsesInvalidDefaultValue(this ParameterSyntax speakMethodParameter) =>
-            !speakMethodParameter.Default.Value.IsEquivalentWhenNormalized(NullLiteralExpression()) &&
-            !speakMethodParameter.Default.Value.IsEquivalentWhenNormalized(StringLiteralExpression("you"));
+        private static bool UsesInvalidDefaultValue(this ParameterSyntax speakMethodParameter, ClassDeclarationSyntax twoFerClass) =>
+            !DefaultValueIsNull(speakMethodParameter) &&
+            !DefaultValueIsYouString(speakMethodParameter) &&
+            !DefaultValueIsYouStringSpecifiedAsConst(speakMethodParameter, twoFerClass);
+
+        private static bool DefaultValueIsNull(ParameterSyntax speakMethodParameter) =>
+            speakMethodParameter.Default.Value.IsEquivalentWhenNormalized(NullLiteralExpression());
+
+        private static bool DefaultValueIsYouString(ParameterSyntax speakMethodParameter) =>
+            speakMethodParameter.Default.Value.IsEquivalentWhenNormalized(StringLiteralExpression("you"));
+
+        private static bool DefaultValueIsYouStringSpecifiedAsConst(ParameterSyntax speakMethodParameter, ClassDeclarationSyntax twoFerClass) =>
+            speakMethodParameter.Default.Value is IdentifierNameSyntax identifierName &&
+            twoFerClass.AssignedVariableWithName(identifierName).IsEquivalentWhenNormalized(
+                SyntaxFactory.VariableDeclarator(identifierName.Identifier, default, EqualsValueClause(StringLiteralExpression("you"))));
 
         private static VariableDeclaratorSyntax AssignedVariable(this MethodDeclarationSyntax speakMethod)
         {
