@@ -1,4 +1,5 @@
-using DeepEqual.Syntax;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Xunit;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
@@ -10,7 +11,13 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         public void SolutionShouldBeCorrectlyAnalyzed(TestSolution testSolution)
         {
             var analysisRun = TestSolutionAnalyzer.Run(testSolution);
-            analysisRun.Actual.ShouldDeepEqual(analysisRun.Expected);
+            Assert.Equal(Serialize(analysisRun.Expected), Serialize(analysisRun.Actual));
         }
+
+        private static string Serialize(TestSolutionAnalysisResult result) =>
+            JsonConvert.SerializeObject(result, Formatting.Indented, CreateJsonSerializerSettings());
+
+        private static JsonSerializerSettings CreateJsonSerializerSettings() =>
+            new JsonSerializerSettings { ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }};
     }
 }
