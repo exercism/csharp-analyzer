@@ -1,5 +1,5 @@
 {
-  "status": "disapprove_with_comment",
+  "status": "disapprove",
   "comments": [
     { "comment": "csharp.leap.do_not_use_is_leap_year", "params": {} }
   ]

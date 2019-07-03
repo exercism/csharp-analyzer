@@ -1,5 +1,5 @@
 {
-  "status": "disapprove_with_comment",
+  "status": "disapprove",
   "comments": [
     {
       "comment": "csharp.two-fer.use_string_interpolation_not_string_concat",

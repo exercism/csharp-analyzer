@@ -1,5 +1,5 @@
 {
-  "status": "approve_with_comment",
+  "status": "approve",
   "comments": [
     {
       "comment": "csharp.general.use_private_visibility",

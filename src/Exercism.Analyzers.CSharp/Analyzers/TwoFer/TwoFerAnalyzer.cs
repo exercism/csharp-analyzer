@@ -42,7 +42,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 twoFerSolution.AddComment(UseStringInterpolationNotStringConcat);
 
             return twoFerSolution.HasComments()
-                ? twoFerSolution.DisapproveWithComment()
+                ? twoFerSolution.Disapprove()
                 : twoFerSolution.ContinueAnalysis();
         }
 
@@ -75,7 +75,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 twoFerSolution.AddComment(UseExpressionBodiedMember(twoFerSolution.SpeakMethodName));
 
             return twoFerSolution.HasComments()
-                ? twoFerSolution.ApproveWithComment()
+                ? twoFerSolution.Approve()
                 : twoFerSolution.ContinueAnalysis();
         }
 
@@ -109,7 +109,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
             return twoFerSolution.HasComments()
-                ? twoFerSolution.ApproveWithComment()
+                ? twoFerSolution.Approve()
                 : twoFerSolution.ContinueAnalysis();
         }
 
@@ -137,7 +137,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
             return twoFerSolution.HasComments()
-                ? twoFerSolution.ApproveWithComment()
+                ? twoFerSolution.Approve()
                 : twoFerSolution.ContinueAnalysis();
         }
 
@@ -146,7 +146,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             if (twoFerSolution.ApproveWhenOptimalUsingSingleLine() ||
                 twoFerSolution.ApproveWhenOptimalAssigningToParameter() ||
                 twoFerSolution.ApproveWhenOptimalAssigningToVariable())
-                return twoFerSolution.ApproveAsOptimal();
+                return twoFerSolution.Approve();
 
             return twoFerSolution.ContinueAnalysis();
         }

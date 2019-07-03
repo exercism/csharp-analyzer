@@ -23,14 +23,11 @@ namespace Exercism.Analyzers.CSharp
 
         public SolutionAnalysis ContinueAnalysis() => null;
         
-        public SolutionAnalysis DisapproveWithComment() =>
-            ToSolutionAnalysis(SolutionStatus.DisapproveWithComment, _comments.ToArray());
+        public SolutionAnalysis Approve() =>
+            ToSolutionAnalysis(SolutionStatus.Approve, _comments.ToArray());
         
-        public SolutionAnalysis ApproveWithComment() =>
-            ToSolutionAnalysis(SolutionStatus.ApproveWithComment, _comments.ToArray());
-
-        public SolutionAnalysis ApproveAsOptimal() =>
-            ToSolutionAnalysis(SolutionStatus.ApproveAsOptimal, Array.Empty<SolutionComment>());
+        public SolutionAnalysis Disapprove() =>
+            ToSolutionAnalysis(SolutionStatus.Disapprove, _comments.ToArray());
 
         public SolutionAnalysis ReferToMentor() =>
             ToSolutionAnalysis(SolutionStatus.ReferToMentor, Array.Empty<SolutionComment>());

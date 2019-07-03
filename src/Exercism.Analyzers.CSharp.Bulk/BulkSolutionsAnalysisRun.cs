@@ -6,18 +6,17 @@ namespace Exercism.Analyzers.CSharp.Bulk
     internal class BulkSolutionsAnalysisRun
     {
         public BulkSolutionsAnalysisRunStatistics All { get; }
-        public BulkSolutionsAnalysisRunStatistics ApprovedAsOptimal { get; }
-        public BulkSolutionsAnalysisRunStatistics ApprovedWithComment { get; }
-        public BulkSolutionsAnalysisRunStatistics DisapprovedWithComment { get; }
+        public BulkSolutionsAnalysisRunStatistics Approved { get; }
+        public BulkSolutionsAnalysisRunStatistics Disapproved { get; }
         public BulkSolutionsAnalysisRunStatistics ReferredToMentor { get; }
         public Options Options { get; }
 
         public BulkSolutionsAnalysisRun(BulkSolutionAnalysisRun[] analyses, Options options)
         {
             All = ToStats(analyses, _ => true);
-            ApprovedAsOptimal = ToStats(analyses, IsApprovedAsOptimal);
-            ApprovedWithComment = ToStats(analyses, IsApprovedWithComment);
-            DisapprovedWithComment = ToStats(analyses, IsDisapprovedWithComment);
+            ToStats(analyses, analysis => IsApproved(analysis));
+            Approved = ToStats(analyses, IsApproved);
+            Disapproved = ToStats(analyses, IsDisapproved);
             ReferredToMentor = ToStats(analyses, IsReferredToMentor);
             Options = options;
         }
@@ -26,14 +25,11 @@ namespace Exercism.Analyzers.CSharp.Bulk
             Predicate<BulkSolutionAnalysisRun> filter) =>
             new BulkSolutionsAnalysisRunStatistics(analyses.Where(analysis => filter(analysis)).ToArray());
 
-        private static bool IsApprovedAsOptimal(BulkSolutionAnalysisRun analysis) =>
-            analysis.AnalysisResult.Status == "approve_as_optimal";
+        private static bool IsApproved(BulkSolutionAnalysisRun analysis) =>
+            analysis.AnalysisResult.Status == "approve";
 
-        private static bool IsApprovedWithComment(BulkSolutionAnalysisRun analysis) =>
-            analysis.AnalysisResult.Status == "approve_with_comment";
-
-        private static bool IsDisapprovedWithComment(BulkSolutionAnalysisRun analysis) =>
-            analysis.AnalysisResult.Status == "disapprove_with_comment";
+        private static bool IsDisapproved(BulkSolutionAnalysisRun analysis) =>
+            analysis.AnalysisResult.Status == "disapprove";
 
         private static bool IsReferredToMentor(BulkSolutionAnalysisRun analysis) =>
             analysis.AnalysisResult.Status == "refer_to_mentor";

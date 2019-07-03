@@ -1,5 +1,5 @@
 {
-  "status": "approve_with_comment",
+  "status": "approve",
   "comments": [
     {
       "comment": "csharp.two-fer.use_null_coalescing_operator_not_is_null_or_white_space",

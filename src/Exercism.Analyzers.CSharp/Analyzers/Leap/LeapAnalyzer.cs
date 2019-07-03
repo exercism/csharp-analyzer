@@ -26,7 +26,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
                 leapSolution.AddComment(UseMinimumNumberOfChecks);
 
             return leapSolution.HasComments()
-                ? leapSolution.DisapproveWithComment()
+                ? leapSolution.Disapprove()
                 : leapSolution.ContinueAnalysis();
         }
 
@@ -39,14 +39,14 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
                 leapSolution.AddComment(UseExpressionBodiedMember(leapSolution.IsLeapYearMethodName));
 
             return leapSolution.HasComments()
-                ? leapSolution.ApproveWithComment()
+                ? leapSolution.Approve()
                 : leapSolution.ContinueAnalysis();
         }
 
         private static SolutionAnalysis ApproveWhenOptimal(this LeapSolution leapSolution)
         {
             if (leapSolution.ReturnsMinimumNumberOfChecksInSingleExpression())
-                return leapSolution.ApproveAsOptimal();
+                return leapSolution.Approve();
 
             return leapSolution.ContinueAnalysis();
         }

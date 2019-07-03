@@ -1,5 +1,5 @@
 ﻿{
-  "status": "disapprove_with_comment",
+  "status": "disapprove",
   "comments": [
     { "comment": "csharp.general.do_not_use_nested_if_statement", "params": {} }
   ]

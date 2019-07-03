@@ -11,8 +11,8 @@ namespace Exercism.Analyzers.CSharp.Bulk
         public static StringBuilder AddComments(this StringBuilder report, BulkSolutionsAnalysisRun analysisRun) =>
             report
                 .AddCommentsHeader()
-                .AddCommentsForStatus(analysisRun.ApprovedWithComment, "Approve (comment)")
-                .AddCommentsForStatus(analysisRun.DisapprovedWithComment, "Disapprove (comment)")
+                .AddCommentsForStatus(analysisRun.Approved, "Approve")
+                .AddCommentsForStatus(analysisRun.Disapproved, "Disapprove")
                 .AddCommentsForStatus(analysisRun.All, "Total");
 
         private static StringBuilder AddCommentsHeader(this StringBuilder report) =>

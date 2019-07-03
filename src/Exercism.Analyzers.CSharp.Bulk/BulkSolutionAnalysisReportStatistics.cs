@@ -13,9 +13,8 @@ namespace Exercism.Analyzers.CSharp.Bulk
         public static StringBuilder AddStatistics(this StringBuilder report, BulkSolutionsAnalysisRun analysisRun) =>
             report
                 .AddStatisticsHeader()
-                .AddStatisticsForStatus(analysisRun.ApprovedAsOptimal, "Approve (optimal)")
-                .AddStatisticsForStatus(analysisRun.ApprovedWithComment, "Approve (comment)")
-                .AddStatisticsForStatus(analysisRun.DisapprovedWithComment, "Disapprove (comment)")
+                .AddStatisticsForStatus(analysisRun.Approved, "Approve")
+                .AddStatisticsForStatus(analysisRun.Disapproved, "Disapprove")
                 .AddStatisticsForStatus(analysisRun.ReferredToMentor, "Refer to mentor")
                 .AddStatisticsForStatus(analysisRun.All, "Total");
 

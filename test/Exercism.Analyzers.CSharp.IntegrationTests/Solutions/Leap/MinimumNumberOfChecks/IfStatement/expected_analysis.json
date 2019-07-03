@@ -1,5 +1,5 @@
 ﻿{
-  "status": "approve_with_comment",
+  "status": "approve",
   "comments": [
     { "comment": "csharp.leap.do_not_use_if_statement", "params": {} }
   ]

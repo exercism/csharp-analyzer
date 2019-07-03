@@ -23,7 +23,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                 gigasecondSolution.AddComment(UseAddSeconds);
 
             return gigasecondSolution.HasComments()
-                ? gigasecondSolution.DisapproveWithComment()
+                ? gigasecondSolution.Disapprove()
                 : gigasecondSolution.ContinueAnalysis();
         }
 
@@ -56,7 +56,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                 gigasecondSolution.AddComment(UseExpressionBodiedMember(gigasecondSolution.AddMethodName));
 
             return gigasecondSolution.HasComments() ?
-                gigasecondSolution.ApproveWithComment() :
+                gigasecondSolution.Approve() :
                 gigasecondSolution.ContinueAnalysis();
         }
 
@@ -64,7 +64,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         {
             if (gigasecondSolution.UsesScientificNotation() ||
                 gigasecondSolution.UsesDigitsWithSeparator())
-                return gigasecondSolution.ApproveAsOptimal();
+                return gigasecondSolution.Approve();
 
             return gigasecondSolution.ContinueAnalysis();
         }
