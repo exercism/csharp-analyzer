@@ -11,7 +11,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
         private static SolutionAnalysis Analyze(LeapSolution twoFerSolution) =>
             twoFerSolution.DisapproveWhenInvalid() ??
             twoFerSolution.ApproveWhenValid() ??
-            twoFerSolution.ApproveWhenOptimal() ??
             twoFerSolution.ReferToMentor();
 
         private static SolutionAnalysis DisapproveWhenInvalid(this LeapSolution leapSolution)
@@ -38,16 +37,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
             if (leapSolution.UsesSingleLine() && !leapSolution.UsesExpressionBody())
                 leapSolution.AddComment(UseExpressionBodiedMember(leapSolution.IsLeapYearMethodName));
 
-            return leapSolution.HasComments()
-                ? leapSolution.Approve()
-                : leapSolution.ContinueAnalysis();
-        }
-
-        private static SolutionAnalysis ApproveWhenOptimal(this LeapSolution leapSolution)
-        {
-            if (leapSolution.ReturnsMinimumNumberOfChecksInSingleExpression())
+            if (leapSolution.ReturnsMinimumNumberOfChecksInSingleExpression() ||
+                leapSolution.HasComments())
                 return leapSolution.Approve();
-
+            
             return leapSolution.ContinueAnalysis();
         }
     }

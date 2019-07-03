@@ -11,7 +11,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         private static SolutionAnalysis Analyze(GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.DisapproveWhenInvalid() ??
             gigasecondSolution.ApproveWhenValid() ??
-            gigasecondSolution.ApproveWhenOptimal() ??
             gigasecondSolution.ReferToMentor();
 
         private static SolutionAnalysis DisapproveWhenInvalid(this GigasecondSolution gigasecondSolution)
@@ -55,17 +54,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                 !gigasecondSolution.UsesExpressionBody())
                 gigasecondSolution.AddComment(UseExpressionBodiedMember(gigasecondSolution.AddMethodName));
 
-            return gigasecondSolution.HasComments() ?
-                gigasecondSolution.Approve() :
-                gigasecondSolution.ContinueAnalysis();
-        }
-
-        private static SolutionAnalysis ApproveWhenOptimal(this GigasecondSolution gigasecondSolution)
-        {
             if (gigasecondSolution.UsesScientificNotation() ||
-                gigasecondSolution.UsesDigitsWithSeparator())
+                gigasecondSolution.UsesDigitsWithSeparator() ||
+                gigasecondSolution.HasComments())
                 return gigasecondSolution.Approve();
-
+            
             return gigasecondSolution.ContinueAnalysis();
         }
     }
