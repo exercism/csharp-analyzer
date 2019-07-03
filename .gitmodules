@@ -1,0 +1,3 @@
+[submodule "website-copy"]
+	path = website-copy
+	url = https://github.com/exercism/website-copy.git
