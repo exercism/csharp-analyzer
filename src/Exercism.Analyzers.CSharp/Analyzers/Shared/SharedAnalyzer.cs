@@ -38,13 +38,18 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
             parsedSolution.SyntaxRoot.ThrowsExceptionOfType<NotImplementedException>();
 
         private static bool WritesToConsole(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot.InvokesMethod(
-                SimpleMemberAccessExpression(
-                    IdentifierName("Console"),
-                    IdentifierName("WriteLine"))) ||
-            parsedSolution.SyntaxRoot.InvokesMethod(
-                SimpleMemberAccessExpression(
-                    IdentifierName("Console"),
-                    IdentifierName("Write")));
+            parsedSolution.SyntaxRoot.InvokesMethod("Console.Write") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("Console.WriteAsync") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("Console.WriteLine") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("Console.WriteLineAsync") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("Console.Out.Write") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("Console.Out.WriteAsync") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("Console.Out.WriteLine") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("Console.Out.WriteLineAsync") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("Console.Error.Write") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("Console.Error.WriteAsync") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("Console.Error.WriteLine") ||
+            parsedSolution.SyntaxRoot.InvokesMethod("Console.Error.WriteLineAsync");
+
     }
 }

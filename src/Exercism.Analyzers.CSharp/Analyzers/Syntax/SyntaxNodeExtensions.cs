@@ -56,6 +56,14 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
                 .DescendantNodes<InvocationExpressionSyntax>()
                 .Any(invocationExpression => invocationExpression.Expression.IsEquivalentWhenNormalized(memberAccessExpression)) ?? false;
 
+        public static bool InvokesMethod(this SyntaxNode syntaxNode, string identifier) =>
+            syntaxNode?
+                .DescendantNodes<InvocationExpressionSyntax>()
+                .Any(invocationExpression => invocationExpression.InvokesMethod(identifier)) ?? false;
+
+        private static bool InvokesMethod(this InvocationExpressionSyntax invocationExpression, string identifier) =>
+            invocationExpression?.Expression.WithoutTrivia().ToFullString() == identifier;
+
         public static bool InvokesMethod(this SyntaxNode syntaxNode, SimpleNameSyntax methodName) =>
             syntaxNode?
                 .DescendantNodes<InvocationExpressionSyntax>()

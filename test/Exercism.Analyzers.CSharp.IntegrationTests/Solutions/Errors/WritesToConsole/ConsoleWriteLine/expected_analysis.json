@@ -1,0 +1,9 @@
+{
+  "status": "disapprove",
+  "comments": [
+    {
+      "comment": "csharp.general.do_not_write_to_console",
+      "params": {}
+    }
+  ]
+}

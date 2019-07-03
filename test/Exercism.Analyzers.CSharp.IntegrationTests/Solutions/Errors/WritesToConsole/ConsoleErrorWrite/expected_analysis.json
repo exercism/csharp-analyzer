@@ -2,7 +2,7 @@
   "status": "disapprove",
   "comments": [
     {
-      "comment": "csharp.general.remove_throw_not_implemented_exception",
+      "comment": "csharp.general.do_not_write_to_console",
       "params": {}
     }
   ]

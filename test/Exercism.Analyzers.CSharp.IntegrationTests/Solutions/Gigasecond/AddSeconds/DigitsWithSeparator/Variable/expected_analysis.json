@@ -1,4 +1,6 @@
 {
   "status": "approve",
-  "comments": [{ "comment": "csharp.general.do_not_assign_and_return", "params": {} }]
+  "comments": [
+    { "comment": "csharp.general.do_not_assign_and_return", "params": {} }
+  ]
 }
