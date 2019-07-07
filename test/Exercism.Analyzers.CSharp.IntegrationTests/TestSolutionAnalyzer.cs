@@ -1,7 +1,5 @@
-using System.IO;
-
 namespace Exercism.Analyzers.CSharp.IntegrationTests
-{
+{   
     internal static class TestSolutionAnalyzer
     {
         public static TestSolutionAnalysisRun Run(TestSolution testSolution)
@@ -13,11 +11,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
 
         private static TestSolutionAnalysisRun CreateTestSolutionAnalysisRun(TestSolution solution)
         {
-            var expectedAnalysisJsonFilePath = Path.Combine(solution.Directory, "expected_analysis.json");
-            var actualAnalysisJsonFilePath = Path.Combine(solution.Directory, "analysis.json");
-
-            var expectedAnalysisResult = TestSolutionAnalysisResultReader.Read(expectedAnalysisJsonFilePath);
-            var actualAnalysisResult = TestSolutionAnalysisResultReader.Read(actualAnalysisJsonFilePath);
+            var expectedAnalysisResult = TestSolutionActualAnalysisResultReader.Read(solution);
+            var actualAnalysisResult = TestSolutionExpectedAnalysisResultReader.Read(solution);
 
             return new TestSolutionAnalysisRun(expectedAnalysisResult, actualAnalysisResult);
         }

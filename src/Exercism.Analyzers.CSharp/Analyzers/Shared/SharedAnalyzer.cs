@@ -2,8 +2,6 @@ using System;
 using System.Linq;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Microsoft.CodeAnalysis;
-using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 {
