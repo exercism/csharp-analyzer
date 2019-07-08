@@ -1,5 +1,5 @@
 namespace Exercism.Analyzers.CSharp.IntegrationTests
-{   
+{
     internal static class TestSolutionAnalyzer
     {
         public static TestSolutionAnalysisRun Run(TestSolution testSolution)
