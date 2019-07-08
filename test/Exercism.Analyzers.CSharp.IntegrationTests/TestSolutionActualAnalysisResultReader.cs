@@ -1,5 +1,3 @@
-using System.IO;
-
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
     internal static class TestSolutionActualAnalysisResultReader
@@ -8,9 +6,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         {
             var actualAnalysis = solution.ReadActualAnalysis();
             var actualMarkdown = TestSolutionMarkdownGenerator.Generate(ParseComments(actualAnalysis));
-            
-            File.WriteAllText(Path.Combine("/Users/erikschierboom/Programming/exercism/analyzers.csharp/test/Exercism.Analyzers.CSharp.IntegrationTests", solution.Directory, "expected_comments.md"), actualMarkdown);
-            
+
             return new TestSolutionAnalysisResult(actualAnalysis, actualMarkdown);
         }
 
