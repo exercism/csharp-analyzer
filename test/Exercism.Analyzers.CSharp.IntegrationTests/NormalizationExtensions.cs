@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     internal static class NormalizationExtensions
     {
         public static string NormalizeMarkdown(this string markdown) =>
-            markdown.Replace(Environment.NewLine, "\n");
+            markdown.Replace(Environment.NewLine, "\n").Trim();
         
         public static string NormalizeJson(this string json) =>
             JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.None, CreateJsonSerializerSettings());
