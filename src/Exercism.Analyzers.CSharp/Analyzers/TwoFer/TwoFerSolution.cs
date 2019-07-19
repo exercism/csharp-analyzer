@@ -8,7 +8,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
-    internal class TwoFerSolution : ParsedSolution
+    internal class TwoFerSolution : Solution
     {
         private readonly TwoFerError _twoFerError;
         private readonly MethodDeclarationSyntax _speakMethod;
@@ -17,12 +17,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         private readonly VariableDeclaratorSyntax _twoFerVariable;
 
         public TwoFerSolution(
-            ParsedSolution solution,
+            Solution solution,
             MethodDeclarationSyntax speakMethod,
             ParameterSyntax speakMethodParameter,
             ExpressionSyntax twoFerExpression,
             VariableDeclaratorSyntax twoFerVariableDeclarator,
-            TwoFerError twoFerError) : base(solution.Solution, solution.SyntaxRoot)
+            TwoFerError twoFerError) : base(solution.Slug, solution.Name, solution.SyntaxRoot)
         {
             _twoFerError = twoFerError;
             _speakMethod = speakMethod;

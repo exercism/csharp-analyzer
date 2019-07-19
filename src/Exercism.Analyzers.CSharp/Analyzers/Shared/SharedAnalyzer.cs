@@ -2,52 +2,59 @@ using System;
 using System.Linq;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Microsoft.CodeAnalysis;
+using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 {
     internal static class SharedAnalyzer
     {
-        public static SolutionAnalysis Analyze(ParsedSolution parsedSolution)
+        public static SolutionAnalysis Analyze(Solution solution)
         {
-            if (parsedSolution.HasCompileErrors())
-                parsedSolution.AddComment(SharedComments.FixCompileErrors);
+            if (solution.NoImplementationFileFound())
+                return solution.ReferToMentor();
+            
+            if (solution.HasCompileErrors())
+                solution.AddComment(FixCompileErrors);
 
-            if (parsedSolution.HasMainMethod())
-                parsedSolution.AddComment(SharedComments.RemoveMainMethod);
+            if (solution.HasMainMethod())
+                solution.AddComment(RemoveMainMethod);
 
-            if (parsedSolution.ThrowsNotImplementedException())
-                parsedSolution.AddComment(SharedComments.RemoveThrowNotImplementedException);
+            if (solution.ThrowsNotImplementedException())
+                solution.AddComment(RemoveThrowNotImplementedException);
 
-            if (parsedSolution.WritesToConsole())
-                parsedSolution.AddComment(SharedComments.DoNotWriteToConsole);
+            if (solution.WritesToConsole())
+                solution.AddComment(DoNotWriteToConsole);
 
-            return parsedSolution.HasComments()
-                ? parsedSolution.Disapprove()
-                : parsedSolution.ContinueAnalysis();
+            return solution.HasComments()
+                ? solution.Disapprove()
+                : solution.ContinueAnalysis();
         }
 
-        private static bool HasCompileErrors(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
+        private static bool NoImplementationFileFound(this Solution solution) =>
+            solution.SyntaxRoot == null;
 
-        private static bool HasMainMethod(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot.GetClassMethod("Program", "Main") != null;
+        private static bool HasCompileErrors(this Solution solution) =>
+            solution.SyntaxRoot.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
 
-        private static bool ThrowsNotImplementedException(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot.ThrowsExceptionOfType<NotImplementedException>();
+        private static bool HasMainMethod(this Solution solution) =>
+            solution.SyntaxRoot.GetClassMethod("Program", "Main") != null;
 
-        private static bool WritesToConsole(this ParsedSolution parsedSolution) =>
-            parsedSolution.SyntaxRoot.InvokesMethod("Console.Write") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("Console.WriteAsync") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("Console.WriteLine") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("Console.WriteLineAsync") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("Console.Out.Write") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("Console.Out.WriteAsync") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("Console.Out.WriteLine") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("Console.Out.WriteLineAsync") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("Console.Error.Write") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("Console.Error.WriteAsync") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("Console.Error.WriteLine") ||
-            parsedSolution.SyntaxRoot.InvokesMethod("Console.Error.WriteLineAsync");
+        private static bool ThrowsNotImplementedException(this Solution solution) =>
+            solution.SyntaxRoot.ThrowsExceptionOfType<NotImplementedException>();
+
+        private static bool WritesToConsole(this Solution solution) =>
+            solution.SyntaxRoot.InvokesMethod("Console.Write") ||
+            solution.SyntaxRoot.InvokesMethod("Console.WriteAsync") ||
+            solution.SyntaxRoot.InvokesMethod("Console.WriteLine") ||
+            solution.SyntaxRoot.InvokesMethod("Console.WriteLineAsync") ||
+            solution.SyntaxRoot.InvokesMethod("Console.Out.Write") ||
+            solution.SyntaxRoot.InvokesMethod("Console.Out.WriteAsync") ||
+            solution.SyntaxRoot.InvokesMethod("Console.Out.WriteLine") ||
+            solution.SyntaxRoot.InvokesMethod("Console.Out.WriteLineAsync") ||
+            solution.SyntaxRoot.InvokesMethod("Console.Error.Write") ||
+            solution.SyntaxRoot.InvokesMethod("Console.Error.WriteAsync") ||
+            solution.SyntaxRoot.InvokesMethod("Console.Error.WriteLine") ||
+            solution.SyntaxRoot.InvokesMethod("Console.Error.WriteLineAsync");
 
     }
 }

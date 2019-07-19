@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
-    internal class GigasecondSolution : ParsedSolution
+    internal class GigasecondSolution : Solution
     {
         private readonly MethodDeclarationSyntax _addMethod;
         private readonly ReturnType _addMethodReturnType;
@@ -15,7 +15,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         private readonly ExpressionSyntax _gigasecondValueExpression;
         private readonly GigasecondValueType _gigasecondValueType;
         
-        public GigasecondSolution(ParsedSolution solution,
+        public GigasecondSolution(Solution solution,
             MethodDeclarationSyntax addMethod,
             ReturnType addMethodReturnType,
             InvocationExpressionSyntax addSecondsInvocationExpression,
@@ -23,7 +23,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             FieldDeclarationSyntax addSecondsFieldArgument,
             ArgumentType addSecondsArgumentType,
             ExpressionSyntax gigasecondValueExpression,
-            GigasecondValueType gigasecondValueType) : base(solution.Solution, solution.SyntaxRoot)
+            GigasecondValueType gigasecondValueType) : base(solution.Slug, solution.Name, solution.SyntaxRoot)
         {
             _addMethod = addMethod;
             _addSecondsInvocationExpression = addSecondsInvocationExpression;

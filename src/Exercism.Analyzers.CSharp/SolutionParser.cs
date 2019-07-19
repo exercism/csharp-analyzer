@@ -1,31 +1,41 @@
 using System.IO;
+using Humanizer;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
-using Serilog;
 
 namespace Exercism.Analyzers.CSharp
 {
     internal static class SolutionParser
     {
-        public static ParsedSolution Parse(Solution solution)
-        {
-            if (!File.Exists(solution.Paths.ImplementationFilePath))
-            {
-                Log.Error("Implementation file {File} does not exist.", solution.Paths.ImplementationFilePath);
-                return null;
-            }
+        public static Solution Parse(Options options) =>
+            new Solution(options.Slug, GetSolutionName(options), ParseSyntaxRoot(options));
 
-            var document = solution.ToDocument();
-            return new ParsedSolution(solution, document.GetReducedSyntaxRoot());
+        private static string GetSolutionName(Options options) =>
+            options.Slug.Dehumanize().Pascalize();
+
+        private static SyntaxNode ParseSyntaxRoot(Options options)
+        {
+            var implementationFile = GetImplementationFile(options);
+            if (!implementationFile.Exists)
+                return null;
+
+            using (var fileStream = implementationFile.OpenRead())
+            {
+                var workspace = new AdhocWorkspace();
+                var project = workspace.AddProject(implementationFile.DirectoryName, LanguageNames.CSharp);
+                
+                var sourceText = SourceText.From(fileStream);
+                var document = project.AddDocument(implementationFile.Name, sourceText);
+                return document.GetReducedSyntaxRoot();
+            }
         }
 
-        private static Document ToDocument(this Solution solution)
+        private static FileInfo GetImplementationFile(Options options)
         {
-            var workspace = new AdhocWorkspace();
+            var implementationFileName = $"{GetSolutionName(options)}.cs";
+            var implementationFilePath = Path.GetFullPath(Path.Combine(options.Directory, implementationFileName));
 
-            var sourceText = SourceText.From(File.ReadAllText(solution.Paths.ImplementationFilePath));
-            var project = workspace.AddProject(solution.Name, LanguageNames.CSharp);
-            return project.AddDocument($"{solution.Name}.cs", sourceText);
+            return new FileInfo(implementationFilePath);
         }
     }
 }

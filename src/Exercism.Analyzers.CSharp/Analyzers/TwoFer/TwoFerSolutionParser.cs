@@ -10,7 +10,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
     internal static class TwoFerSolutionParser
     {
-        public static TwoFerSolution Parse(ParsedSolution solution)
+        public static TwoFerSolution Parse(Solution solution)
         {
             var twoFerClass = solution.SyntaxRoot.GetClass("TwoFer");
             var speakMethod = twoFerClass.GetMethod("Speak");

@@ -2,10 +2,10 @@ namespace Exercism.Analyzers.CSharp
 {
     internal class SolutionAnalysis
     {
-        public Solution Solution { get; }
-        public SolutionAnalysisResult Result { get; }
+        public SolutionStatus Status { get; }
+        public SolutionComment[] Comments { get; }
 
-        public SolutionAnalysis(Solution solution, SolutionAnalysisResult result) =>
-            (Solution, Result) = (solution, result);
+        public SolutionAnalysis(SolutionStatus status, SolutionComment[] comments) =>
+            (Status, Comments) = (status, comments);
     }
 }

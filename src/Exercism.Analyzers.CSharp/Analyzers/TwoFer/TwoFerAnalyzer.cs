@@ -5,8 +5,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
     internal static class TwoFerAnalyzer
     {
-        public static SolutionAnalysis Analyze(ParsedSolution parsedSolution) =>
-            Analyze(TwoFerSolutionParser.Parse(parsedSolution));
+        public static SolutionAnalysis Analyze(Solution solution) =>
+            Analyze(TwoFerSolutionParser.Parse(solution));
 
         private static SolutionAnalysis Analyze(TwoFerSolution twoFerSolution) =>
             twoFerSolution.DisapproveWhenInvalid() ??

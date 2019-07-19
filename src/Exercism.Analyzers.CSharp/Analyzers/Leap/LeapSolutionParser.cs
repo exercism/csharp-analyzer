@@ -5,7 +5,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 {
     internal static class LeapSolutionParser
     {
-        public static LeapSolution Parse(ParsedSolution solution)
+        public static LeapSolution Parse(Solution solution)
         {
             var leapClass = solution.LeapClass();
             var isLeapYearMethod = leapClass.IsLeapYearMethod();
@@ -15,7 +15,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
             return new LeapSolution(solution, isLeapYearMethod, yearParameter, returnedExpression);
         }
 
-        private static ClassDeclarationSyntax LeapClass(this ParsedSolution solution) =>
+        private static ClassDeclarationSyntax LeapClass(this Solution solution) =>
             solution.SyntaxRoot.GetClass("Leap");
 
         private static MethodDeclarationSyntax IsLeapYearMethod(this ClassDeclarationSyntax leapClass) =>

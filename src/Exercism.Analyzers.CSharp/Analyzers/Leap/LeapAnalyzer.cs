@@ -5,8 +5,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 {
     internal static class LeapAnalyzer
     {
-        public static SolutionAnalysis Analyze(ParsedSolution parsedSolution) =>
-            Analyze(LeapSolutionParser.Parse(parsedSolution));
+        public static SolutionAnalysis Analyze(Solution solution) =>
+            Analyze(LeapSolutionParser.Parse(solution));
 
         private static SolutionAnalysis Analyze(LeapSolution twoFerSolution) =>
             twoFerSolution.DisapproveWhenInvalid() ??

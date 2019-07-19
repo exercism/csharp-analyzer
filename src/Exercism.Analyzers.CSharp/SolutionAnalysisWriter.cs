@@ -1,25 +1,25 @@
 using System.IO;
 using Humanizer;
 using Newtonsoft.Json;
-using Serilog;
 
 namespace Exercism.Analyzers.CSharp
 {
     internal static class SolutionAnalysisWriter
     {
-        public static void Write(SolutionAnalysis solutionAnalysis)
+        public static void Write(Options options, SolutionAnalysis solutionAnalysis)
         {
-            Log.Information("Writing analyzed solution to analysis file.");
-
-            using (var fileWriter = File.CreateText(solutionAnalysis.Solution.Paths.AnalysisFilePath))
+            using (var fileWriter = File.CreateText(GetAnalysisFilePath(options)))
             using (var jsonTextWriter = new JsonTextWriter(fileWriter))
             {
                 jsonTextWriter.WriteStartObject();
-                jsonTextWriter.WriteStatus(solutionAnalysis.Result.Status);
-                jsonTextWriter.WriteComments(solutionAnalysis.Result.Comments);
+                jsonTextWriter.WriteStatus(solutionAnalysis.Status);
+                jsonTextWriter.WriteComments(solutionAnalysis.Comments);
                 jsonTextWriter.WriteEndObject();
             }
         }
+
+        private static string GetAnalysisFilePath(Options options) =>
+            Path.GetFullPath(Path.Combine(options.Directory, "analysis.json"));
 
         private static void WriteStatus(this JsonTextWriter jsonTextWriter, SolutionStatus status)
         {

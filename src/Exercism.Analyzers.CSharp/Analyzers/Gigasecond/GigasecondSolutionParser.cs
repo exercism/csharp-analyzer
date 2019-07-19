@@ -11,7 +11,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
     internal static class GigasecondSolutionParser
     {
-        public static GigasecondSolution Parse(ParsedSolution solution)
+        public static GigasecondSolution Parse(Solution solution)
         {
             var gigasecondClass = solution.GigasecondClass();
             var addMethod = gigasecondClass.AddMethod();
@@ -30,7 +30,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             return new GigasecondSolution(solution, addMethod, addMethodReturnType, addSecondsInvocationExpression, addSecondsArgumentVariableLocalDeclarationStatement, addSecondsArgumentVariableFieldDeclaration, addSecondsArgumentType, addSecondsArgumentValueExpression, addSecondsArgumentValueType);
         }
         
-        private static ClassDeclarationSyntax GigasecondClass(this ParsedSolution solution) =>
+        private static ClassDeclarationSyntax GigasecondClass(this Solution solution) =>
             solution.SyntaxRoot.GetClass("Gigasecond");
         
         private static MethodDeclarationSyntax AddMethod(this ClassDeclarationSyntax gigasecondClass) =>

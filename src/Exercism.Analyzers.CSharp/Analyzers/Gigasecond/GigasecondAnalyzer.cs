@@ -5,8 +5,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
     internal static class GigasecondAnalyzer
     {
-        public static SolutionAnalysis Analyze(ParsedSolution parsedSolution) =>
-            Analyze(GigasecondSolutionParser.Parse(parsedSolution));
+        public static SolutionAnalysis Analyze(Solution solution) =>
+            Analyze(GigasecondSolutionParser.Parse(solution));
 
         private static SolutionAnalysis Analyze(GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.DisapproveWhenInvalid() ??

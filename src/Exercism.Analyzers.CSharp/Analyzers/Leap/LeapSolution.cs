@@ -9,7 +9,7 @@ using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 {
-    internal class LeapSolution : ParsedSolution
+    internal class LeapSolution : Solution
     {
         private const int MinimalNumberOfChecks = 3;
 
@@ -17,10 +17,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
         private readonly MethodDeclarationSyntax _isLeapYearMethod;
         private readonly SyntaxNode _returnExpression;
 
-        public LeapSolution(ParsedSolution solution,
+        public LeapSolution(Solution solution,
             MethodDeclarationSyntax isLeapYearMethod,
             ParameterSyntax yearParameter,
-            SyntaxNode returnExpression) : base(solution.Solution, solution.SyntaxRoot)
+            SyntaxNode returnExpression) : base(solution.Slug, solution.Name, solution.SyntaxRoot)
         {
             _yearParameter = yearParameter;
             _isLeapYearMethod = isLeapYearMethod;
