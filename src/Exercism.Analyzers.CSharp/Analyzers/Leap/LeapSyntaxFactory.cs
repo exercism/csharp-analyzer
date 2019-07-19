@@ -6,49 +6,52 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 {
     internal static class LeapSyntaxFactory
     {
-        public static IdentifierNameSyntax LeapParameterIdentifierName(LeapSolution leapSolution) =>
-            IdentifierName(leapSolution.YearParameterName);
+        public static MemberAccessExpressionSyntax IsLeapYearMemberAccessExpression() =>
+            DateTimeMemberAccessExpression(IdentifierName("IsLeapYear"));
+        
+        public static IdentifierNameSyntax LeapParameterIdentifierName(LeapSolution solution) =>
+            IdentifierName(solution.YearParameterName);
 
-        public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpression(LeapSolution leapSolution) =>
+        public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpression(LeapSolution solution) =>
             LogicalOrExpression(
                 LogicalAndExpression(
-                    DivisibleByFour(leapSolution),
-                    NotDivisibleByHundred(leapSolution)),
-                DivisibleByFourHundred(leapSolution));
+                    DivisibleByFour(solution),
+                    NotDivisibleByHundred(solution)),
+                DivisibleByFourHundred(solution));
 
-        public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpressionReversed(LeapSolution leapSolution) =>
+        public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpressionReversed(LeapSolution solution) =>
             LogicalOrExpression(
-                DivisibleByFourHundred(leapSolution),
+                DivisibleByFourHundred(solution),
                 LogicalAndExpression(
-                    NotDivisibleByHundred(leapSolution),
-                    DivisibleByFour(leapSolution)));
+                    NotDivisibleByHundred(solution),
+                    DivisibleByFour(solution)));
 
-        public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithParenthesesBinaryExpression(LeapSolution leapSolution) =>
+        public static BinaryExpressionSyntax LeapMinimumNumberOfChecksWithParenthesesBinaryExpression(LeapSolution solution) =>
             LogicalAndExpression(
-                DivisibleByFour(leapSolution),
+                DivisibleByFour(solution),
                 ParenthesizedExpression(
                     LogicalOrExpression(
-                        NotDivisibleByHundred(leapSolution),
-                        DivisibleByFourHundred(leapSolution))));
+                        NotDivisibleByHundred(solution),
+                        DivisibleByFourHundred(solution))));
 
-        private static BinaryExpressionSyntax DivisibleByFour(LeapSolution leapSolution) =>
+        private static BinaryExpressionSyntax DivisibleByFour(LeapSolution solution) =>
             EqualsExpression(
-                LeapModuloExpression(leapSolution, 4),
+                LeapYearModuloExpression(solution, 4),
                 NumericLiteralExpression(0));
 
-        private static BinaryExpressionSyntax NotDivisibleByHundred(LeapSolution leapSolution) =>
+        private static BinaryExpressionSyntax NotDivisibleByHundred(LeapSolution solution) =>
             NotEqualsExpression(
-                LeapModuloExpression(leapSolution, 100),
+                LeapYearModuloExpression(solution, 100),
                 NumericLiteralExpression(0));
 
-        private static BinaryExpressionSyntax DivisibleByFourHundred(LeapSolution leapSolution) =>
+        private static BinaryExpressionSyntax DivisibleByFourHundred(LeapSolution solution) =>
             EqualsExpression(
-                LeapModuloExpression(leapSolution, 400),
+                LeapYearModuloExpression(solution, 400),
                 NumericLiteralExpression(0));
 
-        private static BinaryExpressionSyntax LeapModuloExpression(LeapSolution leapSolution, int year) =>
+        private static BinaryExpressionSyntax LeapYearModuloExpression(LeapSolution solution, int year) =>
             ModuloExpression(
-                LeapParameterIdentifierName(leapSolution),
+                LeapParameterIdentifierName(solution),
                 NumericLiteralExpression(year));
     }
 }

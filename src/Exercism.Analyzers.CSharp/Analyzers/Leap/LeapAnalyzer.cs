@@ -5,43 +5,40 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 {
     internal static class LeapAnalyzer
     {
-        public static SolutionAnalysis Analyze(Solution solution) =>
-            Analyze(LeapSolutionParser.Parse(solution));
+        public static SolutionAnalysis Analyze(LeapSolution solution) =>
+            solution.DisapproveWhenInvalid() ??
+            solution.ApproveWhenValid() ??
+            solution.ReferToMentor();
 
-        private static SolutionAnalysis Analyze(LeapSolution twoFerSolution) =>
-            twoFerSolution.DisapproveWhenInvalid() ??
-            twoFerSolution.ApproveWhenValid() ??
-            twoFerSolution.ReferToMentor();
-
-        private static SolutionAnalysis DisapproveWhenInvalid(this LeapSolution leapSolution)
+        private static SolutionAnalysis DisapproveWhenInvalid(this LeapSolution solution)
         {
-            if (leapSolution.UsesDateTimeIsLeapYear())
-                leapSolution.AddComment(DoNotUseIsLeapYear);
+            if (solution.UsesDateTimeIsLeapYear())
+                solution.AddComment(DoNotUseIsLeapYear);
 
-            if (leapSolution.UsesNestedIfStatement())
-                leapSolution.AddComment(DoNotUseNestedIfStatement);
+            if (solution.UsesNestedIfStatement())
+                solution.AddComment(DoNotUseNestedIfStatement);
 
-            if (leapSolution.UsesTooManyChecks())
-                leapSolution.AddComment(UseMinimumNumberOfChecks);
+            if (solution.UsesTooManyChecks())
+                solution.AddComment(UseMinimumNumberOfChecks);
 
-            return leapSolution.HasComments()
-                ? leapSolution.Disapprove()
-                : leapSolution.ContinueAnalysis();
+            return solution.HasComments()
+                ? solution.Disapprove()
+                : solution.ContinueAnalysis();
         }
 
-        private static SolutionAnalysis ApproveWhenValid(this LeapSolution leapSolution)
+        private static SolutionAnalysis ApproveWhenValid(this LeapSolution solution)
         {
-            if (leapSolution.UsesIfStatement())
-                leapSolution.AddComment(DoNotUseIfStatement);
+            if (solution.UsesIfStatement())
+                solution.AddComment(DoNotUseIfStatement);
 
-            if (leapSolution.UsesSingleLine() && !leapSolution.UsesExpressionBody())
-                leapSolution.AddComment(UseExpressionBodiedMember(leapSolution.IsLeapYearMethodName));
+            if (solution.UsesSingleLine() && !solution.UsesExpressionBody())
+                solution.AddComment(UseExpressionBodiedMember(solution.IsLeapYearMethodName));
 
-            if (leapSolution.ReturnsMinimumNumberOfChecksInSingleExpression() ||
-                leapSolution.HasComments())
-                return leapSolution.Approve();
-            
-            return leapSolution.ContinueAnalysis();
+            if (solution.ReturnsMinimumNumberOfChecksInSingleExpression() ||
+                solution.HasComments())
+                return solution.Approve();
+
+            return solution.ContinueAnalysis();
         }
     }
 }

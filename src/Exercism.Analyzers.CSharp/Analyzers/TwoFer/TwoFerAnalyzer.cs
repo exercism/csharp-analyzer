@@ -5,147 +5,144 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
     internal static class TwoFerAnalyzer
     {
-        public static SolutionAnalysis Analyze(Solution solution) =>
-            Analyze(TwoFerSolutionParser.Parse(solution));
+        public static SolutionAnalysis Analyze(TwoFerSolution solution) =>
+            solution.DisapproveWhenInvalid() ??
+            solution.ApproveWhenValid() ??
+            solution.ReferToMentor();
 
-        private static SolutionAnalysis Analyze(TwoFerSolution twoFerSolution) =>
-            twoFerSolution.DisapproveWhenInvalid() ??
-            twoFerSolution.ApproveWhenValid() ??
-            twoFerSolution.ReferToMentor();
-
-        private static SolutionAnalysis DisapproveWhenInvalid(this TwoFerSolution twoFerSolution)
+        private static SolutionAnalysis DisapproveWhenInvalid(this TwoFerSolution solution)
         {
-            if (twoFerSolution.UsesOverloads)
-                twoFerSolution.AddComment(UseDefaultValueNotOverloads);
+            if (solution.UsesOverloads())
+                solution.AddComment(UseDefaultValueNotOverloads);
 
-            if (twoFerSolution.MissingSpeakMethod ||
-                twoFerSolution.InvalidSpeakMethod)
-                twoFerSolution.AddComment(FixCompileErrors);
+            if (solution.MissingSpeakMethod() ||
+                solution.InvalidSpeakMethod())
+                solution.AddComment(FixCompileErrors);
 
-            if (twoFerSolution.UsesDuplicateString)
-                twoFerSolution.AddComment(UseSingleFormattedStringNotMultiple);
+            if (solution.UsesDuplicateString())
+                solution.AddComment(UseSingleFormattedStringNotMultiple);
 
-            if (twoFerSolution.NoDefaultValue)
-                twoFerSolution.AddComment(UseDefaultValue(twoFerSolution.SpeakMethodParameterName));
+            if (solution.NoDefaultValue())
+                solution.AddComment(UseDefaultValue(solution.SpeakMethodParameterName));
 
-            if (twoFerSolution.InvalidDefaultValue)
-                twoFerSolution.AddComment(InvalidDefaultValue(twoFerSolution.SpeakMethodParameterName, twoFerSolution.SpeakMethodParameterDefaultValue));
+            if (solution.UsesInvalidDefaultValue())
+                solution.AddComment(InvalidDefaultValue(solution.SpeakMethodParameterName, solution.SpeakMethodParameterDefaultValue));
 
-            if (twoFerSolution.UsesStringReplace)
-                twoFerSolution.AddComment(UseStringInterpolationNotStringReplace);
+            if (solution.UsesStringReplace())
+                solution.AddComment(UseStringInterpolationNotStringReplace);
 
-            if (twoFerSolution.UsesStringJoin)
-                twoFerSolution.AddComment(UseStringInterpolationNotStringJoin);
+            if (solution.UsesStringJoin())
+                solution.AddComment(UseStringInterpolationNotStringJoin);
 
-            if (twoFerSolution.UsesStringConcat)
-                twoFerSolution.AddComment(UseStringInterpolationNotStringConcat);
+            if (solution.UsesStringConcat())
+                solution.AddComment(UseStringInterpolationNotStringConcat);
 
-            return twoFerSolution.HasComments()
-                ? twoFerSolution.Disapprove()
-                : twoFerSolution.ContinueAnalysis();
+            return solution.HasComments()
+                ? solution.Disapprove()
+                : solution.ContinueAnalysis();
         }
 
-        private static SolutionAnalysis ApproveWhenValid(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.AnalyzeSingleLine() ??
-            twoFerSolution.AnalyzeParameterAssignment() ??
-            twoFerSolution.AnalyzeVariableAssignment();
+        private static SolutionAnalysis ApproveWhenValid(this TwoFerSolution solution) =>
+            solution.AnalyzeSingleLine() ??
+            solution.AnalyzeParameterAssignment() ??
+            solution.AnalyzeVariableAssignment();
 
-        private static SolutionAnalysis AnalyzeSingleLine(this TwoFerSolution twoFerSolution)
+        private static SolutionAnalysis AnalyzeSingleLine(this TwoFerSolution solution)
         {
-            if (!twoFerSolution.UsesSingleLine())
+            if (!solution.UsesSingleLine())
                 return null;
 
-            if (twoFerSolution.ReturnsStringInterpolationWithIsNullOrEmptyCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
+            if (solution.ReturnsStringInterpolationWithIsNullOrEmptyCheck())
+                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
 
-            if (twoFerSolution.ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
+            if (solution.ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck())
+                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
-            if (twoFerSolution.ReturnsStringInterpolationWithNullCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotNullCheck);
+            if (solution.ReturnsStringInterpolationWithNullCheck())
+                solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
 
-            if (twoFerSolution.ReturnsStringConcatenation())
-                twoFerSolution.AddComment(UseStringInterpolationNotStringConcatenation);
+            if (solution.ReturnsStringConcatenation())
+                solution.AddComment(UseStringInterpolationNotStringConcatenation);
 
-            if (twoFerSolution.ReturnsStringFormat())
-                twoFerSolution.AddComment(UseStringInterpolationNotStringFormat);
+            if (solution.ReturnsStringFormat())
+                solution.AddComment(UseStringInterpolationNotStringFormat);
 
-            if (!twoFerSolution.UsesExpressionBody())
-                twoFerSolution.AddComment(UseExpressionBodiedMember(twoFerSolution.SpeakMethodName));
+            if (!solution.UsesExpressionBody())
+                solution.AddComment(UseExpressionBodiedMember(solution.SpeakMethodName));
 
-            if (twoFerSolution.ReturnsStringInterpolationWithDefaultValue() ||
-                twoFerSolution.ReturnsStringInterpolationWithNullCoalescingOperator() ||
-                twoFerSolution.HasComments())
-                return twoFerSolution.Approve();
+            if (solution.ReturnsStringInterpolationWithDefaultValue() ||
+                solution.ReturnsStringInterpolationWithNullCoalescingOperator() ||
+                solution.HasComments())
+                return solution.Approve();
 
-            return twoFerSolution.ContinueAnalysis();
+            return solution.ContinueAnalysis();
         }
 
-        private static SolutionAnalysis AnalyzeParameterAssignment(this TwoFerSolution twoFerSolution)
+        private static SolutionAnalysis AnalyzeParameterAssignment(this TwoFerSolution solution)
         {
-            if (!twoFerSolution.AssignsToParameter())
+            if (!solution.AssignsToParameter())
                 return null;
 
-            if (!twoFerSolution.AssignsParameterUsingKnownExpression())
-                return twoFerSolution.ReferToMentor();
+            if (!solution.AssignsParameterUsingKnownExpression())
+                return solution.ReferToMentor();
 
-            if (twoFerSolution.ReturnsStringFormat())
-                twoFerSolution.AddComment(UseStringInterpolationNotStringFormat);
+            if (solution.ReturnsStringFormat())
+                solution.AddComment(UseStringInterpolationNotStringFormat);
 
-            if (twoFerSolution.ReturnsStringConcatenation())
-                twoFerSolution.AddComment(UseStringInterpolationNotStringConcatenation);
+            if (solution.ReturnsStringConcatenation())
+                solution.AddComment(UseStringInterpolationNotStringConcatenation);
 
-            if (twoFerSolution.AssignsParameterUsingNullCoalescingOperator())
-                twoFerSolution.AddComment(DoNotAssignAndReturn);
+            if (solution.AssignsParameterUsingNullCoalescingOperator())
+                solution.AddComment(DoNotAssignAndReturn);
 
-            if (twoFerSolution.AssignsParameterUsingNullCheck() ||
-                twoFerSolution.AssignsParameterUsingIfNullCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotNullCheck);
+            if (solution.AssignsParameterUsingNullCheck() ||
+                solution.AssignsParameterUsingIfNullCheck())
+                solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
 
-            if (twoFerSolution.AssignsParameterUsingIsNullOrEmptyCheck() ||
-                twoFerSolution.AssignsParameterUsingIfIsNullOrEmptyCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
+            if (solution.AssignsParameterUsingIsNullOrEmptyCheck() ||
+                solution.AssignsParameterUsingIfIsNullOrEmptyCheck())
+                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
 
-            if (twoFerSolution.AssignsParameterUsingIsNullOrWhiteSpaceCheck() ||
-                twoFerSolution.AssignsParameterUsingIfIsNullOrWhiteSpaceCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
+            if (solution.AssignsParameterUsingIsNullOrWhiteSpaceCheck() ||
+                solution.AssignsParameterUsingIfIsNullOrWhiteSpaceCheck())
+                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
-            if (twoFerSolution.ReturnsStringInterpolation() ||
-                twoFerSolution.HasComments())
-                return twoFerSolution.Approve();
+            if (solution.ReturnsStringInterpolation() ||
+                solution.HasComments())
+                return solution.Approve();
 
-            return twoFerSolution.ContinueAnalysis();
+            return solution.ContinueAnalysis();
         }
 
-        private static SolutionAnalysis AnalyzeVariableAssignment(this TwoFerSolution twoFerSolution)
+        private static SolutionAnalysis AnalyzeVariableAssignment(this TwoFerSolution solution)
         {
-            if (!twoFerSolution.AssignsVariable())
+            if (!solution.AssignsVariable())
                 return null;
 
-            if (!twoFerSolution.AssignsVariableUsingKnownInitializer())
-                return twoFerSolution.ReferToMentor();
+            if (!solution.AssignsVariableUsingKnownInitializer())
+                return solution.ReferToMentor();
 
-            if (twoFerSolution.ReturnsStringFormatWithVariable())
-                twoFerSolution.AddComment(UseStringInterpolationNotStringFormat);
+            if (solution.ReturnsStringFormatWithVariable())
+                solution.AddComment(UseStringInterpolationNotStringFormat);
 
-            if (twoFerSolution.ReturnsStringConcatenationWithVariable())
-                twoFerSolution.AddComment(UseStringInterpolationNotStringConcatenation);
+            if (solution.ReturnsStringConcatenationWithVariable())
+                solution.AddComment(UseStringInterpolationNotStringConcatenation);
 
-            if (twoFerSolution.AssignsVariableUsingNullCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotNullCheck);
+            if (solution.AssignsVariableUsingNullCheck())
+                solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
 
-            if (twoFerSolution.AssignsVariableUsingIsNullOrEmptyCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
+            if (solution.AssignsVariableUsingIsNullOrEmptyCheck())
+                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
 
-            if (twoFerSolution.AssignsVariableUsingIsNullOrWhiteSpaceCheck())
-                twoFerSolution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
+            if (solution.AssignsVariableUsingIsNullOrWhiteSpaceCheck())
+                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
-            if (twoFerSolution.ReturnsStringInterpolationWithVariable() &&
-                twoFerSolution.AssignsVariableUsingNullCoalescingOperator() ||
-                twoFerSolution.HasComments())
-                return twoFerSolution.Approve();
+            if (solution.ReturnsStringInterpolationWithVariable() &&
+                solution.AssignsVariableUsingNullCoalescingOperator() ||
+                solution.HasComments())
+                return solution.Approve();
 
-            return twoFerSolution.ContinueAnalysis();
+            return solution.ContinueAnalysis();
         }
     }
 }

@@ -24,16 +24,16 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                                 parameterName,
                                 StringLiteralExpression("you"))))));
 
-        public static BinaryExpressionSyntax TwoFerParameterIsNullExpression(TwoFerSolution twoFerSolution) =>
+        public static BinaryExpressionSyntax TwoFerParameterIsNullExpression(TwoFerSolution solution) =>
             EqualsExpression(
-                TwoFerParameterIdentifierName(twoFerSolution),
+                TwoFerParameterIdentifierName(solution),
                 NullLiteralExpression());
 
-        public static IdentifierNameSyntax TwoFerParameterIdentifierName(TwoFerSolution twoFerSolution) =>
-            IdentifierName(twoFerSolution.SpeakMethodParameterName);
+        public static IdentifierNameSyntax TwoFerParameterIdentifierName(TwoFerSolution solution) =>
+            IdentifierName(solution.SpeakMethodParameterName);
 
-        public static IdentifierNameSyntax TwoFerVariableIdentifierName(TwoFerSolution twoFerSolution) =>
-            IdentifierName(twoFerSolution.TwoFerVariableName);
+        public static IdentifierNameSyntax TwoFerVariableIdentifierName(TwoFerSolution solution) =>
+            IdentifierName(solution.TwoFerVariableName);
 
         public static BinaryExpressionSyntax TwoFerCoalesceExpression(IdentifierNameSyntax identifierName) =>
             CoalesceExpression(
@@ -57,12 +57,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 StringLiteralExpression("you"),
                 identifierName);
 
-        public static ConditionalExpressionSyntax TwoFerConditionalExpressionWithNullCheck(TwoFerSolution twoFerSolution) =>
+        public static ConditionalExpressionSyntax TwoFerConditionalExpressionWithNullCheck(TwoFerSolution solution) =>
             TwoFerConditionalExpression(
                 EqualsExpression(
-                    IdentifierName(twoFerSolution.SpeakMethodParameterName),
+                    IdentifierName(solution.SpeakMethodParameterName),
                     NullLiteralExpression()),
-                IdentifierName(twoFerSolution.SpeakMethodParameterName));
+                IdentifierName(solution.SpeakMethodParameterName));
 
         public static BinaryExpressionSyntax TwoFerStringConcatenationExpression(ExpressionSyntax nameExpression) =>
             AddExpression(
@@ -100,19 +100,19 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 ParenthesizedExpression(
                     TwoFerConditionalExpression(condition, identifierName)));
 
-        public static ConditionalExpressionSyntax TwoFerParameterIsNullConditionalExpression(TwoFerSolution twoFerSolution) =>
+        public static ConditionalExpressionSyntax TwoFerParameterIsNullConditionalExpression(TwoFerSolution solution) =>
             TwoFerConditionalExpression(
-                TwoFerParameterIsNullExpression(twoFerSolution),
-                TwoFerParameterIdentifierName(twoFerSolution));
+                TwoFerParameterIsNullExpression(solution),
+                TwoFerParameterIdentifierName(solution));
 
-        public static ConditionalExpressionSyntax TwoFerParameterIsNullOrEmptyConditionalExpression(TwoFerSolution twoFerSolution) =>
+        public static ConditionalExpressionSyntax TwoFerParameterIsNullOrEmptyConditionalExpression(TwoFerSolution solution) =>
             TwoFerConditionalExpression(
-                TwoFerIsNullOrEmptyInvocationExpression(twoFerSolution),
-                TwoFerParameterIdentifierName(twoFerSolution));
+                TwoFerIsNullOrEmptyInvocationExpression(solution),
+                TwoFerParameterIdentifierName(solution));
 
-        public static ConditionalExpressionSyntax TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(TwoFerSolution twoFerSolution) =>
+        public static ConditionalExpressionSyntax TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(TwoFerSolution solution) =>
             TwoFerConditionalExpression(
-                TwoFerIsNullOrWhiteSpaceInvocationExpression(twoFerSolution),
-                TwoFerParameterIdentifierName(twoFerSolution));
+                TwoFerIsNullOrWhiteSpaceInvocationExpression(solution),
+                TwoFerParameterIdentifierName(solution));
     }
 }

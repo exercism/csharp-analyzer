@@ -11,8 +11,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
 
         private static TestSolutionAnalysisRun CreateTestSolutionAnalysisRun(TestSolution solution)
         {
-            var expectedAnalysisResult = TestSolutionActualAnalysisResultReader.Read(solution);
-            var actualAnalysisResult = TestSolutionExpectedAnalysisResultReader.Read(solution);
+            var expectedAnalysisResult = TestSolutionExpectedAnalysisResultReader.Read(solution);
+            var actualAnalysisResult = TestSolutionActualAnalysisResultReader.Read(solution);
 
             return new TestSolutionAnalysisRun(expectedAnalysisResult, actualAnalysisResult);
         }

@@ -12,7 +12,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
     {
         public static IEnumerable<TSyntaxNode> DescendantNodes<TSyntaxNode>(this SyntaxNode syntaxNode)
             where TSyntaxNode : SyntaxNode =>
-            syntaxNode.DescendantNodes().OfType<TSyntaxNode>();
+            syntaxNode?.DescendantNodes().OfType<TSyntaxNode>() ?? Enumerable.Empty<TSyntaxNode>();
 
         public static MethodDeclarationSyntax GetClassMethod(this SyntaxNode syntaxNode, string className,
             string methodName) => syntaxNode.GetClass(className).GetMethod(methodName);
@@ -70,5 +70,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
                 .Any(invocationExpression =>
                     invocationExpression.Expression is MemberAccessExpressionSyntax memberAccessExpression &&
                     memberAccessExpression.Name.IsEquivalentWhenNormalized(methodName)) ?? false;
+
+        public static InvocationExpressionSyntax InvocationExpression(this SyntaxNode syntaxNode, ExpressionSyntax expression) =>
+            syntaxNode?
+                .DescendantNodes<InvocationExpressionSyntax>()
+                .FirstOrDefault(invocationExpression => invocationExpression.Expression.IsEquivalentWhenNormalized(expression));
     }
 }

@@ -6,7 +6,7 @@ namespace Exercism.Analyzers.CSharp
 {
     internal static class SolutionAnalysisWriter
     {
-        public static void Write(Options options, SolutionAnalysis solutionAnalysis)
+        public static void WriteToFile(Options options, SolutionAnalysis solutionAnalysis)
         {
             using (var fileWriter = File.CreateText(GetAnalysisFilePath(options)))
             using (var jsonTextWriter = new JsonTextWriter(fileWriter))
@@ -34,7 +34,7 @@ namespace Exercism.Analyzers.CSharp
 
             foreach (var comment in comments)
                 jsonTextWriter.WriteComment(comment);
-            
+
             jsonTextWriter.WriteEndArray();
         }
 
@@ -56,10 +56,10 @@ namespace Exercism.Analyzers.CSharp
         {
             jsonTextWriter.WritePropertyName("params");
             jsonTextWriter.WriteStartObject();
-            
+
             foreach (var parameter in comment.Parameters)
                 jsonTextWriter.WriteCommentParameter(parameter);
-            
+
             jsonTextWriter.WriteEndObject();
         }
 
