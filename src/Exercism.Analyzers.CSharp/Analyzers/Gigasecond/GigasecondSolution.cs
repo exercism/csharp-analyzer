@@ -9,132 +9,107 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
     internal class GigasecondSolution : Solution
     {
-        private readonly ClassDeclarationSyntax _gigasecondClass;
-        private readonly MethodDeclarationSyntax _addMethod;
-        private readonly ParameterSyntax _addMethodParameter;
-        private readonly ReturnType _addMethodReturnType;
-        private readonly ExpressionSyntax _addMethodReturnedExpression;
-        private readonly InvocationExpressionSyntax _addSecondsInvocationExpression;
-        private readonly ExpressionSyntax _addSecondsArgumentExpression;
-        private readonly LocalDeclarationStatementSyntax _addSecondsLocalArgument;
-        private readonly FieldDeclarationSyntax _addSecondsFieldArgument;
-        private readonly VariableDeclaratorSyntax _addSecondsArgumentVariable;
-        private readonly ArgumentType _addSecondsArgumentType;
-        private readonly ExpressionSyntax _gigasecondValueExpression;
-
         public GigasecondSolution(Solution solution) : base(solution)
         {
-            _gigasecondClass = GigasecondClass();
-            _addMethod = AddMethod();
-            _addMethodParameter = AddMethodParameter();
-            _addMethodReturnedExpression = AddMethodReturnedExpression();
-            _addSecondsInvocationExpression = AddSecondsInvocationExpression();
-            _addSecondsArgumentExpression = AddSecondsArgumentExpression();
-            _addSecondsArgumentVariable = AddSecondsArgumentVariable();
-            _addSecondsLocalArgument = AddSecondsLocalArgument();
-            _addSecondsFieldArgument = AddSecondsFieldArgument();
-            _addSecondsArgumentType = AddSecondsArgumentType();
-            _gigasecondValueExpression = GigasecondValueExpression();
-            _addMethodReturnType = AddMethodReturnType();
         }
 
         private ClassDeclarationSyntax GigasecondClass() =>
             SyntaxRoot.GetClass("Gigasecond");
 
         private MethodDeclarationSyntax AddMethod() =>
-            _gigasecondClass?.GetMethod("Add");
+            GigasecondClass()?.GetMethod("Add");
 
         private ReturnType AddMethodReturnType() =>
-            ReturnedAs(_addSecondsInvocationExpression, _addMethodReturnedExpression, _addMethodParameter);
+            ReturnedAs(AddSecondsInvocationExpression(), AddMethodReturnedExpression(), AddMethodParameter());
 
         private ExpressionSyntax GigasecondValueExpression() =>
-            ArgumentValueExpression(_addSecondsArgumentType, _addSecondsArgumentExpression, _addSecondsArgumentVariable);
+            ArgumentValueExpression(AddSecondsArgumentType(), AddSecondsArgumentExpression(), AddSecondsArgumentVariable());
 
         private ArgumentType AddSecondsArgumentType() =>
-            ArgumentDefinedAs(_addSecondsFieldArgument, _addSecondsLocalArgument, _addSecondsArgumentExpression);
+            ArgumentDefinedAs(AddSecondsFieldArgument(), AddSecondsLocalArgument(), AddSecondsArgumentExpression());
 
         private ExpressionSyntax AddSecondsArgumentExpression() =>
-            _addSecondsInvocationExpression.FirstArgumentExpression();
+            AddSecondsInvocationExpression().FirstArgumentExpression();
 
         private VariableDeclaratorSyntax AddSecondsArgumentVariable() =>
-            _gigasecondClass.ArgumentVariable(_addSecondsArgumentExpression);
+            GigasecondClass().ArgumentVariable(AddSecondsArgumentExpression());
 
         private LocalDeclarationStatementSyntax AddSecondsLocalArgument() =>
-            _addSecondsArgumentVariable.LocalDeclarationStatement();
+            AddSecondsArgumentVariable().LocalDeclarationStatement();
 
         private FieldDeclarationSyntax AddSecondsFieldArgument() =>
-            _addSecondsArgumentVariable.FieldDeclaration();
+            AddSecondsArgumentVariable().FieldDeclaration();
 
         private ExpressionSyntax AddMethodReturnedExpression() =>
-            _addMethod.ReturnedExpression();
+            AddMethod().ReturnedExpression();
 
         private ParameterSyntax AddMethodParameter() =>
-            _addMethod.FirstParameter();
+            AddMethod().FirstParameter();
 
         private InvocationExpressionSyntax AddSecondsInvocationExpression() =>
-            _addMethod.InvocationExpression(AddSecondsMemberAccessExpression(this));
+            AddMethod().InvocationExpression(AddSecondsMemberAccessExpression(this));
 
         public string AddMethodName =>
-            _addMethod.Identifier.Text;
+            AddMethod().Identifier.Text;
 
         public string AddMethodParameterName =>
-            _addMethodParameter.Identifier.Text;
+            AddMethodParameter().Identifier.Text;
 
         public string GigasecondValue =>
-            _gigasecondValueExpression.ToFullString();
+            GigasecondValueExpression().ToFullString();
 
         public string GigasecondValueVariableName =>
-            _addSecondsLocalArgument.Declaration.Variables[0].Identifier.Text;
+            AddSecondsLocalArgument().Declaration.Variables[0].Identifier.Text;
 
         public string GigasecondValueFieldName =>
-            _addSecondsFieldArgument.Declaration.Variables[0].Identifier.Text;
+            AddSecondsFieldArgument().Declaration.Variables[0].Identifier.Text;
 
         public bool UsesScientificNotation() =>
-            _gigasecondValueExpression.IsEquivalentWhenNormalized(GigasecondAsScientificNotation());
+            GigasecondValueExpression().IsEquivalentWhenNormalized(GigasecondAsScientificNotation());
 
         public bool UsesDigitsWithoutSeparator() =>
-            _gigasecondValueExpression.IsEquivalentWhenNormalized(GigasecondAsDigitsWithoutSeparator());
+            GigasecondValueExpression().IsEquivalentWhenNormalized(GigasecondAsDigitsWithoutSeparator());
 
         public bool UsesDigitsWithSeparator() =>
-            _gigasecondValueExpression.IsEquivalentWhenNormalized(GigasecondAsDigitsWithSeparator());
+            GigasecondValueExpression().IsEquivalentWhenNormalized(GigasecondAsDigitsWithSeparator());
 
         public bool UsesMathPow() =>
-            _gigasecondValueExpression.IsEquivalentWhenNormalized(GigasecondAsMathPowInvocationExpression());
+            GigasecondValueExpression().IsEquivalentWhenNormalized(GigasecondAsMathPowInvocationExpression());
 
         public bool UsesExpressionBody() =>
-            _addMethod.IsExpressionBody();
+            AddMethod().IsExpressionBody();
 
         public bool UsesSingleLine() =>
-            _addMethod.SingleLine();
+            AddMethod().SingleLine();
 
         public bool UsesConstField() =>
             UsesField() &&
-            _addSecondsFieldArgument.IsConst();
+            AddSecondsFieldArgument().IsConst();
 
         public bool UsesPrivateField() =>
             UsesField() &&
-            _addSecondsFieldArgument.IsPrivate();
+            AddSecondsFieldArgument().IsPrivate();
 
         public bool UsesField() =>
-            _addSecondsArgumentType == ArgumentType.Field;
+            AddSecondsArgumentType() == ArgumentType.Field;
 
         public bool DoesNotUseAddSeconds() =>
-            _addSecondsInvocationExpression == null;
+            AddSecondsInvocationExpression() == null;
 
         public bool CreatesNewDatetime() =>
-            _addMethod.CreatesObjectOfType<DateTime>();
+            AddMethod().CreatesObjectOfType<DateTime>();
 
         public bool UsesLocalConstVariable() =>
             UsesLocalVariable() &&
-            _addSecondsLocalArgument.IsConst;
+            AddSecondsLocalArgument().IsConst;
 
         public bool UsesLocalVariable() =>
-            _addSecondsArgumentType == ArgumentType.Local;
+            AddSecondsArgumentType() == ArgumentType.Local;
 
         public bool AssignsToParameterAndReturns() =>
-            _addMethodReturnType == ReturnType.ParameterAssigment;
+            AddMethodReturnType() == ReturnType.ParameterAssigment;
 
         public bool AssignsToVariableAndReturns() =>
-            _addMethodReturnType == ReturnType.VariableAssignment;
+            AddMethodReturnType() == ReturnType.VariableAssignment;
     }
 }
