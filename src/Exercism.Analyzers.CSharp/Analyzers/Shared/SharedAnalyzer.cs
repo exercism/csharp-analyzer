@@ -25,7 +25,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
             if (solution.WritesToConsole())
                 solution.AddComment(DoNotWriteToConsole);
 
-            return solution.HasComments()
+            return solution.HasComments
                 ? solution.Disapprove()
                 : solution.ContinueAnalysis();
         }

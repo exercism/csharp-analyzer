@@ -12,48 +12,48 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 
         private static SolutionAnalysis DisapproveWhenInvalid(this GigasecondSolution solution)
         {
-            if (solution.CreatesNewDatetime())
+            if (solution.CreatesNewDatetime)
                 solution.AddComment(DoNotCreateDateTime);
 
-            if (solution.DoesNotUseAddSeconds())
+            if (solution.DoesNotUseAddSeconds)
                 solution.AddComment(UseAddSeconds);
 
-            return solution.HasComments()
+            return solution.HasComments
                 ? solution.Disapprove()
                 : solution.ContinueAnalysis();
         }
 
         private static SolutionAnalysis ApproveWhenValid(this GigasecondSolution solution)
         {
-            if (solution.UsesMathPow())
+            if (solution.UsesMathPow)
                 solution.AddComment(UseScientificNotationNotMathPow(solution.GigasecondValue));
 
-            if (solution.UsesDigitsWithoutSeparator())
+            if (solution.UsesDigitsWithoutSeparator)
                 solution.AddComment(UseScientificNotationOrDigitSeparators(solution.GigasecondValue));
 
-            if (solution.AssignsToParameterAndReturns() ||
-                solution.AssignsToVariableAndReturns())
+            if (solution.AssignsToParameterAndReturns ||
+                solution.AssignsToVariableAndReturns)
                 solution.AddComment(DoNotAssignAndReturn);
 
-            if (solution.UsesLocalVariable() &&
-                !solution.UsesLocalConstVariable())
+            if (solution.UsesLocalVariable &&
+                !solution.UsesLocalConstVariable)
                 solution.AddComment(ConvertVariableToConst(solution.GigasecondValueVariableName));
 
-            if (solution.UsesField() &&
-                !solution.UsesConstField())
+            if (solution.UsesField &&
+                !solution.UsesConstField)
                 solution.AddComment(ConvertFieldToConst(solution.GigasecondValueFieldName));
 
-            if (solution.UsesField() &&
-                !solution.UsesPrivateField())
+            if (solution.UsesField &&
+                !solution.UsesPrivateField)
                 solution.AddComment(UsePrivateVisibility(solution.GigasecondValueFieldName));
 
-            if (solution.UsesSingleLine() &&
-                !solution.UsesExpressionBody())
+            if (solution.UsesSingleLine &&
+                !solution.UsesExpressionBody)
                 solution.AddComment(UseExpressionBodiedMember(solution.AddMethodName));
 
-            if (solution.UsesScientificNotation() ||
-                solution.UsesDigitsWithSeparator() ||
-                solution.HasComments())
+            if (solution.UsesScientificNotation ||
+                solution.UsesDigitsWithSeparator ||
+                solution.HasComments)
                 return solution.Approve();
 
             return solution.ContinueAnalysis();

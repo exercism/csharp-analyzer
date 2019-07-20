@@ -23,7 +23,7 @@ namespace Exercism.Analyzers.CSharp
         public void AddComment(SolutionComment comment) =>
             _comments.Add(comment);
 
-        public bool HasComments() => _comments.Any();
+        public bool HasComments => _comments.Any();
 
         public SolutionAnalysis ContinueAnalysis() => null;
 

@@ -12,30 +12,30 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 
         private static SolutionAnalysis DisapproveWhenInvalid(this LeapSolution solution)
         {
-            if (solution.UsesDateTimeIsLeapYear())
+            if (solution.UsesDateTimeIsLeapYear)
                 solution.AddComment(DoNotUseIsLeapYear);
 
-            if (solution.UsesNestedIfStatement())
+            if (solution.UsesNestedIfStatement)
                 solution.AddComment(DoNotUseNestedIfStatement);
 
-            if (solution.UsesTooManyChecks())
+            if (solution.UsesTooManyChecks)
                 solution.AddComment(UseMinimumNumberOfChecks);
 
-            return solution.HasComments()
+            return solution.HasComments
                 ? solution.Disapprove()
                 : solution.ContinueAnalysis();
         }
 
         private static SolutionAnalysis ApproveWhenValid(this LeapSolution solution)
         {
-            if (solution.UsesIfStatement())
+            if (solution.UsesIfStatement)
                 solution.AddComment(DoNotUseIfStatement);
 
-            if (solution.UsesSingleLine() && !solution.UsesExpressionBody())
+            if (solution.UsesSingleLine && !solution.UsesExpressionBody)
                 solution.AddComment(UseExpressionBodiedMember(solution.IsLeapYearMethodName));
 
-            if (solution.ReturnsMinimumNumberOfChecksInSingleExpression() ||
-                solution.HasComments())
+            if (solution.ReturnsMinimumNumberOfChecksInSingleExpression ||
+                solution.HasComments)
                 return solution.Approve();
 
             return solution.ContinueAnalysis();

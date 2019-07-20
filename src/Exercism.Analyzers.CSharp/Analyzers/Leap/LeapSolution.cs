@@ -15,46 +15,46 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
         {
         }
 
-        private ClassDeclarationSyntax LeapClass() =>
+        private ClassDeclarationSyntax LeapClass =>
             SyntaxRoot.GetClass("Leap");
 
-        private MethodDeclarationSyntax IsLeapYearMethod() =>
-            LeapClass()?.GetMethod("IsLeapYear");
+        private MethodDeclarationSyntax IsLeapYearMethod =>
+            LeapClass?.GetMethod("IsLeapYear");
 
-        private ParameterSyntax YearParameter() =>
-            IsLeapYearMethod()?.ParameterList.Parameters.FirstOrDefault();
+        private ParameterSyntax YearParameter =>
+            IsLeapYearMethod?.ParameterList.Parameters.FirstOrDefault();
 
-        private ExpressionSyntax ReturnedExpression() =>
-            IsLeapYearMethod().ReturnedExpression();
+        private ExpressionSyntax ReturnedExpression =>
+            IsLeapYearMethod.ReturnedExpression();
 
         public string IsLeapYearMethodName =>
-            IsLeapYearMethod().Identifier.Text;
+            IsLeapYearMethod.Identifier.Text;
 
         public string YearParameterName =>
-            YearParameter().Identifier.Text;
+            YearParameter.Identifier.Text;
 
-        public bool UsesDateTimeIsLeapYear() =>
-            IsLeapYearMethod().InvokesMethod(IsLeapYearMemberAccessExpression());
+        public bool UsesDateTimeIsLeapYear =>
+            IsLeapYearMethod.InvokesMethod(IsLeapYearMemberAccessExpression());
 
-        public bool UsesSingleLine() =>
-            IsLeapYearMethod().SingleLine();
+        public bool UsesSingleLine =>
+            IsLeapYearMethod.SingleLine();
 
-        public bool UsesExpressionBody() =>
-            IsLeapYearMethod().IsExpressionBody();
+        public bool UsesExpressionBody =>
+            IsLeapYearMethod.IsExpressionBody();
 
-        public bool UsesTooManyChecks() =>
-            IsLeapYearMethod()
+        public bool UsesTooManyChecks =>
+            IsLeapYearMethod
                 .DescendantNodes()
                 .OfType<BinaryExpressionSyntax>()
                 .Count(BinaryExpressionUsesYearParameter) > MinimalNumberOfChecks;
 
-        public bool UsesIfStatement() =>
-            IsLeapYearMethod().UsesIfStatement();
+        public bool UsesIfStatement => 
+            IsLeapYearMethod.UsesIfStatement();
 
-        public bool UsesNestedIfStatement() =>
-            IsLeapYearMethod().UsesNestedIfStatement();
+        public bool UsesNestedIfStatement =>
+            IsLeapYearMethod.UsesNestedIfStatement();
 
-        public bool ReturnsMinimumNumberOfChecksInSingleExpression() =>
+        public bool ReturnsMinimumNumberOfChecksInSingleExpression =>
             Returns(LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpression(this)) ||
             Returns(LeapMinimumNumberOfChecksWithoutParenthesesBinaryExpressionReversed(this)) ||
             Returns(LeapMinimumNumberOfChecksWithParenthesesBinaryExpression(this));
@@ -66,6 +66,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
                 LeapParameterIdentifierName(this));
 
         private bool Returns(SyntaxNode returned) =>
-            ReturnedExpression().IsEquivalentWhenNormalized(returned);
+            ReturnedExpression.IsEquivalentWhenNormalized(returned);
     }
 }

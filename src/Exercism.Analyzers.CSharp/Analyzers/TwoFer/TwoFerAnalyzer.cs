@@ -12,32 +12,32 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         private static SolutionAnalysis DisapproveWhenInvalid(this TwoFerSolution solution)
         {
-            if (solution.UsesOverloads())
+            if (solution.UsesOverloads)
                 solution.AddComment(UseDefaultValueNotOverloads);
 
-            if (solution.MissingSpeakMethod() ||
-                solution.InvalidSpeakMethod())
+            if (solution.MissingSpeakMethod ||
+                solution.InvalidSpeakMethod)
                 solution.AddComment(FixCompileErrors);
 
-            if (solution.UsesDuplicateString())
+            if (solution.UsesDuplicateString)
                 solution.AddComment(UseSingleFormattedStringNotMultiple);
 
-            if (solution.NoDefaultValue())
+            if (solution.NoDefaultValue)
                 solution.AddComment(UseDefaultValue(solution.SpeakMethodParameterName));
 
-            if (solution.UsesInvalidDefaultValue())
+            if (solution.UsesInvalidDefaultValue)
                 solution.AddComment(InvalidDefaultValue(solution.SpeakMethodParameterName, solution.SpeakMethodParameterDefaultValue));
 
-            if (solution.UsesStringReplace())
+            if (solution.UsesStringReplace)
                 solution.AddComment(UseStringInterpolationNotStringReplace);
 
-            if (solution.UsesStringJoin())
+            if (solution.UsesStringJoin)
                 solution.AddComment(UseStringInterpolationNotStringJoin);
 
-            if (solution.UsesStringConcat())
+            if (solution.UsesStringConcat)
                 solution.AddComment(UseStringInterpolationNotStringConcat);
 
-            return solution.HasComments()
+            return solution.HasComments
                 ? solution.Disapprove()
                 : solution.ContinueAnalysis();
         }
@@ -49,30 +49,30 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         private static SolutionAnalysis AnalyzeSingleLine(this TwoFerSolution solution)
         {
-            if (!solution.UsesSingleLine())
+            if (!solution.UsesSingleLine)
                 return null;
 
-            if (solution.ReturnsStringInterpolationWithIsNullOrEmptyCheck())
+            if (solution.ReturnsStringInterpolationWithIsNullOrEmptyCheck)
                 solution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
 
-            if (solution.ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck())
+            if (solution.ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck)
                 solution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
-            if (solution.ReturnsStringInterpolationWithNullCheck())
+            if (solution.ReturnsStringInterpolationWithNullCheck)
                 solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
 
-            if (solution.ReturnsStringConcatenation())
+            if (solution.ReturnsStringConcatenation)
                 solution.AddComment(UseStringInterpolationNotStringConcatenation);
 
-            if (solution.ReturnsStringFormat())
+            if (solution.ReturnsStringFormat)
                 solution.AddComment(UseStringInterpolationNotStringFormat);
 
-            if (!solution.UsesExpressionBody())
+            if (!solution.UsesExpressionBody)
                 solution.AddComment(UseExpressionBodiedMember(solution.SpeakMethodName));
 
-            if (solution.ReturnsStringInterpolationWithDefaultValue() ||
-                solution.ReturnsStringInterpolationWithNullCoalescingOperator() ||
-                solution.HasComments())
+            if (solution.ReturnsStringInterpolationWithDefaultValue ||
+                solution.ReturnsStringInterpolationWithNullCoalescingOperator ||
+                solution.HasComments)
                 return solution.Approve();
 
             return solution.ContinueAnalysis();
@@ -80,35 +80,35 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         private static SolutionAnalysis AnalyzeParameterAssignment(this TwoFerSolution solution)
         {
-            if (!solution.AssignsToParameter())
+            if (!solution.AssignsToParameter)
                 return null;
 
-            if (!solution.AssignsParameterUsingKnownExpression())
+            if (!solution.AssignsParameterUsingKnownExpression)
                 return solution.ReferToMentor();
 
-            if (solution.ReturnsStringFormat())
+            if (solution.ReturnsStringFormat)
                 solution.AddComment(UseStringInterpolationNotStringFormat);
 
-            if (solution.ReturnsStringConcatenation())
+            if (solution.ReturnsStringConcatenation)
                 solution.AddComment(UseStringInterpolationNotStringConcatenation);
 
-            if (solution.AssignsParameterUsingNullCoalescingOperator())
+            if (solution.AssignsParameterUsingNullCoalescingOperator)
                 solution.AddComment(DoNotAssignAndReturn);
 
-            if (solution.AssignsParameterUsingNullCheck() ||
-                solution.AssignsParameterUsingIfNullCheck())
+            if (solution.AssignsParameterUsingNullCheck ||
+                solution.AssignsParameterUsingIfNullCheck)
                 solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
 
-            if (solution.AssignsParameterUsingIsNullOrEmptyCheck() ||
-                solution.AssignsParameterUsingIfIsNullOrEmptyCheck())
+            if (solution.AssignsParameterUsingIsNullOrEmptyCheck ||
+                solution.AssignsParameterUsingIfIsNullOrEmptyCheck)
                 solution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
 
-            if (solution.AssignsParameterUsingIsNullOrWhiteSpaceCheck() ||
-                solution.AssignsParameterUsingIfIsNullOrWhiteSpaceCheck())
+            if (solution.AssignsParameterUsingIsNullOrWhiteSpaceCheck ||
+                solution.AssignsParameterUsingIfIsNullOrWhiteSpaceCheck)
                 solution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
-            if (solution.ReturnsStringInterpolation() ||
-                solution.HasComments())
+            if (solution.ReturnsStringInterpolation ||
+                solution.HasComments)
                 return solution.Approve();
 
             return solution.ContinueAnalysis();
@@ -116,30 +116,30 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         private static SolutionAnalysis AnalyzeVariableAssignment(this TwoFerSolution solution)
         {
-            if (!solution.AssignsVariable())
+            if (!solution.AssignsVariable)
                 return null;
 
-            if (!solution.AssignsVariableUsingKnownInitializer())
+            if (!solution.AssignsVariableUsingKnownInitializer)
                 return solution.ReferToMentor();
 
-            if (solution.ReturnsStringFormatWithVariable())
+            if (solution.ReturnsStringFormatWithVariable)
                 solution.AddComment(UseStringInterpolationNotStringFormat);
 
-            if (solution.ReturnsStringConcatenationWithVariable())
+            if (solution.ReturnsStringConcatenationWithVariable)
                 solution.AddComment(UseStringInterpolationNotStringConcatenation);
 
-            if (solution.AssignsVariableUsingNullCheck())
+            if (solution.AssignsVariableUsingNullCheck)
                 solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
 
-            if (solution.AssignsVariableUsingIsNullOrEmptyCheck())
+            if (solution.AssignsVariableUsingIsNullOrEmptyCheck)
                 solution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
 
-            if (solution.AssignsVariableUsingIsNullOrWhiteSpaceCheck())
+            if (solution.AssignsVariableUsingIsNullOrWhiteSpaceCheck)
                 solution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
-            if (solution.ReturnsStringInterpolationWithVariable() &&
-                solution.AssignsVariableUsingNullCoalescingOperator() ||
-                solution.HasComments())
+            if (solution.ReturnsStringInterpolationWithVariable &&
+                solution.AssignsVariableUsingNullCoalescingOperator ||
+                solution.HasComments)
                 return solution.Approve();
 
             return solution.ContinueAnalysis();
