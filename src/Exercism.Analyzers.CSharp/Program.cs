@@ -24,14 +24,5 @@ namespace Exercism.Analyzers.CSharp
 
             Log.Information("Analyzed {Exercise} solution in directory {Directory}. Status: {Status}. Comments: {Comments}", options.Slug, options.Directory, solutionAnalysis.Status, solutionAnalysis.Comments.Select(comment => comment.Comment));
         }
-
-        private static Solution Parse(Options options) =>
-            SolutionParser.Parse(options);
-
-        private static SolutionAnalysis Analyze(Solution solution) =>
-            SolutionAnalyzer.Analyze(solution);
-
-        private static void WriteToFile(SolutionAnalysis solutionAnalysis, Options options) =>
-            SolutionAnalysisWriter.Write(options, solutionAnalysis);
     }
 }
