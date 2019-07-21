@@ -10,7 +10,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         {
             var analysisRun = TestSolutionAnalyzer.Run(testSolution);
             Assert.Equal(analysisRun.Expected.Analysis.NormalizeJson(), analysisRun.Actual.Analysis.NormalizeJson());
-            Assert.Equal(analysisRun.Expected.Markdown.NormalizeMarkdown(), analysisRun.Actual.Markdown.NormalizeMarkdown());
+            Assert.Equal(analysisRun.Expected.Comments.NormalizeMarkdown(), analysisRun.Actual.Comments.NormalizeMarkdown());
         }
     }
 }

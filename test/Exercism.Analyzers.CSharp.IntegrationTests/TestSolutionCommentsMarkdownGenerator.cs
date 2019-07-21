@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
-    internal static class TestSolutionMarkdownGenerator
+    internal static class TestSolutionCommentsMarkdownGenerator
     {
         private const string CommentSeparator = "\n\n";
 

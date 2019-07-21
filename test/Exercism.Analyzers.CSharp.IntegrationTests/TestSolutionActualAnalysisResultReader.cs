@@ -5,9 +5,9 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         public static TestSolutionAnalysisResult Read(TestSolution solution)
         {
             var actualAnalysis = solution.ReadActualAnalysis();
-            var actualMarkdown = TestSolutionMarkdownGenerator.Generate(ParseComments(actualAnalysis));
+            var actualComments = TestSolutionCommentsMarkdownGenerator.Generate(ParseComments(actualAnalysis));
 
-            return new TestSolutionAnalysisResult(actualAnalysis, actualMarkdown);
+            return new TestSolutionAnalysisResult(actualAnalysis, actualComments);
         }
 
         private static string ReadActualAnalysis(this TestSolution solution) =>
