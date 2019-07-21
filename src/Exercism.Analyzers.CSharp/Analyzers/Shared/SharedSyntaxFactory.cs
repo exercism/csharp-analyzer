@@ -72,7 +72,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
             {
                 if (i > 0)
                     syntaxNodesOrTokens.Add(Token(SyntaxKind.CommaToken));
-                
+
                 syntaxNodesOrTokens.Add(arguments[i]);
             }
 

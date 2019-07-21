@@ -27,10 +27,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             SimpleMemberAccessExpression(
                 IdentifierName("Math"),
                 IdentifierName("Pow"));
-        
+
         public static MemberAccessExpressionSyntax AddSecondsMemberAccessExpression(GigasecondSolution solution) =>
             SimpleMemberAccessExpression(
                 IdentifierName(solution.AddMethodParameterName),
-                IdentifierName("AddSeconds"));        
+                IdentifierName("AddSeconds"));
     }
 }

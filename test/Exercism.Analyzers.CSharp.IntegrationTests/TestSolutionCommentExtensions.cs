@@ -2,7 +2,7 @@ using System.IO;
 using System.Linq;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
-{   
+{
     internal static class TestSolutionCommentExtensions
     {
         private const string WebsiteCopyDirectory = "website-copy";

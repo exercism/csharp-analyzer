@@ -13,7 +13,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
         {
             if (classDeclaration == null || variableIdentifierName == null)
                 return null;
-            
+
             return classDeclaration
                 .DescendantNodes<VariableDeclaratorSyntax>()
                 .FirstOrDefault(variableDeclarator => variableDeclarator.Identifier.IsEquivalentWhenNormalized(variableIdentifierName.Identifier));

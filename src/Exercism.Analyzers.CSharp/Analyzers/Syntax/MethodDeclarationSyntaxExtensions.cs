@@ -5,7 +5,7 @@ using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
 namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
 {
     internal static class MethodDeclarationSyntaxExtensions
-    {   
+    {
         public static bool AssignsToParameter(this MethodDeclarationSyntax methodDeclaration, ParameterSyntax parameter) =>
             methodDeclaration.AssignsToIdentifier(IdentifierName(parameter));
 
@@ -25,7 +25,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
 
         public static ParameterSyntax FirstParameter(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration?.ParameterList.Parameters[0];
-        
+
         public static bool UsesIfStatement(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration
                 .DescendantNodes()

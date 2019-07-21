@@ -19,7 +19,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
 
         private static TestSolutionCommentParameter[] ParseCommentParameters(this JToken comment) =>
             comment["params"].Children<JProperty>().Select(ParseCommentParameter).ToArray();
-        
+
         private static TestSolutionCommentParameter ParseCommentParameter(this JProperty parameter) =>
             new TestSolutionCommentParameter(parameter.Name, parameter.Value.ToString());
     }

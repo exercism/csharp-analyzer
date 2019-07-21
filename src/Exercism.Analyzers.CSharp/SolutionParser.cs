@@ -23,7 +23,7 @@ namespace Exercism.Analyzers.CSharp
             {
                 var workspace = new AdhocWorkspace();
                 var project = workspace.AddProject(implementationFile.DirectoryName, LanguageNames.CSharp);
-                
+
                 var sourceText = SourceText.From(fileStream);
                 var document = project.AddDocument(implementationFile.Name, sourceText);
                 return document.GetReducedSyntaxRoot();

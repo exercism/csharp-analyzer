@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
     {
         public static bool IsConst(this FieldDeclarationSyntax fieldDeclaration) =>
             fieldDeclaration.HasModifier(SyntaxKind.ConstKeyword);
-        
+
         public static bool IsPrivate(this FieldDeclarationSyntax fieldDeclaration) =>
             fieldDeclaration.HasModifier(SyntaxKind.PrivateKeyword);
 

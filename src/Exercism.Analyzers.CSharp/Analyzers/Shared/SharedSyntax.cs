@@ -6,12 +6,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 {
     internal static class SharedSyntax
-    {   
+    {
         public static ArgumentType ArgumentDefinedAs(FieldDeclarationSyntax fieldDeclaration, LocalDeclarationStatementSyntax localDeclarationStatement, ExpressionSyntax expression)
         {
             if (fieldDeclaration != null)
                 return ArgumentType.Field;
-            
+
             if (localDeclarationStatement != null)
                 return ArgumentType.Local;
 

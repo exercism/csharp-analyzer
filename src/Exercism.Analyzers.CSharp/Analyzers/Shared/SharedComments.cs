@@ -14,15 +14,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         public static readonly SolutionComment DoNotAssignAndReturn = new SolutionComment("csharp.general.do_not_assign_and_return");
         public static readonly SolutionComment DoNotUseNestedIfStatement = new SolutionComment("csharp.general.do_not_use_nested_if_statement");
 
-        public static SolutionComment UsePrivateVisibility(string field) => 
+        public static SolutionComment UsePrivateVisibility(string field) =>
             new SolutionComment("csharp.general.use_private_visibility", new SolutionCommentParameter(Name, field));
-        
+
         public static SolutionComment ConvertFieldToConst(string field) =>
             new SolutionComment("csharp.general.convert_field_to_const", new SolutionCommentParameter(Name, field));
 
         public static SolutionComment ConvertVariableToConst(string variable) =>
             new SolutionComment("csharp.general.convert_variable_to_const", new SolutionCommentParameter(Name, variable));
-        
+
         public static SolutionComment UseExpressionBodiedMember(string method) =>
             new SolutionComment("csharp.general.use_expression_bodied_member", new SolutionCommentParameter(Name, method));
     }

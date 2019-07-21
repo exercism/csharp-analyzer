@@ -17,7 +17,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
                         SyntaxFactory.Literal(
                             node.Token.Text.Replace("e", "E"),
                             value)));
-            
+
             return base.VisitLiteralExpression(node);
         }
     }

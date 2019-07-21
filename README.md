@@ -8,7 +8,7 @@ To analyze a solution, follow these steps:
 
 1. Open a command prompt in the root directory.
 1. Run `./analyze.ps1 <slug> <directory>`. This script will run the analyzer on the specified directory.
-1. Once the script has completed, the analysis results  will be written to `<directory>/analysis.json`.
+1. Once the script has completed, the analysis results will be written to `<directory>/analysis.json`.
 
 ## Analyzing multiple solutions
 

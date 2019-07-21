@@ -12,7 +12,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         {
             if (solution.NoImplementationFileFound())
                 return solution.ReferToMentor();
-            
+
             if (solution.HasCompileErrors())
                 solution.AddComment(FixCompileErrors);
 

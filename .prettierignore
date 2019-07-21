@@ -1,0 +1,6 @@
+.idea/
+.ionide/
+.vscode/
+bin/
+obj/
+website-copy/

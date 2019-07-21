@@ -8,7 +8,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
     {
         public static MemberAccessExpressionSyntax IsLeapYearMemberAccessExpression() =>
             DateTimeMemberAccessExpression(IdentifierName("IsLeapYear"));
-        
+
         public static IdentifierNameSyntax LeapParameterIdentifierName(LeapSolution solution) =>
             IdentifierName(solution.YearParameterName);
 
