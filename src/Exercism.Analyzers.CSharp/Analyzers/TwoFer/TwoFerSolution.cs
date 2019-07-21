@@ -73,10 +73,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         public bool UsesExpressionBody =>
             SpeakMethod.IsExpressionBody();
 
-        public bool ReturnsStringConcatenation =>
+        public bool UsesStringConcatenation =>
             ReturnsStringConcatenationWithDefaultValue ||
             ReturnsStringConcatenationWithNullCoalescingOperator ||
-            ReturnsStringConcatenationWithTernaryOperator;
+            ReturnsStringConcatenationWithTernaryOperator ||
+            ReturnsStringConcatenationWithVariable;
 
         private bool ReturnsStringConcatenationWithDefaultValue =>
             Returns(
@@ -117,10 +118,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                     ParenthesizedExpression(
                         TwoFerConditionalExpressionWithNullCheck(this))));
 
-        public bool ReturnsStringFormat =>
+        public bool UsesStringFormat =>
             ReturnsStringFormatWithDefaultValue ||
             ReturnsStringFormatWithNullCoalescingOperator ||
-            ReturnsStringFormatWithTernaryOperator;
+            ReturnsStringFormatWithTernaryOperator ||
+            ReturnsStringFormatWithVariable;
 
         private bool ReturnsStringFormatWithDefaultValue =>
             Returns(
@@ -158,18 +160,18 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                     TwoFerConditionalExpressionWithNullCheck(this)));
 
         public bool ReturnsStringInterpolation =>
-            ReturnsStringInterpolationWithDefaultValue ||
-            ReturnsStringInterpolationWithNullCheck ||
-            ReturnsStringInterpolationWithNullCoalescingOperator ||
-            ReturnsStringInterpolationWithIsNullOrEmptyCheck ||
-            ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck;
+            UsesStringInterpolationWithDefaultValue ||
+            UsesStringInterpolationWithNullCheck ||
+            UsesStringInterpolationWithNullCoalescingOperator ||
+            UsesStringInterpolationWithIsNullOrEmptyCheck ||
+            UsesStringInterpolationWithIsNullOrWhiteSpaceCheck;
 
-        public bool ReturnsStringInterpolationWithDefaultValue =>
+        public bool UsesStringInterpolationWithDefaultValue =>
             Returns(
                 TwoFerInterpolatedStringExpression(
                     TwoFerParameterIdentifierName(this)));
 
-        public bool ReturnsStringInterpolationWithNullCheck =>
+        public bool UsesStringInterpolationWithNullCheck =>
             Returns(
                 TwoFerConditionalInterpolatedStringExpression(
                     EqualsExpression(
@@ -177,19 +179,19 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                         NullLiteralExpression()),
                     TwoFerParameterIdentifierName(this)));
 
-        public bool ReturnsStringInterpolationWithNullCoalescingOperator =>
+        public bool UsesStringInterpolationWithNullCoalescingOperator =>
             Returns(
                 TwoFerInterpolatedStringExpression(
                     TwoFerCoalesceExpression(
                         TwoFerParameterIdentifierName(this))));
 
-        public bool ReturnsStringInterpolationWithIsNullOrEmptyCheck =>
+        private bool UsesStringInterpolationWithIsNullOrEmptyCheck =>
             Returns(
                 TwoFerConditionalInterpolatedStringExpression(
                     TwoFerIsNullOrEmptyInvocationExpression(this),
                     TwoFerParameterIdentifierName(this)));
 
-        public bool ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck =>
+        private bool UsesStringInterpolationWithIsNullOrWhiteSpaceCheck =>
             Returns(
                 TwoFerConditionalInterpolatedStringExpression(
                     TwoFerIsNullOrWhiteSpaceInvocationExpression(this),
@@ -223,35 +225,39 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                     TwoFerParameterIsNullExpression(this),
                     TwoFerParameterIdentifierName(this)));
 
-        public bool AssignsParameterUsingIsNullOrEmptyCheck =>
+        private bool AssignsParameterUsingIsNullOrEmptyCheck =>
             ParameterAssignedUsingStatement(
                 TwoFerAssignParameterStatement(
                     TwoFerParameterIsNullOrEmptyConditionalExpression(this),
                     TwoFerParameterIdentifierName(this)));
 
-        public bool AssignsParameterUsingIfIsNullOrEmptyCheck =>
+        private bool AssignsParameterUsingIfIsNullOrEmptyCheck =>
             ParameterAssignedUsingStatement(
                 TwoFerAssignParameterIfStatement(
                     TwoFerIsNullOrEmptyInvocationExpression(this),
                     TwoFerParameterIdentifierName(this)));
 
-        public bool AssignsParameterUsingIsNullOrWhiteSpaceCheck =>
+        private bool AssignsParameterUsingIsNullOrWhiteSpaceCheck =>
             ParameterAssignedUsingStatement(
                 TwoFerAssignParameterStatement(
                     TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(this),
                     TwoFerParameterIdentifierName(this)));
 
-        public bool AssignsParameterUsingIfIsNullOrWhiteSpaceCheck =>
+        private bool AssignsParameterUsingIfIsNullOrWhiteSpaceCheck =>
             ParameterAssignedUsingStatement(
                 TwoFerAssignParameterIfStatement(
                     TwoFerIsNullOrWhiteSpaceInvocationExpression(this),
                     TwoFerParameterIdentifierName(this)));
 
         private bool ParameterAssignedUsingStatement(SyntaxNode statement) =>
+            AssignsStatement &&
             AssignmentStatement.IsEquivalentWhenNormalized(statement);
 
+        private bool AssignsStatement =>
+            AssignmentStatement != null;
+
         private StatementSyntax AssignmentStatement =>
-            SpeakMethod.Body.Statements[0];
+            SpeakMethod.Body?.Statements[0];
 
         public bool AssignsVariable =>
             TwoFerVariable != null;
@@ -267,35 +273,40 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 TwoFerCoalesceExpression(
                     TwoFerParameterIdentifierName(this)));
 
-        public bool AssignsVariableUsingNullCheck =>
+        private bool AssignsVariableUsingNullCheck =>
             AssignsVariableUsingExpression(TwoFerParameterIsNullConditionalExpression(this));
 
-        public bool AssignsVariableUsingIsNullOrEmptyCheck =>
+        private bool AssignsVariableUsingIsNullOrEmptyCheck =>
             AssignsVariableUsingExpression(TwoFerParameterIsNullOrEmptyConditionalExpression(this));
 
-        public bool AssignsVariableUsingIsNullOrWhiteSpaceCheck =>
+        private bool AssignsVariableUsingIsNullOrWhiteSpaceCheck =>
             AssignsVariableUsingExpression(TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(this));
 
         private bool AssignsVariableUsingExpression(ExpressionSyntax initializer) =>
+            AssignsVariable &&
             TwoFerVariable.Initializer.IsEquivalentWhenNormalized(
                 EqualsValueClause(initializer));
 
         public bool ReturnsStringInterpolationWithVariable =>
+            AssignsVariable &&
             Returns(
                 TwoFerInterpolatedStringExpression(
                     TwoFerVariableIdentifierName(this)));
 
-        public bool ReturnsStringConcatenationWithVariable =>
+        private bool ReturnsStringConcatenationWithVariable =>
+            AssignsVariable &&
             Returns(
                 TwoFerStringConcatenationExpression(
                     TwoFerVariableIdentifierName(this)));
 
-        public bool ReturnsStringFormatWithVariable =>
+        private bool ReturnsStringFormatWithVariable =>
+            AssignsVariable &&
             Returns(
                 TwoFerStringFormatInvocationExpression(
                     TwoFerVariableIdentifierName(this)));
 
-        private bool Returns(SyntaxNode returned) => TwoFerExpression.IsEquivalentWhenNormalized(returned);
+        private bool Returns(SyntaxNode returned) =>
+            TwoFerExpression.IsEquivalentWhenNormalized(returned);
 
         public bool MissingSpeakMethod =>
             SpeakMethod == null;
@@ -314,12 +325,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         {
             get
             {
-                var speakMethod = SpeakMethod;
-                var literalExpressionCount = speakMethod
+                var literalExpressionCount = SpeakMethod
                     .DescendantNodes<LiteralExpressionSyntax>()
                     .Count(literalExpression => literalExpression.Token.ValueText.Contains("One for"));
 
-                var interpolatedStringTextCount = speakMethod
+                var interpolatedStringTextCount = SpeakMethod
                     .DescendantNodes<InterpolatedStringTextSyntax>()
                     .Count(interpolatedStringText => interpolatedStringText.TextToken.ValueText.Contains("One for"));
 
@@ -342,12 +352,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             SpeakMethod.ParameterList.Parameters.All(parameter => parameter.Default == null);
 
         public bool UsesInvalidDefaultValue =>
-            UseDefaultValue &&
+            UsesDefaultValue &&
             !DefaultValueIsNull &&
             !DefaultValueIsYouString &&
             !DefaultValueIsYouStringSpecifiedAsConst;
 
-        private bool UseDefaultValue =>
+        private bool UsesDefaultValue =>
             SpeakMethodParameter?.Default != null;
 
         private bool DefaultValueIsNull =>
@@ -360,5 +370,23 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             SpeakMethodParameter.Default.Value is IdentifierNameSyntax identifierName &&
             TwoFerClass.AssignedVariableWithName(identifierName).IsEquivalentWhenNormalized(
                 SyntaxFactory.VariableDeclarator(identifierName.Identifier, default, EqualsValueClause(StringLiteralExpression("you"))));
+
+        public bool UsesIsNullOrEmptyCheck =>
+            UsesStringInterpolationWithIsNullOrEmptyCheck ||
+            AssignsParameterUsingIsNullOrEmptyCheck ||
+            AssignsParameterUsingIfIsNullOrEmptyCheck ||
+            AssignsVariableUsingIsNullOrEmptyCheck;
+
+        public bool UsesIsNullOrWhiteSpaceCheck =>
+            UsesStringInterpolationWithIsNullOrWhiteSpaceCheck ||
+            AssignsVariableUsingIsNullOrWhiteSpaceCheck ||
+            AssignsParameterUsingIsNullOrWhiteSpaceCheck ||
+            AssignsParameterUsingIfIsNullOrWhiteSpaceCheck;
+
+        public bool UsesNullCheck =>
+            UsesStringInterpolationWithNullCheck ||
+            AssignsParameterUsingNullCheck ||
+            AssignsParameterUsingIfNullCheck ||
+            AssignsVariableUsingNullCheck;
     }
 }

@@ -42,36 +42,42 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 : solution.ContinueAnalysis();
         }
 
-        private static SolutionAnalysis ApproveWhenValid(this TwoFerSolution solution) =>
-            solution.AnalyzeSingleLine() ??
-            solution.AnalyzeParameterAssignment() ??
-            solution.AnalyzeVariableAssignment();
+        private static SolutionAnalysis ApproveWhenValid(this TwoFerSolution solution)
+        {
+            if (solution.UsesStringConcatenation)
+                solution.AddComment(UseStringInterpolationNotStringConcatenation);
+
+            if (solution.UsesStringFormat)
+                solution.AddComment(UseStringInterpolationNotStringFormat);
+
+            if (solution.UsesIsNullOrEmptyCheck)
+                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
+
+            if (solution.UsesIsNullOrWhiteSpaceCheck)
+                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
+
+            if (solution.UsesNullCheck)
+                solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
+
+            if (solution.UsesSingleLine)
+                return solution.AnalyzeSingleLine();
+
+            if (solution.AssignsToParameter)
+                return solution.AnalyzeParameterAssignment();
+
+            if (solution.AssignsVariable)
+                return solution.AnalyzeVariableAssignment();
+
+            return solution.ContinueAnalysis();
+        }
 
         private static SolutionAnalysis AnalyzeSingleLine(this TwoFerSolution solution)
         {
-            if (!solution.UsesSingleLine)
-                return null;
-
-            if (solution.ReturnsStringInterpolationWithIsNullOrEmptyCheck)
-                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
-
-            if (solution.ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck)
-                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
-
-            if (solution.ReturnsStringInterpolationWithNullCheck)
-                solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
-
-            if (solution.ReturnsStringConcatenation)
-                solution.AddComment(UseStringInterpolationNotStringConcatenation);
-
-            if (solution.ReturnsStringFormat)
-                solution.AddComment(UseStringInterpolationNotStringFormat);
-
             if (!solution.UsesExpressionBody)
                 solution.AddComment(UseExpressionBodiedMember(solution.SpeakMethodName));
 
-            if (solution.ReturnsStringInterpolationWithDefaultValue ||
-                solution.ReturnsStringInterpolationWithNullCoalescingOperator ||
+            if (solution.UsesStringInterpolationWithDefaultValue ||
+                solution.UsesStringInterpolationWithNullCoalescingOperator ||
                 solution.HasComments)
                 return solution.Approve();
 
@@ -80,32 +86,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         private static SolutionAnalysis AnalyzeParameterAssignment(this TwoFerSolution solution)
         {
-            if (!solution.AssignsToParameter)
-                return null;
-
             if (!solution.AssignsParameterUsingKnownExpression)
                 return solution.ReferToMentor();
 
-            if (solution.ReturnsStringFormat)
-                solution.AddComment(UseStringInterpolationNotStringFormat);
-
-            if (solution.ReturnsStringConcatenation)
-                solution.AddComment(UseStringInterpolationNotStringConcatenation);
-
             if (solution.AssignsParameterUsingNullCoalescingOperator)
                 solution.AddComment(DoNotAssignAndReturn);
-
-            if (solution.AssignsParameterUsingNullCheck ||
-                solution.AssignsParameterUsingIfNullCheck)
-                solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
-
-            if (solution.AssignsParameterUsingIsNullOrEmptyCheck ||
-                solution.AssignsParameterUsingIfIsNullOrEmptyCheck)
-                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
-
-            if (solution.AssignsParameterUsingIsNullOrWhiteSpaceCheck ||
-                solution.AssignsParameterUsingIfIsNullOrWhiteSpaceCheck)
-                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
             if (solution.ReturnsStringInterpolation ||
                 solution.HasComments)
@@ -116,26 +101,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 
         private static SolutionAnalysis AnalyzeVariableAssignment(this TwoFerSolution solution)
         {
-            if (!solution.AssignsVariable)
-                return null;
-
             if (!solution.AssignsVariableUsingKnownInitializer)
                 return solution.ReferToMentor();
-
-            if (solution.ReturnsStringFormatWithVariable)
-                solution.AddComment(UseStringInterpolationNotStringFormat);
-
-            if (solution.ReturnsStringConcatenationWithVariable)
-                solution.AddComment(UseStringInterpolationNotStringConcatenation);
-
-            if (solution.AssignsVariableUsingNullCheck)
-                solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
-
-            if (solution.AssignsVariableUsingIsNullOrEmptyCheck)
-                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
-
-            if (solution.AssignsVariableUsingIsNullOrWhiteSpaceCheck)
-                solution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
             if (solution.ReturnsStringInterpolationWithVariable &&
                 solution.AssignsVariableUsingNullCoalescingOperator ||
