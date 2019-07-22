@@ -42,5 +42,5 @@ $Env:UPDATE_COMMENTS = $UpdateComments.IsPresent
 dotnet test
 
 if ($UpdateAnalysis.IsPresent -or $UpdateComments.IsPresent) {
-    npx prettier --write "test/**/*.{json,md}"
+    ./format.ps1
 }
