@@ -11,7 +11,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         }
 
         private static string ReadActualAnalysis(this TestSolution solution) =>
-            solution.ReadFile("analysis.json");
+            solution.ReadTestFile("analysis.json");
 
         private static TestSolutionComment[] ParseComments(this string analysis) =>
             TestSolutionCommentsParser.ParseComments(analysis);

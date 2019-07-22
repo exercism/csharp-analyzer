@@ -20,6 +20,10 @@
 
     The example below will run all tests and update both the comments and analysis files
     PS C:\> ./test.ps1 -UpdateComments -UpdateAnalysis
+
+.NOTES
+    The UpdateAnalysis and UpdateComments switches should only be used if
+    a bulk update of the expected analysis and/or expected comments files is needed.
 #>
 
 param (
@@ -36,3 +40,7 @@ $Env:UPDATE_ANALYSIS = $UpdateAnalysis.IsPresent
 $Env:UPDATE_COMMENTS = $UpdateComments.IsPresent
 
 dotnet test
+
+if ($UpdateAnalysis.IsPresent -or $UpdateComments.IsPresent) {
+    npx prettier --write "test/**/*.{json,md}"
+}
