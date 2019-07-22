@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     {
         public static string ReadTestFile(this TestSolution solution, string fileName) =>
             File.ReadAllText(Path.Combine(solution.Directory, fileName));
-        
+
         public static void WriteTestFile(this TestSolution solution, string fileName, string contents) =>
             File.WriteAllText(Path.Combine(solution.Directory, fileName), contents);
 

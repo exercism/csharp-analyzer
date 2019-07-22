@@ -6,7 +6,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     {
         public static bool UpdateAnalysis =>
             GetBooleanEnvironmentVariable("UPDATE_ANALYSIS");
-        
+
         public static bool UpdateComments =>
             GetBooleanEnvironmentVariable("UPDATE_COMMENTS");
 
