@@ -1,4 +1,5 @@
 *
+!analyze.sh
 !src/Exercism.Analyzers.CSharp
 src/Exercism.Analyzers.CSharp/bin
 src/Exercism.Analyzers.CSharp/obj
