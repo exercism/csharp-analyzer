@@ -1,16 +1,12 @@
+using Exercism.Analyzers.CSharp.Analyzers.Shared;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 using static Exercism.Analyzers.CSharp.Analyzers.TwoFer.TwoFerComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
-    internal static class TwoFerAnalyzer
+    internal class TwoFerAnalyzer : SharedAnalyzer<TwoFerSolution>
     {
-        public static SolutionAnalysis Analyze(TwoFerSolution solution) =>
-            solution.DisapproveWhenInvalid() ??
-            solution.ApproveWhenValid() ??
-            solution.ReferToMentor();
-
-        private static SolutionAnalysis DisapproveWhenInvalid(this TwoFerSolution solution)
+        protected override SolutionAnalysis DisapproveWhenInvalid(TwoFerSolution solution)
         {
             if (solution.UsesOverloads)
                 solution.AddComment(UseDefaultValueNotOverloads);
@@ -42,7 +38,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 : solution.ContinueAnalysis();
         }
 
-        private static SolutionAnalysis ApproveWhenValid(this TwoFerSolution solution)
+        protected override SolutionAnalysis ApproveWhenValid(TwoFerSolution solution)
         {
             if (solution.UsesStringConcatenation)
                 solution.AddComment(UseStringInterpolationNotStringConcatenation);
@@ -60,18 +56,18 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
 
             if (solution.UsesSingleLine)
-                return solution.AnalyzeSingleLine();
+                return AnalyzeSingleLine(solution);
 
             if (solution.AssignsToParameter)
-                return solution.AnalyzeParameterAssignment();
+                return AnalyzeParameterAssignment(solution);
 
             if (solution.AssignsVariable)
-                return solution.AnalyzeVariableAssignment();
+                return AnalyzeVariableAssignment(solution);
 
             return solution.ContinueAnalysis();
         }
 
-        private static SolutionAnalysis AnalyzeSingleLine(this TwoFerSolution solution)
+        private static SolutionAnalysis AnalyzeSingleLine(TwoFerSolution solution)
         {
             if (!solution.UsesExpressionBody)
                 solution.AddComment(UseExpressionBodiedMember(solution.SpeakMethodName));
@@ -84,7 +80,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             return solution.ContinueAnalysis();
         }
 
-        private static SolutionAnalysis AnalyzeParameterAssignment(this TwoFerSolution solution)
+        private static SolutionAnalysis AnalyzeParameterAssignment(TwoFerSolution solution)
         {
             if (!solution.AssignsParameterUsingKnownExpression)
                 return solution.ReferToMentor();
@@ -99,7 +95,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             return solution.ContinueAnalysis();
         }
 
-        private static SolutionAnalysis AnalyzeVariableAssignment(this TwoFerSolution solution)
+        private static SolutionAnalysis AnalyzeVariableAssignment(TwoFerSolution solution)
         {
             if (!solution.AssignsVariableUsingKnownInitializer)
                 return solution.ReferToMentor();

@@ -1,10 +1,17 @@
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Shared
-{
-    internal static class SharedAnalyzer
+{   
+    internal abstract class SharedAnalyzer<T> where T : Solution
     {
-        public static SolutionAnalysis Analyze(Solution solution)
+        public SolutionAnalysis Analyze(T solution) =>
+            SharedDisapproveWhenInvalid(solution) ??
+            DisapproveWhenInvalid(solution) ??
+            SharedApproveWhenValid(solution) ??
+            ApproveWhenValid(solution) ??
+            solution.ReferToMentor();
+
+        private static SolutionAnalysis SharedDisapproveWhenInvalid(T solution)
         {
             if (solution.NoImplementationFileFound())
                 return solution.ReferToMentor();
@@ -25,5 +32,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
                 ? solution.Disapprove()
                 : solution.ContinueAnalysis();
         }
+
+        private static SolutionAnalysis SharedApproveWhenValid(T solution) =>
+            solution.ContinueAnalysis();
+
+        protected abstract SolutionAnalysis DisapproveWhenInvalid(T solution);
+        
+        protected abstract SolutionAnalysis ApproveWhenValid(T solution);
     }
 }

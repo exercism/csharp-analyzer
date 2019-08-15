@@ -1,16 +1,12 @@
+using Exercism.Analyzers.CSharp.Analyzers.Shared;
 using static Exercism.Analyzers.CSharp.Analyzers.Leap.LeapComments;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 {
-    internal static class LeapAnalyzer
+    internal class LeapAnalyzer : SharedAnalyzer<LeapSolution>
     {
-        public static SolutionAnalysis Analyze(LeapSolution solution) =>
-            solution.DisapproveWhenInvalid() ??
-            solution.ApproveWhenValid() ??
-            solution.ReferToMentor();
-
-        private static SolutionAnalysis DisapproveWhenInvalid(this LeapSolution solution)
+        protected override SolutionAnalysis DisapproveWhenInvalid(LeapSolution solution)
         {
             if (solution.UsesDateTimeIsLeapYear)
                 solution.AddComment(DoNotUseIsLeapYear);
@@ -26,7 +22,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
                 : solution.ContinueAnalysis();
         }
 
-        private static SolutionAnalysis ApproveWhenValid(this LeapSolution solution)
+        protected override SolutionAnalysis ApproveWhenValid(LeapSolution solution)
         {
             if (solution.UsesIfStatement)
                 solution.AddComment(DoNotUseIfStatement);

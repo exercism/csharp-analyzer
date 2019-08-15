@@ -1,8 +1,13 @@
+using Exercism.Analyzers.CSharp.Analyzers.Shared;
+
 namespace Exercism.Analyzers.CSharp.Analyzers.Default
 {
-    internal static class DefaultExerciseAnalyzer
+    internal class DefaultExerciseAnalyzer : SharedAnalyzer<DefaultSolution>
     {
-        public static SolutionAnalysis Analyze(DefaultSolution solution) =>
-            solution.ReferToMentor();
+        protected override SolutionAnalysis DisapproveWhenInvalid(DefaultSolution solution) =>
+            solution.ContinueAnalysis();
+
+        protected override SolutionAnalysis ApproveWhenValid(DefaultSolution solution) =>
+            solution.ContinueAnalysis();
     }
 }

@@ -1,16 +1,12 @@
+using Exercism.Analyzers.CSharp.Analyzers.Shared;
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondComments;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
-    internal static class GigasecondAnalyzer
+    internal class GigasecondAnalyzer : SharedAnalyzer<GigasecondSolution>
     {
-        public static SolutionAnalysis Analyze(GigasecondSolution solution) =>
-            solution.DisapproveWhenInvalid() ??
-            solution.ApproveWhenValid() ??
-            solution.ReferToMentor();
-
-        private static SolutionAnalysis DisapproveWhenInvalid(this GigasecondSolution solution)
+        protected override SolutionAnalysis DisapproveWhenInvalid(GigasecondSolution solution)
         {
             if (solution.CreatesNewDatetime)
                 solution.AddComment(DoNotCreateDateTime);
@@ -23,7 +19,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
                 : solution.ContinueAnalysis();
         }
 
-        private static SolutionAnalysis ApproveWhenValid(this GigasecondSolution solution)
+        protected override SolutionAnalysis ApproveWhenValid(GigasecondSolution solution)
         {
             if (solution.UsesMathPow)
                 solution.AddComment(UseScientificNotationNotMathPow(solution.GigasecondValue));
