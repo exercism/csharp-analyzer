@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Microsoft.CodeAnalysis;
 
 namespace Exercism.Analyzers.CSharp
@@ -38,5 +39,31 @@ namespace Exercism.Analyzers.CSharp
 
         private static SolutionAnalysis ToSolutionAnalysis(SolutionStatus status, SolutionComment[] comments) =>
             new SolutionAnalysis(status, comments);
+
+        public bool WritesToConsole() =>
+            SyntaxRoot.InvokesMethod("Console.Write") ||
+            SyntaxRoot.InvokesMethod("Console.WriteAsync") ||
+            SyntaxRoot.InvokesMethod("Console.WriteLine") ||
+            SyntaxRoot.InvokesMethod("Console.WriteLineAsync") ||
+            SyntaxRoot.InvokesMethod("Console.Out.Write") ||
+            SyntaxRoot.InvokesMethod("Console.Out.WriteAsync") ||
+            SyntaxRoot.InvokesMethod("Console.Out.WriteLine") ||
+            SyntaxRoot.InvokesMethod("Console.Out.WriteLineAsync") ||
+            SyntaxRoot.InvokesMethod("Console.Error.Write") ||
+            SyntaxRoot.InvokesMethod("Console.Error.WriteAsync") ||
+            SyntaxRoot.InvokesMethod("Console.Error.WriteLine") ||
+            SyntaxRoot.InvokesMethod("Console.Error.WriteLineAsync");
+
+        public bool ThrowsNotImplementedException() =>
+            SyntaxRoot.ThrowsExceptionOfType<NotImplementedException>();
+
+        public bool HasMainMethod() =>
+            SyntaxRoot.GetClassMethod("Program", "Main") != null;
+
+        public bool HasCompileErrors() =>
+            SyntaxRoot.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
+
+        public bool NoImplementationFileFound() =>
+            SyntaxRoot == null;
     }
 }
