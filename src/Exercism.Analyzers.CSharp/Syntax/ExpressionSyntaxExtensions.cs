@@ -1,8 +1,8 @@
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
-using Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison;
+using Exercism.Analyzers.CSharp.Syntax.Comparison;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
+namespace Exercism.Analyzers.CSharp.Syntax
 {
     internal static class ExpressionSyntaxExtensions
     {

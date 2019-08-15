@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison;
+using Exercism.Analyzers.CSharp.Syntax.Comparison;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
+namespace Exercism.Analyzers.CSharp.Syntax
 {
     internal static class SyntaxNodeExtensions
     {
@@ -41,7 +41,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
             syntaxNode?
                 .DescendantNodes<ObjectCreationExpressionSyntax>()
                 .Any(objectCreationExpression => objectCreationExpression.Type.IsEquivalentWhenNormalized(
-                    IdentifierName(typeof(T).Name))) ?? false;
+                    SyntaxFactory.IdentifierName(typeof(T).Name))) ?? false;
 
         public static bool ThrowsExceptionOfType<TException>(this SyntaxNode syntaxNode) where TException : Exception =>
             syntaxNode?
@@ -49,7 +49,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
                 .Any(throwsStatement =>
                         throwsStatement.Expression is ObjectCreationExpressionSyntax objectCreationExpression &&
                         objectCreationExpression.Type.IsEquivalentWhenNormalized(
-                            IdentifierName(typeof(TException).Name))) ?? false;
+                            SyntaxFactory.IdentifierName(typeof(TException).Name))) ?? false;
 
         public static bool InvokesMethod(this SyntaxNode syntaxNode, MemberAccessExpressionSyntax memberAccessExpression) =>
             syntaxNode?

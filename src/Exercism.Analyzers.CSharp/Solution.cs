@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Exercism.Analyzers.CSharp.Analyzers.Syntax;
+using Exercism.Analyzers.CSharp.Syntax;
 using Microsoft.CodeAnalysis;
 
 namespace Exercism.Analyzers.CSharp

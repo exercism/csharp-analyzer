@@ -1,6 +1,6 @@
 using System.Linq;
-using Exercism.Analyzers.CSharp.Analyzers.Syntax;
-using Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison;
+using Exercism.Analyzers.CSharp.Syntax;
+using Exercism.Analyzers.CSharp.Syntax.Comparison;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.Leap.LeapSyntaxFactory;

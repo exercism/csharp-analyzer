@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
+namespace Exercism.Analyzers.CSharp.Syntax.Rewriting
 {
     internal class InvertNegativeConditionalSyntaxRewriter : CSharpSyntaxRewriter
     {

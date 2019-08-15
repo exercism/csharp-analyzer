@@ -1,13 +1,13 @@
 using System.Linq;
+using Exercism.Analyzers.CSharp.Analyzers.Shared;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
 
-namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
+namespace Exercism.Analyzers.CSharp.Syntax
 {
     internal static class MethodDeclarationSyntaxExtensions
     {
         public static bool AssignsToParameter(this MethodDeclarationSyntax methodDeclaration, ParameterSyntax parameter) =>
-            methodDeclaration.AssignsToIdentifier(IdentifierName(parameter));
+            methodDeclaration.AssignsToIdentifier(SharedSyntaxFactory.IdentifierName(parameter));
 
         public static bool SingleLine(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration.ExpressionBody != null ||

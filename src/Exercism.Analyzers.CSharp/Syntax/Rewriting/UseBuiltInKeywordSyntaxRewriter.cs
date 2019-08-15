@@ -1,31 +1,30 @@
-using Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison;
+using Exercism.Analyzers.CSharp.Syntax.Comparison;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
+namespace Exercism.Analyzers.CSharp.Syntax.Rewriting
 {
     internal class UseBuiltInKeywordSyntaxRewriter : CSharpSyntaxRewriter
     {
         public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
         {
-            if (node.Expression.IsEquivalentWhenNormalized(IdentifierName("String")))
+            if (node.Expression.IsEquivalentWhenNormalized(SyntaxFactory.IdentifierName("String")))
                 return base.Visit(
                     node.WithExpression(
-                        PredefinedType(
-                            Token(SyntaxKind.StringKeyword))));
+                        SyntaxFactory.PredefinedType(
+                            SyntaxFactory.Token(SyntaxKind.StringKeyword))));
 
             return base.VisitMemberAccessExpression(node);
         }
 
         public override SyntaxNode VisitVariableDeclaration(VariableDeclarationSyntax node)
         {
-            if (node.Type.IsEquivalentWhenNormalized(IdentifierName("String")))
+            if (node.Type.IsEquivalentWhenNormalized(SyntaxFactory.IdentifierName("String")))
                 return base.Visit(
                     node.WithType(
-                        PredefinedType(
-                            Token(SyntaxKind.StringKeyword))
+                        SyntaxFactory.PredefinedType(
+                            SyntaxFactory.Token(SyntaxKind.StringKeyword))
                         .WithTriviaFrom(node.Type)));
 
             return base.VisitVariableDeclaration(node);
@@ -33,10 +32,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 
         public override SyntaxNode VisitQualifiedName(QualifiedNameSyntax node)
         {
-            if (node.Left.IsEquivalentWhenNormalized(IdentifierName("String")))
+            if (node.Left.IsEquivalentWhenNormalized(SyntaxFactory.IdentifierName("String")))
                 return base.Visit(
                     node.WithLeft(
-                        IdentifierName("string").WithTriviaFrom(node.Left)));
+                        SyntaxFactory.IdentifierName("string").WithTriviaFrom(node.Left)));
 
             return base.VisitQualifiedName(node);
         }

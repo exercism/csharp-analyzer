@@ -1,7 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison
+namespace Exercism.Analyzers.CSharp.Syntax.Comparison
 {
     internal static class SyntaxTokenComparer
     {

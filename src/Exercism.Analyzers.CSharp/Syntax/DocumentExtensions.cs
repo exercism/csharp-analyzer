@@ -1,8 +1,8 @@
-using Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison;
+using Exercism.Analyzers.CSharp.Syntax.Comparison;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Simplification;
 
-namespace Exercism.Analyzers.CSharp
+namespace Exercism.Analyzers.CSharp.Syntax
 {
     internal static class DocumentExtensions
     {

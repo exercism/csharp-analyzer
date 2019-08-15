@@ -1,7 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
+namespace Exercism.Analyzers.CSharp.Syntax.Rewriting
 {
     internal class NormalizeSyntaxRewriter : CSharpSyntaxRewriter
     {

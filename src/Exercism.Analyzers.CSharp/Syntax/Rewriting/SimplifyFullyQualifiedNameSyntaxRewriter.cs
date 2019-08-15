@@ -1,9 +1,9 @@
-using Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison;
+using Exercism.Analyzers.CSharp.Syntax.Comparison;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
+namespace Exercism.Analyzers.CSharp.Syntax.Rewriting
 {
     internal class SimplifyFullyQualifiedNameSyntaxRewriter : CSharpSyntaxRewriter
     {
