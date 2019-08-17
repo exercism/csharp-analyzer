@@ -4,13 +4,6 @@
     {
       "comment": "csharp.general.missing_method",
       "params": { "name": "Speak" }
-    },
-    {
-      "comment": "csharp.general.invalid_method_signature",
-      "params": {
-        "name": "Speak",
-        "signature": "public static string Speak(string name)"
-      }
     }
   ]
 }

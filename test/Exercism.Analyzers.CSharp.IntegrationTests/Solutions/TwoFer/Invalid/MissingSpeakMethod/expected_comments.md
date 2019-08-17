@@ -1,5 +1,2 @@
 [COMMENT #1]
 Add a method named `Speak`. The tests won't pass without it.
-
-[COMMENT #2]
-Change the signature of the `Speak` method to be `public static string Speak(string name)`.

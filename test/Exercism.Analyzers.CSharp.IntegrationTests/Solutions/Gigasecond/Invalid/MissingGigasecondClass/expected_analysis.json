@@ -4,7 +4,6 @@
     {
       "comment": "csharp.general.missing_class",
       "params": { "name": "Gigasecond" }
-    },
-    { "comment": "csharp.gigasecond.use_add_seconds", "params": {} }
+    }
   ]
 }

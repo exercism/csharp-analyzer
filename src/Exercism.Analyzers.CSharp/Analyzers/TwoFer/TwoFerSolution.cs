@@ -316,6 +316,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             !MissingTwoFerClass & SpeakMethod == null;
 
         public bool InvalidSpeakMethod =>
+            SpeakMethod != null &&
             !TwoFerClass.GetMethods(SpeakMethodName).Any(
                 speakMethod =>
                     speakMethod.ParameterList.Parameters.Count == 1 &&

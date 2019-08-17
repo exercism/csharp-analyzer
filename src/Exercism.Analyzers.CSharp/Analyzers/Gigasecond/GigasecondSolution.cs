@@ -109,6 +109,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             AddSecondsArgumentType == ArgumentType.Field;
 
         public bool DoesNotUseAddSeconds =>
+            AddMethod != null &&
             AddSecondsInvocationExpression == null;
 
         public bool CreatesNewDatetime =>
