@@ -1,7 +1,7 @@
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Shared
-{   
+{
     internal abstract class SharedAnalyzer<T> where T : Solution
     {
         public SolutionAnalysis Analyze(T solution) =>
@@ -17,10 +17,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
                 return solution.ReferToMentor();
 
             if (solution.HasCompileErrors())
-                solution.AddComment(FixCompileErrors);
+                solution.AddComment(HasCompileErrors);
 
             if (solution.HasMainMethod())
-                solution.AddComment(RemoveMainMethod);
+                solution.AddComment(HasMainMethod);
 
             if (solution.ThrowsNotImplementedException())
                 solution.AddComment(RemoveThrowNotImplementedException);
@@ -37,7 +37,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
             solution.ContinueAnalysis();
 
         protected abstract SolutionAnalysis DisapproveWhenInvalid(T solution);
-        
+
         protected abstract SolutionAnalysis ApproveWhenValid(T solution);
     }
 }

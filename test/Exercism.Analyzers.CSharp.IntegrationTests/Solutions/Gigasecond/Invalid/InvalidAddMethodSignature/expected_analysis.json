@@ -1,0 +1,12 @@
+{
+  "status": "disapprove",
+  "comments": [
+    {
+      "comment": "csharp.general.invalid_method_signature",
+      "params": {
+        "name": "Add",
+        "signature": "public static DateTime Add(DateTime moment)"
+      }
+    }
+  ]
+}

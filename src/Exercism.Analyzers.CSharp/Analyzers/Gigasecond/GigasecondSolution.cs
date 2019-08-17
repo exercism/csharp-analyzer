@@ -1,23 +1,43 @@
 using System;
 using Exercism.Analyzers.CSharp.Syntax;
 using Exercism.Analyzers.CSharp.Syntax.Comparison;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondSyntaxFactory;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntax;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
     internal class GigasecondSolution : Solution
     {
+        public const string GigasecondClassName = "Gigasecond";
+        public const string AddMethodName = "Add";
+        public const string AddMethodSignature = "public static DateTime Add(DateTime moment)";
+
         public GigasecondSolution(Solution solution) : base(solution)
         {
         }
 
         private ClassDeclarationSyntax GigasecondClass =>
-            SyntaxRoot.GetClass("Gigasecond");
+            SyntaxRoot.GetClass(GigasecondClassName);
 
         private MethodDeclarationSyntax AddMethod =>
-            GigasecondClass?.GetMethod("Add");
+            GigasecondClass?.GetMethod(AddMethodName);
+
+        public bool MissingGigasecondClass =>
+            GigasecondClass == null;
+
+        public bool MissingAddMethod =>
+            !MissingGigasecondClass && AddMethod == null;
+
+        public bool InvalidAddMethod =>
+            AddMethod != null &&
+            (AddMethod.ParameterList.Parameters.Count != 1 ||
+            !AddMethod.ParameterList.Parameters[0].Type.IsEquivalentWhenNormalized(
+                IdentifierName("DateTime")) ||
+            !AddMethod.ReturnType.IsEquivalentWhenNormalized(
+                IdentifierName("DateTime")));
 
         private ReturnType AddMethodReturnType =>
             ReturnedAs(AddSecondsInvocationExpression, AddMethodReturnedExpression, AddMethodParameter);
@@ -29,28 +49,25 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             ArgumentDefinedAs(AddSecondsFieldArgument, AddSecondsLocalArgument, AddSecondsArgumentExpression);
 
         private ExpressionSyntax AddSecondsArgumentExpression =>
-            AddSecondsInvocationExpression.FirstArgumentExpression();
+            AddSecondsInvocationExpression?.FirstArgumentExpression();
 
         private VariableDeclaratorSyntax AddSecondsArgumentVariable =>
-            GigasecondClass.ArgumentVariable(AddSecondsArgumentExpression);
+            GigasecondClass?.ArgumentVariable(AddSecondsArgumentExpression);
 
         private LocalDeclarationStatementSyntax AddSecondsLocalArgument =>
-            AddSecondsArgumentVariable.LocalDeclarationStatement();
+            AddSecondsArgumentVariable?.LocalDeclarationStatement();
 
         private FieldDeclarationSyntax AddSecondsFieldArgument =>
-            AddSecondsArgumentVariable.FieldDeclaration();
+            AddSecondsArgumentVariable?.FieldDeclaration();
 
         private ExpressionSyntax AddMethodReturnedExpression =>
-            AddMethod.ReturnedExpression();
+            AddMethod?.ReturnedExpression();
 
         private ParameterSyntax AddMethodParameter =>
-            AddMethod.FirstParameter();
+            AddMethod?.FirstParameter();
 
         private InvocationExpressionSyntax AddSecondsInvocationExpression =>
-            AddMethod.InvocationExpression(AddSecondsMemberAccessExpression(this));
-
-        public string AddMethodName =>
-            AddMethod.Identifier.Text;
+            AddMethod?.InvocationExpression(AddSecondsMemberAccessExpression(this));
 
         public string AddMethodParameterName =>
             AddMethodParameter.Identifier.Text;
@@ -95,6 +112,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             AddSecondsInvocationExpression == null;
 
         public bool CreatesNewDatetime =>
+            AddMethod != null &&
             AddMethod.CreatesObjectOfType<DateTime>();
 
         public bool UsesLocalConstVariable =>

@@ -12,15 +12,19 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
     internal class TwoFerSolution : Solution
     {
+        public const string TwoFerClassName = "TwoFer";
+        public const string SpeakMethodName = "Speak";
+        public const string SpeakMethodSignature = "public static string Speak(string name)";
+
         public TwoFerSolution(Solution solution) : base(solution)
         {
         }
 
         private ClassDeclarationSyntax TwoFerClass =>
-            SyntaxRoot.GetClass("TwoFer");
+            SyntaxRoot.GetClass(TwoFerClassName);
 
         private MethodDeclarationSyntax SpeakMethod =>
-            TwoFerClass?.GetMethod("Speak");
+            TwoFerClass?.GetMethod(SpeakMethodName);
 
         private ParameterSyntax SpeakMethodParameter =>
             SpeakMethod?.ParameterList.Parameters.FirstOrDefault();
@@ -50,9 +54,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 return localDeclaration.Declaration.Variables[0];
             }
         }
-
-        public string SpeakMethodName =>
-            SpeakMethod.Identifier.Text;
 
         public string SpeakMethodParameterName =>
             SpeakMethodParameter.Identifier.Text;
@@ -308,18 +309,23 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         private bool Returns(SyntaxNode returned) =>
             TwoFerExpression.IsEquivalentWhenNormalized(returned);
 
+        public bool MissingTwoFerClass =>
+            TwoFerClass == null;
+
         public bool MissingSpeakMethod =>
-            SpeakMethod == null;
+            !MissingTwoFerClass & SpeakMethod == null;
 
         public bool InvalidSpeakMethod =>
-            TwoFerClass.GetMethods("Speak").All(
+            !TwoFerClass.GetMethods(SpeakMethodName).Any(
                 speakMethod =>
-                    speakMethod.ParameterList.Parameters.Count != 1 ||
-                    !speakMethod.ParameterList.Parameters[0].Type.IsEquivalentWhenNormalized(
+                    speakMethod.ParameterList.Parameters.Count == 1 &&
+                    speakMethod.ParameterList.Parameters[0].Type.IsEquivalentWhenNormalized(
+                        PredefinedType(Token(SyntaxKind.StringKeyword))) &&
+                    speakMethod.ReturnType.IsEquivalentWhenNormalized(
                         PredefinedType(Token(SyntaxKind.StringKeyword))));
 
         public bool UsesOverloads =>
-                TwoFerClass.GetMethods("Speak").Count() > 1;
+            TwoFerClass.GetMethods(SpeakMethodName).Count() > 1;
 
         public bool UsesDuplicateString
         {

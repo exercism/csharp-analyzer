@@ -4,8 +4,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 {
     internal static class SharedComments
     {
-        public static readonly SolutionComment RemoveMainMethod = new SolutionComment("csharp.general.has_main_method");
-        public static readonly SolutionComment FixCompileErrors = new SolutionComment("csharp.general.has_compile_errors");
+        public static readonly SolutionComment HasMainMethod = new SolutionComment("csharp.general.has_main_method");
+        public static readonly SolutionComment HasCompileErrors = new SolutionComment("csharp.general.has_compile_errors");
         public static readonly SolutionComment UseNullCoalescingOperatorNotNullCheck = new SolutionComment("csharp.general.use_null_coalescing_operator_not_null_check");
         public static readonly SolutionComment UseStringInterpolationNotStringFormat = new SolutionComment("csharp.general.use_string_interpolation_not_string_format");
         public static readonly SolutionComment UseStringInterpolationNotStringConcatenation = new SolutionComment("csharp.general.use_string_interpolation_not_string_concatenation");
@@ -25,5 +25,14 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 
         public static SolutionComment UseExpressionBodiedMember(string method) =>
             new SolutionComment("csharp.general.use_expression_bodied_member", new SolutionCommentParameter(Name, method));
+
+        public static SolutionComment MissingClass(string @class) =>
+            new SolutionComment("csharp.general.missing_class", new SolutionCommentParameter(Name, @class));
+
+        public static SolutionComment MissingMethod(string method) =>
+            new SolutionComment("csharp.general.missing_method", new SolutionCommentParameter(Name, method));
+
+        public static SolutionComment InvalidMethodSignature(string method, string signature) =>
+            new SolutionComment("csharp.general.invalid_method_signature", new SolutionCommentParameter(Name, method), new SolutionCommentParameter(Signature, signature));
     }
 }

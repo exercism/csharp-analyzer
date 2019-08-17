@@ -2,8 +2,8 @@
   "status": "disapprove",
   "comments": [
     {
-      "comment": "csharp.general.missing_method",
-      "params": { "name": "Speak" }
+      "comment": "csharp.general.missing_class",
+      "params": { "name": "TwoFer" }
     },
     {
       "comment": "csharp.general.invalid_method_signature",

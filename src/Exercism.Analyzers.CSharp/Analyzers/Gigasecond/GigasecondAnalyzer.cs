@@ -1,5 +1,6 @@
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondComments;
+using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondSolution;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
@@ -8,6 +9,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
     {
         protected override SolutionAnalysis DisapproveWhenInvalid(GigasecondSolution solution)
         {
+            if (solution.MissingGigasecondClass)
+                solution.AddComment(MissingClass(GigasecondClassName));
+
+            if (solution.MissingAddMethod)
+                solution.AddComment(MissingMethod(AddMethodName));
+
+            if (solution.InvalidAddMethod)
+                solution.AddComment(InvalidMethodSignature(AddMethodName, AddMethodSignature));
+
             if (solution.CreatesNewDatetime)
                 solution.AddComment(DoNotCreateDateTime);
 
@@ -45,7 +55,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 
             if (solution.UsesSingleLine &&
                 !solution.UsesExpressionBody)
-                solution.AddComment(UseExpressionBodiedMember(solution.AddMethodName));
+                solution.AddComment(UseExpressionBodiedMember(AddMethodName));
 
             if (solution.UsesScientificNotation ||
                 solution.UsesDigitsWithSeparator ||

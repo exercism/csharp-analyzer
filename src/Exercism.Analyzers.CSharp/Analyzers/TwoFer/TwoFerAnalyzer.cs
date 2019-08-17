@@ -1,6 +1,7 @@
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 using static Exercism.Analyzers.CSharp.Analyzers.TwoFer.TwoFerComments;
+using static Exercism.Analyzers.CSharp.Analyzers.TwoFer.TwoFerSolution;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
@@ -8,12 +9,17 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
     {
         protected override SolutionAnalysis DisapproveWhenInvalid(TwoFerSolution solution)
         {
+            if (solution.MissingTwoFerClass)
+                solution.AddComment(MissingClass(TwoFerClassName));
+
+            if (solution.MissingSpeakMethod)
+                solution.AddComment(MissingMethod(SpeakMethodName));
+
+            if (solution.InvalidSpeakMethod)
+                solution.AddComment(InvalidMethodSignature(SpeakMethodName, SpeakMethodSignature));
+
             if (solution.UsesOverloads)
                 solution.AddComment(UseDefaultValueNotOverloads);
-
-            if (solution.MissingSpeakMethod ||
-                solution.InvalidSpeakMethod)
-                solution.AddComment(FixCompileErrors);
 
             if (solution.UsesDuplicateString)
                 solution.AddComment(UseSingleFormattedStringNotMultiple);
@@ -70,7 +76,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         private static SolutionAnalysis AnalyzeSingleLine(TwoFerSolution solution)
         {
             if (!solution.UsesExpressionBody)
-                solution.AddComment(UseExpressionBodiedMember(solution.SpeakMethodName));
+                solution.AddComment(UseExpressionBodiedMember(SpeakMethodName));
 
             if (solution.UsesStringInterpolationWithDefaultValue ||
                 solution.UsesStringInterpolationWithNullCoalescingOperator ||

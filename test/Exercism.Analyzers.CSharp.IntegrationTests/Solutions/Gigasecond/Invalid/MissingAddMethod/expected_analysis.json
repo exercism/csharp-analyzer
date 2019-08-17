@@ -1,0 +1,7 @@
+{
+  "status": "disapprove",
+  "comments": [
+    { "comment": "csharp.general.missing_method", "params": { "name": "Add" } },
+    { "comment": "csharp.gigasecond.use_add_seconds", "params": {} }
+  ]
+}

@@ -2,10 +2,6 @@
   "status": "disapprove",
   "comments": [
     {
-      "comment": "csharp.general.missing_method",
-      "params": { "name": "Speak" }
-    },
-    {
       "comment": "csharp.general.invalid_method_signature",
       "params": {
         "name": "Speak",
