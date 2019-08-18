@@ -39,7 +39,7 @@ namespace Exercism.Analyzers.CSharp.Syntax
             methodDeclaration
                 .DescendantNodes()
                 .OfType<IfStatementSyntax>()
-                .Any(ifStatement => ifStatement.DescendantNodes()
+                .Any(ifStatement => ifStatement.Statement.DescendantNodes()
                     .OfType<IfStatementSyntax>()
                     .Any());
     }
