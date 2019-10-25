@@ -10,7 +10,7 @@
     The directory in which the solutions can be found.
 .EXAMPLE
     The example below will analyze the two-fer solutions in the "~/exercism/two-fer" directory
-    PS C:\> ./bulk-analyze.ps1 two-fer ~/exercism/two-fer
+    PS C:\> ./analyze-in-bulk.ps1 two-fer ~/exercism/two-fer
 #>
 
 param (
