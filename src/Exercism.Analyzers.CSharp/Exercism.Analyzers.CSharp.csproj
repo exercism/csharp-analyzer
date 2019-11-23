@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
         <OutputType>Exe</OutputType>
+        <PublishTrimmed>true</PublishTrimmed>
     </PropertyGroup>
     
     <ItemGroup>
