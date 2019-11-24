@@ -1,7 +1,7 @@
+using System;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace Exercism.Analyzers.CSharp.Bulk
 {
@@ -9,24 +9,23 @@ namespace Exercism.Analyzers.CSharp.Bulk
     {
         public static BulkSolutionAnalysisResult Read(string filePath)
         {
-            using (var fileReader = File.OpenText(filePath))
-            using (var jsonReader = new JsonTextReader(fileReader))
+            using (var fileReader = File.OpenRead(filePath))
             {
                 // We read each JSON property by key to verify that the format is correct.
                 // Automatically deserializing could possible use different keys.
-                var jsonAnalysisResult = JToken.ReadFrom(jsonReader);
+                var jsonDocument = JsonDocument.Parse(fileReader);
 
-                return new BulkSolutionAnalysisResult(jsonAnalysisResult.ParseStatus(), jsonAnalysisResult.ParseComments());
+                return new BulkSolutionAnalysisResult(jsonDocument.ParseStatus(), jsonDocument.ParseComments());
             }
         }
 
-        private static string ParseStatus(this JToken jsonAnalysisResult) =>
-            jsonAnalysisResult["status"].ToObject<string>();
+        private static string ParseStatus(this JsonDocument jsonAnalysisResult) =>
+            jsonAnalysisResult.RootElement.GetProperty("status").GetString();
 
-        private static string[] ParseComments(this JToken jsonAnalysisResult) =>
-            jsonAnalysisResult["comments"].Children<JObject>().Select(ParseComment).ToArray();
+        private static string[] ParseComments(this JsonDocument jsonAnalysisResult) =>
+            jsonAnalysisResult.RootElement.GetProperty("comments").EnumerateArray().Select(ParseComment).ToArray();
 
-        private static string ParseComment(this JObject child) =>
-            child["comment"].ToObject<string>();
+        private static string ParseComment(this JsonElement child) =>
+            child.GetProperty("comment").GetString();
     }
 }
