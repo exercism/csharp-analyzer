@@ -1,6 +1,6 @@
 using System.IO;
+using System.Text.Json;
 using Humanizer;
-using Newtonsoft.Json;
 
 namespace Exercism.Analyzers.CSharp
 {
@@ -8,8 +8,8 @@ namespace Exercism.Analyzers.CSharp
     {
         public static void WriteToFile(Options options, SolutionAnalysis solutionAnalysis)
         {
-            using (var fileWriter = File.CreateText(GetAnalysisFilePath(options)))
-            using (var jsonTextWriter = new JsonTextWriter(fileWriter))
+            using (var fileStream = File.Create(GetAnalysisFilePath(options)))
+            using (var jsonTextWriter = new Utf8JsonWriter(fileStream))
             {
                 jsonTextWriter.WriteStartObject();
                 jsonTextWriter.WriteStatus(solutionAnalysis.Status);
@@ -21,13 +21,10 @@ namespace Exercism.Analyzers.CSharp
         private static string GetAnalysisFilePath(Options options) =>
             Path.GetFullPath(Path.Combine(options.Directory, "analysis.json"));
 
-        private static void WriteStatus(this JsonTextWriter jsonTextWriter, SolutionStatus status)
-        {
-            jsonTextWriter.WritePropertyName("status");
-            jsonTextWriter.WriteValue(status.ToString().Underscore());
-        }
+        private static void WriteStatus(this Utf8JsonWriter jsonTextWriter, SolutionStatus status) =>
+            jsonTextWriter.WriteString("status", status.ToString().Underscore());
 
-        private static void WriteComments(this JsonTextWriter jsonTextWriter, SolutionComment[] comments)
+        private static void WriteComments(this Utf8JsonWriter jsonTextWriter, SolutionComment[] comments)
         {
             jsonTextWriter.WritePropertyName("comments");
             jsonTextWriter.WriteStartArray();
@@ -38,7 +35,7 @@ namespace Exercism.Analyzers.CSharp
             jsonTextWriter.WriteEndArray();
         }
 
-        private static void WriteComment(this JsonTextWriter jsonTextWriter, SolutionComment comment)
+        private static void WriteComment(this Utf8JsonWriter jsonTextWriter, SolutionComment comment)
         {
             jsonTextWriter.WriteStartObject();
             jsonTextWriter.WriteCommentText(comment);
@@ -46,13 +43,10 @@ namespace Exercism.Analyzers.CSharp
             jsonTextWriter.WriteEndObject();
         }
 
-        private static void WriteCommentText(this JsonTextWriter jsonTextWriter, SolutionComment comment)
-        {
-            jsonTextWriter.WritePropertyName("comment");
-            jsonTextWriter.WriteValue(comment.Comment);
-        }
+        private static void WriteCommentText(this Utf8JsonWriter jsonTextWriter, SolutionComment comment) =>
+            jsonTextWriter.WriteString("comment", comment.Comment);
 
-        private static void WriteCommentParameters(this JsonTextWriter jsonTextWriter, SolutionComment comment)
+        private static void WriteCommentParameters(this Utf8JsonWriter jsonTextWriter, SolutionComment comment)
         {
             jsonTextWriter.WritePropertyName("params");
             jsonTextWriter.WriteStartObject();
@@ -63,10 +57,7 @@ namespace Exercism.Analyzers.CSharp
             jsonTextWriter.WriteEndObject();
         }
 
-        private static void WriteCommentParameter(this JsonTextWriter jsonTextWriter, SolutionCommentParameter parameter)
-        {
-            jsonTextWriter.WritePropertyName(parameter.Key);
-            jsonTextWriter.WriteValue(parameter.Value);
-        }
+        private static void WriteCommentParameter(this Utf8JsonWriter jsonTextWriter, SolutionCommentParameter parameter) =>
+            jsonTextWriter.WriteString(parameter.Key, parameter.Value);
     }
 }

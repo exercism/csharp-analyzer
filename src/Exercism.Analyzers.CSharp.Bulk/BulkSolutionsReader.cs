@@ -12,7 +12,12 @@ namespace Exercism.Analyzers.CSharp.Bulk
             select CreateBulkSolution(options.Slug, solutionDirectory);
 
         private static IEnumerable<string> GetSolutionDirectories(string exerciseDirectory) =>
-            Directory.GetDirectories(exerciseDirectory).OrderBy(directory => directory, StringComparer.Ordinal);
+            Directory.GetDirectories(exerciseDirectory)
+                .Where(IsHiddenDirectory)
+                .OrderBy(directory => directory, StringComparer.Ordinal);
+
+        private static bool IsHiddenDirectory(string directory) =>
+            !Path.GetFileName(directory).StartsWith(".");
 
         private static BulkSolution CreateBulkSolution(string slug, string solutionDirectory) =>
             new BulkSolution(slug, solutionDirectory);
