@@ -8,14 +8,12 @@ namespace Exercism.Analyzers.CSharp
     {
         public static void WriteToFile(Options options, SolutionAnalysis solutionAnalysis)
         {
-            using (var fileStream = File.Create(GetAnalysisFilePath(options)))
-            using (var jsonTextWriter = new Utf8JsonWriter(fileStream))
-            {
-                jsonTextWriter.WriteStartObject();
-                jsonTextWriter.WriteStatus(solutionAnalysis.Status);
-                jsonTextWriter.WriteComments(solutionAnalysis.Comments);
-                jsonTextWriter.WriteEndObject();
-            }
+            using var fileStream = File.Create(GetAnalysisFilePath(options));
+            using var jsonTextWriter = new Utf8JsonWriter(fileStream);
+            jsonTextWriter.WriteStartObject();
+            jsonTextWriter.WriteStatus(solutionAnalysis.Status);
+            jsonTextWriter.WriteComments(solutionAnalysis.Comments);
+            jsonTextWriter.WriteEndObject();
         }
 
         private static string GetAnalysisFilePath(Options options) =>

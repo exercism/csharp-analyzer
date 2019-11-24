@@ -20,15 +20,13 @@ namespace Exercism.Analyzers.CSharp
             if (!implementationFile.Exists)
                 return null;
 
-            using (var fileStream = implementationFile.OpenRead())
-            {
-                var workspace = new AdhocWorkspace();
-                var project = workspace.AddProject(implementationFile.DirectoryName, LanguageNames.CSharp);
+            using var fileStream = implementationFile.OpenRead();
+            var workspace = new AdhocWorkspace();
+            var project = workspace.AddProject(implementationFile.DirectoryName, LanguageNames.CSharp);
 
-                var sourceText = SourceText.From(fileStream);
-                var document = project.AddDocument(implementationFile.Name, sourceText);
-                return document.GetReducedSyntaxRoot();
-            }
+            var sourceText = SourceText.From(fileStream);
+            var document = project.AddDocument(implementationFile.Name, sourceText);
+            return document.GetReducedSyntaxRoot();
         }
 
         private static FileInfo GetImplementationFile(Options options)

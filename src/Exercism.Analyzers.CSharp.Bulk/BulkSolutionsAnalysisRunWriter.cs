@@ -7,11 +7,9 @@ namespace Exercism.Analyzers.CSharp.Bulk
     {
         public static void Write(BulkSolutionsAnalysisRun analysisRun)
         {
-            using (var fileStream = File.Create(Path.Combine(analysisRun.Options.Directory, "bulk_analysis.json")))
-            using (var jsonTextWriter = new Utf8JsonWriter(fileStream, new JsonWriterOptions { Indented = true }))
-            {
-                JsonSerializer.Serialize(jsonTextWriter, analysisRun);
-            }
+            using var fileStream = File.Create(Path.Combine(analysisRun.Options.Directory, "bulk_analysis.json"));
+            using var jsonTextWriter = new Utf8JsonWriter(fileStream, new JsonWriterOptions { Indented = true });
+            JsonSerializer.Serialize(jsonTextWriter, analysisRun);
         }
     }
 }

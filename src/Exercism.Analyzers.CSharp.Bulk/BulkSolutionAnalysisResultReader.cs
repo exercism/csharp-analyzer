@@ -9,14 +9,12 @@ namespace Exercism.Analyzers.CSharp.Bulk
     {
         public static BulkSolutionAnalysisResult Read(string filePath)
         {
-            using (var fileReader = File.OpenRead(filePath))
-            {
-                // We read each JSON property by key to verify that the format is correct.
-                // Automatically deserializing could possible use different keys.
-                var jsonDocument = JsonDocument.Parse(fileReader);
+            using var fileReader = File.OpenRead(filePath);
+            // We read each JSON property by key to verify that the format is correct.
+            // Automatically deserializing could possible use different keys.
+            var jsonDocument = JsonDocument.Parse(fileReader);
 
-                return new BulkSolutionAnalysisResult(jsonDocument.ParseStatus(), jsonDocument.ParseComments());
-            }
+            return new BulkSolutionAnalysisResult(jsonDocument.ParseStatus(), jsonDocument.ParseComments());
         }
 
         private static string ParseStatus(this JsonDocument jsonAnalysisResult) =>
