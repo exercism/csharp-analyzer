@@ -1,6 +1,6 @@
 # Exercism C# analyzer
 
-A tool that can analyze C# solutions submitted to [Exercism](https://exercism.io).
+An [analyzer][analyzer-introduction] uses syntax analysis to automatically give feedback on a submission. The [C# analyzer][csharp-analyzer] is an implementation of the [analyzer interface][analyzer-interface] that is shared across tracks.
 
 ## Analyzing a solution
 
@@ -39,3 +39,6 @@ This repository uses the [dotnet-format tool](https://github.com/dotnet/format/)
 ### Scripts
 
 The scripts in this repository are written in PowerShell. As PowerShell is cross-platform nowadays, you can also install it on [Linux](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-6) and [macOS](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-macos?view=powershell-6).
+
+[analyzer-introduction]: https://github.com/exercism/automated-analysis/blob/master/docs/analyzers/introduction.md
+[analyzer-interface]: https://github.com/exercism/automated-analysis/blob/master/docs/analyzers/interface.md
