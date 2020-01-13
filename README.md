@@ -1,6 +1,8 @@
 # Exercism C# analyzer
 
-An [analyzer][analyzer-introduction] uses syntax analysis to automatically give feedback on a submission. The [C# analyzer][csharp-analyzer] is an implementation of the [analyzer interface][analyzer-interface] that is shared across tracks.
+An [analyzer][analyzer-introduction] can automatically detect issues with submissions and comment on them.
+
+The [C# analyzer][csharp-analyzer] implements the [analyzer interface][analyzer-interface]. It uses [Roslyn][roslyn] to parse the submission's source code into syntax trees, which are then analyzed for known patterns.
 
 ## Analyzing a solution
 
@@ -42,3 +44,4 @@ The scripts in this repository are written in PowerShell. As PowerShell is cross
 
 [analyzer-introduction]: https://github.com/exercism/automated-analysis/blob/master/docs/analyzers/introduction.md
 [analyzer-interface]: https://github.com/exercism/automated-analysis/blob/master/docs/analyzers/interface.md
+[roslyn]: https://docs.microsoft.com/nl-nl/dotnet/csharp/roslyn-sdk/
