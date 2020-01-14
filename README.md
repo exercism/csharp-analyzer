@@ -2,7 +2,7 @@
 
 An [analyzer][analyzer-introduction] can automatically detect issues with submissions and comment on them.
 
-The [C# analyzer][csharp-analyzer] implements the [analyzer interface][analyzer-interface]. It uses [Roslyn][roslyn] to parse the submission's source code into syntax trees, which are then analyzed for known patterns.
+The C# analyzer implements the [analyzer interface][analyzer-interface]. It uses [Roslyn][roslyn] to parse the submission's source code into syntax trees, which are then analyzed for known patterns.
 
 ## Analyzing a solution
 
