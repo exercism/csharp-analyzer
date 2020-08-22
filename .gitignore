@@ -21,3 +21,6 @@ obj/
 
 # Plugin files
 .ionide/
+
+# Generated analysis files
+test/*/Solutions/**/analysis.json
