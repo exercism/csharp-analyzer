@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.Bulk
         public static BulkSolutionAnalysisRun Run(BulkSolution solution)
         {
             var stopwatch = Stopwatch.StartNew();
-            CSharp.Program.Main(new[] { solution.Slug, solution.Directory });
+            CSharp.Program.Main(new[] { solution.Slug, solution.Directory, solution.Directory });
             stopwatch.Stop();
 
             return CreateTestSolutionAnalysisRun(solution, stopwatch.Elapsed);

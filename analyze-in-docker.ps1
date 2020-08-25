@@ -7,20 +7,26 @@
     analyzes a solution.
 .PARAMETER Exercise
     The slug of the exercise to be analyzed.
-.PARAMETER Directory
+.PARAMETER InputDirectory
     The directory in which the solution can be found.
+.PARAMETER OutputDirectory
+    The directory to which the analysis file will be written.
 .EXAMPLE
     The example below will analyze the two-fer solution in the "~/exercism/two-fer" directory
-    PS C:\> ./analyze-in-docker.ps1 two-fer ~/exercism/two-fer
+    and write the results to "~/exercism/results/" using Docker
+    PS C:\> ./analyze-in-docker.ps1 two-fer ~/exercism/two-fer ~/exercism/results/
 #>
 
 param (
     [Parameter(Position = 0, Mandatory = $true)]
-    [string]$Exercise, 
-    
+    [string]$Exercise,
+
     [Parameter(Position = 1, Mandatory = $true)]
-    [string]$Directory
+    [string]$InputDirectory,
+
+    [Parameter(Position = 2, Mandatory = $true)]
+    [string]$OutputDirectory
 )
 
 docker build -t exercism/csharp-analyzer .
-docker run -v ${Directory}:/solution exercism/csharp-analyzer $Exercise /solution
+docker run -v ${InputDirectory}:/input -v ${OutputDirectory}:/output exercism/csharp-analyzer $Exercise /input /output

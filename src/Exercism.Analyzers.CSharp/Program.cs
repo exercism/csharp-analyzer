@@ -16,13 +16,13 @@ namespace Exercism.Analyzers.CSharp
 
         private static void RunAnalysis(Options options)
         {
-            Log.Information("Analyzing {Exercise} solution in directory {Directory}", options.Slug, options.Directory);
+            Log.Information("Analyzing {Exercise} solution in directory {Directory}", options.Slug, options.InputDirectory);
 
             var solution = SolutionParser.Parse(options);
             var solutionAnalysis = SolutionAnalyzer.Analyze(solution);
             SolutionAnalysisWriter.WriteToFile(options, solutionAnalysis);
 
-            Log.Information("Analyzed {Exercise} solution in directory {Directory}. Status: {Status}. Comments: {Comments}", options.Slug, options.Directory, solutionAnalysis.Status, solutionAnalysis.Comments.Select(comment => comment.Comment));
+            Log.Information("Analyzed {Exercise} solution in directory {Directory}. Status: {Status}. Comments: {Comments}", options.Slug, options.OutputDirectory, solutionAnalysis.Status, solutionAnalysis.Comments.Select(comment => comment.Comment));
         }
     }
 }
