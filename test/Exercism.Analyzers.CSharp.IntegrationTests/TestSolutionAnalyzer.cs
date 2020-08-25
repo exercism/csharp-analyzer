@@ -4,7 +4,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     {
         public static TestSolutionAnalysisRun Run(TestSolution testSolution)
         {
-            Program.Main(new[] { testSolution.Slug, testSolution.Directory });
+            Program.Main(new[] { testSolution.Slug, testSolution.Directory, testSolution.Directory });
 
             return CreateTestSolutionAnalysisRun(testSolution);
         }

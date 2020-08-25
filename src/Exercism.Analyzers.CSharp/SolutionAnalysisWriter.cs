@@ -17,7 +17,7 @@ namespace Exercism.Analyzers.CSharp
         }
 
         private static string GetAnalysisFilePath(Options options) =>
-            Path.GetFullPath(Path.Combine(options.Directory, "analysis.json"));
+            Path.GetFullPath(Path.Combine(options.OutputDirectory, "analysis.json"));
 
         private static void WriteStatus(this Utf8JsonWriter jsonTextWriter, SolutionStatus status) =>
             jsonTextWriter.WriteString("status", status.ToString().Underscore());
