@@ -1,9 +1,9 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build
 WORKDIR /app
 
-# Download exercism tooling webserver
-RUN wget -P /usr/local/bin https://github.com/exercism/local-tooling-webserver/releases/latest/download/exercism_local_tooling_webserver && \
-    chmod +x /usr/local/bin/exercism_local_tooling_webserver
+# Download tooling webserver
+RUN wget -P /usr/local/bin https://github.com/exercism/tooling-webserver/releases/latest/download/tooling_webserver && \
+    chmod +x /usr/local/bin/tooling_webserver
 
 # Copy csproj and restore as distinct layers
 COPY src/Exercism.Analyzers.CSharp/Exercism.Analyzers.CSharp.csproj ./
