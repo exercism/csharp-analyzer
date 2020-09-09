@@ -1,8 +1,8 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build
 WORKDIR /app
 
-# Download tooling webserver
-RUN wget -P /usr/local/bin https://github.com/exercism/tooling-webserver/releases/latest/download/tooling_webserver && \
+# Download exercism tooling webserver
+RUN wget -P /usr/local/bin https://github.com/exercism/tooling-webserver/releases/download/0.9.0/tooling_webserver && \
     chmod +x /usr/local/bin/tooling_webserver
 
 # Copy csproj and restore as distinct layers
