@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
     
     <ItemGroup>
@@ -10,7 +10,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="CommandLineParser" Version="2.6.0" />
+        <PackageReference Include="CommandLineParser" Version="2.8.0" />
     </ItemGroup>
 
 </Project>
