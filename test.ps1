@@ -29,7 +29,7 @@ param (
     [Switch]$UpdateComments
 )
 
-git submodule update --remote --merge website-copy
+git submodule update --remote --init --merge website-copy
 
 $Env:UPDATE_ANALYSIS = $UpdateAnalysis.IsPresent
 $Env:UPDATE_COMMENTS = $UpdateComments.IsPresent
