@@ -14,7 +14,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                 return null;
 
             var pathParts = comment.Comment.Split('.')
-                .Prepend("automated-comments")
+                .Prepend("analyzer-comments")
                 .Prepend(WebsiteCopyDirectory)
                 .Prepend(directory)
                 .ToArray();
