@@ -1,4 +1,5 @@
 using Exercism.Analyzers.CSharp.Syntax.Comparison;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Simplification;
 

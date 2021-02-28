@@ -1,4 +1,5 @@
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
+
 using static Exercism.Analyzers.CSharp.Analyzers.Leap.LeapComments;
 using static Exercism.Analyzers.CSharp.Analyzers.Leap.LeapSolution;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;

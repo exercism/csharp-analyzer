@@ -1,5 +1,6 @@
 using System.IO;
 using System.Text.Json;
+
 using Humanizer;
 
 namespace Exercism.Analyzers.CSharp

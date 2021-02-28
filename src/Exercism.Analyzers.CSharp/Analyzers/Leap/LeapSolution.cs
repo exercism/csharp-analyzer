@@ -1,9 +1,12 @@
 using System.Linq;
+
 using Exercism.Analyzers.CSharp.Syntax;
 using Exercism.Analyzers.CSharp.Syntax.Comparison;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+
 using static Exercism.Analyzers.CSharp.Analyzers.Leap.LeapSyntaxFactory;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 

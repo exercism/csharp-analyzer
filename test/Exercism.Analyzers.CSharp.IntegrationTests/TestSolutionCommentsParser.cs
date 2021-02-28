@@ -1,4 +1,5 @@
 using System.Linq;
+
 using Newtonsoft.Json.Linq;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
