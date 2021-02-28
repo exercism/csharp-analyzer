@@ -1,5 +1,7 @@
 using System.Linq;
+
 using CommandLine;
+
 using Serilog;
 
 namespace Exercism.Analyzers.CSharp

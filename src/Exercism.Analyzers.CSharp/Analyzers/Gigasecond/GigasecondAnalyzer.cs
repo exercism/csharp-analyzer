@@ -1,4 +1,5 @@
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
+
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondComments;
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondSolution;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
