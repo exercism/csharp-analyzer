@@ -41,7 +41,7 @@ $Env:UPDATE_ANALYSIS = $UpdateAnalysis.IsPresent
 $Env:UPDATE_COMMENTS = $UpdateComments.IsPresent
 $Env:USE_DOCKER = $UseDocker.IsPresent
 
-git submodule update --remote --init --pull website-copy
+git submodule update --remote --init --merge website-copy
 
 if ($UseDocker.IsPresent) {
     docker build -t exercism/csharp-analyzer .
