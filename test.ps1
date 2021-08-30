@@ -7,12 +7,17 @@
     Update the expected analysis files to the current output (optional).
 .PARAMETER UpdateComments
     Update the comment files to the current output (optional).
+.PARAMETER UseDocker
+    Run the tests using Docker (optional).
 .EXAMPLE
     The example below will run all tests
     PS C:\> ./test.ps1
 
     The example below will run all tests and update the comments
     PS C:\> ./test.ps1 -UpdateComments
+
+    The example below will run all tests using Docker
+    PS C:\> ./test.ps1 -UseDocker
 
     The example below will run all tests and update both the comments and analysis files
     PS C:\> ./test.ps1 -UpdateComments -UpdateAnalysis
@@ -26,13 +31,21 @@ param (
     [Switch]$UpdateAnalysis,
 
     [Parameter(Mandatory = $false)]
-    [Switch]$UpdateComments
-)
+    [Switch]$UpdateComments,
 
-git submodule update --remote --init --merge website-copy
+    [Parameter(Mandatory = $false)]
+    [Switch]$UseDocker
+)
 
 $Env:UPDATE_ANALYSIS = $UpdateAnalysis.IsPresent
 $Env:UPDATE_COMMENTS = $UpdateComments.IsPresent
+$Env:USE_DOCKER = $UseDocker.IsPresent
+
+git submodule update --remote --init --merge website-copy
+
+if ($UseDocker.IsPresent) {
+    docker build -t exercism/csharp-analyzer .
+}
 
 dotnet test
 
