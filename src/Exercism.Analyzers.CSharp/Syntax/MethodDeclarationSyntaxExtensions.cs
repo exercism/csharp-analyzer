@@ -1,5 +1,7 @@
 using System.Linq;
+
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
+
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Syntax

@@ -1,6 +1,8 @@
 using System;
+
 using Exercism.Analyzers.CSharp.Syntax;
 using Exercism.Analyzers.CSharp.Syntax.Comparison;
+
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Shared

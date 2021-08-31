@@ -1,4 +1,5 @@
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
+
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 using static Exercism.Analyzers.CSharp.Analyzers.TwoFer.TwoFerComments;
 using static Exercism.Analyzers.CSharp.Analyzers.TwoFer.TwoFerSolution;
