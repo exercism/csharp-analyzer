@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # 2.4.0
 
       - name: Install .NET
-        uses: actions/setup-dotnet@51f68377c181a79065c61bd492bd49be4575c439 # 1.7.2
+        uses: actions/setup-dotnet@5a3fa01c67e60dba8f95e2878436c7151c4b5f01 # 1.8.2
         with:
           dotnet-version: "5.0.103"
 
