@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0.103-alpine3.13-amd64 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine3.13-amd64 AS build
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
