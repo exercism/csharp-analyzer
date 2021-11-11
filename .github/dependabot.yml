@@ -1,0 +1,20 @@
+version: 2
+
+updates:
+  # Keep GitHub Actions dependencies up-to-date
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+  # Keep NuGet dependencies up-to-date
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      
+  # Keep Docker dependencies up-to-date
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
