@@ -5,5 +5,6 @@ namespace Exercism.Analyzers.CSharp
         public const string TwoFer = "two-fer";
         public const string Gigasecond = "gigasecond";
         public const string Leap = "leap";
+        public const string WeighingMachine = "weighing-machine";
     }
 }

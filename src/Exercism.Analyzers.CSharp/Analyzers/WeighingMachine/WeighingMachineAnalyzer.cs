@@ -20,6 +20,21 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
                 solution.AddComment(MissingProperty(missing));
             }
 
+            if (!solution.PrecisionIsAutoProperty)
+            {
+                solution.AddComment(new SolutionComment("AAAAAAAAAAAAA"));
+            }
+
+            if (!solution.TareAdjustmentIsAutoProperty)
+            {
+                solution.AddComment(new SolutionComment("AAAAAAAAAAAAA"));
+            }
+
+            if (solution.PrecisionPropertyHasNonPrivateSetter())
+            {
+                solution.AddComment(new SolutionComment("AAAAAAAAAAAAA"));
+            }
+
             return solution.HasComments
                 ? solution.Disapprove()
                 : solution.ContinueAnalysis();

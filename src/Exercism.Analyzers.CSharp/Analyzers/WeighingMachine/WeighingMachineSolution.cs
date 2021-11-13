@@ -44,5 +44,19 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
             if (TareAdjustmentProperty is null) yield return TareAdjustmentPropertyName;
             if (DisplayWeightProperty is null) yield return DisplayWeightPropertyName;
         }
+
+        public bool PrecisionIsAutoProperty => PrecisionProperty?.IsAutoProperty() == true;
+
+        public bool TareAdjustmentIsAutoProperty => TareAdjustmentProperty?.IsAutoProperty() == true;
+
+        public bool TareAdjustmentHasInitializer => TareAdjustmentProperty?.HasInitializer() == true;
+
+        public bool PrecisionPropertyHasNonPrivateSetter()
+        {
+            var setAccessor = PrecisionProperty.GetSetAccessor();
+            return setAccessor is not null && 
+                (setAccessor.Modifiers.Count == 0 || 
+                !setAccessor.Modifiers.Any(m => m.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.PrivateKeyword)));
+        }
     }
 }
