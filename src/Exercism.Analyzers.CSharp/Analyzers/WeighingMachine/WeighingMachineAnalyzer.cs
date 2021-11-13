@@ -38,6 +38,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
                 solution.AddComment(new SolutionComment("not WeightFieldNameIsPrivate"));
             }
 
+            if (!solution.IsRoundMethodCalledInDisplayWeightProperty())
+            {
+                solution.AddComment(new SolutionComment("not IsRoundMethodCalledInDisplayWeightProperty"));
+            }
+
             return solution.HasComments
                 ? solution.Disapprove()
                 : solution.ContinueAnalysis();

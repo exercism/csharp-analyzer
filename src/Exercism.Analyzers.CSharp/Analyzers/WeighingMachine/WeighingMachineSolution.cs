@@ -59,5 +59,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
         }
 
         public bool WeightFieldNameIsPrivate => WeighingMachineClass?.GetField(WeightFieldName)?.IsPrivate() ?? false;
+
+        public bool IsRoundMethodCalledInDisplayWeightProperty() => 
+            DisplayWeightProperty?.GetMethodCalled("Round") is not null;
+
+        
     }
 }
