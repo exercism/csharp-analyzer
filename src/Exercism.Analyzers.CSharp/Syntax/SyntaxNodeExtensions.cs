@@ -34,6 +34,16 @@ namespace Exercism.Analyzers.CSharp.Syntax
                 .DescendantNodes<MethodDeclarationSyntax>()
                 .Where(syntax => syntax.Identifier.Text == methodName) ?? Enumerable.Empty<MethodDeclarationSyntax>();
 
+        public static PropertyDeclarationSyntax GetProperty(this SyntaxNode syntaxNode, string propertyName) =>
+            syntaxNode?
+                .DescendantNodes<PropertyDeclarationSyntax>()
+                .FirstOrDefault(syntax => syntax.Identifier.Text == propertyName);
+
+        public static IEnumerable<PropertyDeclarationSyntax> GetProperties(this SyntaxNode syntaxNode, string propertyName) =>
+            syntaxNode?
+                .DescendantNodes<PropertyDeclarationSyntax>()
+                .Where(syntax => syntax.Identifier.Text == propertyName) ?? Enumerable.Empty<PropertyDeclarationSyntax>();
+
         public static bool AssignsToIdentifier(this SyntaxNode syntaxNode, IdentifierNameSyntax identifierName) =>
             syntaxNode?
                 .DescendantNodes<AssignmentExpressionSyntax>()

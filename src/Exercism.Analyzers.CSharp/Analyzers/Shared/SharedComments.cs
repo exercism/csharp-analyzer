@@ -34,5 +34,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 
         public static SolutionComment InvalidMethodSignature(string method, string signature) =>
             new SolutionComment("csharp.general.invalid_method_signature", new SolutionCommentParameter(Name, method), new SolutionCommentParameter(Signature, signature));
+
+        public static SolutionComment MissingProperty(string property) =>
+            new("csharp.general.missing_property", new SolutionCommentParameter(Name, property));
     }
 }
