@@ -1,10 +1,8 @@
-﻿using System;
-
+﻿
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
 
-using static Exercism.Analyzers.CSharp.Analyzers.WeighingMachine.WeighingMachineComments;
-using static Exercism.Analyzers.CSharp.Analyzers.WeighingMachine.WeighingMachineSolution;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
+using static Exercism.Analyzers.CSharp.Analyzers.WeighingMachine.WeighingMachineSolution;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
 {
@@ -22,17 +20,22 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
 
             if (!solution.PrecisionIsAutoProperty)
             {
-                solution.AddComment(new SolutionComment("AAAAAAAAAAAAA"));
+                solution.AddComment(new SolutionComment("not PrecisionIsAutoProperty"));
             }
 
             if (!solution.TareAdjustmentIsAutoProperty)
             {
-                solution.AddComment(new SolutionComment("AAAAAAAAAAAAA"));
+                solution.AddComment(new SolutionComment("not TareAdjustmentIsAutoProperty"));
             }
 
             if (solution.PrecisionPropertyHasNonPrivateSetter())
             {
-                solution.AddComment(new SolutionComment("AAAAAAAAAAAAA"));
+                solution.AddComment(new SolutionComment("PrecisionPropertyHasNonPrivateSetter"));
+            }
+
+            if (!solution.WeightFieldNameIsPrivate)
+            {
+                solution.AddComment(new SolutionComment("not WeightFieldNameIsPrivate"));
             }
 
             return solution.HasComments
@@ -42,8 +45,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
 
         protected override SolutionAnalysis ApproveWhenValid(WeighingMachineSolution solution)
         {
+            if (solution.TareAdjustmentHasInitializer)
+            {
+                solution.AddComment(new SolutionComment("TareAdjustmentHasInitializer"));
+            }
+
             if (solution.HasComments)
+            {
                 return solution.Approve();
+            }
 
             return solution.ContinueAnalysis();
         }
