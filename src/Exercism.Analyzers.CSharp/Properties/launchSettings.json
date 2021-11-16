@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Exercism.Analyzers.CSharp": {
+      "commandName": "Project",
+      "commandLineArgs": "weighing-machine \"D:\\Workspace\\exercism-repo\\csharp\\exercises\\concept\\weighing-machine\"  \"D:\\Workspace\\exercism-repo\""
+    }
+  }
+}

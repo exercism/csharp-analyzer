@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Exercism.Analyzers.CSharp.Syntax;
+using Exercism.Analyzers.CSharp.Syntax.Comparison;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -53,16 +51,14 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
         public bool PrecisionPropertyHasNonPrivateSetter()
         {
             var setAccessor = PrecisionProperty.GetSetAccessor();
-            return setAccessor is not null && 
-                (setAccessor.Modifiers.Count == 0 || 
+            return setAccessor is not null &&
+                (setAccessor.Modifiers.Count == 0 ||
                 !setAccessor.Modifiers.Any(m => m.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.PrivateKeyword)));
         }
 
         public bool WeightFieldNameIsPrivate => WeighingMachineClass?.GetField(WeightFieldName)?.IsPrivate() ?? false;
 
-        public bool IsRoundMethodCalledInDisplayWeightProperty() => 
+        public bool IsRoundMethodCalledInDisplayWeightProperty() =>
             DisplayWeightProperty?.GetMethodCalled("Round") is not null;
-
-        
     }
 }
