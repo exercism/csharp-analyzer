@@ -42,6 +42,6 @@ This repository uses the [dotnet-format tool](https://github.com/dotnet/format/)
 
 The scripts in this repository are written in PowerShell. As PowerShell is cross-platform nowadays, you can also install it on [Linux](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-6) and [macOS](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-macos?view=powershell-6).
 
-[analyzer-introduction]: https://github.com/exercism/automated-analysis/blob/master/docs/analyzers/introduction.md
-[analyzer-interface]: https://github.com/exercism/automated-analysis/blob/master/docs/analyzers/interface.md
+[analyzer-introduction]: https://github.com/exercism/docs/blob/main/building/tooling/analyzers/README.md
+[analyzer-interface]: https://github.com/exercism/docs/blob/main/building/tooling/analyzers/interface.md
 [roslyn]: https://docs.microsoft.com/nl-nl/dotnet/csharp/roslyn-sdk/
