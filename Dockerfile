@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0.103-alpine3.13-amd64 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine3.13-amd64 AS build
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
@@ -10,7 +10,7 @@ COPY . ./
 RUN dotnet publish -r linux-musl-x64 -c Release -o /opt/analyzer --no-restore -p:PublishReadyToRun=true
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/runtime-deps:5.0.3-alpine3.13-amd64 AS runtime
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-alpine3.13-amd64 AS runtime
 WORKDIR /opt/analyzer
 
 COPY --from=build /opt/analyzer/ .
