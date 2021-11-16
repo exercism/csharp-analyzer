@@ -52,3 +52,5 @@ dotnet test
 if ($UpdateAnalysis.IsPresent -or $UpdateComments.IsPresent) {
     ./format.ps1
 }
+
+exit $LastExitCode
