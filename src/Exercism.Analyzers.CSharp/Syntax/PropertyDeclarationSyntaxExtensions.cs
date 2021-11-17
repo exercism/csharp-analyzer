@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Syntax
@@ -25,15 +23,39 @@ namespace Exercism.Analyzers.CSharp.Syntax
 
         public static bool HasInitializer(this PropertyDeclarationSyntax property) => property?.Initializer is not null;
 
-        public static AccessorDeclarationSyntax GetAccessor(this PropertyDeclarationSyntax property, string accessor)
+        public static AccessorDeclarationSyntax GetAccessor(this PropertyDeclarationSyntax property, SyntaxKind accessor)
         {
-            return property?.AccessorList?.Accessors.Where(ac => ac.Keyword.Text == accessor).FirstOrDefault();
+            return property?.AccessorList?.Accessors.FirstOrDefault(ac => ac.IsKind(accessor));
         }
 
-        public static AccessorDeclarationSyntax GetGetAccessor(this PropertyDeclarationSyntax property) => 
-            property?.GetAccessor(GetAccessorName);
+        public static AccessorDeclarationSyntax GetGetAccessor(this PropertyDeclarationSyntax property) =>
+            property?.GetAccessor(SyntaxKind.GetAccessorDeclaration);
 
-        public static AccessorDeclarationSyntax GetSetAccessor(this PropertyDeclarationSyntax property) => 
-            property?.GetAccessor(SetAccessorName);
+        public static AccessorDeclarationSyntax GetSetAccessor(this PropertyDeclarationSyntax property) =>
+            property?.GetAccessor(SyntaxKind.SetAccessorDeclaration);
+
+        public static string GetBakingFieldName(this PropertyDeclarationSyntax property)
+        {
+            var get = property.GetGetAccessor();
+            var returns = get?.Body.DescendantNodes<ReturnStatementSyntax>().FirstOrDefault();
+            var fieldIdentifier = returns?.Expression as IdentifierNameSyntax;
+            if (fieldIdentifier is not null)
+            { 
+                return fieldIdentifier.Identifier.ValueText; 
+            }
+
+            var set = property.GetSetAccessor();
+            var setValue = set?.Body
+                .DescendantNodes<AssignmentExpressionSyntax>()
+                .FirstOrDefault(s => s.OperatorToken.IsKind(SyntaxKind.EqualsToken)
+                    && s.Right is IdentifierNameSyntax ident && ident.Identifier.ValueText == "value");
+
+            if (setValue is not null && setValue.Left is IdentifierNameSyntax ident)
+            {
+                return ident.Identifier.ValueText;
+            }
+
+            return null;
+        }
     }
 }

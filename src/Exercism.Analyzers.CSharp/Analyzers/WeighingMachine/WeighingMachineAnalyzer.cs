@@ -11,7 +11,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
         protected override SolutionAnalysis DisapproveWhenInvalid(WeighingMachineSolution solution)
         {
             if (solution.MissingWeighingMachineClass)
+            {
                 solution.AddComment(MissingClass(WeighingMachineClassName));
+            }
 
             foreach (var missing in solution.MissingRequiredProperties())
             {
@@ -20,27 +22,27 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
 
             if (!solution.PrecisionIsAutoProperty)
             {
-                solution.AddComment(new SolutionComment("not PrecisionIsAutoProperty"));
+                solution.AddComment(WeighingMachineComments.PropertyIsNotAutoProperty("Precision"));
             }
 
             if (!solution.TareAdjustmentIsAutoProperty)
             {
-                solution.AddComment(new SolutionComment("not TareAdjustmentIsAutoProperty"));
+                solution.AddComment(WeighingMachineComments.PropertyIsNotAutoProperty("TareAdjustment"));
             }
 
             if (solution.PrecisionPropertyHasNonPrivateSetter())
             {
-                solution.AddComment(new SolutionComment("PrecisionPropertyHasNonPrivateSetter"));
+                solution.AddComment(WeighingMachineComments.PrecisionPropertyHasNonPrivateSetter("Precision"));
             }
 
-            if (!solution.WeightFieldNameIsPrivate)
+            if (!solution.WeightFieldNameIsPrivate())
             {
                 solution.AddComment(new SolutionComment("not WeightFieldNameIsPrivate"));
             }
 
             if (!solution.IsRoundMethodCalledInDisplayWeightProperty())
             {
-                solution.AddComment(new SolutionComment("not IsRoundMethodCalledInDisplayWeightProperty"));
+                solution.AddComment(WeighingMachineComments.RoundMethodNotCalledInDisplayWeightProperty);
             }
 
             return solution.HasComments

@@ -56,7 +56,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
                 !setAccessor.Modifiers.Any(m => m.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.PrivateKeyword)));
         }
 
-        public bool WeightFieldNameIsPrivate => WeighingMachineClass?.GetField(WeightFieldName)?.IsPrivate() ?? false;
+        public bool WeightFieldNameIsPrivate()
+        {
+            var fieldName = WeightProperty.GetBakingFieldName();
+            if (string.IsNullOrEmpty(fieldName))
+            {
+                return false;
+            }
+            return WeighingMachineClass?.GetField(fieldName)?.IsPrivate() ?? false;
+        }
 
         public bool IsRoundMethodCalledInDisplayWeightProperty() =>
             DisplayWeightProperty?.GetMethodCalled("Round") is not null;
