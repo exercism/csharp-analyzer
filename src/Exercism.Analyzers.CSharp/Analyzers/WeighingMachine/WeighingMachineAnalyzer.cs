@@ -1,5 +1,4 @@
-﻿
-using Exercism.Analyzers.CSharp.Analyzers.Shared;
+﻿using Exercism.Analyzers.CSharp.Analyzers.Shared;
 
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 using static Exercism.Analyzers.CSharp.Analyzers.WeighingMachine.WeighingMachineSolution;
@@ -35,9 +34,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
                 solution.AddComment(WeighingMachineComments.PrecisionPropertyHasNonPrivateSetter("Precision"));
             }
 
-            if (!solution.WeightFieldNameIsPrivate())
+            if (!solution.WeightFieldNameIsPrivate(out var fieldName) && !string.IsNullOrWhiteSpace(fieldName))
             {
-                solution.AddComment(new SolutionComment("not WeightFieldNameIsPrivate"));
+                solution.AddComment(UsePrivateVisibility(fieldName));
             }
 
             if (!solution.IsRoundMethodCalledInDisplayWeightProperty())
@@ -52,17 +51,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
 
         protected override SolutionAnalysis ApproveWhenValid(WeighingMachineSolution solution)
         {
-            if (solution.TareAdjustmentHasInitializer)
+            if (!solution.TareAdjustmentHasInitializer)
             {
-                solution.AddComment(new SolutionComment("TareAdjustmentHasInitializer"));
+                solution.AddComment(WeighingMachineComments.PropertyBetterUseInitializer("TareAdjustment"));
             }
 
-            if (solution.HasComments)
-            {
-                return solution.Approve();
-            }
-
-            return solution.ContinueAnalysis();
+            return solution.Approve();
         }
     }
 }

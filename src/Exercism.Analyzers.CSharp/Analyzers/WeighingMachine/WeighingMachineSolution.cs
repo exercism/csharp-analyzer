@@ -16,7 +16,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
         public const string WeightPropertyName = "Weight";
         public const string TareAdjustmentPropertyName = "TareAdjustment";
         public const string DisplayWeightPropertyName = "DisplayWeight";
-        public const string WeightFieldName = "weight";
 
         public WeighingMachineSolution(Solution solution) : base(solution)
         {
@@ -56,13 +55,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
                 !setAccessor.Modifiers.Any(m => m.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.PrivateKeyword)));
         }
 
-        public bool WeightFieldNameIsPrivate()
+        public bool WeightFieldNameIsPrivate(out string fieldName)
         {
-            var fieldName = WeightProperty.GetBakingFieldName();
+            fieldName = WeightProperty.GetBakingFieldName();
+
             if (string.IsNullOrEmpty(fieldName))
             {
                 return false;
             }
+
             return WeighingMachineClass?.GetField(fieldName)?.IsPrivate() ?? false;
         }
 
