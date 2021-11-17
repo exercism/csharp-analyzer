@@ -1,25 +1,42 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{07DEB1CE-A0D2-4010-AE4E-F89A77740448}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercism.Analyzers.CSharp", "src\Exercism.Analyzers.CSharp\Exercism.Analyzers.CSharp.csproj", "{0BD06845-367F-4F0A-9BC8-55B1A5D55E2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercism.Analyzers.CSharp", "src\Exercism.Analyzers.CSharp\Exercism.Analyzers.CSharp.csproj", "{0BD06845-367F-4F0A-9BC8-55B1A5D55E2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{92305253-2BAC-427E-82F9-2B1ACDE7BB6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercism.Analyzers.CSharp.IntegrationTests", "test\Exercism.Analyzers.CSharp.IntegrationTests\Exercism.Analyzers.CSharp.IntegrationTests.csproj", "{68A9B824-0AF2-4CE9-B2CE-15DCE08645AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercism.Analyzers.CSharp.IntegrationTests", "test\Exercism.Analyzers.CSharp.IntegrationTests\Exercism.Analyzers.CSharp.IntegrationTests.csproj", "{68A9B824-0AF2-4CE9-B2CE-15DCE08645AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercism.Analyzers.CSharp.Bulk", "src\Exercism.Analyzers.CSharp.Bulk\Exercism.Analyzers.CSharp.Bulk.csproj", "{9851D7BD-FDDA-4869-B15C-608009896001}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercism.Analyzers.CSharp.Bulk", "src\Exercism.Analyzers.CSharp.Bulk\Exercism.Analyzers.CSharp.Bulk.csproj", "{9851D7BD-FDDA-4869-B15C-608009896001}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{CB3E0F5E-0991-40F6-A3DF-2017CB694FB3}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		.gitmodules = .gitmodules
+		.prettierignore = .prettierignore
+		analyze-in-bulk.ps1 = analyze-in-bulk.ps1
+		analyze-in-docker.ps1 = analyze-in-docker.ps1
+		analyze.ps1 = analyze.ps1
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		Dockerfile = Dockerfile
+		format.ps1 = format.ps1
+		LICENSE = LICENSE
+		README.md = README.md
+		run.sh = run.sh
+		test.ps1 = test.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0BD06845-367F-4F0A-9BC8-55B1A5D55E2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -35,9 +52,15 @@ Global
 		{9851D7BD-FDDA-4869-B15C-608009896001}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9851D7BD-FDDA-4869-B15C-608009896001}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0BD06845-367F-4F0A-9BC8-55B1A5D55E2E} = {07DEB1CE-A0D2-4010-AE4E-F89A77740448}
 		{68A9B824-0AF2-4CE9-B2CE-15DCE08645AF} = {92305253-2BAC-427E-82F9-2B1ACDE7BB6B}
 		{9851D7BD-FDDA-4869-B15C-608009896001} = {07DEB1CE-A0D2-4010-AE4E-F89A77740448}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5DCA2FF8-9813-4F76-9135-F313BF8AE432}
 	EndGlobalSection
 EndGlobal
