@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Exercism.Analyzers.CSharp.IntegrationTests
 {
@@ -24,6 +26,9 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
             current.Replace($"%{{{parameter.Key}}}", parameter.Value);
 
         private static string ReadTemplate(this TestSolutionComment comment) =>
-            File.ReadAllText(comment.TemplateFilePath());
+            File.ReadAllText(comment.TemplateFilePath()).StripTopLevelHeading();
+
+        private static string StripTopLevelHeading(this string comment) =>
+            comment[comment.IndexOf("\n\n", StringComparison.Ordinal)..].Trim();
     }
 }
