@@ -8,3 +8,4 @@ src/Exercism.Analyzers.CSharp/obj
 .github
 .gitignore
 .gitattributes
+.dockerignore
