@@ -5,3 +5,4 @@ src/Exercism.Analyzers.CSharp/bin
 src/Exercism.Analyzers.CSharp/obj
 .appends
 .git
+.github
