@@ -14,7 +14,27 @@
   <ItemGroup>
     <SolutionFiles Include="Solutions\**" />
     <Compile Remove="@(SolutionFiles)" />
+    <Compile Remove="Solutions\WeighingMachine\IsNotAutoProperty\MissingPropertyPrecision\WeighingMachine.cs" />
+    <Compile Remove="Solutions\WeighingMachine\IsNotAutoProperty\MissingPropertyTareAdjustment\WeighingMachine.cs" />
+    <None Remove="Solutions\WeighingMachine\IsNotAutoProperty\MissingPropertyPrecision\expected_analysis.json" />
+    <None Remove="Solutions\WeighingMachine\IsNotAutoProperty\MissingPropertyTareAdjustment\expected_analysis.json" />
+    <SolutionFiles Remove="Solutions\WeighingMachine\IsNotAutoProperty\MissingPropertyPrecision\expected_analysis.json" />
+    <SolutionFiles Remove="Solutions\WeighingMachine\IsNotAutoProperty\MissingPropertyPrecision\WeighingMachine.cs" />
+    <SolutionFiles Remove="Solutions\WeighingMachine\IsNotAutoProperty\MissingPropertyTareAdjustment\expected_analysis.json" />
+    <SolutionFiles Remove="Solutions\WeighingMachine\IsNotAutoProperty\MissingPropertyTareAdjustment\WeighingMachine.cs" />
     <Content Include="@(SolutionFiles)">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Solutions\WeighingMachine\IsNotAutoProperty\MissingPropertyPrecision\expected_analysis.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Solutions\WeighingMachine\IsNotAutoProperty\MissingPropertyPrecision\WeighingMachine.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Solutions\WeighingMachine\IsNotAutoProperty\MissingPropertyTareAdjustment\expected_analysis.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Solutions\WeighingMachine\IsNotAutoProperty\MissingPropertyTareAdjustment\WeighingMachine.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content> 
   </ItemGroup>
