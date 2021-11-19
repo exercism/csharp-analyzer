@@ -12,11 +12,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
             if (solution.MissingWeighingMachineClass)
             {
                 solution.AddComment(MissingClass(WeighingMachineClassName));
+                return solution.Disapprove();
             }
 
             foreach (var missing in solution.MissingRequiredProperties())
             {
                 solution.AddComment(MissingProperty(missing));
+                return solution.Disapprove();
             }
 
             if (!solution.PrecisionIsAutoProperty)
