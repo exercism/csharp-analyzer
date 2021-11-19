@@ -7,3 +7,4 @@ src/Exercism.Analyzers.CSharp/obj
 .git
 .github
 .gitignore
+.gitattributes
