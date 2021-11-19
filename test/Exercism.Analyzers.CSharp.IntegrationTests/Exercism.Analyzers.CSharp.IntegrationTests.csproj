@@ -17,23 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingPropertyDisplayWeight\expected_analysis.json" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingPropertyDisplayWeight\expected_comments.md" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingPropertyPrecision - Copy (2)\expected_analysis.json" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingPropertyPrecision - Copy (2)\expected_comments.md" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingPropertyPrecision - Copy (3)\expected_analysis.json" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingPropertyPrecision - Copy (3)\expected_comments.md" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingPropertyTareAdjustment\expected_analysis.json" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingPropertyTareAdjustment\expected_comments.md" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingPropertyWeight\expected_analysis.json" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingPropertyPrecision\expected_analysis.json" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingPropertyPrecision\expected_comments.md" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingPropertyWeight\expected_comments.md" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingWeighingMachine\expected_analysis.json" />
-    <SolutionFiles Remove="Solutions\WeighingMachine\Invalid\MissingWeighingMachine\expected_comments.md" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Exercism.Analyzers.CSharp\Exercism.Analyzers.CSharp.csproj" />
   </ItemGroup>
   
