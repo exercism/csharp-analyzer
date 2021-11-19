@@ -3,7 +3,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     internal static class TestSolutionExpectedAnalysisResultReader
     {
         public static TestSolutionAnalysisResult Read(TestSolution solution) =>
-            new TestSolutionAnalysisResult(solution.ReadExpectedAnalysis(), solution.ReadExpectedComments());
+            new TestSolutionAnalysisResult(solution.ReadExpectedAnalysis());
 
         private static string ReadExpectedAnalysis(this TestSolution solution) =>
             solution.ReadTestFile("expected_analysis.json");

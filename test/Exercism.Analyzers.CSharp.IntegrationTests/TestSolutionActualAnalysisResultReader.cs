@@ -5,15 +5,11 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         public static TestSolutionAnalysisResult Read(TestSolution solution)
         {
             var actualAnalysis = solution.ReadActualAnalysis();
-            var actualComments = TestSolutionCommentsMarkdownGenerator.Generate(ParseComments(actualAnalysis));
 
-            return new TestSolutionAnalysisResult(actualAnalysis, actualComments);
+            return new TestSolutionAnalysisResult(actualAnalysis);
         }
 
         private static string ReadActualAnalysis(this TestSolution solution) =>
             solution.ReadTestFile("analysis.json");
-
-        private static TestSolutionComment[] ParseComments(this string analysis) =>
-            TestSolutionCommentsParser.ParseComments(analysis);
     }
 }

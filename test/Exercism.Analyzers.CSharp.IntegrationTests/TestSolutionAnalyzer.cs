@@ -42,7 +42,8 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
                 TestSolutionExpectedAnalysisResultWriter.UpdateExpectedAnalysis(solution, actualAnalysisResult);
 
             if (Options.UpdateComments)
-                TestSolutionExpectedAnalysisResultWriter.UpdateExpectedComments(solution, actualAnalysisResult);
+            {
+            }
         }
     }
 }
