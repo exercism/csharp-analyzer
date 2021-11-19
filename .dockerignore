@@ -9,3 +9,4 @@ src/Exercism.Analyzers.CSharp/obj
 .gitignore
 .gitattributes
 .dockerignore
+Dockerfile
