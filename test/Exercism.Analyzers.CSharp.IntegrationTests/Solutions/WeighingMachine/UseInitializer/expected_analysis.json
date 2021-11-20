@@ -1,0 +1,9 @@
+{
+  "status": "approve",
+  "comments": [
+    {
+      "comment": "csharp.weighingmachine.property_better_use_initializer",
+      "params": { "name": "TareAdjustment" }
+    }
+  ]
+}

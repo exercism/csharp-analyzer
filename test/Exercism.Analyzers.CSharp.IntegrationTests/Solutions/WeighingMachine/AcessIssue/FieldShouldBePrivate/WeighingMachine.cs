@@ -2,15 +2,14 @@ using System;
 
 class WeighingMachine
 {
-    private double _weight;
-    private int _precision;
+    public double _weightStrangeName;
 
     public WeighingMachine(int precision)
     {
         Precision = precision;
     }
 
-    public int Precision { get; set; }
+    public int Precision { get; }
 
     public double TareAdjustment { get; set; } = 5.0;
 
@@ -18,12 +17,12 @@ class WeighingMachine
     {
         get
         {
-            return _weight;
+            return _weightStrangeName;
         }
         set
         {
             if (value < 0) throw new ArgumentOutOfRangeException();
-            _weight = value;
+            _weightStrangeName = value;
         }
     }
 

@@ -3,16 +3,15 @@ using System;
 class WeighingMachine
 {
     private double _weight;
-    private double _tareAdjustment;
 
     public WeighingMachine(int precision)
     {
         Precision = precision;
     }
 
-    public int Precision { get; }
+    public int Precision { get; set; }
 
-    public double TareAdjustment { get => _tareAdjustment; set => _tareAdjustment = value; }
+    public double TareAdjustment { get; set; } = 5.0;
 
     public double Weight
     {

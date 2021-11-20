@@ -10,7 +10,14 @@ class WeighingMachine
         Precision = precision;
     }
 
-    public int Precision { get => _precision; set => _precision = value; }
+    public int Precision
+    {
+        get { return _precision; }
+        private set
+        {
+            _precision = value;
+        }
+    }
 
     public double TareAdjustment { get; set; } = 5.0;
 

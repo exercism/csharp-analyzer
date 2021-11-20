@@ -1,0 +1,9 @@
+{
+  "status": "disapprove",
+  "comments": [
+    {
+      "comment": "csharp.general.use_private_visibility",
+      "params": { "name": "_weightStrangeName" }
+    }
+  ]
+}

@@ -15,7 +15,7 @@ namespace Exercism.Analyzers.CSharp.Syntax
         {
             if (property.AccessorList != null)
             {
-                return property.AccessorList.Accessors.All(a => a.Body is null || a.ExpressionBody is null);
+                return property.AccessorList.Accessors.All(a => a.Body is null && a.ExpressionBody is null);
             }
 
             return property.ExpressionBody is null;
