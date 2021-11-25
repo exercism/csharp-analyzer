@@ -5,25 +5,20 @@
     Run all tests, verifying the behavior of the analyzer.
 .PARAMETER UpdateAnalysis
     Update the expected analysis files to the current output (optional).
-.PARAMETER UpdateComments
-    Update the comment files to the current output (optional).
 .PARAMETER UseDocker
     Run the tests using Docker (optional).
 .EXAMPLE
     The example below will run all tests
     PS C:\> ./test.ps1
 
-    The example below will run all tests and update the comments
-    PS C:\> ./test.ps1 -UpdateComments
-
     The example below will run all tests using Docker
     PS C:\> ./test.ps1 -UseDocker
 
-    The example below will run all tests and update both the comments and analysis files
-    PS C:\> ./test.ps1 -UpdateComments -UpdateAnalysis
+    The example below will run all tests and update both the analysis files
+    PS C:\> ./test.ps1 -UpdateAnalysis
 .NOTES
-    The UpdateAnalysis and UpdateComments switches should only be used if
-    a bulk update of the expected analysis and/or expected comments files is needed.
+    The UpdateAnalysis switch should only be used if a bulk update of the 
+    expected analysis files is needed.
 #>
 
 param (
@@ -31,17 +26,11 @@ param (
     [Switch]$UpdateAnalysis,
 
     [Parameter(Mandatory = $false)]
-    [Switch]$UpdateComments,
-
-    [Parameter(Mandatory = $false)]
     [Switch]$UseDocker
 )
 
 $Env:UPDATE_ANALYSIS = $UpdateAnalysis.IsPresent
-$Env:UPDATE_COMMENTS = $UpdateComments.IsPresent
 $Env:USE_DOCKER = $UseDocker.IsPresent
-
-git submodule update --remote --init --merge website-copy
 
 if ($UseDocker.IsPresent) {
     docker build -t exercism/csharp-analyzer .
@@ -49,7 +38,7 @@ if ($UseDocker.IsPresent) {
 
 dotnet test
 
-if ($UpdateAnalysis.IsPresent -or $UpdateComments.IsPresent) {
+if ($UpdateAnalysis.IsPresent) {
     ./format.ps1
 }
 

@@ -1,2 +1,0 @@
-[COMMENT #1]
-Instead of using the `Replace` method, try using [string interpolation](https://csharp.net-tutorials.com/operators/the-string-interpolation-operator/) to dynamically build the returned string.
