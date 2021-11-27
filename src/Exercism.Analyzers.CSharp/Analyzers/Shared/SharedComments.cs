@@ -37,5 +37,14 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 
         public static SolutionComment MissingProperty(string property) =>
             new("csharp.general.missing_property", new SolutionCommentParameter(Name, property));
+
+        public static SolutionComment PropertyIsNotAutoProperty(string name) =>
+            new("csharp.general.property_is_not_auto_property", new SolutionCommentParameter(Name, name));
+
+        public static SolutionComment PrecisionPropertyHasNonPrivateSetter(string name) =>
+            new("csharp.general.property_setter_is_not_private", new SolutionCommentParameter(Name, name));
+
+        public static SolutionComment PropertyBetterUseInitializer(string name) =>
+            new("csharp.general.property_better_use_initializer", new SolutionCommentParameter(Name, name));
     }
 }

@@ -14,7 +14,17 @@
   <ItemGroup>
     <SolutionFiles Include="Solutions\**" />
     <Compile Remove="@(SolutionFiles)" />
+    <Compile Remove="Solutions\WeighingMachine\Approve\WeighingMachine.cs" />
+    <None Remove="Solutions\WeighingMachine\Approve\expected_analysis.json" />
+    <SolutionFiles Remove="Solutions\WeighingMachine\Approve\expected_analysis.json" />
+    <SolutionFiles Remove="Solutions\WeighingMachine\Approve\WeighingMachine.cs" />
     <Content Include="@(SolutionFiles)">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Solutions\WeighingMachine\Approve\expected_analysis.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Solutions\WeighingMachine\Approve\WeighingMachine.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

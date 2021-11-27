@@ -23,17 +23,17 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
 
             if (!solution.PrecisionIsAutoProperty)
             {
-                solution.AddComment(WeighingMachineComments.PropertyIsNotAutoProperty("Precision"));
+                solution.AddComment(SharedComments.PropertyIsNotAutoProperty("Precision"));
             }
 
             if (!solution.TareAdjustmentIsAutoProperty)
             {
-                solution.AddComment(WeighingMachineComments.PropertyIsNotAutoProperty("TareAdjustment"));
+                solution.AddComment(SharedComments.PropertyIsNotAutoProperty("TareAdjustment"));
             }
 
             if (solution.PrecisionPropertyHasNonPrivateSetter())
             {
-                solution.AddComment(WeighingMachineComments.PrecisionPropertyHasNonPrivateSetter("Precision"));
+                solution.AddComment(SharedComments.PrecisionPropertyHasNonPrivateSetter("Precision"));
             }
 
             if (!solution.WeightFieldNameIsPrivate(out var fieldName) && !string.IsNullOrWhiteSpace(fieldName))
@@ -55,7 +55,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine
         {
             if (!solution.TareAdjustmentHasInitializer)
             {
-                solution.AddComment(WeighingMachineComments.PropertyBetterUseInitializer("TareAdjustment"));
+                solution.AddComment(SharedComments.PropertyBetterUseInitializer("TareAdjustment"));
             }
 
             return solution.Approve();
