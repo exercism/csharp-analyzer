@@ -34,6 +34,34 @@ namespace Exercism.Analyzers.CSharp.Syntax
                 .DescendantNodes<MethodDeclarationSyntax>()
                 .Where(syntax => syntax.Identifier.Text == methodName) ?? Enumerable.Empty<MethodDeclarationSyntax>();
 
+        public static PropertyDeclarationSyntax GetProperty(this SyntaxNode syntaxNode, string propertyName) =>
+            syntaxNode?
+                .DescendantNodes<PropertyDeclarationSyntax>()
+                .FirstOrDefault(syntax => syntax.Identifier.Text == propertyName);
+
+        public static IEnumerable<PropertyDeclarationSyntax> GetProperties(this SyntaxNode syntaxNode, string propertyName) =>
+            syntaxNode?
+                .DescendantNodes<PropertyDeclarationSyntax>()
+                .Where(syntax => syntax.Identifier.Text == propertyName) ?? Enumerable.Empty<PropertyDeclarationSyntax>();
+
+        public static FieldDeclarationSyntax GetField(this SyntaxNode syntaxNode, string variable) =>
+            syntaxNode?
+                .DescendantNodes<VariableDeclaratorSyntax>()
+                .FirstOrDefault(syntax => IsEqualFieldName(syntax.Identifier.Text, variable))
+                ?.FieldDeclaration();
+
+        public static IEnumerable<FieldDeclarationSyntax> GetFields(this SyntaxNode syntaxNode, string variable) =>
+            syntaxNode?
+                .DescendantNodes<VariableDeclaratorSyntax>()
+                .Where(syntax => IsEqualFieldName(syntax.Identifier.Text, variable))
+                .Select(v => v?.FieldDeclaration()) ?? Enumerable.Empty<FieldDeclarationSyntax>();
+
+        public static bool IsEqualFieldName(string name, string expectedName)
+        {
+            var expected = new[] { expectedName, expectedName.StartsWith("_") ? expectedName.Substring(1) : "_" + expectedName };
+            return expected.Contains(name);
+        }
+
         public static bool AssignsToIdentifier(this SyntaxNode syntaxNode, IdentifierNameSyntax identifierName) =>
             syntaxNode?
                 .DescendantNodes<AssignmentExpressionSyntax>()

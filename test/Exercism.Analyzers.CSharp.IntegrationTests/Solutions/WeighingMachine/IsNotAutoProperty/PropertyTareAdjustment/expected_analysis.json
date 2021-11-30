@@ -1,0 +1,9 @@
+{
+  "status": "disapprove",
+  "comments": [
+    {
+      "comment": "csharp.general.property_is_not_auto_property",
+      "params": { "name": "TareAdjustment" }
+    }
+  ]
+}

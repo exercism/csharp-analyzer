@@ -24,3 +24,5 @@ obj/
 
 # Generated analysis files
 test/*/Solutions/**/analysis.json
+
+launchSettings.json

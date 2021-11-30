@@ -2,6 +2,7 @@ using Exercism.Analyzers.CSharp.Analyzers.Default;
 using Exercism.Analyzers.CSharp.Analyzers.Gigasecond;
 using Exercism.Analyzers.CSharp.Analyzers.Leap;
 using Exercism.Analyzers.CSharp.Analyzers.TwoFer;
+using Exercism.Analyzers.CSharp.Analyzers.WeighingMachine;
 
 namespace Exercism.Analyzers.CSharp
 {
@@ -17,6 +18,8 @@ namespace Exercism.Analyzers.CSharp
                     return new GigasecondAnalyzer().Analyze(new GigasecondSolution(solution));
                 case Exercises.Leap:
                     return new LeapAnalyzer().Analyze(new LeapSolution(solution));
+                case Exercises.WeighingMachine:
+                    return new WeighingMachineAnalyzer().Analyze(new WeighingMachineSolution(solution));
                 default:
                     return new DefaultExerciseAnalyzer().Analyze(new DefaultSolution(solution));
             }
