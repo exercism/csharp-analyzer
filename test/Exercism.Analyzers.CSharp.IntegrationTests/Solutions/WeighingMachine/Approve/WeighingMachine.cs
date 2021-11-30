@@ -3,21 +3,13 @@ using System;
 class WeighingMachine
 {
     private double _weight;
-    private int _precision;
 
     public WeighingMachine(int precision)
     {
         Precision = precision;
     }
 
-    public int Precision
-    {
-        get { return _precision; }
-        private set
-        {
-            _precision = value;
-        }
-    }
+    public int Precision { get; }
 
     public double TareAdjustment { get; set; } = 5.0;
 
@@ -38,7 +30,7 @@ class WeighingMachine
     {
         get
         {
-            return Math.Round(Weight - TareAdjustment, Precision).ToString($"F{Precision}") + " kg";
+            return $"{Math.Round(Weight - TareAdjustment, Precision).ToString($"F{Precision}")} kg";
         }
     }
 }
