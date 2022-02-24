@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # 2.4.0
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
       - name: Install .NET
-        uses: actions/setup-dotnet@499789684c9a0d41c9b3f0d66a785ba17b1d51ab # 1.8.2
+        uses: actions/setup-dotnet@499789684c9a0d41c9b3f0d66a785ba17b1d51ab
         with:
           dotnet-version: "6.0.100"
 
