@@ -13,13 +13,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # 2.4.0
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@94ab11c41e45d028884a99163086648e898eed25 # 1.6.0
+        uses: docker/setup-buildx-action@94ab11c41e45d028884a99163086648e898eed25
 
       - name: Cache Docker layers
-        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # 2.1.6
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
@@ -27,20 +27,20 @@ jobs:
             ${{ runner.os }}-buildx-
 
       - name: Login to DockerHub
-        uses: docker/login-action@42d299face0c5c43a0487c477f595ac9cf22f1a7 # 1.10.0
+        uses: docker/login-action@42d299face0c5c43a0487c477f595ac9cf22f1a7
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Login to ECR
-        uses: docker/login-action@42d299face0c5c43a0487c477f595ac9cf22f1a7 # 1.10.0
+        uses: docker/login-action@42d299face0c5c43a0487c477f595ac9cf22f1a7
         with:
           registry: ${{ env.ECR_REGISTRY }}
           username: ${{ secrets.AWS_ECR_ACCESS_KEY_ID }}
           password: ${{ secrets.AWS_ECR_SECRET_ACCESS_KEY }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@7f9d37fa544684fb73bfe4835ed7214c255ce02b # 2.7.0
+        uses: docker/build-push-action@7f9d37fa544684fb73bfe4835ed7214c255ce02b
         with:
           context: .
           file: ./Dockerfile
