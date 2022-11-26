@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
     internal static class TestSolutionsReader
     {
         public static IEnumerable<TestSolution> ReadAll() =>
-           from exerciseDirectory in GetExerciseDirectories("Solutions")
+           from exerciseDirectory in GetExerciseDirectories("tests")
            from solutionDirectory in GetSolutionDirectories(exerciseDirectory)
            select CreateTestSolution(exerciseDirectory, solutionDirectory);
 
