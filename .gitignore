@@ -1,6 +1,7 @@
 # Build files
 bin/
 obj/
+!/bin/
 
 # IDE files
 .vs/
