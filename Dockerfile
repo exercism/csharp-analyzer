@@ -3,7 +3,7 @@ WORKDIR /app
 
 # Copy csproj and restore as distinct layers
 COPY src/Exercism.Analyzers.CSharp/Exercism.Analyzers.CSharp.csproj ./
-RUN dotnet restore -r linux-musl-x64
+RUN dotnet restore -r linux-musl-x64 -p:PublishReadyToRun=true
 
 # Copy everything else and build
 COPY . ./
