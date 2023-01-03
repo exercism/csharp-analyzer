@@ -14,7 +14,7 @@
 exit_code=0
 
 # Iterate over all test directories
-for test_dir in tests/*; do
+for test_dir in $(find tests -name expected_analysis.json | sed 's|/[^/]*$||'); do
     test_dir_name=$(basename "${test_dir}")
     test_dir_path=$(realpath "${test_dir}")
     results_file_path="${test_dir_path}/analysis.json"
