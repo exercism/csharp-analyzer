@@ -1,12 +1,5 @@
 *
-!run.sh
 !src/Exercism.Analyzers.CSharp
 src/Exercism.Analyzers.CSharp/bin
 src/Exercism.Analyzers.CSharp/obj
-.appends
-.git
-.github
-.gitignore
-.gitattributes
-.dockerignore
-Dockerfile
+!bin/run.sh
