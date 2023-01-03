@@ -14,13 +14,14 @@
 exit_code=0
 
 # Iterate over all test directories
-for test_dir in $(find tests -name expected_analysis.json | sed 's|/[^/]*$||'); do
+for test_dir in $(find tests -name expected_analysis.json | rev | cut -d '/' -f 2- | rev); do
     test_dir_name=$(basename "${test_dir}")
     test_dir_path=$(realpath "${test_dir}")
     results_file_path="${test_dir_path}/analysis.json"
     expected_results_file_path="${test_dir_path}/expected_analysis.json"
+    test_slug=$(echo "${test_dir}" | awk -F/ '{ print $2 }')
 
-    bin/run.sh "${test_dir_name}" "${test_dir_path}" "${test_dir_path}"
+    bin/run.sh "${test_slug}" "${test_dir_path}" "${test_dir_path}"
 
     echo "${test_dir_name}: comparing analysis.json to expected_analysis.json"
     diff "${results_file_path}" "${expected_results_file_path}"
