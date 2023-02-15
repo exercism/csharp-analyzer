@@ -10,7 +10,7 @@ COPY . ./
 RUN dotnet publish -r linux-musl-x64 -c Release -o /opt/analyzer --no-restore -p:PublishReadyToRun=true
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/runtime-deps:7.0.1-alpine3.16-amd64 AS runtime
+FROM mcr.microsoft.com/dotnet/runtime-deps:7.0.3-alpine3.16-amd64 AS runtime
 WORKDIR /opt/analyzer
 
 COPY --from=build /opt/analyzer/ .
