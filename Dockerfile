@@ -2,11 +2,11 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0.101-alpine3.16-amd64 AS build
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
-COPY src/Exercism.Analyzers.CSharp/Exercism.Analyzers.CSharp.csproj ./
+COPY src/Exercism.Analyzers.CSharp/*.csproj .
 RUN dotnet restore -r linux-musl-x64 -p:PublishReadyToRun=true
 
 # Copy everything else and build
-COPY . ./
+COPY src/Exercism.Analyzers.CSharp .
 RUN dotnet publish -r linux-musl-x64 -c Release -o /opt/analyzer --no-restore --self-contained true -p:PublishReadyToRun=true
 
 # Build runtime image
