@@ -1,0 +1,13 @@
+{
+  "status": "disapprove",
+  "comments": [
+    {
+      "comment": "csharp.gigasecond.do_not_create_datetime",
+      "params": {}
+    },
+    {
+      "comment": "csharp.gigasecond.use_add_seconds",
+      "params": {}
+    }
+  ]
+}

@@ -7,37 +7,36 @@ using Humanizer;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
-namespace Exercism.Analyzers.CSharp
+namespace Exercism.Analyzers.CSharp;
+
+internal static class SolutionParser
 {
-    internal static class SolutionParser
+    public static Solution Parse(Options options) =>
+        new(options.Slug, GetSolutionName(options), ParseSyntaxRoot(options));
+
+    private static string GetSolutionName(Options options) =>
+        options.Slug.Dehumanize().Pascalize();
+
+    private static SyntaxNode ParseSyntaxRoot(Options options)
     {
-        public static Solution Parse(Options options) =>
-            new Solution(options.Slug, GetSolutionName(options), ParseSyntaxRoot(options));
+        var implementationFile = GetImplementationFile(options);
+        if (!implementationFile.Exists)
+            return null;
 
-        private static string GetSolutionName(Options options) =>
-            options.Slug.Dehumanize().Pascalize();
+        using var fileStream = implementationFile.OpenRead();
+        var workspace = new AdhocWorkspace();
+        var project = workspace.AddProject(implementationFile.DirectoryName, LanguageNames.CSharp);
 
-        private static SyntaxNode ParseSyntaxRoot(Options options)
-        {
-            var implementationFile = GetImplementationFile(options);
-            if (!implementationFile.Exists)
-                return null;
+        var sourceText = SourceText.From(fileStream);
+        var document = project.AddDocument(implementationFile.Name, sourceText);
+        return document.GetReducedSyntaxRoot();
+    }
 
-            using var fileStream = implementationFile.OpenRead();
-            var workspace = new AdhocWorkspace();
-            var project = workspace.AddProject(implementationFile.DirectoryName, LanguageNames.CSharp);
+    private static FileInfo GetImplementationFile(Options options)
+    {
+        var implementationFileName = $"{GetSolutionName(options)}.cs";
+        var implementationFilePath = Path.GetFullPath(Path.Combine(options.InputDirectory, implementationFileName));
 
-            var sourceText = SourceText.From(fileStream);
-            var document = project.AddDocument(implementationFile.Name, sourceText);
-            return document.GetReducedSyntaxRoot();
-        }
-
-        private static FileInfo GetImplementationFile(Options options)
-        {
-            var implementationFileName = $"{GetSolutionName(options)}.cs";
-            var implementationFilePath = Path.GetFullPath(Path.Combine(options.InputDirectory, implementationFileName));
-
-            return new FileInfo(implementationFilePath);
-        }
+        return new FileInfo(implementationFilePath);
     }
 }

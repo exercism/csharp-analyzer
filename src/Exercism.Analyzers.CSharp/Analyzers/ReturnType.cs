@@ -1,10 +1,9 @@
-namespace Exercism.Analyzers.CSharp.Analyzers
+namespace Exercism.Analyzers.CSharp.Analyzers;
+
+public enum ReturnType
 {
-    public enum ReturnType
-    {
-        Unknown,
-        ImmediateValue,
-        VariableAssignment,
-        ParameterAssigment
-    }
+    Unknown,
+    ImmediateValue,
+    VariableAssignment,
+    ParameterAssigment
 }

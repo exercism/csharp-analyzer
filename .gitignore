@@ -1,6 +1,7 @@
 # Build files
 bin/
 obj/
+!/bin/
 
 # IDE files
 .vs/
@@ -23,6 +24,6 @@ obj/
 .ionide/
 
 # Generated analysis files
-test/*/Solutions/**/analysis.json
+tests/**/analysis.json
 
 launchSettings.json

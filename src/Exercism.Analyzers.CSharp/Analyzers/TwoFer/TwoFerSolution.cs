@@ -11,392 +11,391 @@ using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
 using static Exercism.Analyzers.CSharp.Analyzers.TwoFer.TwoFerSyntaxFactory;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
+namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer;
+
+internal class TwoFerSolution : Solution
 {
-    internal class TwoFerSolution : Solution
+    public const string TwoFerClassName = "TwoFer";
+    public const string SpeakMethodName = "Speak";
+    public const string SpeakMethodSignature = "public static string Speak(string name)";
+
+    public TwoFerSolution(Solution solution) : base(solution)
     {
-        public const string TwoFerClassName = "TwoFer";
-        public const string SpeakMethodName = "Speak";
-        public const string SpeakMethodSignature = "public static string Speak(string name)";
+    }
 
-        public TwoFerSolution(Solution solution) : base(solution)
+    private ClassDeclarationSyntax TwoFerClass =>
+        SyntaxRoot.GetClass(TwoFerClassName);
+
+    private MethodDeclarationSyntax SpeakMethod =>
+        TwoFerClass?.GetMethod(SpeakMethodName);
+
+    private ParameterSyntax SpeakMethodParameter =>
+        SpeakMethod?.ParameterList.Parameters.FirstOrDefault();
+
+    private ExpressionSyntax TwoFerExpression =>
+        SpeakMethod?.ReturnedExpression();
+
+    private VariableDeclaratorSyntax TwoFerVariable
+    {
+        get
         {
+            var speakMethod = SpeakMethod;
+            if (speakMethod == null ||
+                speakMethod.Body == null ||
+                speakMethod.Body.Statements.Count != 2)
+                return null;
+
+            if (!(speakMethod.Body.Statements[1] is ReturnStatementSyntax) ||
+                !(speakMethod.Body.Statements[0] is LocalDeclarationStatementSyntax localDeclaration))
+                return null;
+
+            if (localDeclaration.Declaration.Variables.Count != 1 ||
+                !localDeclaration.Declaration.Type.IsEquivalentWhenNormalized(PredefinedType(Token(SyntaxKind.StringKeyword))) &&
+                !localDeclaration.Declaration.Type.IsEquivalentWhenNormalized(IdentifierName("var")))
+                return null;
+
+            return localDeclaration.Declaration.Variables[0];
         }
+    }
 
-        private ClassDeclarationSyntax TwoFerClass =>
-            SyntaxRoot.GetClass(TwoFerClassName);
+    public string SpeakMethodParameterName =>
+        SpeakMethodParameter.Identifier.Text;
 
-        private MethodDeclarationSyntax SpeakMethod =>
-            TwoFerClass?.GetMethod(SpeakMethodName);
+    public string SpeakMethodParameterDefaultValue =>
+        SpeakMethodParameter.Default.Value.ToFullString();
 
-        private ParameterSyntax SpeakMethodParameter =>
-            SpeakMethod?.ParameterList.Parameters.FirstOrDefault();
+    public string TwoFerVariableName =>
+        TwoFerVariable.Identifier.Text;
 
-        private ExpressionSyntax TwoFerExpression =>
-            SpeakMethod?.ReturnedExpression();
+    public bool AssignsToParameter =>
+        SpeakMethodParameter != null &&
+        SpeakMethod.AssignsToParameter(SpeakMethodParameter);
 
-        private VariableDeclaratorSyntax TwoFerVariable
-        {
-            get
-            {
-                var speakMethod = SpeakMethod;
-                if (speakMethod == null ||
-                    speakMethod.Body == null ||
-                    speakMethod.Body.Statements.Count != 2)
-                    return null;
+    public bool UsesSingleLine =>
+        SpeakMethod.SingleLine();
 
-                if (!(speakMethod.Body.Statements[1] is ReturnStatementSyntax) ||
-                    !(speakMethod.Body.Statements[0] is LocalDeclarationStatementSyntax localDeclaration))
-                    return null;
+    public bool UsesExpressionBody =>
+        SpeakMethod.IsExpressionBody();
 
-                if (localDeclaration.Declaration.Variables.Count != 1 ||
-                    !localDeclaration.Declaration.Type.IsEquivalentWhenNormalized(PredefinedType(Token(SyntaxKind.StringKeyword))) &&
-                    !localDeclaration.Declaration.Type.IsEquivalentWhenNormalized(IdentifierName("var")))
-                    return null;
+    public bool UsesStringConcatenation =>
+        ReturnsStringConcatenationWithDefaultValue ||
+        ReturnsStringConcatenationWithNullCoalescingOperator ||
+        ReturnsStringConcatenationWithTernaryOperator ||
+        ReturnsStringConcatenationWithVariable;
 
-                return localDeclaration.Declaration.Variables[0];
-            }
-        }
+    private bool ReturnsStringConcatenationWithDefaultValue =>
+        Returns(
+            TwoFerStringConcatenationExpression(
+                TwoFerParameterIdentifierName(this)));
 
-        public string SpeakMethodParameterName =>
-            SpeakMethodParameter.Identifier.Text;
-
-        public string SpeakMethodParameterDefaultValue =>
-            SpeakMethodParameter.Default.Value.ToFullString();
-
-        public string TwoFerVariableName =>
-            TwoFerVariable.Identifier.Text;
-
-        public bool AssignsToParameter =>
-            SpeakMethodParameter != null &&
-            SpeakMethod.AssignsToParameter(SpeakMethodParameter);
-
-        public bool UsesSingleLine =>
-            SpeakMethod.SingleLine();
-
-        public bool UsesExpressionBody =>
-            SpeakMethod.IsExpressionBody();
-
-        public bool UsesStringConcatenation =>
-            ReturnsStringConcatenationWithDefaultValue ||
-            ReturnsStringConcatenationWithNullCoalescingOperator ||
-            ReturnsStringConcatenationWithTernaryOperator ||
-            ReturnsStringConcatenationWithVariable;
-
-        private bool ReturnsStringConcatenationWithDefaultValue =>
-            Returns(
-                TwoFerStringConcatenationExpression(
-                    TwoFerParameterIdentifierName(this)));
-
-        private bool ReturnsStringConcatenationWithNullCoalescingOperator =>
-            Returns(
-                TwoFerStringConcatenationExpression(
-                    ParenthesizedExpression(
-                        TwoFerCoalesceExpression(
-                            TwoFerParameterIdentifierName(this)))));
-
-        private bool ReturnsStringConcatenationWithTernaryOperator =>
-            ReturnsStringConcatenationWithNullCheck ||
-            ReturnsStringConcatenationWithIsNullOrEmptyCheck ||
-            ReturnsStringConcatenationWithIsNullOrWhiteSpaceCheck;
-
-        private bool ReturnsStringConcatenationWithIsNullOrWhiteSpaceCheck =>
-            Returns(
-                TwoFerStringConcatenationExpression(
-                    ParenthesizedExpression(
-                        TwoFerConditionalExpression(
-                            TwoFerIsNullOrWhiteSpaceInvocationExpression(this),
-                            TwoFerParameterIdentifierName(this)))));
-
-        private bool ReturnsStringConcatenationWithIsNullOrEmptyCheck =>
-            Returns(
-                TwoFerStringConcatenationExpression(
-                    ParenthesizedExpression(
-                        TwoFerConditionalExpression(
-                            TwoFerIsNullOrEmptyInvocationExpression(this),
-                            TwoFerParameterIdentifierName(this)))));
-
-        private bool ReturnsStringConcatenationWithNullCheck =>
-            Returns(
-                TwoFerStringConcatenationExpression(
-                    ParenthesizedExpression(
-                        TwoFerConditionalExpressionWithNullCheck(this))));
-
-        public bool UsesStringFormat =>
-            ReturnsStringFormatWithDefaultValue ||
-            ReturnsStringFormatWithNullCoalescingOperator ||
-            ReturnsStringFormatWithTernaryOperator ||
-            ReturnsStringFormatWithVariable;
-
-        private bool ReturnsStringFormatWithDefaultValue =>
-            Returns(
-                TwoFerStringFormatInvocationExpression(
-                    TwoFerParameterIdentifierName(this)));
-
-        private bool ReturnsStringFormatWithNullCoalescingOperator =>
-            Returns(
-                TwoFerStringFormatInvocationExpression(
+    private bool ReturnsStringConcatenationWithNullCoalescingOperator =>
+        Returns(
+            TwoFerStringConcatenationExpression(
+                ParenthesizedExpression(
                     TwoFerCoalesceExpression(
-                        TwoFerParameterIdentifierName(this))));
+                        TwoFerParameterIdentifierName(this)))));
 
-        private bool ReturnsStringFormatWithTernaryOperator =>
-            ReturnsStringFormatWithNullCheck ||
-            ReturnsStringFormatWithIsNullOrEmptyCheck ||
-            ReturnsStringFormatWithIsNullOrWhiteSpaceCheck;
+    private bool ReturnsStringConcatenationWithTernaryOperator =>
+        ReturnsStringConcatenationWithNullCheck ||
+        ReturnsStringConcatenationWithIsNullOrEmptyCheck ||
+        ReturnsStringConcatenationWithIsNullOrWhiteSpaceCheck;
 
-        private bool ReturnsStringFormatWithIsNullOrWhiteSpaceCheck =>
-            Returns(
-                TwoFerStringFormatInvocationExpression(
+    private bool ReturnsStringConcatenationWithIsNullOrWhiteSpaceCheck =>
+        Returns(
+            TwoFerStringConcatenationExpression(
+                ParenthesizedExpression(
                     TwoFerConditionalExpression(
                         TwoFerIsNullOrWhiteSpaceInvocationExpression(this),
-                        TwoFerParameterIdentifierName(this))));
+                        TwoFerParameterIdentifierName(this)))));
 
-        private bool ReturnsStringFormatWithIsNullOrEmptyCheck =>
-            Returns(
-                TwoFerStringFormatInvocationExpression(
+    private bool ReturnsStringConcatenationWithIsNullOrEmptyCheck =>
+        Returns(
+            TwoFerStringConcatenationExpression(
+                ParenthesizedExpression(
                     TwoFerConditionalExpression(
                         TwoFerIsNullOrEmptyInvocationExpression(this),
-                        TwoFerParameterIdentifierName(this))));
+                        TwoFerParameterIdentifierName(this)))));
 
-        private bool ReturnsStringFormatWithNullCheck =>
-            Returns(
-                TwoFerStringFormatInvocationExpression(
-                    TwoFerConditionalExpressionWithNullCheck(this)));
+    private bool ReturnsStringConcatenationWithNullCheck =>
+        Returns(
+            TwoFerStringConcatenationExpression(
+                ParenthesizedExpression(
+                    TwoFerConditionalExpressionWithNullCheck(this))));
 
-        public bool ReturnsStringInterpolation =>
-            UsesStringInterpolationWithDefaultValue ||
-            UsesStringInterpolationWithNullCheck ||
-            UsesStringInterpolationWithNullCoalescingOperator ||
-            UsesStringInterpolationWithIsNullOrEmptyCheck ||
-            UsesStringInterpolationWithIsNullOrWhiteSpaceCheck;
+    public bool UsesStringFormat =>
+        ReturnsStringFormatWithDefaultValue ||
+        ReturnsStringFormatWithNullCoalescingOperator ||
+        ReturnsStringFormatWithTernaryOperator ||
+        ReturnsStringFormatWithVariable;
 
-        public bool UsesStringInterpolationWithDefaultValue =>
-            Returns(
-                TwoFerInterpolatedStringExpression(
-                    TwoFerParameterIdentifierName(this)));
+    private bool ReturnsStringFormatWithDefaultValue =>
+        Returns(
+            TwoFerStringFormatInvocationExpression(
+                TwoFerParameterIdentifierName(this)));
 
-        public bool UsesStringInterpolationWithNullCheck =>
-            Returns(
-                TwoFerConditionalInterpolatedStringExpression(
-                    EqualsExpression(
-                        TwoFerParameterIdentifierName(this),
-                        NullLiteralExpression()),
-                    TwoFerParameterIdentifierName(this)));
-
-        public bool UsesStringInterpolationWithNullCoalescingOperator =>
-            Returns(
-                TwoFerInterpolatedStringExpression(
-                    TwoFerCoalesceExpression(
-                        TwoFerParameterIdentifierName(this))));
-
-        private bool UsesStringInterpolationWithIsNullOrEmptyCheck =>
-            Returns(
-                TwoFerConditionalInterpolatedStringExpression(
-                    TwoFerIsNullOrEmptyInvocationExpression(this),
-                    TwoFerParameterIdentifierName(this)));
-
-        private bool UsesStringInterpolationWithIsNullOrWhiteSpaceCheck =>
-            Returns(
-                TwoFerConditionalInterpolatedStringExpression(
-                    TwoFerIsNullOrWhiteSpaceInvocationExpression(this),
-                    TwoFerParameterIdentifierName(this)));
-
-        public bool AssignsParameterUsingKnownExpression =>
-            AssignsParameterUsingNullCoalescingOperator ||
-            AssignsParameterUsingNullCheck ||
-            AssignsParameterUsingIfNullCheck ||
-            AssignsParameterUsingIsNullOrEmptyCheck ||
-            AssignsParameterUsingIfIsNullOrEmptyCheck ||
-            AssignsParameterUsingIsNullOrWhiteSpaceCheck ||
-            AssignsParameterUsingIfIsNullOrWhiteSpaceCheck;
-
-        public bool AssignsParameterUsingNullCoalescingOperator =>
-            ParameterAssignedUsingStatement(
-                TwoFerAssignParameterStatement(
-                    TwoFerCoalesceExpression(
-                        TwoFerParameterIdentifierName(this)),
-                    TwoFerParameterIdentifierName(this)));
-
-        public bool AssignsParameterUsingNullCheck =>
-            ParameterAssignedUsingStatement(
-                TwoFerAssignParameterStatement(
-                    TwoFerParameterIsNullConditionalExpression(this),
-                    TwoFerParameterIdentifierName(this)));
-
-        public bool AssignsParameterUsingIfNullCheck =>
-            ParameterAssignedUsingStatement(
-                TwoFerAssignParameterIfStatement(
-                    TwoFerParameterIsNullExpression(this),
-                    TwoFerParameterIdentifierName(this)));
-
-        private bool AssignsParameterUsingIsNullOrEmptyCheck =>
-            ParameterAssignedUsingStatement(
-                TwoFerAssignParameterStatement(
-                    TwoFerParameterIsNullOrEmptyConditionalExpression(this),
-                    TwoFerParameterIdentifierName(this)));
-
-        private bool AssignsParameterUsingIfIsNullOrEmptyCheck =>
-            ParameterAssignedUsingStatement(
-                TwoFerAssignParameterIfStatement(
-                    TwoFerIsNullOrEmptyInvocationExpression(this),
-                    TwoFerParameterIdentifierName(this)));
-
-        private bool AssignsParameterUsingIsNullOrWhiteSpaceCheck =>
-            ParameterAssignedUsingStatement(
-                TwoFerAssignParameterStatement(
-                    TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(this),
-                    TwoFerParameterIdentifierName(this)));
-
-        private bool AssignsParameterUsingIfIsNullOrWhiteSpaceCheck =>
-            ParameterAssignedUsingStatement(
-                TwoFerAssignParameterIfStatement(
-                    TwoFerIsNullOrWhiteSpaceInvocationExpression(this),
-                    TwoFerParameterIdentifierName(this)));
-
-        private bool ParameterAssignedUsingStatement(SyntaxNode statement) =>
-            AssignsStatement &&
-            AssignmentStatement.IsEquivalentWhenNormalized(statement);
-
-        private bool AssignsStatement =>
-            AssignmentStatement != null;
-
-        private StatementSyntax AssignmentStatement =>
-            SpeakMethod.Body?.Statements[0];
-
-        public bool AssignsVariable =>
-            TwoFerVariable != null;
-
-        public bool AssignsVariableUsingKnownInitializer =>
-            AssignsVariableUsingNullCoalescingOperator ||
-            AssignsVariableUsingNullCheck ||
-            AssignsVariableUsingIsNullOrEmptyCheck ||
-            AssignsVariableUsingIsNullOrWhiteSpaceCheck;
-
-        public bool AssignsVariableUsingNullCoalescingOperator =>
-            AssignsVariableUsingExpression(
+    private bool ReturnsStringFormatWithNullCoalescingOperator =>
+        Returns(
+            TwoFerStringFormatInvocationExpression(
                 TwoFerCoalesceExpression(
-                    TwoFerParameterIdentifierName(this)));
+                    TwoFerParameterIdentifierName(this))));
 
-        private bool AssignsVariableUsingNullCheck =>
-            AssignsVariableUsingExpression(TwoFerParameterIsNullConditionalExpression(this));
+    private bool ReturnsStringFormatWithTernaryOperator =>
+        ReturnsStringFormatWithNullCheck ||
+        ReturnsStringFormatWithIsNullOrEmptyCheck ||
+        ReturnsStringFormatWithIsNullOrWhiteSpaceCheck;
 
-        private bool AssignsVariableUsingIsNullOrEmptyCheck =>
-            AssignsVariableUsingExpression(TwoFerParameterIsNullOrEmptyConditionalExpression(this));
+    private bool ReturnsStringFormatWithIsNullOrWhiteSpaceCheck =>
+        Returns(
+            TwoFerStringFormatInvocationExpression(
+                TwoFerConditionalExpression(
+                    TwoFerIsNullOrWhiteSpaceInvocationExpression(this),
+                    TwoFerParameterIdentifierName(this))));
 
-        private bool AssignsVariableUsingIsNullOrWhiteSpaceCheck =>
-            AssignsVariableUsingExpression(TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(this));
+    private bool ReturnsStringFormatWithIsNullOrEmptyCheck =>
+        Returns(
+            TwoFerStringFormatInvocationExpression(
+                TwoFerConditionalExpression(
+                    TwoFerIsNullOrEmptyInvocationExpression(this),
+                    TwoFerParameterIdentifierName(this))));
 
-        private bool AssignsVariableUsingExpression(ExpressionSyntax initializer) =>
-            AssignsVariable &&
-            TwoFerVariable.Initializer.IsEquivalentWhenNormalized(
-                EqualsValueClause(initializer));
+    private bool ReturnsStringFormatWithNullCheck =>
+        Returns(
+            TwoFerStringFormatInvocationExpression(
+                TwoFerConditionalExpressionWithNullCheck(this)));
 
-        public bool ReturnsStringInterpolationWithVariable =>
-            AssignsVariable &&
-            Returns(
-                TwoFerInterpolatedStringExpression(
-                    TwoFerVariableIdentifierName(this)));
+    public bool ReturnsStringInterpolation =>
+        UsesStringInterpolationWithDefaultValue ||
+        UsesStringInterpolationWithNullCheck ||
+        UsesStringInterpolationWithNullCoalescingOperator ||
+        UsesStringInterpolationWithIsNullOrEmptyCheck ||
+        UsesStringInterpolationWithIsNullOrWhiteSpaceCheck;
 
-        private bool ReturnsStringConcatenationWithVariable =>
-            AssignsVariable &&
-            Returns(
-                TwoFerStringConcatenationExpression(
-                    TwoFerVariableIdentifierName(this)));
+    public bool UsesStringInterpolationWithDefaultValue =>
+        Returns(
+            TwoFerInterpolatedStringExpression(
+                TwoFerParameterIdentifierName(this)));
 
-        private bool ReturnsStringFormatWithVariable =>
-            AssignsVariable &&
-            Returns(
-                TwoFerStringFormatInvocationExpression(
-                    TwoFerVariableIdentifierName(this)));
+    public bool UsesStringInterpolationWithNullCheck =>
+        Returns(
+            TwoFerConditionalInterpolatedStringExpression(
+                EqualsExpression(
+                    TwoFerParameterIdentifierName(this),
+                    NullLiteralExpression()),
+                TwoFerParameterIdentifierName(this)));
 
-        private bool Returns(SyntaxNode returned) =>
-            TwoFerExpression.IsEquivalentWhenNormalized(returned);
+    public bool UsesStringInterpolationWithNullCoalescingOperator =>
+        Returns(
+            TwoFerInterpolatedStringExpression(
+                TwoFerCoalesceExpression(
+                    TwoFerParameterIdentifierName(this))));
 
-        public bool MissingTwoFerClass =>
-            TwoFerClass == null;
+    private bool UsesStringInterpolationWithIsNullOrEmptyCheck =>
+        Returns(
+            TwoFerConditionalInterpolatedStringExpression(
+                TwoFerIsNullOrEmptyInvocationExpression(this),
+                TwoFerParameterIdentifierName(this)));
 
-        public bool MissingSpeakMethod =>
-            !MissingTwoFerClass & SpeakMethod == null;
+    private bool UsesStringInterpolationWithIsNullOrWhiteSpaceCheck =>
+        Returns(
+            TwoFerConditionalInterpolatedStringExpression(
+                TwoFerIsNullOrWhiteSpaceInvocationExpression(this),
+                TwoFerParameterIdentifierName(this)));
 
-        public bool InvalidSpeakMethod =>
-            SpeakMethod != null &&
-            !TwoFerClass.GetMethods(SpeakMethodName).Any(
-                speakMethod =>
-                    speakMethod.ParameterList.Parameters.Count == 1 &&
-                    speakMethod.ParameterList.Parameters[0].Type.IsEquivalentWhenNormalized(
-                        PredefinedType(Token(SyntaxKind.StringKeyword))) &&
-                    speakMethod.ReturnType.IsEquivalentWhenNormalized(
-                        PredefinedType(Token(SyntaxKind.StringKeyword))));
+    public bool AssignsParameterUsingKnownExpression =>
+        AssignsParameterUsingNullCoalescingOperator ||
+        AssignsParameterUsingNullCheck ||
+        AssignsParameterUsingIfNullCheck ||
+        AssignsParameterUsingIsNullOrEmptyCheck ||
+        AssignsParameterUsingIfIsNullOrEmptyCheck ||
+        AssignsParameterUsingIsNullOrWhiteSpaceCheck ||
+        AssignsParameterUsingIfIsNullOrWhiteSpaceCheck;
 
-        public bool UsesOverloads =>
-            TwoFerClass.GetMethods(SpeakMethodName).Count() > 1;
+    public bool AssignsParameterUsingNullCoalescingOperator =>
+        ParameterAssignedUsingStatement(
+            TwoFerAssignParameterStatement(
+                TwoFerCoalesceExpression(
+                    TwoFerParameterIdentifierName(this)),
+                TwoFerParameterIdentifierName(this)));
 
-        public bool UsesDuplicateString
+    public bool AssignsParameterUsingNullCheck =>
+        ParameterAssignedUsingStatement(
+            TwoFerAssignParameterStatement(
+                TwoFerParameterIsNullConditionalExpression(this),
+                TwoFerParameterIdentifierName(this)));
+
+    public bool AssignsParameterUsingIfNullCheck =>
+        ParameterAssignedUsingStatement(
+            TwoFerAssignParameterIfStatement(
+                TwoFerParameterIsNullExpression(this),
+                TwoFerParameterIdentifierName(this)));
+
+    private bool AssignsParameterUsingIsNullOrEmptyCheck =>
+        ParameterAssignedUsingStatement(
+            TwoFerAssignParameterStatement(
+                TwoFerParameterIsNullOrEmptyConditionalExpression(this),
+                TwoFerParameterIdentifierName(this)));
+
+    private bool AssignsParameterUsingIfIsNullOrEmptyCheck =>
+        ParameterAssignedUsingStatement(
+            TwoFerAssignParameterIfStatement(
+                TwoFerIsNullOrEmptyInvocationExpression(this),
+                TwoFerParameterIdentifierName(this)));
+
+    private bool AssignsParameterUsingIsNullOrWhiteSpaceCheck =>
+        ParameterAssignedUsingStatement(
+            TwoFerAssignParameterStatement(
+                TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(this),
+                TwoFerParameterIdentifierName(this)));
+
+    private bool AssignsParameterUsingIfIsNullOrWhiteSpaceCheck =>
+        ParameterAssignedUsingStatement(
+            TwoFerAssignParameterIfStatement(
+                TwoFerIsNullOrWhiteSpaceInvocationExpression(this),
+                TwoFerParameterIdentifierName(this)));
+
+    private bool ParameterAssignedUsingStatement(SyntaxNode statement) =>
+        AssignsStatement &&
+        AssignmentStatement.IsEquivalentWhenNormalized(statement);
+
+    private bool AssignsStatement =>
+        AssignmentStatement != null;
+
+    private StatementSyntax AssignmentStatement =>
+        SpeakMethod.Body?.Statements[0];
+
+    public bool AssignsVariable =>
+        TwoFerVariable != null;
+
+    public bool AssignsVariableUsingKnownInitializer =>
+        AssignsVariableUsingNullCoalescingOperator ||
+        AssignsVariableUsingNullCheck ||
+        AssignsVariableUsingIsNullOrEmptyCheck ||
+        AssignsVariableUsingIsNullOrWhiteSpaceCheck;
+
+    public bool AssignsVariableUsingNullCoalescingOperator =>
+        AssignsVariableUsingExpression(
+            TwoFerCoalesceExpression(
+                TwoFerParameterIdentifierName(this)));
+
+    private bool AssignsVariableUsingNullCheck =>
+        AssignsVariableUsingExpression(TwoFerParameterIsNullConditionalExpression(this));
+
+    private bool AssignsVariableUsingIsNullOrEmptyCheck =>
+        AssignsVariableUsingExpression(TwoFerParameterIsNullOrEmptyConditionalExpression(this));
+
+    private bool AssignsVariableUsingIsNullOrWhiteSpaceCheck =>
+        AssignsVariableUsingExpression(TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(this));
+
+    private bool AssignsVariableUsingExpression(ExpressionSyntax initializer) =>
+        AssignsVariable &&
+        TwoFerVariable.Initializer.IsEquivalentWhenNormalized(
+            EqualsValueClause(initializer));
+
+    public bool ReturnsStringInterpolationWithVariable =>
+        AssignsVariable &&
+        Returns(
+            TwoFerInterpolatedStringExpression(
+                TwoFerVariableIdentifierName(this)));
+
+    private bool ReturnsStringConcatenationWithVariable =>
+        AssignsVariable &&
+        Returns(
+            TwoFerStringConcatenationExpression(
+                TwoFerVariableIdentifierName(this)));
+
+    private bool ReturnsStringFormatWithVariable =>
+        AssignsVariable &&
+        Returns(
+            TwoFerStringFormatInvocationExpression(
+                TwoFerVariableIdentifierName(this)));
+
+    private bool Returns(SyntaxNode returned) =>
+        TwoFerExpression.IsEquivalentWhenNormalized(returned);
+
+    public bool MissingTwoFerClass =>
+        TwoFerClass == null;
+
+    public bool MissingSpeakMethod =>
+        !MissingTwoFerClass & SpeakMethod == null;
+
+    public bool InvalidSpeakMethod =>
+        SpeakMethod != null &&
+        !TwoFerClass.GetMethods(SpeakMethodName).Any(
+            speakMethod =>
+                speakMethod.ParameterList.Parameters.Count == 1 &&
+                speakMethod.ParameterList.Parameters[0].Type.IsEquivalentWhenNormalized(
+                    PredefinedType(Token(SyntaxKind.StringKeyword))) &&
+                speakMethod.ReturnType.IsEquivalentWhenNormalized(
+                    PredefinedType(Token(SyntaxKind.StringKeyword))));
+
+    public bool UsesOverloads =>
+        TwoFerClass.GetMethods(SpeakMethodName).Count() > 1;
+
+    public bool UsesDuplicateString
+    {
+        get
         {
-            get
-            {
-                var literalExpressionCount = SpeakMethod
-                    .DescendantNodes<LiteralExpressionSyntax>()
-                    .Count(literalExpression => literalExpression.Token.ValueText.Contains("One for"));
+            var literalExpressionCount = SpeakMethod
+                .DescendantNodes<LiteralExpressionSyntax>()
+                .Count(literalExpression => literalExpression.Token.ValueText.Contains("One for"));
 
-                var interpolatedStringTextCount = SpeakMethod
-                    .DescendantNodes<InterpolatedStringTextSyntax>()
-                    .Count(interpolatedStringText => interpolatedStringText.TextToken.ValueText.Contains("One for"));
+            var interpolatedStringTextCount = SpeakMethod
+                .DescendantNodes<InterpolatedStringTextSyntax>()
+                .Count(interpolatedStringText => interpolatedStringText.TextToken.ValueText.Contains("One for"));
 
-                return literalExpressionCount + interpolatedStringTextCount > 1;
-            }
+            return literalExpressionCount + interpolatedStringTextCount > 1;
         }
-
-        public bool UsesStringJoin =>
-            SpeakMethod.InvokesMethod(StringMemberAccessExpression(IdentifierName("Join")));
-
-        public bool UsesStringConcat =>
-            SpeakMethod.InvokesMethod(StringMemberAccessExpression(IdentifierName("Concat")));
-
-        public bool UsesStringReplace =>
-            SpeakMethod.InvokesMethod(IdentifierName("Replace"));
-
-        public bool NoDefaultValue =>
-            SpeakMethodParameter != null &&
-            SpeakMethod?.ParameterList != null &&
-            SpeakMethod.ParameterList.Parameters.All(parameter => parameter.Default == null);
-
-        public bool UsesInvalidDefaultValue =>
-            UsesDefaultValue &&
-            !DefaultValueIsNull &&
-            !DefaultValueIsYouString &&
-            !DefaultValueIsYouStringSpecifiedAsConst;
-
-        private bool UsesDefaultValue =>
-            SpeakMethodParameter?.Default != null;
-
-        private bool DefaultValueIsNull =>
-            SpeakMethodParameter.Default.Value.IsEquivalentWhenNormalized(NullLiteralExpression());
-
-        private bool DefaultValueIsYouString =>
-            SpeakMethodParameter.Default.Value.IsEquivalentWhenNormalized(StringLiteralExpression("you"));
-
-        private bool DefaultValueIsYouStringSpecifiedAsConst =>
-            SpeakMethodParameter.Default.Value is IdentifierNameSyntax identifierName &&
-            TwoFerClass.AssignedVariableWithName(identifierName).IsEquivalentWhenNormalized(
-                SyntaxFactory.VariableDeclarator(identifierName.Identifier, default, EqualsValueClause(StringLiteralExpression("you"))));
-
-        public bool UsesIsNullOrEmptyCheck =>
-            UsesStringInterpolationWithIsNullOrEmptyCheck ||
-            AssignsParameterUsingIsNullOrEmptyCheck ||
-            AssignsParameterUsingIfIsNullOrEmptyCheck ||
-            AssignsVariableUsingIsNullOrEmptyCheck;
-
-        public bool UsesIsNullOrWhiteSpaceCheck =>
-            UsesStringInterpolationWithIsNullOrWhiteSpaceCheck ||
-            AssignsVariableUsingIsNullOrWhiteSpaceCheck ||
-            AssignsParameterUsingIsNullOrWhiteSpaceCheck ||
-            AssignsParameterUsingIfIsNullOrWhiteSpaceCheck;
-
-        public bool UsesNullCheck =>
-            UsesStringInterpolationWithNullCheck ||
-            AssignsParameterUsingNullCheck ||
-            AssignsParameterUsingIfNullCheck ||
-            AssignsVariableUsingNullCheck;
     }
+
+    public bool UsesStringJoin =>
+        SpeakMethod.InvokesMethod(StringMemberAccessExpression(IdentifierName("Join")));
+
+    public bool UsesStringConcat =>
+        SpeakMethod.InvokesMethod(StringMemberAccessExpression(IdentifierName("Concat")));
+
+    public bool UsesStringReplace =>
+        SpeakMethod.InvokesMethod(IdentifierName("Replace"));
+
+    public bool NoDefaultValue =>
+        SpeakMethodParameter != null &&
+        SpeakMethod?.ParameterList != null &&
+        SpeakMethod.ParameterList.Parameters.All(parameter => parameter.Default == null);
+
+    public bool UsesInvalidDefaultValue =>
+        UsesDefaultValue &&
+        !DefaultValueIsNull &&
+        !DefaultValueIsYouString &&
+        !DefaultValueIsYouStringSpecifiedAsConst;
+
+    private bool UsesDefaultValue =>
+        SpeakMethodParameter?.Default != null;
+
+    private bool DefaultValueIsNull =>
+        SpeakMethodParameter.Default.Value.IsEquivalentWhenNormalized(NullLiteralExpression());
+
+    private bool DefaultValueIsYouString =>
+        SpeakMethodParameter.Default.Value.IsEquivalentWhenNormalized(StringLiteralExpression("you"));
+
+    private bool DefaultValueIsYouStringSpecifiedAsConst =>
+        SpeakMethodParameter.Default.Value is IdentifierNameSyntax identifierName &&
+        TwoFerClass.AssignedVariableWithName(identifierName).IsEquivalentWhenNormalized(
+            SyntaxFactory.VariableDeclarator(identifierName.Identifier, default, EqualsValueClause(StringLiteralExpression("you"))));
+
+    public bool UsesIsNullOrEmptyCheck =>
+        UsesStringInterpolationWithIsNullOrEmptyCheck ||
+        AssignsParameterUsingIsNullOrEmptyCheck ||
+        AssignsParameterUsingIfIsNullOrEmptyCheck ||
+        AssignsVariableUsingIsNullOrEmptyCheck;
+
+    public bool UsesIsNullOrWhiteSpaceCheck =>
+        UsesStringInterpolationWithIsNullOrWhiteSpaceCheck ||
+        AssignsVariableUsingIsNullOrWhiteSpaceCheck ||
+        AssignsParameterUsingIsNullOrWhiteSpaceCheck ||
+        AssignsParameterUsingIfIsNullOrWhiteSpaceCheck;
+
+    public bool UsesNullCheck =>
+        UsesStringInterpolationWithNullCheck ||
+        AssignsParameterUsingNullCheck ||
+        AssignsParameterUsingIfNullCheck ||
+        AssignsVariableUsingNullCheck;
 }

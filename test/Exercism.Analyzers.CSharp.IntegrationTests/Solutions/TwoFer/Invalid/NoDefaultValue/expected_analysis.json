@@ -1,9 +1,0 @@
-{
-  "status": "disapprove",
-  "comments": [
-    {
-      "comment": "csharp.two-fer.use_default_value",
-      "params": { "name": "input" }
-    }
-  ]
-}

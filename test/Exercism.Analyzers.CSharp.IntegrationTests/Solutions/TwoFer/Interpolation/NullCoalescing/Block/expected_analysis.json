@@ -1,9 +1,0 @@
-{
-  "status": "approve",
-  "comments": [
-    {
-      "comment": "csharp.general.use_expression_bodied_member",
-      "params": { "name": "Speak" }
-    }
-  ]
-}

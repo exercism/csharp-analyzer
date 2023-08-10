@@ -8,16 +8,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    runs-on: ubuntu-20.04
+  build:
+    name: Tests
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
 
-      - name: Install .NET
-        uses: actions/setup-dotnet@3447fd6a9f9e57506b15f895c5b76d3b197dc7c2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@8c0edbc76e98fa90f69d9a2c020dcb50019dc325
         with:
-          dotnet-version: "7.0.100"
+          install: true
 
-      - name: Run tests
-        run: pwsh ./test.ps1
+      - name: Build and push
+        uses: docker/build-push-action@c56af957549030174b10d6867f20e78cfd7debc5
+        with:
+          context: .
+          push: false
+          load: true
+          tags: exercism/csharp-analyzer
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run Tests in Docker
+        run: bin/run-tests-in-docker.sh

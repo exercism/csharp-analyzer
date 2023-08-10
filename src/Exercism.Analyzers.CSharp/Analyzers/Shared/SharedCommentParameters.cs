@@ -1,9 +1,8 @@
-namespace Exercism.Analyzers.CSharp.Analyzers.Shared
+namespace Exercism.Analyzers.CSharp.Analyzers.Shared;
+
+internal static class SharedCommentParameters
 {
-    internal static class SharedCommentParameters
-    {
-        public const string Name = "name";
-        public const string Value = "value";
-        public const string Signature = "signature";
-    }
+    public const string Name = "name";
+    public const string Value = "value";
+    public const string Signature = "signature";
 }
