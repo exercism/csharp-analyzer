@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text.Json;
 
@@ -12,11 +13,12 @@ internal static class SolutionAnalysisWriter
     public static void WriteToFile(Options options, SolutionAnalysis solutionAnalysis)
     {
         using var fileStream = File.Create(GetAnalysisFilePath(options));
-        using var jsonTextWriter = new Utf8JsonWriter(fileStream, JsonWriterOptions);
-        jsonTextWriter.WriteStartObject();
-        jsonTextWriter.WriteStatus(solutionAnalysis.Status);
-        jsonTextWriter.WriteComments(solutionAnalysis.Comments);
-        jsonTextWriter.WriteEndObject();
+        using var jsonWriter = new Utf8JsonWriter(fileStream, JsonWriterOptions);
+        jsonWriter.WriteStartObject();
+        jsonWriter.WriteStatus(solutionAnalysis.Status);
+        jsonWriter.WriteComments(solutionAnalysis.Comments);
+        jsonWriter.WriteEndObject();
+        fileStream.WriteByte((byte)'\n');
     }
 
     private static string GetAnalysisFilePath(Options options) =>
