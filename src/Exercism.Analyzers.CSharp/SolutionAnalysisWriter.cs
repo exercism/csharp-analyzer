@@ -18,6 +18,7 @@ internal static class SolutionAnalysisWriter
         jsonWriter.WriteStatus(solutionAnalysis.Status);
         jsonWriter.WriteComments(solutionAnalysis.Comments);
         jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
         fileStream.WriteByte((byte)'\n');
     }
 
