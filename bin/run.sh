@@ -23,8 +23,4 @@ fi
 
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
-if [ -f /opt/analyzer/Exercism.Analyzers.CSharp ]; then
-    /opt/analyzer/Exercism.Analyzers.CSharp $1 $2 $3
-else
-    dotnet run --project ./src/Exercism.Analyzers.CSharp/ $1 $2 $3
-fi
+/opt/analyzer/Exercism.Analyzers.CSharp $1 $2 $3
