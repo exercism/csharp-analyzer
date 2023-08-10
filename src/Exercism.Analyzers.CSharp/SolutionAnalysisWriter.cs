@@ -7,10 +7,12 @@ namespace Exercism.Analyzers.CSharp;
 
 internal static class SolutionAnalysisWriter
 {
+    private static readonly JsonWriterOptions JsonWriterOptions = new JsonWriterOptions {Indented = true};
+    
     public static void WriteToFile(Options options, SolutionAnalysis solutionAnalysis)
     {
         using var fileStream = File.Create(GetAnalysisFilePath(options));
-        using var jsonTextWriter = new Utf8JsonWriter(fileStream);
+        using var jsonTextWriter = new Utf8JsonWriter(fileStream, JsonWriterOptions);
         jsonTextWriter.WriteStartObject();
         jsonTextWriter.WriteStatus(solutionAnalysis.Status);
         jsonTextWriter.WriteComments(solutionAnalysis.Comments);
