@@ -1,9 +1,8 @@
-namespace Exercism.Analyzers.CSharp
+namespace Exercism.Analyzers.CSharp;
+
+public enum SolutionStatus
 {
-    public enum SolutionStatus
-    {
-        Approve,
-        Disapprove,
-        ReferToMentor
-    }
+    Approve,
+    Disapprove,
+    ReferToMentor
 }

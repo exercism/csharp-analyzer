@@ -1,10 +1,9 @@
-namespace Exercism.Analyzers.CSharp.Analyzers
+namespace Exercism.Analyzers.CSharp.Analyzers;
+
+public enum ArgumentType
 {
-    public enum ArgumentType
-    {
-        Unknown,
-        Expression,
-        Local,
-        Field
-    }
+    Unknown,
+    Expression,
+    Local,
+    Field
 }

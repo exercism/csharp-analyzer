@@ -1,9 +1,8 @@
-namespace Exercism.Analyzers.CSharp.Analyzers.Default
+namespace Exercism.Analyzers.CSharp.Analyzers.Default;
+
+internal class DefaultSolution : Solution
 {
-    internal class DefaultSolution : Solution
+    public DefaultSolution(Solution solution) : base(solution)
     {
-        public DefaultSolution(Solution solution) : base(solution)
-        {
-        }
     }
 }

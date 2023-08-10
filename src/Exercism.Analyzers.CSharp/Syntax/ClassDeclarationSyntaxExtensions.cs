@@ -4,21 +4,20 @@ using Exercism.Analyzers.CSharp.Syntax.Comparison;
 
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Exercism.Analyzers.CSharp.Syntax
+namespace Exercism.Analyzers.CSharp.Syntax;
+
+internal static class ClassDeclarationSyntaxExtensions
 {
-    internal static class ClassDeclarationSyntaxExtensions
+    public static VariableDeclaratorSyntax ArgumentVariable(this ClassDeclarationSyntax classDeclaration, ExpressionSyntax argumentExpression) =>
+        classDeclaration.AssignedVariableWithName(argumentExpression as IdentifierNameSyntax);
+
+    public static VariableDeclaratorSyntax AssignedVariableWithName(this ClassDeclarationSyntax classDeclaration, IdentifierNameSyntax variableIdentifierName)
     {
-        public static VariableDeclaratorSyntax ArgumentVariable(this ClassDeclarationSyntax classDeclaration, ExpressionSyntax argumentExpression) =>
-            classDeclaration.AssignedVariableWithName(argumentExpression as IdentifierNameSyntax);
+        if (classDeclaration == null || variableIdentifierName == null)
+            return null;
 
-        public static VariableDeclaratorSyntax AssignedVariableWithName(this ClassDeclarationSyntax classDeclaration, IdentifierNameSyntax variableIdentifierName)
-        {
-            if (classDeclaration == null || variableIdentifierName == null)
-                return null;
-
-            return classDeclaration
-                .DescendantNodes<VariableDeclaratorSyntax>()
-                .FirstOrDefault(variableDeclarator => variableDeclarator.Identifier.IsEquivalentWhenNormalized(variableIdentifierName.Identifier));
-        }
+        return classDeclaration
+            .DescendantNodes<VariableDeclaratorSyntax>()
+            .FirstOrDefault(variableDeclarator => variableDeclarator.Identifier.IsEquivalentWhenNormalized(variableIdentifierName.Identifier));
     }
 }
