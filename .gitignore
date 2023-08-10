@@ -24,6 +24,6 @@ obj/
 .ionide/
 
 # Generated analysis files
-analysis.json
+tests/**/analysis.json
 
 launchSettings.json

@@ -1,1 +1,15 @@
-{"status":"approve","comments":[{"comment":"csharp.leap.do_not_use_if_statement","params":{}},{"comment":"csharp.general.use_expression_bodied_member","params":{"name":"IsLeapYear"}}]}
+{
+  "status": "approve",
+  "comments": [
+    {
+      "comment": "csharp.leap.do_not_use_if_statement",
+      "params": {}
+    },
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "params": {
+        "name": "IsLeapYear"
+      }
+    }
+  ]
+}

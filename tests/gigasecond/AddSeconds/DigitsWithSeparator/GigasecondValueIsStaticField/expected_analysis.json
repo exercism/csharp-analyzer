@@ -1,1 +1,17 @@
-{"status":"approve","comments":[{"comment":"csharp.general.convert_field_to_const","params":{"name":"Seconds"}},{"comment":"csharp.general.use_expression_bodied_member","params":{"name":"Add"}}]}
+{
+  "status": "approve",
+  "comments": [
+    {
+      "comment": "csharp.general.convert_field_to_const",
+      "params": {
+        "name": "Seconds"
+      }
+    },
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "params": {
+        "name": "Add"
+      }
+    }
+  ]
+}
