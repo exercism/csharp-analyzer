@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp;
 
 internal static class SolutionAnalysisWriter
 {
-    private static readonly JsonWriterOptions JsonWriterOptions = new JsonWriterOptions {Indented = true};
+    private static readonly JsonWriterOptions JsonWriterOptions = new() {Indented = true};
     
     public static void WriteToFile(Options options, SolutionAnalysis solutionAnalysis)
     {

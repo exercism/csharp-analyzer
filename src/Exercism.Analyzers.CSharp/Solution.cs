@@ -10,7 +10,7 @@ namespace Exercism.Analyzers.CSharp;
 
 internal class Solution
 {
-    private readonly List<SolutionComment> _comments = new List<SolutionComment>();
+    private readonly List<SolutionComment> _comments = new();
 
     public string Name { get; }
     public string Slug { get; }
@@ -40,7 +40,7 @@ internal class Solution
         ToSolutionAnalysis(SolutionStatus.ReferToMentor, Array.Empty<SolutionComment>());
 
     private static SolutionAnalysis ToSolutionAnalysis(SolutionStatus status, SolutionComment[] comments) =>
-        new SolutionAnalysis(status, comments);
+        new(status, comments);
 
     public bool WritesToConsole() =>
         SyntaxRoot.InvokesMethod("Console.Write") ||

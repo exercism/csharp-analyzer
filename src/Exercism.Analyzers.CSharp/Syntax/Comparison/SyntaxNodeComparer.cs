@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.Syntax.Comparison;
 
 internal static class SyntaxNodeComparer
 {
-    private static readonly NormalizeSyntaxRewriter NormalizeSyntaxRewriter = new NormalizeSyntaxRewriter();
+    private static readonly NormalizeSyntaxRewriter NormalizeSyntaxRewriter = new();
 
     public static bool IsEquivalentToNormalized(SyntaxNode node, SyntaxNode other)
     {
