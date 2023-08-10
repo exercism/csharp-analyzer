@@ -1,6 +1,4 @@
-using System.Linq;
-
-using Serilog;
+using System;
 
 namespace Exercism.Analyzers.CSharp
 {
@@ -17,17 +15,13 @@ namespace Exercism.Analyzers.CSharp
 
         private static void RunAnalysis(Options options)
         {
-            Log.Information("Analyzing {Exercise} solution in directory {Directory}", options.Slug,
-                options.InputDirectory);
+            Console.WriteLine($"Analyzing {options.Slug} solution in directory {options.InputDirectory}");
 
             var solution = SolutionParser.Parse(options);
             var solutionAnalysis = SolutionAnalyzer.Analyze(solution);
             SolutionAnalysisWriter.WriteToFile(options, solutionAnalysis);
 
-            Log.Information(
-                "Analyzed {Exercise} solution in directory {Directory}. Status: {Status}. Comments: {Comments}",
-                options.Slug, options.OutputDirectory, solutionAnalysis.Status,
-                solutionAnalysis.Comments.Select(comment => comment.Comment));
+            Console.WriteLine($"Analyzed {options.Slug} solution in directory {options.InputDirectory}");
         }
     }
 }
