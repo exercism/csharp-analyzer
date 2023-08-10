@@ -1,4 +1,1 @@
-{
-  "status": "disapprove",
-  "comments": [{ "comment": "csharp.gigasecond.use_add_seconds", "params": {} }]
-}
+{"status":"disapprove","comments":[{"comment":"csharp.gigasecond.use_add_seconds","params":{}}]}
