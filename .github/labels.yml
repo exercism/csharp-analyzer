@@ -82,8 +82,8 @@
   description: "Work on Representers"
   color: "ffffff"
 
-- name: "x:module/analyzer"
-  description: "Work on analyzers"
+- name: "x:module/test-runner"
+  description: "Work on Test Runners"
   color: "ffffff"
 
 # The `x:rep/<value>` labels describe the amount of reputation to award
@@ -142,7 +142,7 @@
   color: "ffffff"
 
 - name: "x:type/coding"
-  description: "Write code that is not student-facing content (e.g. analyzers, generators, but not exercises)"
+  description: "Write code that is not student-facing content (e.g. test-runners, generators, but not exercises)"
   color: "ffffff"
 
 - name: "x:type/content"
