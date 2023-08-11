@@ -44,4 +44,4 @@ The scripts in this repository are written in PowerShell. As PowerShell is cross
 
 [analyzer-introduction]: https://github.com/exercism/docs/blob/main/building/tooling/analyzers/README.md
 [analyzer-interface]: https://github.com/exercism/docs/blob/main/building/tooling/analyzers/interface.md
-[roslyn]: https://docs.microsoft.com/nl-nl/dotnet/csharp/roslyn-sdk/
+[roslyn]: https://docs.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/
