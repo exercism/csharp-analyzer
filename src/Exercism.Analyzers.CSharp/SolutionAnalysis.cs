@@ -15,22 +15,15 @@ internal record SolutionAnalysis(SolutionStatus Status, SolutionComment[] Commen
 
 internal static class SolutionAnalyzer
 {
-    public static SolutionAnalysis Analyze(Solution solution)
-    {
-        switch (solution.Slug)
+    public static SolutionAnalysis Analyze(Solution solution) =>
+        solution.Slug switch
         {
-            case Exercises.TwoFer:
-                return new TwoFerAnalyzer().Analyze(new TwoFerSolution(solution));
-            case Exercises.Gigasecond:
-                return new GigasecondAnalyzer().Analyze(new GigasecondSolution(solution));
-            case Exercises.Leap:
-                return new LeapAnalyzer().Analyze(new LeapSolution(solution));
-            case Exercises.WeighingMachine:
-                return new WeighingMachineAnalyzer().Analyze(new WeighingMachineSolution(solution));
-            default:
-                return new DefaultExerciseAnalyzer().Analyze(new DefaultSolution(solution));
-        }
-    }
+            Exercises.TwoFer => new TwoFerAnalyzer().Analyze(new TwoFerSolution(solution)),
+            Exercises.Gigasecond => new GigasecondAnalyzer().Analyze(new GigasecondSolution(solution)),
+            Exercises.Leap => new LeapAnalyzer().Analyze(new LeapSolution(solution)),
+            Exercises.WeighingMachine => new WeighingMachineAnalyzer().Analyze(new WeighingMachineSolution(solution)),
+            _ => new DefaultExerciseAnalyzer().Analyze(new DefaultSolution(solution))
+        };
 }
 
 internal static class SolutionAnalysisWriter

@@ -23,10 +23,7 @@ public static class PropertyDeclarationSyntaxExtensions
 
     public static bool HasInitializer(this PropertyDeclarationSyntax property) => property?.Initializer is not null;
 
-    public static AccessorDeclarationSyntax GetAccessor(this PropertyDeclarationSyntax property, SyntaxKind accessor)
-    {
-        return property?.AccessorList?.Accessors.FirstOrDefault(ac => ac.IsKind(accessor));
-    }
+    public static AccessorDeclarationSyntax GetAccessor(this PropertyDeclarationSyntax property, SyntaxKind accessor) => property?.AccessorList?.Accessors.FirstOrDefault(ac => ac.IsKind(accessor));
 
     public static AccessorDeclarationSyntax GetGetAccessor(this PropertyDeclarationSyntax property) =>
         property?.GetAccessor(SyntaxKind.GetAccessorDeclaration);
