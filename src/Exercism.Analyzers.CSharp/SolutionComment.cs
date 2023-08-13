@@ -1,10 +1,5 @@
 namespace Exercism.Analyzers.CSharp;
 
-internal class SolutionComment
-{
-    public string Comment { get; }
-    public SolutionCommentParameter[] Parameters { get; }
+internal record SolutionCommentParameter(string Key, string Value);
 
-    public SolutionComment(string comment, params SolutionCommentParameter[] parameters) =>
-        (Comment, Parameters) = (comment, parameters);
-}
+internal record SolutionComment(string Comment, params SolutionCommentParameter[] Parameters);
