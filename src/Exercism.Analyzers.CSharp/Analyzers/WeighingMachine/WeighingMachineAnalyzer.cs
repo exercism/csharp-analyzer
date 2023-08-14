@@ -33,7 +33,7 @@ internal class WeighingMachineAnalyzer : SharedAnalyzer<WeighingMachineSolution>
 
         if (solution.PrecisionPropertyHasNonPrivateSetter())
         {
-            solution.AddComment(SharedComments.PrecisionPropertyHasNonPrivateSetter("Precision"));
+            solution.AddComment(SharedComments.PropertyHasNonPrivateSetter("Precision"));
         }
 
         if (!solution.WeightFieldNameIsPrivate(out var fieldName) && !string.IsNullOrWhiteSpace(fieldName))

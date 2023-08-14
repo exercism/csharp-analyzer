@@ -63,12 +63,16 @@ internal static class SolutionAnalysisWriter
     {
         jsonTextWriter.WriteStartObject();
         jsonTextWriter.WriteCommentText(comment);
+        jsonTextWriter.WriteCommentType(comment);
         jsonTextWriter.WriteCommentParameters(comment);
         jsonTextWriter.WriteEndObject();
     }
 
     private static void WriteCommentText(this Utf8JsonWriter jsonTextWriter, SolutionComment comment) =>
         jsonTextWriter.WriteString("comment", comment.Comment);
+
+    private static void WriteCommentType(this Utf8JsonWriter jsonTextWriter, SolutionComment comment) =>
+        jsonTextWriter.WriteString("type", comment.Type.ToString().ToLower());
 
     private static void WriteCommentParameters(this Utf8JsonWriter jsonTextWriter, SolutionComment comment)
     {
