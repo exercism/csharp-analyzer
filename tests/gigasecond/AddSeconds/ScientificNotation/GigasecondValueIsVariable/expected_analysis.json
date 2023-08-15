@@ -3,6 +3,7 @@
   "comments": [
     {
       "comment": "csharp.general.convert_variable_to_const",
+      "type": "actionable",
       "params": {
         "name": "gigasecond"
       }

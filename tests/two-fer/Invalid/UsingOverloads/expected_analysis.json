@@ -3,6 +3,7 @@
   "comments": [
     {
       "comment": "csharp.two-fer.use_default_value_not_overloads",
+      "type": "essential",
       "params": {}
     }
   ]

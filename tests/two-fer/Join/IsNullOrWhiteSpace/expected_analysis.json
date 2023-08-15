@@ -3,6 +3,7 @@
   "comments": [
     {
       "comment": "csharp.two-fer.use_string_interpolation_not_string_join",
+      "type": "actionable",
       "params": {}
     }
   ]

@@ -3,10 +3,12 @@
   "comments": [
     {
       "comment": "csharp.general.use_null_coalescing_operator_not_null_check",
+      "type": "actionable",
       "params": {}
     },
     {
       "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
       "params": {
         "name": "Speak"
       }

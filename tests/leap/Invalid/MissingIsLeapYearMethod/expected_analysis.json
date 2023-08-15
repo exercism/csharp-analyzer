@@ -3,6 +3,7 @@
   "comments": [
     {
       "comment": "csharp.general.missing_method",
+      "type": "essential",
       "params": {
         "name": "IsLeapYear"
       }

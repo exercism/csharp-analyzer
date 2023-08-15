@@ -3,6 +3,7 @@
   "comments": [
     {
       "comment": "csharp.general.property_setter_is_not_private",
+      "type": "actionable",
       "params": {
         "name": "Precision"
       }

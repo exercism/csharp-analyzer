@@ -3,10 +3,12 @@
   "comments": [
     {
       "comment": "csharp.gigasecond.do_not_create_datetime",
+      "type": "essential",
       "params": {}
     },
     {
       "comment": "csharp.gigasecond.use_add_seconds",
+      "type": "actionable",
       "params": {}
     }
   ]

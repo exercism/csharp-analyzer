@@ -3,6 +3,7 @@
   "comments": [
     {
       "comment": "csharp.general.invalid_method_signature",
+      "type": "essential",
       "params": {
         "name": "IsLeapYear",
         "signature": "public static bool IsLeapYear(int year)"

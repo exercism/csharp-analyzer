@@ -3,6 +3,7 @@
   "comments": [
     {
       "comment": "csharp.general.missing_class",
+      "type": "essential",
       "params": {
         "name": "Leap"
       }

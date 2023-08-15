@@ -3,6 +3,7 @@
   "comments": [
     {
       "comment": "csharp.gigasecond.use_add_seconds",
+      "type": "actionable",
       "params": {}
     }
   ]

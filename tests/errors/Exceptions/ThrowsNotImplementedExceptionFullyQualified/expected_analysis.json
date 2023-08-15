@@ -3,6 +3,7 @@
   "comments": [
     {
       "comment": "csharp.general.remove_throw_not_implemented_exception",
+      "type": "essential",
       "params": {}
     }
   ]
