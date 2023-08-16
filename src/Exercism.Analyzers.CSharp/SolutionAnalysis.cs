@@ -7,11 +7,9 @@ using Exercism.Analyzers.CSharp.Analyzers.Leap;
 using Exercism.Analyzers.CSharp.Analyzers.TwoFer;
 using Exercism.Analyzers.CSharp.Analyzers.WeighingMachine;
 
-using Humanizer;
-
 namespace Exercism.Analyzers.CSharp;
 
-internal record SolutionAnalysis(SolutionStatus Status, SolutionComment[] Comments);
+internal record SolutionAnalysis(SolutionComment[] Comments);
 
 internal static class SolutionAnalyzer
 {
@@ -35,7 +33,6 @@ internal static class SolutionAnalysisWriter
         using var fileStream = File.Create(GetAnalysisFilePath(options));
         using var jsonWriter = new Utf8JsonWriter(fileStream, JsonWriterOptions);
         jsonWriter.WriteStartObject();
-        jsonWriter.WriteStatus(solutionAnalysis.Status);
         jsonWriter.WriteComments(solutionAnalysis.Comments);
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
@@ -44,9 +41,6 @@ internal static class SolutionAnalysisWriter
 
     private static string GetAnalysisFilePath(Options options) =>
         Path.GetFullPath(Path.Combine(options.OutputDirectory, "analysis.json"));
-
-    private static void WriteStatus(this Utf8JsonWriter jsonTextWriter, SolutionStatus status) =>
-        jsonTextWriter.WriteString("status", status.ToString().Underscore());
 
     private static void WriteComments(this Utf8JsonWriter jsonTextWriter, SolutionComment[] comments)
     {
