@@ -1,17 +1,12 @@
-using Exercism.Analyzers.CSharp.Analyzers.Shared;
-
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondComments;
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondSolution;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond;
 
-internal class GigasecondAnalyzer : SharedAnalyzer<GigasecondSolution>
+internal class GigasecondAnalyzer : ExerciseAnalyzer<GigasecondSolution>
 {
-    protected override SolutionAnalysis AnalyzeSpecific(GigasecondSolution solution) =>
-        DisapproveWhenInvalid(solution) ?? ApproveWhenValid(solution);
-    
-    private SolutionAnalysis DisapproveWhenInvalid(GigasecondSolution solution)
+    protected override SolutionAnalysis AnalyzeSpecific(GigasecondSolution solution)
     {
         if (solution.MissingGigasecondClass)
             solution.AddComment(MissingClass(GigasecondClassName));
@@ -28,13 +23,6 @@ internal class GigasecondAnalyzer : SharedAnalyzer<GigasecondSolution>
         if (solution.DoesNotUseAddSeconds)
             solution.AddComment(UseAddSeconds);
 
-        return solution.HasComments
-            ? solution.Disapprove()
-            : solution.ContinueAnalysis();
-    }
-
-    private SolutionAnalysis ApproveWhenValid(GigasecondSolution solution)
-    {
         if (solution.UsesMathPow)
             solution.AddComment(UseScientificNotationNotMathPow(solution.GigasecondValue));
 
@@ -61,11 +49,6 @@ internal class GigasecondAnalyzer : SharedAnalyzer<GigasecondSolution>
             !solution.UsesExpressionBody)
             solution.AddComment(UseExpressionBodiedMember(AddMethodName));
 
-        if (solution.UsesScientificNotation ||
-            solution.UsesDigitsWithSeparator ||
-            solution.HasComments)
-            return solution.Approve();
-
-        return solution.ContinueAnalysis();
+        return solution.Analysis;
     }
 }

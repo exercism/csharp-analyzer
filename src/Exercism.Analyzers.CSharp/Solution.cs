@@ -27,22 +27,8 @@ internal class Solution
         _comments.Add(comment);
 
     public bool HasComments => _comments.Any();
-    
-    public SolutionAnalysis Analysis() => new(_comments.ToArray());
 
-    public SolutionAnalysis ContinueAnalysis() => null;
-
-    public SolutionAnalysis Approve() =>
-        ToSolutionAnalysis(_comments.ToArray());
-
-    public SolutionAnalysis Disapprove() =>
-        ToSolutionAnalysis(_comments.ToArray());
-
-    public SolutionAnalysis ReferToMentor() =>
-        ToSolutionAnalysis(Array.Empty<SolutionComment>());
-
-    private static SolutionAnalysis ToSolutionAnalysis(SolutionComment[] comments) =>
-        new(comments);
+    public SolutionAnalysis Analysis => new(_comments.ToArray());
 
     public bool WritesToConsole() =>
         SyntaxRoot.InvokesMethod("Console.Write") ||

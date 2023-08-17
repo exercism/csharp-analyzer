@@ -3,7 +3,6 @@ using System;
 using Exercism.Analyzers.CSharp.Syntax;
 using Exercism.Analyzers.CSharp.Syntax.Comparison;
 
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondSyntaxFactory;

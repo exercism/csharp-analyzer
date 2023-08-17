@@ -1,16 +1,13 @@
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
-namespace Exercism.Analyzers.CSharp.Analyzers.Shared;
+namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal abstract class SharedAnalyzer<T> where T : Solution
+internal abstract class ExerciseAnalyzer<T> where T : Solution
 {
-    public SolutionAnalysis Analyze(T solution) =>
-        AnalyzeShared(solution) ?? AnalyzeSpecific(solution);
-
-    private SolutionAnalysis AnalyzeShared(T solution)
+    public SolutionAnalysis Analyze(T solution)
     {
         if (solution.NoImplementationFileFound())
-            return solution.ReferToMentor();
+            return solution.Analysis;
 
         if (solution.HasCompileErrors())
             solution.AddComment(HasCompileErrors);
@@ -25,9 +22,9 @@ internal abstract class SharedAnalyzer<T> where T : Solution
             solution.AddComment(DoNotWriteToConsole);
 
         if (solution.HasComments)
-            return solution.Disapprove();
+            return solution.Analysis;
 
-        return null;
+        return AnalyzeSpecific(solution);
     }
 
     protected abstract SolutionAnalysis AnalyzeSpecific(T solution);
