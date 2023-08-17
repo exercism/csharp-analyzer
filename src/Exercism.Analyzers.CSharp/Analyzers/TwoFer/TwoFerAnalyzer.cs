@@ -53,7 +53,7 @@ internal class TwoFerAnalyzer : ExerciseAnalyzer<TwoFerSolution>
         if (solution.UsesNullCheck)
             solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
 
-        if (!solution.UsesExpressionBody)
+        if (solution.UsesSingleLine && !solution.UsesExpressionBody)
             solution.AddComment(UseExpressionBodiedMember(SpeakMethodName));
         
         if (!solution.AssignsParameterUsingKnownExpression)

@@ -22,12 +22,11 @@ internal class LeapAnalyzer : ExerciseAnalyzer<LeapSolution>
 
         if (solution.UsesNestedIfStatement)
             solution.AddComment(DoNotUseNestedIfStatement);
+        else if (solution.UsesIfStatement)
+            solution.AddComment(DoNotUseIfStatement);
 
         if (solution.UsesTooManyChecks)
             solution.AddComment(UseMinimumNumberOfChecks);
-
-        if (solution.UsesIfStatement)
-            solution.AddComment(DoNotUseIfStatement);
 
         if (solution.UsesSingleLine && !solution.UsesExpressionBody)
             solution.AddComment(UseExpressionBodiedMember(IsLeapYearMethodName));
