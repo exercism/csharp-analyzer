@@ -45,8 +45,7 @@ internal class GigasecondAnalyzer : ExerciseAnalyzer<GigasecondSolution>
             !solution.UsesPrivateField)
             AddComment(UsePrivateVisibility(solution.GigasecondValueFieldName));
 
-        if (solution.UsesSingleLine &&
-            !solution.UsesExpressionBody)
+        if (solution.CanUseExpressionBody)
             AddComment(UseExpressionBodiedMember(AddMethodName));
 
         return Analysis;

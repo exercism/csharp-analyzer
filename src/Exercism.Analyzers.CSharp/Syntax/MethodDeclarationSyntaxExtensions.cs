@@ -12,9 +12,9 @@ internal static class MethodDeclarationSyntaxExtensions
         methodDeclaration != null &&
         methodDeclaration.AssignsToIdentifier(SharedSyntaxFactory.IdentifierName(parameter));
 
-    public static bool SingleLine(this MethodDeclarationSyntax methodDeclaration) =>
-        methodDeclaration?.ExpressionBody != null ||
-        methodDeclaration?.Body.Statements.Count == 1;
+    public static bool CanUseExpressionBody(this MethodDeclarationSyntax methodDeclaration) =>
+        methodDeclaration?.ExpressionBody == null &&
+        methodDeclaration?.Body.Statements is [ReturnStatementSyntax];
 
     public static ExpressionSyntax ReturnedExpression(this MethodDeclarationSyntax methodDeclaration) =>
         methodDeclaration?.ExpressionBody?.Expression ??

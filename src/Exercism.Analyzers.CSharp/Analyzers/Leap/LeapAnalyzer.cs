@@ -28,7 +28,7 @@ internal class LeapAnalyzer : ExerciseAnalyzer<LeapSolution>
         if (solution.UsesTooManyChecks)
             AddComment(UseMinimumNumberOfChecks);
 
-        if (solution.UsesSingleLine && !solution.UsesExpressionBody)
+        if (solution.CanUseExpressionBody)
             AddComment(UseExpressionBodiedMember(IsLeapYearMethodName));
 
         return Analysis;

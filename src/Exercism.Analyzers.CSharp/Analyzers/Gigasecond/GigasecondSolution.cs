@@ -98,8 +98,8 @@ internal class GigasecondSolution : Solution
     public bool UsesExpressionBody =>
         AddMethod.IsExpressionBody();
 
-    public bool UsesSingleLine =>
-        AddMethod.SingleLine();
+    public bool CanUseExpressionBody =>
+        AddMethod.CanUseExpressionBody();
 
     public bool UsesConstField =>
         UsesField && AddSecondsFieldArgument.IsConst();

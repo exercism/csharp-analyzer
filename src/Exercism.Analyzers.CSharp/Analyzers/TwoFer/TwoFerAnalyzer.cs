@@ -18,7 +18,7 @@ internal class TwoFerAnalyzer : ExerciseAnalyzer<TwoFerSolution>
             return AnalysisWithComment(InvalidMethodSignature(SpeakMethodName, SpeakMethodSignature));
 
         if (solution.UsesOverloads)
-            AddComment(UseDefaultValueNotOverloads);
+            return AnalysisWithComment(UseDefaultValueNotOverloads);
 
         if (solution.UsesDuplicateString)
             AddComment(UseSingleFormattedStringNotMultiple);
@@ -53,7 +53,7 @@ internal class TwoFerAnalyzer : ExerciseAnalyzer<TwoFerSolution>
         if (solution.UsesNullCheck)
             AddComment(UseNullCoalescingOperatorNotNullCheck);
 
-        if (solution.UsesSingleLine && !solution.UsesExpressionBody)
+        if (solution.CanUseExpressionBody)
             AddComment(UseExpressionBodiedMember(SpeakMethodName));
         
         if (!solution.AssignsParameterUsingKnownExpression)

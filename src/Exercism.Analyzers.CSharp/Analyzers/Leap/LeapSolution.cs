@@ -60,8 +60,8 @@ internal class LeapSolution : Solution
     public bool UsesDateTimeIsLeapYear =>
         IsLeapYearMethod.InvokesMethod(IsLeapYearMemberAccessExpression());
 
-    public bool UsesSingleLine =>
-        IsLeapYearMethod.SingleLine();
+    public bool CanUseExpressionBody =>
+        IsLeapYearMethod.CanUseExpressionBody();
 
     public bool UsesExpressionBody =>
         IsLeapYearMethod.IsExpressionBody();
