@@ -7,7 +7,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine;
 
 internal class WeighingMachineAnalyzer : SharedAnalyzer<WeighingMachineSolution>
 {
-    protected override SolutionAnalysis DisapproveWhenInvalid(WeighingMachineSolution solution)
+    protected override SolutionAnalysis AnalyzeSpecific(WeighingMachineSolution solution) =>
+        DisapproveWhenInvalid(solution) ?? ApproveWhenValid(solution);
+    
+    private SolutionAnalysis DisapproveWhenInvalid(WeighingMachineSolution solution)
     {
         if (solution.MissingWeighingMachineClass)
         {
@@ -51,7 +54,7 @@ internal class WeighingMachineAnalyzer : SharedAnalyzer<WeighingMachineSolution>
             : solution.ContinueAnalysis();
     }
 
-    protected override SolutionAnalysis ApproveWhenValid(WeighingMachineSolution solution)
+    private SolutionAnalysis ApproveWhenValid(WeighingMachineSolution solution)
     {
         if (!solution.TareAdjustmentHasInitializer)
         {

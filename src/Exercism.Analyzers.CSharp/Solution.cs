@@ -27,6 +27,8 @@ internal class Solution
         _comments.Add(comment);
 
     public bool HasComments => _comments.Any();
+    
+    public SolutionAnalysis Analysis() => new(_comments.ToArray());
 
     public SolutionAnalysis ContinueAnalysis() => null;
 

@@ -8,7 +8,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond;
 
 internal class GigasecondAnalyzer : SharedAnalyzer<GigasecondSolution>
 {
-    protected override SolutionAnalysis DisapproveWhenInvalid(GigasecondSolution solution)
+    protected override SolutionAnalysis AnalyzeSpecific(GigasecondSolution solution) =>
+        DisapproveWhenInvalid(solution) ?? ApproveWhenValid(solution);
+    
+    private SolutionAnalysis DisapproveWhenInvalid(GigasecondSolution solution)
     {
         if (solution.MissingGigasecondClass)
             solution.AddComment(MissingClass(GigasecondClassName));
@@ -30,7 +33,7 @@ internal class GigasecondAnalyzer : SharedAnalyzer<GigasecondSolution>
             : solution.ContinueAnalysis();
     }
 
-    protected override SolutionAnalysis ApproveWhenValid(GigasecondSolution solution)
+    private SolutionAnalysis ApproveWhenValid(GigasecondSolution solution)
     {
         if (solution.UsesMathPow)
             solution.AddComment(UseScientificNotationNotMathPow(solution.GigasecondValue));

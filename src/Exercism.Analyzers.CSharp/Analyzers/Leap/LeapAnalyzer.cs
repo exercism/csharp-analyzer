@@ -8,7 +8,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap;
 
 internal class LeapAnalyzer : SharedAnalyzer<LeapSolution>
 {
-    protected override SolutionAnalysis DisapproveWhenInvalid(LeapSolution solution)
+    protected override SolutionAnalysis AnalyzeSpecific(LeapSolution solution) =>
+        DisapproveWhenInvalid(solution) ?? ApproveWhenValid(solution);
+    
+    private SolutionAnalysis DisapproveWhenInvalid(LeapSolution solution)
     {
         if (solution.MissingLeapClass)
             solution.AddComment(MissingClass(LeapClassName));
@@ -33,7 +36,7 @@ internal class LeapAnalyzer : SharedAnalyzer<LeapSolution>
             : solution.ContinueAnalysis();
     }
 
-    protected override SolutionAnalysis ApproveWhenValid(LeapSolution solution)
+    private SolutionAnalysis ApproveWhenValid(LeapSolution solution)
     {
         if (solution.UsesIfStatement)
             solution.AddComment(DoNotUseIfStatement);

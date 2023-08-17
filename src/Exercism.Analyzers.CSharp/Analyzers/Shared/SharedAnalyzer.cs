@@ -5,13 +5,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared;
 internal abstract class SharedAnalyzer<T> where T : Solution
 {
     public SolutionAnalysis Analyze(T solution) =>
-        SharedDisapproveWhenInvalid(solution) ??
-        DisapproveWhenInvalid(solution) ??
-        SharedApproveWhenValid(solution) ??
-        ApproveWhenValid(solution) ??
-        solution.ReferToMentor();
+        AnalyzeShared(solution) ?? AnalyzeSpecific(solution);
 
-    private static SolutionAnalysis SharedDisapproveWhenInvalid(T solution)
+    private SolutionAnalysis AnalyzeShared(T solution)
     {
         if (solution.NoImplementationFileFound())
             return solution.ReferToMentor();
@@ -28,15 +24,11 @@ internal abstract class SharedAnalyzer<T> where T : Solution
         if (solution.WritesToConsole())
             solution.AddComment(DoNotWriteToConsole);
 
-        return solution.HasComments
-            ? solution.Disapprove()
-            : solution.ContinueAnalysis();
+        if (solution.HasComments)
+            return solution.Disapprove();
+
+        return null;
     }
 
-    private static SolutionAnalysis SharedApproveWhenValid(T solution) =>
-        solution.ContinueAnalysis();
-
-    protected abstract SolutionAnalysis DisapproveWhenInvalid(T solution);
-
-    protected abstract SolutionAnalysis ApproveWhenValid(T solution);
+    protected abstract SolutionAnalysis AnalyzeSpecific(T solution);
 }

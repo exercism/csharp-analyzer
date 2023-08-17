@@ -8,7 +8,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer;
 
 internal class TwoFerAnalyzer : SharedAnalyzer<TwoFerSolution>
 {
-    protected override SolutionAnalysis DisapproveWhenInvalid(TwoFerSolution solution)
+    protected override SolutionAnalysis AnalyzeSpecific(TwoFerSolution solution) =>
+        DisapproveWhenInvalid(solution) ?? ApproveWhenValid(solution);
+    
+    private SolutionAnalysis DisapproveWhenInvalid(TwoFerSolution solution)
     {
         if (solution.MissingTwoFerClass)
             solution.AddComment(MissingClass(TwoFerClassName));
@@ -45,7 +48,7 @@ internal class TwoFerAnalyzer : SharedAnalyzer<TwoFerSolution>
             : solution.ContinueAnalysis();
     }
 
-    protected override SolutionAnalysis ApproveWhenValid(TwoFerSolution solution)
+    private SolutionAnalysis ApproveWhenValid(TwoFerSolution solution)
     {
         if (solution.UsesStringConcatenation)
             solution.AddComment(UseStringInterpolationNotStringConcatenation);
