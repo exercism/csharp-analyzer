@@ -30,6 +30,8 @@ internal class Solution
 
     public SolutionAnalysis Analysis => new(_comments.ToArray());
 
+    public SolutionAnalysis AnalysisWithComment(SolutionComment comment) => new(new[] { comment });
+
     public bool WritesToConsole() =>
         SyntaxRoot.InvokesMethod("Console.Write") ||
         SyntaxRoot.InvokesMethod("Console.WriteAsync") ||

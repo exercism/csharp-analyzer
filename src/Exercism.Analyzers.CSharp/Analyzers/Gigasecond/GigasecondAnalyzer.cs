@@ -9,13 +9,13 @@ internal class GigasecondAnalyzer : ExerciseAnalyzer<GigasecondSolution>
     protected override SolutionAnalysis AnalyzeSpecific(GigasecondSolution solution)
     {
         if (solution.MissingGigasecondClass)
-            solution.AddComment(MissingClass(GigasecondClassName));
+            return solution.AnalysisWithComment(MissingClass(GigasecondClassName));
 
         if (solution.MissingAddMethod)
-            solution.AddComment(MissingMethod(AddMethodName));
+            return solution.AnalysisWithComment(MissingMethod(AddMethodName));
 
         if (solution.InvalidAddMethod)
-            solution.AddComment(InvalidMethodSignature(AddMethodName, AddMethodSignature));
+            return solution.AnalysisWithComment(InvalidMethodSignature(AddMethodName, AddMethodSignature));
 
         if (solution.CreatesNewDatetime)
             solution.AddComment(DoNotCreateDateTime);

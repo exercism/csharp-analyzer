@@ -9,13 +9,13 @@ internal class LeapAnalyzer : ExerciseAnalyzer<LeapSolution>
     protected override SolutionAnalysis AnalyzeSpecific(LeapSolution solution)
     {
         if (solution.MissingLeapClass)
-            solution.AddComment(MissingClass(LeapClassName));
+            return solution.AnalysisWithComment(MissingClass(LeapClassName));
 
         if (solution.MissingIsLeapYearMethod)
-            solution.AddComment(MissingMethod(IsLeapYearMethodName));
+            return solution.AnalysisWithComment(MissingMethod(IsLeapYearMethodName));
 
         if (solution.InvalidIsLeapYearMethod)
-            solution.AddComment(InvalidMethodSignature(IsLeapYearMethodName, IsLeapYearMethodSignature));
+            return solution.AnalysisWithComment(InvalidMethodSignature(IsLeapYearMethodName, IsLeapYearMethodSignature));
 
         if (solution.UsesDateTimeIsLeapYear)
             solution.AddComment(DoNotUseIsLeapYear);

@@ -9,13 +9,13 @@ internal class TwoFerAnalyzer : ExerciseAnalyzer<TwoFerSolution>
     protected override SolutionAnalysis AnalyzeSpecific(TwoFerSolution solution)
     {
         if (solution.MissingTwoFerClass)
-            solution.AddComment(MissingClass(TwoFerClassName));
+            return solution.AnalysisWithComment(MissingClass(TwoFerClassName));
 
         if (solution.MissingSpeakMethod)
-            solution.AddComment(MissingMethod(SpeakMethodName));
+            return solution.AnalysisWithComment(MissingMethod(SpeakMethodName));
 
         if (solution.InvalidSpeakMethod)
-            solution.AddComment(InvalidMethodSignature(SpeakMethodName, SpeakMethodSignature));
+            return solution.AnalysisWithComment(InvalidMethodSignature(SpeakMethodName, SpeakMethodSignature));
 
         if (solution.UsesOverloads)
             solution.AddComment(UseDefaultValueNotOverloads);

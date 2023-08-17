@@ -1,6 +1,4 @@
-﻿using Exercism.Analyzers.CSharp.Analyzers.Shared;
-
-using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
+﻿using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 using static Exercism.Analyzers.CSharp.Analyzers.WeighingMachine.WeighingMachineSolution;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine;
@@ -10,19 +8,22 @@ internal class WeighingMachineAnalyzer : ExerciseAnalyzer<WeighingMachineSolutio
     protected override SolutionAnalysis AnalyzeSpecific(WeighingMachineSolution solution)
     {
         if (solution.MissingWeighingMachineClass)
-            solution.AddComment(MissingClass(WeighingMachineClassName));
+            return solution.AnalysisWithComment(MissingClass(WeighingMachineClassName));
 
         foreach (var missing in solution.MissingRequiredProperties())
             solution.AddComment(MissingProperty(missing));
 
+        if (solution.HasComments)
+            return solution.Analysis;
+
         if (!solution.PrecisionIsAutoProperty)
-            solution.AddComment(SharedComments.PropertyIsNotAutoProperty("Precision"));
+            solution.AddComment(PropertyIsNotAutoProperty("Precision"));
 
         if (!solution.TareAdjustmentIsAutoProperty)
-            solution.AddComment(SharedComments.PropertyIsNotAutoProperty("TareAdjustment"));
+            solution.AddComment(PropertyIsNotAutoProperty("TareAdjustment"));
 
         if (solution.PrecisionPropertyHasNonPrivateSetter())
-            solution.AddComment(SharedComments.PropertyHasNonPrivateSetter("Precision"));
+            solution.AddComment(PropertyHasNonPrivateSetter("Precision"));
 
         if (!solution.WeightFieldNameIsPrivate(out var fieldName) && !string.IsNullOrWhiteSpace(fieldName))
             solution.AddComment(UsePrivateVisibility(fieldName));
@@ -31,7 +32,7 @@ internal class WeighingMachineAnalyzer : ExerciseAnalyzer<WeighingMachineSolutio
             solution.AddComment(WeighingMachineComments.RoundMethodNotCalledInDisplayWeightProperty);
                 
         if (!solution.TareAdjustmentHasInitializer)
-            solution.AddComment(SharedComments.PropertyBetterUseInitializer("TareAdjustment"));
+            solution.AddComment(PropertyBetterUseInitializer("TareAdjustment"));
 
         return solution.Analysis;
     }
