@@ -9,46 +9,46 @@ internal class GigasecondAnalyzer : ExerciseAnalyzer<GigasecondSolution>
     protected override SolutionAnalysis AnalyzeSpecific(GigasecondSolution solution)
     {
         if (solution.MissingGigasecondClass)
-            return solution.AnalysisWithComment(MissingClass(GigasecondClassName));
+            return AnalysisWithComment(MissingClass(GigasecondClassName));
 
         if (solution.MissingAddMethod)
-            return solution.AnalysisWithComment(MissingMethod(AddMethodName));
+            return AnalysisWithComment(MissingMethod(AddMethodName));
 
         if (solution.InvalidAddMethod)
-            return solution.AnalysisWithComment(InvalidMethodSignature(AddMethodName, AddMethodSignature));
+            return AnalysisWithComment(InvalidMethodSignature(AddMethodName, AddMethodSignature));
 
         if (solution.CreatesNewDatetime)
-            solution.AddComment(DoNotCreateDateTime);
+            AddComment(DoNotCreateDateTime);
 
         if (solution.DoesNotUseAddSeconds)
-            solution.AddComment(UseAddSeconds);
+            AddComment(UseAddSeconds);
 
         if (solution.UsesMathPow)
-            solution.AddComment(UseScientificNotationNotMathPow(solution.GigasecondValue));
+            AddComment(UseScientificNotationNotMathPow(solution.GigasecondValue));
 
         if (solution.UsesDigitsWithoutSeparator)
-            solution.AddComment(UseScientificNotationOrDigitSeparators(solution.GigasecondValue));
+            AddComment(UseScientificNotationOrDigitSeparators(solution.GigasecondValue));
 
         if (solution.AssignsToParameterAndReturns ||
             solution.AssignsToVariableAndReturns)
-            solution.AddComment(DoNotAssignAndReturn);
+            AddComment(DoNotAssignAndReturn);
 
         if (solution.UsesLocalVariable &&
             !solution.UsesLocalConstVariable)
-            solution.AddComment(ConvertVariableToConst(solution.GigasecondValueVariableName));
+            AddComment(ConvertVariableToConst(solution.GigasecondValueVariableName));
 
         if (solution.UsesField &&
             !solution.UsesConstField)
-            solution.AddComment(ConvertFieldToConst(solution.GigasecondValueFieldName));
+            AddComment(ConvertFieldToConst(solution.GigasecondValueFieldName));
 
         if (solution.UsesField &&
             !solution.UsesPrivateField)
-            solution.AddComment(UsePrivateVisibility(solution.GigasecondValueFieldName));
+            AddComment(UsePrivateVisibility(solution.GigasecondValueFieldName));
 
         if (solution.UsesSingleLine &&
             !solution.UsesExpressionBody)
-            solution.AddComment(UseExpressionBodiedMember(AddMethodName));
+            AddComment(UseExpressionBodiedMember(AddMethodName));
 
-        return solution.Analysis;
+        return Analysis;
     }
 }

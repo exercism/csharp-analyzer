@@ -9,28 +9,28 @@ internal class LeapAnalyzer : ExerciseAnalyzer<LeapSolution>
     protected override SolutionAnalysis AnalyzeSpecific(LeapSolution solution)
     {
         if (solution.MissingLeapClass)
-            return solution.AnalysisWithComment(MissingClass(LeapClassName));
+            return AnalysisWithComment(MissingClass(LeapClassName));
 
         if (solution.MissingIsLeapYearMethod)
-            return solution.AnalysisWithComment(MissingMethod(IsLeapYearMethodName));
+            return AnalysisWithComment(MissingMethod(IsLeapYearMethodName));
 
         if (solution.InvalidIsLeapYearMethod)
-            return solution.AnalysisWithComment(InvalidMethodSignature(IsLeapYearMethodName, IsLeapYearMethodSignature));
+            return AnalysisWithComment(InvalidMethodSignature(IsLeapYearMethodName, IsLeapYearMethodSignature));
 
         if (solution.UsesDateTimeIsLeapYear)
-            solution.AddComment(DoNotUseIsLeapYear);
+            AddComment(DoNotUseIsLeapYear);
 
         if (solution.UsesNestedIfStatement)
-            solution.AddComment(DoNotUseNestedIfStatement);
+            AddComment(DoNotUseNestedIfStatement);
         else if (solution.UsesIfStatement)
-            solution.AddComment(DoNotUseIfStatement);
+            AddComment(DoNotUseIfStatement);
 
         if (solution.UsesTooManyChecks)
-            solution.AddComment(UseMinimumNumberOfChecks);
+            AddComment(UseMinimumNumberOfChecks);
 
         if (solution.UsesSingleLine && !solution.UsesExpressionBody)
-            solution.AddComment(UseExpressionBodiedMember(IsLeapYearMethodName));
+            AddComment(UseExpressionBodiedMember(IsLeapYearMethodName));
 
-        return solution.Analysis;
+        return Analysis;
     }
 }

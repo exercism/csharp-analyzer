@@ -9,59 +9,59 @@ internal class TwoFerAnalyzer : ExerciseAnalyzer<TwoFerSolution>
     protected override SolutionAnalysis AnalyzeSpecific(TwoFerSolution solution)
     {
         if (solution.MissingTwoFerClass)
-            return solution.AnalysisWithComment(MissingClass(TwoFerClassName));
+            return AnalysisWithComment(MissingClass(TwoFerClassName));
 
         if (solution.MissingSpeakMethod)
-            return solution.AnalysisWithComment(MissingMethod(SpeakMethodName));
+            return AnalysisWithComment(MissingMethod(SpeakMethodName));
 
         if (solution.InvalidSpeakMethod)
-            return solution.AnalysisWithComment(InvalidMethodSignature(SpeakMethodName, SpeakMethodSignature));
+            return AnalysisWithComment(InvalidMethodSignature(SpeakMethodName, SpeakMethodSignature));
 
         if (solution.UsesOverloads)
-            solution.AddComment(UseDefaultValueNotOverloads);
+            AddComment(UseDefaultValueNotOverloads);
 
         if (solution.UsesDuplicateString)
-            solution.AddComment(UseSingleFormattedStringNotMultiple);
+            AddComment(UseSingleFormattedStringNotMultiple);
 
         if (solution.NoDefaultValue)
-            solution.AddComment(UseDefaultValue(solution.SpeakMethodParameterName));
+            AddComment(UseDefaultValue(solution.SpeakMethodParameterName));
 
         if (solution.UsesInvalidDefaultValue)
-            solution.AddComment(InvalidDefaultValue(solution.SpeakMethodParameterName, solution.SpeakMethodParameterDefaultValue));
+            AddComment(InvalidDefaultValue(solution.SpeakMethodParameterName, solution.SpeakMethodParameterDefaultValue));
 
         if (solution.UsesStringReplace)
-            solution.AddComment(UseStringInterpolationNotStringReplace);
+            AddComment(UseStringInterpolationNotStringReplace);
 
         if (solution.UsesStringJoin)
-            solution.AddComment(UseStringInterpolationNotStringJoin);
+            AddComment(UseStringInterpolationNotStringJoin);
 
         if (solution.UsesStringConcat)
-            solution.AddComment(UseStringInterpolationNotStringConcat);
+            AddComment(UseStringInterpolationNotStringConcat);
 
         if (solution.UsesStringConcatenation)
-            solution.AddComment(UseStringInterpolationNotStringConcatenation);
+            AddComment(UseStringInterpolationNotStringConcatenation);
 
         if (solution.UsesStringFormat)
-            solution.AddComment(UseStringInterpolationNotStringFormat);
+            AddComment(UseStringInterpolationNotStringFormat);
 
         if (solution.UsesIsNullOrEmptyCheck)
-            solution.AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
+            AddComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
 
         if (solution.UsesIsNullOrWhiteSpaceCheck)
-            solution.AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
+            AddComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
         if (solution.UsesNullCheck)
-            solution.AddComment(UseNullCoalescingOperatorNotNullCheck);
+            AddComment(UseNullCoalescingOperatorNotNullCheck);
 
         if (solution.UsesSingleLine && !solution.UsesExpressionBody)
-            solution.AddComment(UseExpressionBodiedMember(SpeakMethodName));
+            AddComment(UseExpressionBodiedMember(SpeakMethodName));
         
         if (!solution.AssignsParameterUsingKnownExpression)
-            return solution.Analysis;
+            return Analysis;
 
         if (solution.AssignsParameterUsingNullCoalescingOperator)
-            solution.AddComment(DoNotAssignAndReturn);
+            AddComment(DoNotAssignAndReturn);
 
-        return solution.Analysis;
+        return Analysis;
     }
 }
