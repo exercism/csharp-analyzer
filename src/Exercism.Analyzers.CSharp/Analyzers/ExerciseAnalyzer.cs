@@ -24,16 +24,16 @@ internal abstract class ExerciseAnalyzer<T> where T : Solution
             return Analysis;
 
         if (solution.HasCompileErrors())
-            AddComment(HasCompileErrors);
+            return AnalysisWithComment(HasCompileErrors);
 
         if (solution.HasMainMethod())
-            AddComment(HasMainMethod);
+            return AnalysisWithComment(HasMainMethod);
 
         if (solution.ThrowsNotImplementedException())
-            AddComment(RemoveThrowNotImplementedException);
+            return AnalysisWithComment(RemoveThrowNotImplementedException);
 
         if (solution.WritesToConsole())
-            AddComment(DoNotWriteToConsole);
+            return AnalysisWithComment(DoNotWriteToConsole);
 
         if (HasComments)
             return Analysis;
