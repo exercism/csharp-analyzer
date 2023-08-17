@@ -71,8 +71,8 @@ internal class TwoFerSolution : Solution
         SpeakMethodParameter != null &&
         SpeakMethod.AssignsToParameter(SpeakMethodParameter);
 
-    public bool UsesSingleLine =>
-        SpeakMethod.SingleLine();
+    public bool CanUseExpressionBody =>
+        SpeakMethod.CanUseExpressionBody();
 
     public bool UsesExpressionBody =>
         SpeakMethod.IsExpressionBody();

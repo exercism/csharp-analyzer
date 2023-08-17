@@ -10,8 +10,6 @@ namespace Exercism.Analyzers.CSharp;
 
 internal class Solution
 {
-    private readonly List<SolutionComment> _comments = new();
-
     public string Name { get; }
     public string Slug { get; }
     public SyntaxNode SyntaxRoot { get; }
@@ -22,25 +20,6 @@ internal class Solution
     protected Solution(Solution solution) : this(solution.Slug, solution.Slug, solution.SyntaxRoot)
     {
     }
-
-    public void AddComment(SolutionComment comment) =>
-        _comments.Add(comment);
-
-    public bool HasComments => _comments.Any();
-
-    public SolutionAnalysis ContinueAnalysis() => null;
-
-    public SolutionAnalysis Approve() =>
-        ToSolutionAnalysis(_comments.ToArray());
-
-    public SolutionAnalysis Disapprove() =>
-        ToSolutionAnalysis(_comments.ToArray());
-
-    public SolutionAnalysis ReferToMentor() =>
-        ToSolutionAnalysis(Array.Empty<SolutionComment>());
-
-    private static SolutionAnalysis ToSolutionAnalysis(SolutionComment[] comments) =>
-        new(comments);
 
     public bool WritesToConsole() =>
         SyntaxRoot.InvokesMethod("Console.Write") ||

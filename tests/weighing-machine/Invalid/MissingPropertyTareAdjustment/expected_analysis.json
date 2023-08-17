@@ -6,6 +6,13 @@
       "params": {
         "name": "TareAdjustment"
       }
+    },
+    {
+      "comment": "csharp.general.missing_property",
+      "type": "essential",
+      "params": {
+        "name": "DisplayWeight"
+      }
     }
   ]
 }

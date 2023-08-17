@@ -3,7 +3,6 @@ using System;
 using Exercism.Analyzers.CSharp.Syntax;
 using Exercism.Analyzers.CSharp.Syntax.Comparison;
 
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondSyntaxFactory;
@@ -99,8 +98,8 @@ internal class GigasecondSolution : Solution
     public bool UsesExpressionBody =>
         AddMethod.IsExpressionBody();
 
-    public bool UsesSingleLine =>
-        AddMethod.SingleLine();
+    public bool CanUseExpressionBody =>
+        AddMethod.CanUseExpressionBody();
 
     public bool UsesConstField =>
         UsesField && AddSecondsFieldArgument.IsConst();

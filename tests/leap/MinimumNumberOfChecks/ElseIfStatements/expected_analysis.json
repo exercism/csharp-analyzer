@@ -4,13 +4,6 @@
       "comment": "csharp.leap.do_not_use_if_statement",
       "type": "actionable",
       "params": {}
-    },
-    {
-      "comment": "csharp.general.use_expression_bodied_member",
-      "type": "informative",
-      "params": {
-        "name": "IsLeapYear"
-      }
     }
   ]
 }

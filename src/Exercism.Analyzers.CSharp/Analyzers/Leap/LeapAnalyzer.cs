@@ -1,50 +1,36 @@
-using Exercism.Analyzers.CSharp.Analyzers.Shared;
-
 using static Exercism.Analyzers.CSharp.Analyzers.Leap.LeapComments;
 using static Exercism.Analyzers.CSharp.Analyzers.Leap.LeapSolution;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Leap;
 
-internal class LeapAnalyzer : SharedAnalyzer<LeapSolution>
+internal class LeapAnalyzer : ExerciseAnalyzer<LeapSolution>
 {
-    protected override SolutionAnalysis DisapproveWhenInvalid(LeapSolution solution)
+    protected override SolutionAnalysis AnalyzeSpecific(LeapSolution solution)
     {
         if (solution.MissingLeapClass)
-            solution.AddComment(MissingClass(LeapClassName));
+            return AnalysisWithComment(MissingClass(LeapClassName));
 
         if (solution.MissingIsLeapYearMethod)
-            solution.AddComment(MissingMethod(IsLeapYearMethodName));
+            return AnalysisWithComment(MissingMethod(IsLeapYearMethodName));
 
         if (solution.InvalidIsLeapYearMethod)
-            solution.AddComment(InvalidMethodSignature(IsLeapYearMethodName, IsLeapYearMethodSignature));
+            return AnalysisWithComment(InvalidMethodSignature(IsLeapYearMethodName, IsLeapYearMethodSignature));
 
         if (solution.UsesDateTimeIsLeapYear)
-            solution.AddComment(DoNotUseIsLeapYear);
+            AddComment(DoNotUseIsLeapYear);
 
         if (solution.UsesNestedIfStatement)
-            solution.AddComment(DoNotUseNestedIfStatement);
+            AddComment(DoNotUseNestedIfStatement);
+        else if (solution.UsesIfStatement)
+            AddComment(DoNotUseIfStatement);
 
         if (solution.UsesTooManyChecks)
-            solution.AddComment(UseMinimumNumberOfChecks);
+            AddComment(UseMinimumNumberOfChecks);
 
-        return solution.HasComments
-            ? solution.Disapprove()
-            : solution.ContinueAnalysis();
-    }
+        if (solution.CanUseExpressionBody)
+            AddComment(UseExpressionBodiedMember(IsLeapYearMethodName));
 
-    protected override SolutionAnalysis ApproveWhenValid(LeapSolution solution)
-    {
-        if (solution.UsesIfStatement)
-            solution.AddComment(DoNotUseIfStatement);
-
-        if (solution.UsesSingleLine && !solution.UsesExpressionBody)
-            solution.AddComment(UseExpressionBodiedMember(IsLeapYearMethodName));
-
-        if (solution.ReturnsMinimumNumberOfChecksInSingleExpression ||
-            solution.HasComments)
-            return solution.Approve();
-
-        return solution.ContinueAnalysis();
+        return Analysis;
     }
 }

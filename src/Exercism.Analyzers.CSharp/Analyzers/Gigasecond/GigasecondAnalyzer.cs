@@ -1,68 +1,53 @@
-using Exercism.Analyzers.CSharp.Analyzers.Shared;
-
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondComments;
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondSolution;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond;
 
-internal class GigasecondAnalyzer : SharedAnalyzer<GigasecondSolution>
+internal class GigasecondAnalyzer : ExerciseAnalyzer<GigasecondSolution>
 {
-    protected override SolutionAnalysis DisapproveWhenInvalid(GigasecondSolution solution)
+    protected override SolutionAnalysis AnalyzeSpecific(GigasecondSolution solution)
     {
         if (solution.MissingGigasecondClass)
-            solution.AddComment(MissingClass(GigasecondClassName));
+            return AnalysisWithComment(MissingClass(GigasecondClassName));
 
         if (solution.MissingAddMethod)
-            solution.AddComment(MissingMethod(AddMethodName));
+            return AnalysisWithComment(MissingMethod(AddMethodName));
 
         if (solution.InvalidAddMethod)
-            solution.AddComment(InvalidMethodSignature(AddMethodName, AddMethodSignature));
+            return AnalysisWithComment(InvalidMethodSignature(AddMethodName, AddMethodSignature));
 
         if (solution.CreatesNewDatetime)
-            solution.AddComment(DoNotCreateDateTime);
+            AddComment(DoNotCreateDateTime);
 
         if (solution.DoesNotUseAddSeconds)
-            solution.AddComment(UseAddSeconds);
+            AddComment(UseAddSeconds);
 
-        return solution.HasComments
-            ? solution.Disapprove()
-            : solution.ContinueAnalysis();
-    }
-
-    protected override SolutionAnalysis ApproveWhenValid(GigasecondSolution solution)
-    {
         if (solution.UsesMathPow)
-            solution.AddComment(UseScientificNotationNotMathPow(solution.GigasecondValue));
+            AddComment(UseScientificNotationNotMathPow(solution.GigasecondValue));
 
         if (solution.UsesDigitsWithoutSeparator)
-            solution.AddComment(UseScientificNotationOrDigitSeparators(solution.GigasecondValue));
+            AddComment(UseScientificNotationOrDigitSeparators(solution.GigasecondValue));
 
         if (solution.AssignsToParameterAndReturns ||
             solution.AssignsToVariableAndReturns)
-            solution.AddComment(DoNotAssignAndReturn);
+            AddComment(DoNotAssignAndReturn);
 
         if (solution.UsesLocalVariable &&
             !solution.UsesLocalConstVariable)
-            solution.AddComment(ConvertVariableToConst(solution.GigasecondValueVariableName));
+            AddComment(ConvertVariableToConst(solution.GigasecondValueVariableName));
 
         if (solution.UsesField &&
             !solution.UsesConstField)
-            solution.AddComment(ConvertFieldToConst(solution.GigasecondValueFieldName));
+            AddComment(ConvertFieldToConst(solution.GigasecondValueFieldName));
 
         if (solution.UsesField &&
             !solution.UsesPrivateField)
-            solution.AddComment(UsePrivateVisibility(solution.GigasecondValueFieldName));
+            AddComment(UsePrivateVisibility(solution.GigasecondValueFieldName));
 
-        if (solution.UsesSingleLine &&
-            !solution.UsesExpressionBody)
-            solution.AddComment(UseExpressionBodiedMember(AddMethodName));
+        if (solution.CanUseExpressionBody)
+            AddComment(UseExpressionBodiedMember(AddMethodName));
 
-        if (solution.UsesScientificNotation ||
-            solution.UsesDigitsWithSeparator ||
-            solution.HasComments)
-            return solution.Approve();
-
-        return solution.ContinueAnalysis();
+        return Analysis;
     }
 }

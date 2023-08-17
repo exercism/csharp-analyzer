@@ -1,6 +1,4 @@
 ﻿
-using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedCommentParameters;
-
 namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine;
 
 internal class WeighingMachineComments

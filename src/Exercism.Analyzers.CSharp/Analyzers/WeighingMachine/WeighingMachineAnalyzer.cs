@@ -1,63 +1,39 @@
-﻿using Exercism.Analyzers.CSharp.Analyzers.Shared;
-
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 using static Exercism.Analyzers.CSharp.Analyzers.WeighingMachine.WeighingMachineSolution;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine;
 
-internal class WeighingMachineAnalyzer : SharedAnalyzer<WeighingMachineSolution>
+internal class WeighingMachineAnalyzer : ExerciseAnalyzer<WeighingMachineSolution>
 {
-    protected override SolutionAnalysis DisapproveWhenInvalid(WeighingMachineSolution solution)
+    protected override SolutionAnalysis AnalyzeSpecific(WeighingMachineSolution solution)
     {
         if (solution.MissingWeighingMachineClass)
-        {
-            solution.AddComment(MissingClass(WeighingMachineClassName));
-            return solution.Disapprove();
-        }
+            return AnalysisWithComment(MissingClass(WeighingMachineClassName));
 
         foreach (var missing in solution.MissingRequiredProperties())
-        {
-            solution.AddComment(MissingProperty(missing));
-            return solution.Disapprove();
-        }
+            AddComment(MissingProperty(missing));
+
+        if (HasComments)
+            return Analysis;
 
         if (!solution.PrecisionIsAutoProperty)
-        {
-            solution.AddComment(SharedComments.PropertyIsNotAutoProperty("Precision"));
-        }
+            AddComment(PropertyIsNotAutoProperty("Precision"));
 
         if (!solution.TareAdjustmentIsAutoProperty)
-        {
-            solution.AddComment(SharedComments.PropertyIsNotAutoProperty("TareAdjustment"));
-        }
+            AddComment(PropertyIsNotAutoProperty("TareAdjustment"));
 
         if (solution.PrecisionPropertyHasNonPrivateSetter())
-        {
-            solution.AddComment(SharedComments.PropertyHasNonPrivateSetter("Precision"));
-        }
+            AddComment(PropertyHasNonPrivateSetter("Precision"));
 
         if (!solution.WeightFieldNameIsPrivate(out var fieldName) && !string.IsNullOrWhiteSpace(fieldName))
-        {
-            solution.AddComment(UsePrivateVisibility(fieldName));
-        }
+            AddComment(UsePrivateVisibility(fieldName));
 
         if (!solution.IsRoundMethodCalledInDisplayWeightProperty())
-        {
-            solution.AddComment(WeighingMachineComments.RoundMethodNotCalledInDisplayWeightProperty);
-        }
-
-        return solution.HasComments
-            ? solution.Disapprove()
-            : solution.ContinueAnalysis();
-    }
-
-    protected override SolutionAnalysis ApproveWhenValid(WeighingMachineSolution solution)
-    {
+            AddComment(WeighingMachineComments.RoundMethodNotCalledInDisplayWeightProperty);
+                
         if (!solution.TareAdjustmentHasInitializer)
-        {
-            solution.AddComment(SharedComments.PropertyBetterUseInitializer("TareAdjustment"));
-        }
+            AddComment(PropertyBetterUseInitializer("TareAdjustment"));
 
-        return solution.Approve();
+        return Analysis;
     }
 }

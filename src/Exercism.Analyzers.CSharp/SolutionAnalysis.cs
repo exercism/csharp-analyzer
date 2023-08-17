@@ -20,7 +20,7 @@ internal static class SolutionAnalyzer
             Exercises.Gigasecond => new GigasecondAnalyzer().Analyze(new GigasecondSolution(solution)),
             Exercises.Leap => new LeapAnalyzer().Analyze(new LeapSolution(solution)),
             Exercises.WeighingMachine => new WeighingMachineAnalyzer().Analyze(new WeighingMachineSolution(solution)),
-            _ => new DefaultExerciseAnalyzer().Analyze(new DefaultSolution(solution))
+            _ => new DefaultAnalyzer().Analyze(new DefaultSolution(solution))
         };
 }
 
