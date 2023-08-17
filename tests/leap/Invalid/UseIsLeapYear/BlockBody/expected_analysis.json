@@ -1,8 +1,8 @@
 {
-  "status": "disapprove",
   "comments": [
     {
       "comment": "csharp.leap.do_not_use_is_leap_year",
+      "type": "essential",
       "params": {}
     }
   ]

@@ -1,8 +1,8 @@
 {
-  "status": "disapprove",
   "comments": [
     {
       "comment": "csharp.general.invalid_method_signature",
+      "type": "essential",
       "params": {
         "name": "Speak",
         "signature": "public static string Speak(string name)"

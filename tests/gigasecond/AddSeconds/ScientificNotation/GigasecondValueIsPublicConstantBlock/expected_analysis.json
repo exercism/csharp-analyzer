@@ -1,14 +1,15 @@
 {
-  "status": "approve",
   "comments": [
     {
       "comment": "csharp.general.use_private_visibility",
+      "type": "actionable",
       "params": {
         "name": "Seconds"
       }
     },
     {
       "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
       "params": {
         "name": "Add"
       }

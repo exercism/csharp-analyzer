@@ -31,16 +31,16 @@ internal class Solution
     public SolutionAnalysis ContinueAnalysis() => null;
 
     public SolutionAnalysis Approve() =>
-        ToSolutionAnalysis(SolutionStatus.Approve, _comments.ToArray());
+        ToSolutionAnalysis(_comments.ToArray());
 
     public SolutionAnalysis Disapprove() =>
-        ToSolutionAnalysis(SolutionStatus.Disapprove, _comments.ToArray());
+        ToSolutionAnalysis(_comments.ToArray());
 
     public SolutionAnalysis ReferToMentor() =>
-        ToSolutionAnalysis(SolutionStatus.ReferToMentor, Array.Empty<SolutionComment>());
+        ToSolutionAnalysis(Array.Empty<SolutionComment>());
 
-    private static SolutionAnalysis ToSolutionAnalysis(SolutionStatus status, SolutionComment[] comments) =>
-        new(status, comments);
+    private static SolutionAnalysis ToSolutionAnalysis(SolutionComment[] comments) =>
+        new(comments);
 
     public bool WritesToConsole() =>
         SyntaxRoot.InvokesMethod("Console.Write") ||
