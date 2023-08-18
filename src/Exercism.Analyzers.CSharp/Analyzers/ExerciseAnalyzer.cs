@@ -10,16 +10,16 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 internal abstract class ExerciseAnalyzer<T> where T : Solution
 {
     private readonly List<SolutionComment> _comments = new();
-    private readonly HashSet<string> _tags = new();
+    private readonly SortedSet<string> _tags = new();
 
     protected void AddComment(SolutionComment comment) =>
         _comments.Add(comment);
 
     protected bool HasComments => _comments.Any();
 
-    protected SolutionAnalysis Analysis => new(_comments.ToArray(), _tags);
+    protected SolutionAnalysis Analysis => new(_comments.ToArray(), _tags.ToArray());
 
-    protected SolutionAnalysis AnalysisWithComment(SolutionComment comment) => new(new[] { comment }, _tags);
+    protected SolutionAnalysis AnalysisWithComment(SolutionComment comment) => new(new[] { comment }, _tags.ToArray());
 
     public SolutionAnalysis Analyze(T solution)
     {

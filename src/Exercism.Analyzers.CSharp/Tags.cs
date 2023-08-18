@@ -9,9 +9,9 @@ namespace Exercism.Representers.CSharp;
 
 internal class IdentifyTags : CSharpSyntaxRewriter
 {
-    private readonly HashSet<string> _tags;
+    private readonly ISet<string> _tags;
 
-    public IdentifyTags(HashSet<string> tags) => _tags = tags;
+    public IdentifyTags(ISet<string> tags) => _tags = tags;
 
     public override SyntaxNode VisitForStatement(ForStatementSyntax node)
     {
@@ -109,7 +109,60 @@ internal class IdentifyTags : CSharpSyntaxRewriter
 
         return base.VisitInvocationExpression(node);
     }
-    
+
+    public override SyntaxNode VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
+    {
+        _tags.Add(Tag.ConstructInterface);
+        
+        return base.VisitInterfaceDeclaration(node);
+    }
+
+    public override SyntaxNode VisitConditionalExpression(ConditionalExpressionSyntax node)
+    {
+        _tags.Add(Tag.ConstructTernary);
+        
+        return base.VisitConditionalExpression(node);
+    }
+
+    public override SyntaxToken VisitToken(SyntaxToken token)
+    {
+        var tag = token.Kind() switch
+        {
+            SyntaxKind.PublicKeyword => Tag.ConstructVisibilityModifiers,
+            SyntaxKind.ProtectedKeyword => Tag.ConstructVisibilityModifiers,
+            SyntaxKind.PrivateKeyword => Tag.ConstructVisibilityModifiers,
+            SyntaxKind.InternalKeyword => Tag.ConstructVisibilityModifiers,
+            SyntaxKind.ReturnKeyword => Tag.ConstructReturn,
+            SyntaxKind.BreakKeyword => Tag.ConstructBreak,
+            SyntaxKind.ContinueKeyword => Tag.ConstructContinue,
+            _ => null
+        };
+
+        if (tag != null)
+            _tags.Add(tag);
+
+        return base.VisitToken(token);
+    }
+
+    public override SyntaxNode VisitPropertyDeclaration(PropertyDeclarationSyntax node)
+    {
+        _tags.Add(Tag.ConstructProperty);
+
+        var getAccessor = node.AccessorList?.Accessors.FirstOrDefault(accessor => accessor.IsKind(SyntaxKind.GetAccessorDeclaration)); 
+        var setAccessor = node.AccessorList?.Accessors.FirstOrDefault(accessor => accessor.IsKind(SyntaxKind.SetAccessorDeclaration));
+
+        if (getAccessor != null)
+            _tags.Add(Tag.ConstructGetter);
+        
+        if (setAccessor != null)
+            _tags.Add(Tag.ConstructSetter);
+
+        if (getAccessor is {Body: null} && setAccessor is {Body: null})
+            _tags.Add(Tag.UsesAutoImplementedProperty);
+        
+        return base.VisitPropertyDeclaration(node);
+    }
+
     private static class Tag
     {
         // Paradigms
@@ -161,16 +214,22 @@ internal class IdentifyTags : CSharpSyntaxRewriter
         public const string ConstructBitwiseXor = "construct:bitwise-xor";
         public const string ConstructAsyncAwait = "construct:async-await";
         public const string ConstructLambda = "construct:lambda";
-        public const string ConstructExpressionBodiedMember = "construct:expression-bodied-member";
+        public const string ConstructField = "construct:field";
         public const string ConstructProperty = "construct:property";
-        public const string ConstructAutoImplementedProperty = "construct:auto-implemented-property";
+        public const string ConstructGetter = "construct:getter";
+        public const string ConstructSetter = "construct:setter";
         public const string ConstructIsCast = "construct:is-cast";
         public const string ConstructAsCast = "construct:as-cast";
         public const string ConstructCast = "construct:cast";
+        public const string ConstructVisibilityModifiers = "construct:visibility-modifiers";
+        public const string ConstructPatternMatching = "construct:pattern-matching";
+        public const string ConstructBreak = "construct:break";
+        public const string ConstructContinue = "construct:continue";
+        public const string ConstructReturn = "construct:return";
+        public const string ConstructTypeInference = "construct:type-inference";
         
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
-        
         public const string ConstructString = "construct:string";
         public const string ConstructIntegralNumber = "construct:integral-number";
         public const string ConstructFloatingPointNumber = "construct:floating-point-number";
@@ -180,10 +239,11 @@ internal class IdentifyTags : CSharpSyntaxRewriter
         public const string ConstructArray = "construct:array";
         public const string ConstructStack = "construct:stack";
         public const string ConstructQueue = "construct:queue";
-        public const string ConstructDictionary = "construct:dictionary";
+        public const string ConstructMap = "construct:map";
         public const string ConstructStruct = "construct:struct";
         public const string ConstructRecord = "construct:record";
         public const string ConstructClass = "construct:class";
+        public const string ConstructInterface = "construct:interface";
         
         // Constructs - notation
         public const string ConstructHexadecimalNumber = "construct:hexadecimal-number";
@@ -194,7 +254,9 @@ internal class IdentifyTags : CSharpSyntaxRewriter
         public const string ConstructStringInterpolation = "construct-string-interpolation";
         
         // Uses
-        public const string Linq = "uses:linq";
+        public const string UsesLinq = "uses:linq";
+        public const string UsesExpressionBodiedMember = "uses:expression-bodied-member";
+        public const string UsesAutoImplementedProperty = "uses:auto-implemented-property";
         
         // Uses - types
         public const string UsesDecimal = "uses:decimal";
@@ -211,7 +273,7 @@ internal class IdentifyTags : CSharpSyntaxRewriter
         public const string UsesNint = "uses:nint";
         public const string UsesNuint = "uses:nuint";
         public const string UsesSpan = "uses:span";
-        public const string UsesMemory = "uses:memory";        
+        public const string UsesMemory = "uses:memory";    
         
         // Uses - members
         public const string UsesDateTimeAddDays = "uses:DateTime.AddDays";

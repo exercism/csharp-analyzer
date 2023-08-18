@@ -10,7 +10,7 @@ using Exercism.Analyzers.CSharp.Analyzers.WeighingMachine;
 
 namespace Exercism.Analyzers.CSharp;
 
-internal record SolutionAnalysis(SolutionComment[] Comments, HashSet<string> Tags);
+internal record SolutionAnalysis(SolutionComment[] Comments, string[] Tags);
 
 internal static class SolutionAnalyzer
 {
@@ -84,7 +84,7 @@ internal static class SolutionAnalysisWriter
     private static void WriteCommentParameter(this Utf8JsonWriter jsonTextWriter, SolutionCommentParameter parameter) =>
         jsonTextWriter.WriteString(parameter.Key, parameter.Value);
 
-    private static void WriteTags(this Utf8JsonWriter jsonTextWriter, HashSet<string> tags)
+    private static void WriteTags(this Utf8JsonWriter jsonTextWriter, string[] tags)
     {
         jsonTextWriter.WriteStartArray("tags");
 
