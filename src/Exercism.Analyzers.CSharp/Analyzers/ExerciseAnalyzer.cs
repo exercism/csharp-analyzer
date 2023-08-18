@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Exercism.Representers.CSharp;
+
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
@@ -8,18 +10,21 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 internal abstract class ExerciseAnalyzer<T> where T : Solution
 {
     private readonly List<SolutionComment> _comments = new();
+    private readonly HashSet<string> _tags = new();
 
-    public void AddComment(SolutionComment comment) =>
+    protected void AddComment(SolutionComment comment) =>
         _comments.Add(comment);
 
-    public bool HasComments => _comments.Any();
+    protected bool HasComments => _comments.Any();
 
-    public SolutionAnalysis Analysis => new(_comments.ToArray());
+    protected SolutionAnalysis Analysis => new(_comments.ToArray(), _tags);
 
-    public SolutionAnalysis AnalysisWithComment(SolutionComment comment) => new(new[] { comment });
+    protected SolutionAnalysis AnalysisWithComment(SolutionComment comment) => new(new[] { comment }, _tags);
 
     public SolutionAnalysis Analyze(T solution)
     {
+        new IdentifyTags(_tags).Visit(solution.SyntaxRoot);
+
         if (solution.NoImplementationFileFound())
             return Analysis;
 
