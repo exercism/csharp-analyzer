@@ -17,7 +17,7 @@ public static class Program
     {
         Console.WriteLine($"Analyzing {options.Slug} solution in directory {options.InputDirectory}");
 
-        var solution = SolutionParser.Parse(options);
+        var solution = SolutionLoader.Load(options);
         var solutionAnalysis = SolutionAnalyzer.Analyze(solution);
         SolutionAnalysisWriter.WriteToFile(options, solutionAnalysis);
 

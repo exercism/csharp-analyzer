@@ -24,7 +24,7 @@ internal class GigasecondSolution : Solution
     private ClassDeclarationSyntax GigasecondClass =>
         SyntaxRoot.GetClass(GigasecondClassName);
 
-    private MethodDeclarationSyntax AddMethod =>
+    public MethodDeclarationSyntax AddMethod =>
         GigasecondClass?.GetMethod(AddMethodName);
 
     public bool MissingGigasecondClass =>

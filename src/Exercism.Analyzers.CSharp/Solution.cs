@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 using Exercism.Analyzers.CSharp.Syntax;
@@ -12,12 +11,18 @@ internal class Solution
 {
     public string Name { get; }
     public string Slug { get; }
+    public Compilation Compilation { get; }
+    public SyntaxTree SyntaxTree { get; }
     public SyntaxNode SyntaxRoot { get; }
+    public Lazy<SemanticModel> SemanticModel { get; }
+    
+    public Solution(string slug, string name, SyntaxTree syntaxTree, Compilation compilation)
+    {
+        (Slug, Name, SyntaxTree, SyntaxRoot, Compilation) = (slug, name, syntaxTree, syntaxTree.GetRoot(), compilation);
+        SemanticModel = new Lazy<SemanticModel>(() => Compilation.GetSemanticModel(SyntaxTree));
+    }
 
-    public Solution(string slug, string name, SyntaxNode syntaxRoot) =>
-        (Slug, Name, SyntaxRoot) = (slug, name, syntaxRoot);
-
-    protected Solution(Solution solution) : this(solution.Slug, solution.Slug, solution.SyntaxRoot)
+    protected Solution(Solution solution) : this(solution.Slug, solution.Slug, solution.SyntaxTree, solution.Compilation)
     {
     }
 
