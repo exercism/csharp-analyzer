@@ -10,4 +10,4 @@ internal enum SolutionCommentType
 
 internal record SolutionCommentParameter(string Key, string Value);
 
-internal record SolutionComment(string Comment, SolutionCommentType Type, params SolutionCommentParameter[] Parameters);
+internal record SolutionComment(string Text, SolutionCommentType Type, params SolutionCommentParameter[] Parameters);

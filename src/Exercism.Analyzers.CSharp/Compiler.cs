@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 
 using Exercism.Analyzers.CSharp.Syntax;
 
@@ -13,15 +16,9 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Exercism.Analyzers.CSharp;
 
-internal static class SolutionLoader
+internal static class Compiler
 {
-    public static Solution Load(Options options)
-    {
-        var syntaxTree = Parse(options);
-        return new Solution(options.Slug, GetSolutionName(options), syntaxTree, Compile(syntaxTree));
-    }
-
-    private static Compilation Compile(SyntaxTree syntaxTree) =>
+    public static CSharpCompilation Compile(SyntaxTree syntaxTree) =>
         CSharpCompilation.Create(AssemblyName(), new[] { syntaxTree }, References(), CompilationOptions());
 
     private static string AssemblyName() => Guid.NewGuid().ToString("N");
@@ -31,7 +28,7 @@ internal static class SolutionLoader
 
     private static SyntaxTree? Parse(Options options)
     {
-        var implementationFile = GetImplementationFile(options);
+        var implementationFile = EnumerateSolutionFiles(options);
         if (!implementationFile.Exists)
             return null;
         
@@ -40,16 +37,25 @@ internal static class SolutionLoader
         return CSharpSyntaxTree.ParseText(sourceText);
     }
 
-    private static FileInfo GetImplementationFile(Options options)
+    private static IEnumerable<FileInfo> EnumerateSolutionFiles(Options options)
     {
-        var implementationFileName = $"{GetSolutionName(options)}.cs";
-        var implementationFilePath = Path.GetFullPath(Path.Combine(options.InputDirectory, implementationFileName));
+        var testFiles = GetTestFiles(options);
 
-        return new FileInfo(implementationFilePath);
+        return Directory.EnumerateFiles(options.InputDirectory, "*.cs")
+            .Where(sourceFile => !testFiles.Contains(sourceFile))
+            .Select(sourceFile => new FileInfo(sourceFile));
     }
-    
+
+    private static string[] GetTestFiles(Options options)
+    {
+        var configJsonFilePath = Path.Combine(options.InputDirectory, ".meta", "config.json");
+        using var configJsonFile = new FileStream(configJsonFilePath, FileMode.Open);
+        var configJson = JsonObject.Parse(configJsonFile);
+        return configJson["files"]["test"].GetValue<string[]>();
+    }
+
     private static CSharpCompilationOptions CompilationOptions() =>
-        new(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Release);
+        new(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Debug);
 
     private static IEnumerable<PortableExecutableReference> References() =>
         ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES"))!.Split(Path.PathSeparator)

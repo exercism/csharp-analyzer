@@ -1,30 +1,9 @@
 using System.IO;
 using System.Text.Json;
 
-using Exercism.Analyzers.CSharp.Analyzers.Default;
-using Exercism.Analyzers.CSharp.Analyzers.Gigasecond;
-using Exercism.Analyzers.CSharp.Analyzers.Leap;
-using Exercism.Analyzers.CSharp.Analyzers.TwoFer;
-using Exercism.Analyzers.CSharp.Analyzers.WeighingMachine;
-
 namespace Exercism.Analyzers.CSharp;
 
-internal record SolutionAnalysis(SolutionComment[] Comments, string[] Tags);
-
-internal static class SolutionAnalyzer
-{
-    public static SolutionAnalysis Analyze(Solution solution) =>
-        solution.Slug switch
-        {
-            Exercises.TwoFer => new TwoFerAnalyzer().Analyze(new TwoFerSolution(solution)),
-            Exercises.Gigasecond => new GigasecondAnalyzer().Analyze(new GigasecondSolution(solution)),
-            Exercises.Leap => new LeapAnalyzer().Analyze(new LeapSolution(solution)),
-            Exercises.WeighingMachine => new WeighingMachineAnalyzer().Analyze(new WeighingMachineSolution(solution)),
-            _ => new DefaultAnalyzer().Analyze(new DefaultSolution(solution))
-        };
-}
-
-internal static class SolutionAnalysisWriter
+internal static class Output
 {
     private static readonly JsonWriterOptions JsonWriterOptions = new() {Indented = true};
     
@@ -64,7 +43,7 @@ internal static class SolutionAnalysisWriter
     }
 
     private static void WriteCommentText(this Utf8JsonWriter jsonTextWriter, SolutionComment comment) =>
-        jsonTextWriter.WriteString("comment", comment.Comment);
+        jsonTextWriter.WriteString("comment", comment.Text);
 
     private static void WriteCommentType(this Utf8JsonWriter jsonTextWriter, SolutionComment comment) =>
         jsonTextWriter.WriteString("type", comment.Type.ToString().ToLower());

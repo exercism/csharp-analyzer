@@ -17,9 +17,9 @@ public static class Program
     {
         Console.WriteLine($"Analyzing {options.Slug} solution in directory {options.InputDirectory}");
 
-        var solution = SolutionLoader.Load(options);
-        var solutionAnalysis = SolutionAnalyzer.Analyze(solution);
-        SolutionAnalysisWriter.WriteToFile(options, solutionAnalysis);
+        // var solution = Compiler.Load(options);
+        // var solutionAnalysis = SolutionAnalyzer.Analyze(solution);
+        // Output.WriteToFile(options, solutionAnalysis);
 
         Console.WriteLine($"Analyzed {options.Slug} solution in directory {options.InputDirectory}");
     }
