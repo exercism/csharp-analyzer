@@ -17,7 +17,7 @@ internal static class Loader
     {
         var syntaxTrees = await Parser.ParseSyntaxTrees(EnumerateSolutionFiles(options));
         var compilation = Compiler.Compile(syntaxTrees);
-        return new Solution(compilation);
+        return new Solution(options.Slug, compilation);
     }
     
     private static IEnumerable<FileInfo> EnumerateSolutionFiles(Options options)
