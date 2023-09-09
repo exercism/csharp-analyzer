@@ -7,13 +7,13 @@ internal static class Output
 {
     private static readonly JsonWriterOptions JsonWriterOptions = new() {Indented = true};
     
-    public static void WriteToFile(Options options, SolutionAnalysis solutionAnalysis)
+    public static void WriteToFile(Options options, Analysis analysis)
     {
         using var fileStream = File.Create(GetAnalysisFilePath(options));
         using var jsonWriter = new Utf8JsonWriter(fileStream, JsonWriterOptions);
         jsonWriter.WriteStartObject();
-        jsonWriter.WriteComments(solutionAnalysis.Comments);
-        jsonWriter.WriteTags(solutionAnalysis.Tags);
+        jsonWriter.WriteComments(analysis.Comments);
+        jsonWriter.WriteTags(analysis.Tags);
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
         fileStream.WriteByte((byte)'\n');
@@ -22,7 +22,7 @@ internal static class Output
     private static string GetAnalysisFilePath(Options options) =>
         Path.GetFullPath(Path.Combine(options.OutputDirectory, "analysis.json"));
 
-    private static void WriteComments(this Utf8JsonWriter jsonTextWriter, SolutionComment[] comments)
+    private static void WriteComments(this Utf8JsonWriter jsonTextWriter, Comment[] comments)
     {
         jsonTextWriter.WritePropertyName("comments");
         jsonTextWriter.WriteStartArray();
@@ -33,7 +33,7 @@ internal static class Output
         jsonTextWriter.WriteEndArray();
     }
 
-    private static void WriteComment(this Utf8JsonWriter jsonTextWriter, SolutionComment comment)
+    private static void WriteComment(this Utf8JsonWriter jsonTextWriter, Comment comment)
     {
         jsonTextWriter.WriteStartObject();
         jsonTextWriter.WriteCommentText(comment);
@@ -42,13 +42,13 @@ internal static class Output
         jsonTextWriter.WriteEndObject();
     }
 
-    private static void WriteCommentText(this Utf8JsonWriter jsonTextWriter, SolutionComment comment) =>
+    private static void WriteCommentText(this Utf8JsonWriter jsonTextWriter, Comment comment) =>
         jsonTextWriter.WriteString("comment", comment.Text);
 
-    private static void WriteCommentType(this Utf8JsonWriter jsonTextWriter, SolutionComment comment) =>
+    private static void WriteCommentType(this Utf8JsonWriter jsonTextWriter, Comment comment) =>
         jsonTextWriter.WriteString("type", comment.Type.ToString().ToLower());
 
-    private static void WriteCommentParameters(this Utf8JsonWriter jsonTextWriter, SolutionComment comment)
+    private static void WriteCommentParameters(this Utf8JsonWriter jsonTextWriter, Comment comment)
     {
         jsonTextWriter.WritePropertyName("params");
         jsonTextWriter.WriteStartObject();
@@ -59,7 +59,7 @@ internal static class Output
         jsonTextWriter.WriteEndObject();
     }
 
-    private static void WriteCommentParameter(this Utf8JsonWriter jsonTextWriter, SolutionCommentParameter parameter) =>
+    private static void WriteCommentParameter(this Utf8JsonWriter jsonTextWriter, CommentParameter parameter) =>
         jsonTextWriter.WriteString(parameter.Key, parameter.Value);
 
     private static void WriteTags(this Utf8JsonWriter jsonTextWriter, string[] tags)
