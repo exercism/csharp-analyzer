@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
@@ -34,7 +35,7 @@ internal static class Loader
         var configJsonFilePath = Path.Combine(options.InputDirectory, ".meta", "config.json");
         using var configJsonFile = new FileStream(configJsonFilePath, FileMode.Open);
         var configJson = JsonNode.Parse(configJsonFile);
-        return configJson["files"]["test"].GetValue<string[]>();
+        return configJson["files"]["test"].Deserialize<string[]>();
     }
 }
 

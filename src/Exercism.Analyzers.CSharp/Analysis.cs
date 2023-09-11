@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ObjectiveC;
 
 using Exercism.Analyzers.CSharp.Exercises;
 
@@ -9,9 +11,13 @@ namespace Exercism.Analyzers.CSharp;
 
 internal record Solution(string Slug, Compilation Compilation);
 
-internal record Analysis(Comment[] Comments, string[] Tags)
+internal record Analysis(HashSet<Comment> Comments, HashSet<string> Tags)
 {
-    public static Analysis Empty = new(Array.Empty<Comment>(), Array.Empty<string>());
+    public static readonly Analysis Empty = new(new HashSet<Comment>(), new HashSet<string>());
+
+    public Analysis() : this(new HashSet<Comment>(), new HashSet<string>())
+    {
+    }
 }
 
 internal static class Analyzer

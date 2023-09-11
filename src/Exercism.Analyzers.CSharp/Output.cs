@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
@@ -22,7 +23,7 @@ internal static class Output
     private static string GetAnalysisFilePath(Options options) =>
         Path.GetFullPath(Path.Combine(options.OutputDirectory, "analysis.json"));
 
-    private static void WriteComments(this Utf8JsonWriter jsonTextWriter, Comment[] comments)
+    private static void WriteComments(this Utf8JsonWriter jsonTextWriter, HashSet<Comment> comments)
     {
         jsonTextWriter.WritePropertyName("comments");
         jsonTextWriter.WriteStartArray();
@@ -62,7 +63,7 @@ internal static class Output
     private static void WriteCommentParameter(this Utf8JsonWriter jsonTextWriter, CommentParameter parameter) =>
         jsonTextWriter.WriteString(parameter.Key, parameter.Value);
 
-    private static void WriteTags(this Utf8JsonWriter jsonTextWriter, string[] tags)
+    private static void WriteTags(this Utf8JsonWriter jsonTextWriter, HashSet<string> tags)
     {
         jsonTextWriter.WriteStartArray("tags");
 
