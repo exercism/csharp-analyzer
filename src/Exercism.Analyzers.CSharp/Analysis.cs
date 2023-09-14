@@ -23,7 +23,10 @@ internal static class Analyzer
         
         return solution.Slug switch
         {
+            "leap" => LeapAnalyzer.Analyze(solution),
             "gigasecond" => GigasecondAnalyzer.Analyze(solution),
+            "two-fer" => TwoFerAnalyzer.Analyze(solution),
+            "weighing-machine" => WeighingMachineAnalyzer.Analyze(solution),
             _ => Analysis.Empty
         };
     }
