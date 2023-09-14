@@ -9,9 +9,9 @@ namespace Exercism.Analyzers.CSharp;
 
 internal record Solution(string Slug, Compilation Compilation);
 
-internal record Analysis(HashSet<Comment> Comments, HashSet<string> Tags)
+internal record Analysis(List<Comment> Comments, List<string> Tags)
 {
-    public static Analysis Empty => new(new HashSet<Comment>(), new HashSet<string>());
+    public static Analysis Empty => new(new List<Comment>(), new List<string>());
 
     public void AddComment(Comment comment) => Comments.Add(comment);
     public void AddTag(string tag) => Tags.Add(tag);

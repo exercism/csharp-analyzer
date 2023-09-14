@@ -12,8 +12,10 @@ internal class ExerciseAnalyzer
 
     public Analysis Analyze(Solution solution)
     {
-        AnalyzeCommon(solution);
+        // We start with the exercise-specific analysis to have those comments
+        // listed first, which are likely the most relevant comments to the student
         AnalyzeExerciseSpecific(solution);
+        AnalyzeCommon(solution);
 
         return Analysis;
     }
