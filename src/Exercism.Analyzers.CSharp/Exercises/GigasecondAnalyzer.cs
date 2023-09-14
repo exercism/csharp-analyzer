@@ -39,8 +39,8 @@ internal static class GigasecondAnalyzer
             base.VisitInvocationExpression(node);
         }
     }
-    
-    internal static class Comments
+
+    private static class Comments
     {
         public static readonly Comment UseAddSeconds = new("csharp.gigasecond.use_add_seconds", CommentType.Actionable);
         public static readonly Comment DoNotCreateDateTime = new("csharp.gigasecond.do_not_create_datetime", CommentType.Essential);
