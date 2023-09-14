@@ -24,7 +24,7 @@ internal static class GigasecondAnalyzer
     {
         private readonly Compilation _compilation;
 
-        public bool UsesDateTimeAddSeconds = false;
+        public bool UsesDateTimeAddSeconds;
 
         public SyntaxWalker(Compilation compilation) => _compilation = compilation;
 
