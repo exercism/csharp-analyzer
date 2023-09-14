@@ -13,11 +13,7 @@ internal record Solution(string Slug, Compilation Compilation);
 
 internal record Analysis(HashSet<Comment> Comments, HashSet<string> Tags)
 {
-    public static readonly Analysis Empty = new(new HashSet<Comment>(), new HashSet<string>());
-
-    public Analysis() : this(new HashSet<Comment>(), new HashSet<string>())
-    {
-    }
+    public static Analysis Empty => new(new HashSet<Comment>(), new HashSet<string>());
 }
 
 internal static class Analyzer
@@ -26,17 +22,22 @@ internal static class Analyzer
     {
         if (solution.HasCompilationErrors())
             return Analysis.Empty; // We can't really analyze the solution when there are compilation errors
-        
-        return solution.Slug switch
-        {
-            "leap" => LeapAnalyzer.Analyze(solution),
-            "gigasecond" => GigasecondAnalyzer.Analyze(solution),
-            "two-fer" => TwoFerAnalyzer.Analyze(solution),
-            "weighing-machine" => WeighingMachineAnalyzer.Analyze(solution),
-            _ => Analysis.Empty
-        };
+
+        var analyzer = CreateExerciseAnalyzer(solution);
+        analyzer.Analyze(solution);
+        return analyzer.Analysis;
     }
 
     private static bool HasCompilationErrors(this Solution solution) =>
         solution.Compilation.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
+    
+    private static ExerciseAnalyzer CreateExerciseAnalyzer(Solution solution) =>
+        solution.Slug switch
+        {
+            "leap" => new LeapAnalyzer(),
+            "gigasecond" => new GigasecondAnalyzer(),
+            "two-fer" => new TwoFerAnalyzer(),
+            "weighing-machine" => new WeighingMachineAnalyzer(),
+            _ => new ExerciseAnalyzer()
+        };
 }

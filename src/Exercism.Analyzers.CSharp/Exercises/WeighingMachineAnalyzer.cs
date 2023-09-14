@@ -1,10 +1,10 @@
 ﻿namespace Exercism.Analyzers.CSharp.Exercises;
 
-internal static class WeighingMachineAnalyzer
+internal class WeighingMachineAnalyzer : ExerciseAnalyzer
 {
-    public static Analysis Analyze(Solution solution)
+    protected override void AnalyzeExerciseSpecific(Solution solution)
     {
-        return Analysis.Empty;
+        // TODO
     }
 }
 

@@ -1,10 +1,22 @@
 ﻿namespace Exercism.Analyzers.CSharp.Exercises;
 
-internal static class DefaultAnalyzer
+internal class ExerciseAnalyzer
 {
-    public static Analysis Analyze(Solution solution)
+    public readonly Analysis Analysis = Analysis.Empty;
+    
+    public void Analyze(Solution solution)
     {
-        return Analysis.Empty;
+        AnalyzeCommon(solution);
+        AnalyzeExerciseSpecific(solution);
+    }
+
+    private void AnalyzeCommon(Solution solution)
+    {
+        // TODO
+    }
+
+    protected virtual void AnalyzeExerciseSpecific(Solution solution)
+    {
     }
 }
 

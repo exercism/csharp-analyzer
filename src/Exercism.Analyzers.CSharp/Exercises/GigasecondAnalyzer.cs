@@ -4,20 +4,19 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Exercises;
 
-internal static class GigasecondAnalyzer
+internal class GigasecondAnalyzer : ExerciseAnalyzer
 {
-    public static Analysis Analyze(Solution solution)
+    protected override void AnalyzeExerciseSpecific(Solution solution)
     {
-        var analysis = new Analysis();
         var visitor = new SyntaxWalker(solution.Compilation);
 
         foreach (var syntaxTree in solution.Compilation.SyntaxTrees)
             visitor.Visit(syntaxTree.GetRoot());
 
         if (!visitor.UsesDateTimeAddSeconds)
-            analysis.Comments.Add(Comments.UseAddSeconds);
-
-        return analysis;
+            Analysis.Comments.Add(Comments.UseAddSeconds);
+        
+        base.Analyze(solution);
     }
 
     private class SyntaxWalker : CSharpSyntaxWalker
