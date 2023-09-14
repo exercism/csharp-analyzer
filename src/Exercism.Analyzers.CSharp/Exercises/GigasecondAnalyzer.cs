@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
@@ -14,13 +13,15 @@ internal class GigasecondAnalyzer : ExerciseAnalyzer
         var syntaxWalker = new SyntaxWalker(solution.Compilation, Analysis);
 
         foreach (var syntaxTree in solution.Compilation.SyntaxTrees)
+        {
             syntaxWalker.Visit(syntaxTree.GetRoot());
+        }
     }
 
     private class SyntaxWalker : CSharpSyntaxWalker
     {
-        private readonly Compilation _compilation;
         private readonly Analysis _analysis;
+        private readonly Compilation _compilation;
 
         public SyntaxWalker(Compilation compilation, Analysis analysis) =>
             (_compilation, _analysis) = (compilation, analysis);
@@ -37,7 +38,9 @@ internal class GigasecondAnalyzer : ExerciseAnalyzer
 
                     var argument = node.ArgumentList.Arguments[0].Expression.ToString();
                     if (argument.All(char.IsDigit))
-                        _analysis.Comments.Add((Comments.UseScientificNotationOrDigitSeparators(argument)));
+                    {
+                        _analysis.Comments.Add(Comments.UseScientificNotationOrDigitSeparators(argument));
+                    }
 
                     break;
                 case "System.Math.Pow(double, double)" when node.ArgumentList.ToString() == "(10,9)":
@@ -54,8 +57,10 @@ internal class GigasecondAnalyzer : ExerciseAnalyzer
             var methodSymbol = semanticModel.GetSymbolInfo(node);
 
             if (methodSymbol.ToString() == "System.DateTime.DateTime(long)")
+            {
                 _analysis.Comments.Add(Comments.DoNotCreateDateTime);
-            
+            }
+
             base.VisitObjectCreationExpression(node);
         }
     }
@@ -63,12 +68,16 @@ internal class GigasecondAnalyzer : ExerciseAnalyzer
     private static class Comments
     {
         public static readonly Comment UseAddSeconds = new("csharp.gigasecond.use_add_seconds", CommentType.Actionable);
-        public static readonly Comment DoNotCreateDateTime = new("csharp.gigasecond.do_not_create_datetime", CommentType.Essential);
+
+        public static readonly Comment DoNotCreateDateTime =
+            new("csharp.gigasecond.do_not_create_datetime", CommentType.Essential);
 
         public static Comment UseScientificNotationNotMathPow(string currentValue) =>
-            new("csharp.gigasecond.use_1e9_not_math_pow", CommentType.Informative, new CommentParameter("value", currentValue));
+            new("csharp.gigasecond.use_1e9_not_math_pow", CommentType.Informative,
+                new CommentParameter("value", currentValue));
 
         public static Comment UseScientificNotationOrDigitSeparators(string currentValue) =>
-            new("csharp.gigasecond.use_1e9_or_digit_separator", CommentType.Informative, new CommentParameter("value", currentValue));
+            new("csharp.gigasecond.use_1e9_or_digit_separator", CommentType.Informative,
+                new CommentParameter("value", currentValue));
     }
 }

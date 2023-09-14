@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp;
 internal static class Output
 {
     private static readonly JsonWriterOptions JsonWriterOptions = new() {Indented = true};
-    
+
     public static void WriteToFile(Options options, Analysis analysis)
     {
         using var fileStream = File.Create(GetAnalysisFilePath(options));
@@ -29,7 +29,9 @@ internal static class Output
         jsonTextWriter.WriteStartArray();
 
         foreach (var comment in comments)
+        {
             jsonTextWriter.WriteComment(comment);
+        }
 
         jsonTextWriter.WriteEndArray();
     }
@@ -55,7 +57,9 @@ internal static class Output
         jsonTextWriter.WriteStartObject();
 
         foreach (var parameter in comment.Parameters)
+        {
             jsonTextWriter.WriteCommentParameter(parameter);
+        }
 
         jsonTextWriter.WriteEndObject();
     }
@@ -68,8 +72,10 @@ internal static class Output
         jsonTextWriter.WriteStartArray("tags");
 
         foreach (var tag in tags)
+        {
             jsonTextWriter.WriteStringValue(tag);
-        
+        }
+
         jsonTextWriter.WriteEndArray();
     }
 }

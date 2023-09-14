@@ -20,7 +20,7 @@ internal static class Loader
         var compilation = Compiler.Compile(syntaxTrees);
         return new Solution(options.Slug, compilation);
     }
-    
+
     private static IEnumerable<FileInfo> EnumerateSolutionFiles(Options options)
     {
         var testFiles = GetTestFiles(options);

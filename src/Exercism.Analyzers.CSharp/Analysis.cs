@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ObjectiveC;
 
 using Exercism.Analyzers.CSharp.Exercises;
 
@@ -24,19 +22,17 @@ internal static class Analyzer
     public static Analysis Analyze(Solution solution)
     {
         if (solution.HasCompilationErrors())
+        {
             return Analysis.Empty; // We can't really analyze the solution when there are compilation errors
+        }
 
         var analyzer = CreateExerciseAnalyzer(solution);
-        analyzer.Analyze(solution);
-        
-        
-        
-        return analyzer.Analysis;
+        return analyzer.Analyze(solution);
     }
 
     private static bool HasCompilationErrors(this Solution solution) =>
         solution.Compilation.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
-    
+
     private static ExerciseAnalyzer CreateExerciseAnalyzer(Solution solution) =>
         solution.Slug switch
         {
