@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -10,10 +11,10 @@ internal class GigasecondAnalyzer : ExerciseAnalyzer
 {
     protected override void AnalyzeExerciseSpecific(Solution solution)
     {
-        var visitor = new SyntaxWalker(solution.Compilation, Analysis);
+        var syntaxWalker = new SyntaxWalker(solution.Compilation, Analysis);
 
         foreach (var syntaxTree in solution.Compilation.SyntaxTrees)
-            visitor.Visit(syntaxTree.GetRoot());
+            syntaxWalker.Visit(syntaxTree.GetRoot());
     }
 
     private class SyntaxWalker : CSharpSyntaxWalker
@@ -35,7 +36,7 @@ internal class GigasecondAnalyzer : ExerciseAnalyzer
                     _analysis.Comments.Add(Comments.UseAddSeconds);
 
                     var argument = node.ArgumentList.Arguments[0].Expression.ToString();
-                    if (argument.Contains('e', StringComparison.OrdinalIgnoreCase) || !argument.Contains("_"))
+                    if (argument.All(char.IsDigit))
                         _analysis.Comments.Add((Comments.UseScientificNotationOrDigitSeparators(argument)));
 
                     break;
@@ -64,10 +65,10 @@ internal class GigasecondAnalyzer : ExerciseAnalyzer
         public static readonly Comment UseAddSeconds = new("csharp.gigasecond.use_add_seconds", CommentType.Actionable);
         public static readonly Comment DoNotCreateDateTime = new("csharp.gigasecond.do_not_create_datetime", CommentType.Essential);
 
-        public static Comment UseScientificNotationNotMathPow(string gigasecondValue) =>
-            new("csharp.gigasecond.use_1e9_not_math_pow", CommentType.Informative, new CommentParameter("value", gigasecondValue));
+        public static Comment UseScientificNotationNotMathPow(string currentValue) =>
+            new("csharp.gigasecond.use_1e9_not_math_pow", CommentType.Informative, new CommentParameter("value", currentValue));
 
-        public static Comment UseScientificNotationOrDigitSeparators(string gigasecondValue) =>
-            new("csharp.gigasecond.use_1e9_or_digit_separator", CommentType.Informative, new CommentParameter("value", gigasecondValue));
+        public static Comment UseScientificNotationOrDigitSeparators(string currentValue) =>
+            new("csharp.gigasecond.use_1e9_or_digit_separator", CommentType.Informative, new CommentParameter("value", currentValue));
     }
 }

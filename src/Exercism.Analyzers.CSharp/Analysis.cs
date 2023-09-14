@@ -14,6 +14,9 @@ internal record Solution(string Slug, Compilation Compilation);
 internal record Analysis(HashSet<Comment> Comments, HashSet<string> Tags)
 {
     public static Analysis Empty => new(new HashSet<Comment>(), new HashSet<string>());
+
+    public void AddComment(Comment comment) => Comments.Add(comment);
+    public void AddTag(string tag) => Tags.Add(tag);
 }
 
 internal static class Analyzer
@@ -25,6 +28,9 @@ internal static class Analyzer
 
         var analyzer = CreateExerciseAnalyzer(solution);
         analyzer.Analyze(solution);
+        
+        
+        
         return analyzer.Analysis;
     }
 
