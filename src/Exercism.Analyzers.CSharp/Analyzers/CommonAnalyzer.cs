@@ -9,7 +9,7 @@ internal class CommonAnalyzer : Analyzer
     {
         if (node.Body is {Statements: [ReturnStatementSyntax]})
         {
-            _analysis.AddComment(Comments.UseExpressionBodiedMember(node.Identifier.Text));
+            AddComment(Comments.UseExpressionBodiedMember(node.Identifier.Text));
         }
 
         base.VisitMethodDeclaration(node);

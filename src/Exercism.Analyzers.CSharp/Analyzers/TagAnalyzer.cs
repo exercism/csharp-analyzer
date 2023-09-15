@@ -10,31 +10,31 @@ internal class TagAnalyzer : Analyzer
 {
     public override void VisitForStatement(ForStatementSyntax node)
     {
-        _analysis.AddTag(Tag.ConstructFor);
+        AddTag(Tag.ConstructFor);
         base.VisitForStatement(node);
     }
 
     public override void VisitForEachStatement(ForEachStatementSyntax node)
     {
-        _analysis.AddTag(Tag.ConstructForeach);
+        AddTag(Tag.ConstructForeach);
         base.VisitForEachStatement(node);
     }
 
     public override void VisitIfStatement(IfStatementSyntax node)
     {
-        _analysis.AddTag(Tag.ConstructIf);
+        AddTag(Tag.ConstructIf);
         base.VisitIfStatement(node);
     }
 
     public override void VisitSwitchStatement(SwitchStatementSyntax node)
     {
-        _analysis.AddTag(Tag.ConstructSwitch);
+        AddTag(Tag.ConstructSwitch);
         base.VisitSwitchStatement(node);
     }
 
     public override void VisitSwitchExpression(SwitchExpressionSyntax node)
     {
-        _analysis.AddTag(Tag.ConstructSwitchExpression);
+        AddTag(Tag.ConstructSwitchExpression);
         base.VisitSwitchExpression(node);
     }
 
@@ -42,10 +42,10 @@ internal class TagAnalyzer : Analyzer
     {
         if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ThisKeyword)))
         {
-            _analysis.AddTag(Tag.ConstructExtensionMethod);
+            AddTag(Tag.ConstructExtensionMethod);
         }
 
-        _analysis.AddTag(Tag.ConstructParameter);
+        AddTag(Tag.ConstructParameter);
 
         base.VisitParameter(node);
     }
@@ -54,10 +54,10 @@ internal class TagAnalyzer : Analyzer
     {
         if (node.TypeParameterList != null)
         {
-            _analysis.AddTag(Tag.ConstructGenericMethod);
+            AddTag(Tag.ConstructGenericMethod);
         }
 
-        _analysis.AddTag(Tag.ConstructMethod);
+        AddTag(Tag.ConstructMethod);
 
         base.VisitMethodDeclaration(node);
     }
@@ -66,10 +66,10 @@ internal class TagAnalyzer : Analyzer
     {
         if (node.TypeParameterList != null)
         {
-            _analysis.AddTag(Tag.ConstructGenericType);
+            AddTag(Tag.ConstructGenericType);
         }
 
-        _analysis.AddTag(Tag.ConstructClass);
+        AddTag(Tag.ConstructClass);
 
         base.VisitClassDeclaration(node);
     }
@@ -78,10 +78,10 @@ internal class TagAnalyzer : Analyzer
     {
         if (node.TypeParameterList != null)
         {
-            _analysis.AddTag(Tag.ConstructGenericType);
+            AddTag(Tag.ConstructGenericType);
         }
 
-        _analysis.AddTag(Tag.ConstructStruct);
+        AddTag(Tag.ConstructStruct);
 
         base.VisitStructDeclaration(node);
     }
@@ -90,17 +90,17 @@ internal class TagAnalyzer : Analyzer
     {
         if (node.TypeParameterList != null)
         {
-            _analysis.AddTag(Tag.ConstructGenericType);
+            AddTag(Tag.ConstructGenericType);
         }
 
-        _analysis.AddTag(Tag.ConstructRecord);
+        AddTag(Tag.ConstructRecord);
 
         base.VisitRecordDeclaration(node);
     }
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        _analysis.AddTag(Tag.ConstructInvocation);
+        AddTag(Tag.ConstructInvocation);
 
         if (node.Expression is IdentifierNameSyntax identifierName)
         {
@@ -112,7 +112,7 @@ internal class TagAnalyzer : Analyzer
                 parent is LocalFunctionStatementSyntax localFunctionStatement &&
                 localFunctionStatement.Identifier.Text == identifierName.Identifier.Text)
             {
-                _analysis.AddTag(Tag.TechniqueRecursion);
+                AddTag(Tag.TechniqueRecursion);
             }
         }
 
@@ -121,14 +121,14 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
     {
-        _analysis.AddTag(Tag.ConstructInterface);
+        AddTag(Tag.ConstructInterface);
 
         base.VisitInterfaceDeclaration(node);
     }
 
     public override void VisitConditionalExpression(ConditionalExpressionSyntax node)
     {
-        _analysis.AddTag(Tag.ConstructTernary);
+        AddTag(Tag.ConstructTernary);
 
         base.VisitConditionalExpression(node);
     }
@@ -149,7 +149,7 @@ internal class TagAnalyzer : Analyzer
 
         if (tag != null)
         {
-            _analysis.AddTag(tag);
+            AddTag(tag);
         }
 
         base.VisitToken(token);
@@ -157,7 +157,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
     {
-        _analysis.AddTag(Tag.ConstructProperty);
+        AddTag(Tag.ConstructProperty);
 
         var getAccessor =
             node.AccessorList?.Accessors.FirstOrDefault(accessor =>
@@ -168,17 +168,17 @@ internal class TagAnalyzer : Analyzer
 
         if (getAccessor != null)
         {
-            _analysis.AddTag(Tag.ConstructGetter);
+            AddTag(Tag.ConstructGetter);
         }
 
         if (setAccessor != null)
         {
-            _analysis.AddTag(Tag.ConstructSetter);
+            AddTag(Tag.ConstructSetter);
         }
 
         if (getAccessor is {Body: null} && setAccessor is {Body: null})
         {
-            _analysis.AddTag(Tag.UsesAutoImplementedProperty);
+            AddTag(Tag.UsesAutoImplementedProperty);
         }
 
         base.VisitPropertyDeclaration(node);

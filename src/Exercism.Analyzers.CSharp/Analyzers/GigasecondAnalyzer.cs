@@ -10,23 +10,23 @@ internal class GigasecondAnalyzer : Analyzer
 {
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        var semanticModel = _compilation.GetSemanticModel(node.SyntaxTree);
+        var semanticModel = GetSemanticModel(node.SyntaxTree);
         var invocationSymbol = semanticModel.GetSymbolInfo(node);
 
         switch (invocationSymbol.Symbol?.ToString())
         {
             case "System.DateTime.AddSeconds(double)":
-                _analysis.Comments.Add(Comments.UseAddSeconds);
+                AddComment(Comments.UseAddSeconds);
 
                 var argument = node.ArgumentList.Arguments[0].Expression.ToString();
                 if (argument.All(char.IsDigit))
                 {
-                    _analysis.Comments.Add(Comments.UseScientificNotationOrDigitSeparators(argument));
+                    AddComment(Comments.UseScientificNotationOrDigitSeparators(argument));
                 }
 
                 break;
             case "System.Math.Pow(double, double)" when node.ArgumentList.ToString() == "(10,9)":
-                _analysis.Comments.Add(Comments.UseScientificNotationNotMathPow(node.ToString()));
+                AddComment(Comments.UseScientificNotationNotMathPow(node.ToString()));
                 break;
         }
 
@@ -35,13 +35,11 @@ internal class GigasecondAnalyzer : Analyzer
 
     public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
     {
-        var semanticModel = _compilation.GetSemanticModel(node.SyntaxTree);
+        var semanticModel = GetSemanticModel(node.SyntaxTree);
         var methodSymbol = semanticModel.GetSymbolInfo(node);
 
         if (methodSymbol.ToString() == "System.DateTime.DateTime(long)")
-        {
-            _analysis.Comments.Add(Comments.DoNotCreateDateTime);
-        }
+            AddComment(Comments.DoNotCreateDateTime);
 
         base.VisitObjectCreationExpression(node);
     }

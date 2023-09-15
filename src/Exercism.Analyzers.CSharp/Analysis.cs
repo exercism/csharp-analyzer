@@ -10,15 +10,12 @@ namespace Exercism.Analyzers.CSharp;
 internal record Analysis(List<Comment> Comments, List<string> Tags)
 {
     public static Analysis Empty => new(new List<Comment>(), new List<string>());
-
-    public void AddComment(Comment comment) => Comments.Add(comment);
-    public void AddTag(string tag) => Tags.Add(tag);
 }
 
 internal abstract class Analyzer : CSharpSyntaxWalker
 {
-    protected Analysis _analysis;
-    protected Compilation _compilation;
+    private Analysis _analysis;
+    private Compilation _compilation;
     
     public static Analysis Analyze(Solution solution)
     {
@@ -32,6 +29,11 @@ internal abstract class Analyzer : CSharpSyntaxWalker
 
         return analysis;
     }
+    
+    protected SemanticModel GetSemanticModel(SyntaxTree tree) => _compilation.GetSemanticModel(tree);
+    
+    protected void AddComment(Comment comment) => _analysis.Comments.Add(comment);
+    protected void AddTag(string tag) => _analysis.Tags.Add(tag);
 
     private void Analyze(Compilation compilation, Analysis analysis)
     {
