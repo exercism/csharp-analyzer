@@ -6,13 +6,13 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Exercises;
 
-internal class GigasecondAnalyzer : ExerciseAnalyzer
+internal record GigasecondAnalyzer(Solution Solution) : ExerciseAnalyzer(Solution)
 {
-    protected override void AnalyzeExerciseSpecific(Solution solution)
+    protected override void AnalyzeExerciseSpecific()
     {
-        var syntaxWalker = new SyntaxWalker(solution.Compilation, Analysis);
+        var syntaxWalker = new SyntaxWalker(Solution.Compilation, Analysis);
 
-        foreach (var syntaxTree in solution.Compilation.SyntaxTrees)
+        foreach (var syntaxTree in Solution.Compilation.SyntaxTrees)
         {
             syntaxWalker.Visit(syntaxTree.GetRoot());
         }

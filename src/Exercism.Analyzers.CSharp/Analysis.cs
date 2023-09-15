@@ -27,7 +27,7 @@ internal static class Analyzer
         }
 
         var analyzer = CreateExerciseAnalyzer(solution);
-        return analyzer.Analyze(solution);
+        return analyzer.Analyze();
     }
 
     private static bool HasCompilationErrors(this Solution solution) =>
@@ -36,10 +36,10 @@ internal static class Analyzer
     private static ExerciseAnalyzer CreateExerciseAnalyzer(Solution solution) =>
         solution.Slug switch
         {
-            "leap" => new LeapAnalyzer(),
-            "gigasecond" => new GigasecondAnalyzer(),
-            "two-fer" => new TwoFerAnalyzer(),
-            "weighing-machine" => new WeighingMachineAnalyzer(),
-            _ => new ExerciseAnalyzer()
+            "leap" => new LeapAnalyzer(solution),
+            "gigasecond" => new GigasecondAnalyzer(solution),
+            "two-fer" => new TwoFerAnalyzer(solution),
+            "weighing-machine" => new WeighingMachineAnalyzer(solution),
+            _ => new ExerciseAnalyzer(solution)
         };
 }

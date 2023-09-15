@@ -1,8 +1,8 @@
 ﻿namespace Exercism.Analyzers.CSharp.Exercises;
 
-internal class LeapAnalyzer : ExerciseAnalyzer
+internal record LeapAnalyzer(Solution Solution) : ExerciseAnalyzer(Solution)
 {
-    protected override void AnalyzeExerciseSpecific(Solution solution)
+    protected override void AnalyzeExerciseSpecific()
     {
         // TODO
     }

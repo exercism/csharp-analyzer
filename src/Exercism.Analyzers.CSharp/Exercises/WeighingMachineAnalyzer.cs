@@ -1,8 +1,8 @@
 ﻿namespace Exercism.Analyzers.CSharp.Exercises;
 
-internal class WeighingMachineAnalyzer : ExerciseAnalyzer
+internal record WeighingMachineAnalyzer(Solution Solution) : ExerciseAnalyzer(Solution)
 {
-    protected override void AnalyzeExerciseSpecific(Solution solution)
+    protected override void AnalyzeExerciseSpecific()
     {
         // TODO
     }

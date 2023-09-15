@@ -6,33 +6,33 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Exercises;
 
-internal class ExerciseAnalyzer
+internal record ExerciseAnalyzer(Solution Solution)
 {
     protected readonly Analysis Analysis = Analysis.Empty;
 
-    public Analysis Analyze(Solution solution)
+    public Analysis Analyze()
     {
         // We start with the exercise-specific analysis to have those comments
         // listed first, which are likely the most relevant comments to the student
-        AnalyzeExerciseSpecific(solution);
-        AnalyzeCommon(solution);
+        AnalyzeExerciseSpecific();
+        AnalyzeCommon();
 
         return Analysis;
     }
 
-    private void AnalyzeCommon(Solution solution)
+    private void AnalyzeCommon()
     {
-        var syntaxWalker = new SyntaxWalker(solution.Compilation, Analysis);
+        var syntaxWalker = new SyntaxWalker(Solution.Compilation, Analysis);
         var tagIdentifier = new TagIdentifier(Analysis);
 
-        foreach (var syntaxTree in solution.Compilation.SyntaxTrees)
+        foreach (var syntaxTree in Solution.Compilation.SyntaxTrees)
         {
             syntaxWalker.Visit(syntaxTree.GetRoot());
             tagIdentifier.Visit(syntaxTree.GetRoot());
         }
     }
 
-    protected virtual void AnalyzeExerciseSpecific(Solution solution)
+    protected virtual void AnalyzeExerciseSpecific()
     {
     }
 
