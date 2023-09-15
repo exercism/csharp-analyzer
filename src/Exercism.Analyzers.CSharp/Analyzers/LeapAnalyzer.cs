@@ -1,7 +1,34 @@
-﻿namespace Exercism.Analyzers.CSharp.Analyzers;
+﻿using System.Linq;
+
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class LeapAnalyzer : Analyzer
 {
+    public override void VisitInvocationExpression(InvocationExpressionSyntax node)
+    {
+        var semanticModel = GetSemanticModel(node.SyntaxTree);
+        var invocationSymbol = semanticModel.GetSymbolInfo(node);
+
+        switch (invocationSymbol.Symbol?.ToString())
+        {
+            case "System.DateTime.IsLeapYear(int)":
+                AddComment(Comments.DoNotUseIsLeapYear);
+                break;
+        }
+
+        base.VisitInvocationExpression(node);
+    }
+
+    public override void VisitIfStatement(IfStatementSyntax node)
+    {
+        AddComment(Comments.DoNotUseIfStatement);
+        
+        base.VisitIfStatement(node);
+    }
+
     private static class Comments
     {
         public static readonly Comment DoNotUseIsLeapYear =
