@@ -1,7 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-
-namespace Exercism.Analyzers.CSharp.Analyzers;
+﻿namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class WeighingMachineAnalyzer : Analyzer
 {

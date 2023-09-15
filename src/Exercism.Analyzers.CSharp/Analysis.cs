@@ -16,7 +16,7 @@ internal abstract class Analyzer : CSharpSyntaxWalker
 {
     private Analysis _analysis;
     private Compilation _compilation;
-    
+
     public static Analysis Analyze(Solution solution)
     {
         if (solution.HasCompilationErrors)
@@ -29,9 +29,9 @@ internal abstract class Analyzer : CSharpSyntaxWalker
 
         return analysis;
     }
-    
+
     protected SemanticModel GetSemanticModel(SyntaxTree tree) => _compilation.GetSemanticModel(tree);
-    
+
     protected void AddComment(Comment comment) => _analysis.Comments.Add(comment);
     protected void AddTag(string tag) => _analysis.Tags.Add(tag);
 
@@ -39,7 +39,7 @@ internal abstract class Analyzer : CSharpSyntaxWalker
     {
         _compilation = compilation;
         _analysis = analysis;
-        
+
         foreach (var syntaxTree in _compilation.SyntaxTrees)
             Visit(syntaxTree.GetRoot());
     }
