@@ -6,6 +6,12 @@ internal class WeighingMachineAnalyzer : ExerciseAnalyzer
     {
         // TODO
     }
+    
+    private static class Comments
+    {
+        public static Comment RoundMethodNotCalledInDisplayWeightProperty =
+            new("csharp.weighingmachine.round_called_in_display_weight", CommentType.Essential);
+    }
 }
 
 // using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
@@ -51,11 +57,7 @@ internal class WeighingMachineAnalyzer : ExerciseAnalyzer
 //
 // namespace Exercism.Analyzers.CSharp.Analyzers.WeighingMachine;
 //
-// internal class WeighingMachineComments
-// {
-//     public static SolutionComment RoundMethodNotCalledInDisplayWeightProperty =
-//         new("csharp.weighingmachine.round_called_in_display_weight", SolutionCommentType.Essential);
-// }
+
 //
 // using System.Collections.Generic;
 // using System.Linq;

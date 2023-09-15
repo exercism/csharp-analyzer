@@ -18,6 +18,22 @@ internal class GigasecondAnalyzer : ExerciseAnalyzer
         }
     }
 
+    private static class Comments
+    {
+        public static readonly Comment UseAddSeconds = new("csharp.gigasecond.use_add_seconds", CommentType.Actionable);
+
+        public static readonly Comment DoNotCreateDateTime =
+            new("csharp.gigasecond.do_not_create_datetime", CommentType.Essential);
+
+        public static Comment UseScientificNotationNotMathPow(string currentValue) =>
+            new("csharp.gigasecond.use_1e9_not_math_pow", CommentType.Informative,
+                new CommentParameter("value", currentValue));
+
+        public static Comment UseScientificNotationOrDigitSeparators(string currentValue) =>
+            new("csharp.gigasecond.use_1e9_or_digit_separator", CommentType.Informative,
+                new CommentParameter("value", currentValue));
+    }
+
     private class SyntaxWalker : CSharpSyntaxWalker
     {
         private readonly Analysis _analysis;
@@ -63,21 +79,5 @@ internal class GigasecondAnalyzer : ExerciseAnalyzer
 
             base.VisitObjectCreationExpression(node);
         }
-    }
-
-    private static class Comments
-    {
-        public static readonly Comment UseAddSeconds = new("csharp.gigasecond.use_add_seconds", CommentType.Actionable);
-
-        public static readonly Comment DoNotCreateDateTime =
-            new("csharp.gigasecond.do_not_create_datetime", CommentType.Essential);
-
-        public static Comment UseScientificNotationNotMathPow(string currentValue) =>
-            new("csharp.gigasecond.use_1e9_not_math_pow", CommentType.Informative,
-                new CommentParameter("value", currentValue));
-
-        public static Comment UseScientificNotationOrDigitSeparators(string currentValue) =>
-            new("csharp.gigasecond.use_1e9_or_digit_separator", CommentType.Informative,
-                new CommentParameter("value", currentValue));
     }
 }

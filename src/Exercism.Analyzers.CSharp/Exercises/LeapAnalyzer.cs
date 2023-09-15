@@ -6,6 +6,13 @@ internal class LeapAnalyzer : ExerciseAnalyzer
     {
         // TODO
     }
+    
+    private static class Comments
+    {
+        public static readonly Comment DoNotUseIsLeapYear = new("csharp.leap.do_not_use_is_leap_year", CommentType.Essential);
+        public static readonly Comment DoNotUseIfStatement = new("csharp.leap.do_not_use_if_statement", CommentType.Actionable);
+        public static readonly Comment UseMinimumNumberOfChecks = new("csharp.leap.use_minimum_number_of_checks", CommentType.Actionable);
+    }
 }
 
 // using System.Linq;
@@ -104,12 +111,7 @@ internal class LeapAnalyzer : ExerciseAnalyzer
 //
 // namespace Exercism.Analyzers.CSharp.Analyzers.Leap;
 //
-// internal static class LeapComments
-// {
-//     public static readonly SolutionComment DoNotUseIsLeapYear = new("csharp.leap.do_not_use_is_leap_year", SolutionCommentType.Essential);
-//     public static readonly SolutionComment DoNotUseIfStatement = new("csharp.leap.do_not_use_if_statement", SolutionCommentType.Actionable);
-//     public static readonly SolutionComment UseMinimumNumberOfChecks = new("csharp.leap.use_minimum_number_of_checks", SolutionCommentType.Actionable);
-// }
+
 //
 // using static Exercism.Analyzers.CSharp.Analyzers.Leap.LeapComments;
 // using static Exercism.Analyzers.CSharp.Analyzers.Leap.LeapSolution;
