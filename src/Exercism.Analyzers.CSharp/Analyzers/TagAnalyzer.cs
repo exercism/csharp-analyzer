@@ -41,9 +41,7 @@ internal class TagAnalyzer : Analyzer
     public override void VisitParameter(ParameterSyntax node)
     {
         if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ThisKeyword)))
-        {
             AddTag(Tag.ConstructExtensionMethod);
-        }
 
         AddTag(Tag.ConstructParameter);
 
@@ -53,9 +51,7 @@ internal class TagAnalyzer : Analyzer
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
-        {
             AddTag(Tag.ConstructGenericMethod);
-        }
 
         AddTag(Tag.ConstructMethod);
 
@@ -65,9 +61,7 @@ internal class TagAnalyzer : Analyzer
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
-        {
             AddTag(Tag.ConstructGenericType);
-        }
 
         AddTag(Tag.ConstructClass);
 

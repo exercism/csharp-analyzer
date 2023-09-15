@@ -1,5 +1,6 @@
 using System.Linq;
 
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -9,8 +10,7 @@ internal class GigasecondAnalyzer : Analyzer
 {
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        var semanticModel = GetSemanticModel(node.SyntaxTree);
-        var invocationSymbol = semanticModel.GetSymbolInfo(node);
+        var invocationSymbol = SemanticModel.GetSymbolInfo(node);
 
         switch (invocationSymbol.Symbol?.ToString())
         {
@@ -34,8 +34,7 @@ internal class GigasecondAnalyzer : Analyzer
 
     public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
     {
-        var semanticModel = GetSemanticModel(node.SyntaxTree);
-        var methodSymbol = semanticModel.GetSymbolInfo(node);
+        var methodSymbol = SemanticModel.GetSymbolInfo(node);
 
         if (methodSymbol.ToString() == "System.DateTime.DateTime(long)")
             AddComment(Comments.DoNotCreateDateTime);

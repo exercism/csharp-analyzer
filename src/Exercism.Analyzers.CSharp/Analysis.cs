@@ -14,8 +14,9 @@ internal record Analysis(List<Comment> Comments, List<string> Tags)
 
 internal abstract class Analyzer : CSharpSyntaxWalker
 {
-    private Analysis _analysis;
-    private Compilation _compilation;
+    protected Analysis Analysis;
+    protected Compilation Compilation;
+    protected SemanticModel SemanticModel;
 
     public static Analysis Analyze(Solution solution)
     {
@@ -30,18 +31,19 @@ internal abstract class Analyzer : CSharpSyntaxWalker
         return analysis;
     }
 
-    protected SemanticModel GetSemanticModel(SyntaxTree tree) => _compilation.GetSemanticModel(tree);
-
-    protected void AddComment(Comment comment) => _analysis.Comments.Add(comment);
-    protected void AddTag(string tag) => _analysis.Tags.Add(tag);
+    protected void AddComment(Comment comment) => Analysis.Comments.Add(comment);
+    protected void AddTag(string tag) => Analysis.Tags.Add(tag);
 
     private void Analyze(Compilation compilation, Analysis analysis)
     {
-        _compilation = compilation;
-        _analysis = analysis;
+        Compilation = compilation;
+        Analysis = analysis;
 
-        foreach (var syntaxTree in _compilation.SyntaxTrees)
+        foreach (var syntaxTree in Compilation.SyntaxTrees)
+        {
+            SemanticModel = Compilation.GetSemanticModel(syntaxTree);
             Visit(syntaxTree.GetRoot());
+        }
     }
 
     private static IEnumerable<Analyzer> CreateAnalyzers(string slug)

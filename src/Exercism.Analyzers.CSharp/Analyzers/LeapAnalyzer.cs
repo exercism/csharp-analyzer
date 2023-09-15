@@ -9,8 +9,7 @@ internal class LeapAnalyzer : Analyzer
 {
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        var semanticModel = GetSemanticModel(node.SyntaxTree);
-        var invocationSymbol = semanticModel.GetSymbolInfo(node);
+        var invocationSymbol = SemanticModel.GetSymbolInfo(node);
 
         switch (invocationSymbol.Symbol?.ToString())
         {
