@@ -1,11 +1,15 @@
-﻿namespace Exercism.Analyzers.CSharp.Exercises;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
-internal record WeighingMachineAnalyzer(Solution Solution) : ExerciseAnalyzer(Solution)
+namespace Exercism.Analyzers.CSharp.Analyzers;
+
+internal class WeighingMachineAnalyzer : CSharpSyntaxWalker
 {
-    protected override void AnalyzeExerciseSpecific()
-    {
-        // TODO
-    }
+    private readonly Analysis _analysis;
+    private readonly Compilation _compilation;
+
+    public WeighingMachineAnalyzer(Compilation compilation, Analysis analysis) =>
+        (_compilation, _analysis) = (compilation, analysis);
     
     private static class Comments
     {

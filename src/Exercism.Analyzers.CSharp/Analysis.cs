@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Exercism.Analyzers.CSharp.Exercises;
+using Exercism.Analyzers.CSharp.Analyzers;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Exercism.Analyzers.CSharp;
 
@@ -26,20 +27,41 @@ internal static class Analyzer
             return Analysis.Empty; // We can't really analyze the solution when there are compilation errors
         }
 
-        var analyzer = CreateExerciseAnalyzer(solution);
-        return analyzer.Analyze();
+        var analysis = Analysis.Empty;
+        
+        foreach (var analyzer in CreateExerciseAnalyzer(solution, analysis))
+        {
+            foreach (var syntaxTree in solution.Compilation.SyntaxTrees)
+            {
+                analyzer.Visit(syntaxTree.GetRoot());
+            }
+        }
+
+        return analysis;
     }
 
     private static bool HasCompilationErrors(this Solution solution) =>
         solution.Compilation.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
 
-    private static ExerciseAnalyzer CreateExerciseAnalyzer(Solution solution) =>
-        solution.Slug switch
+    private static IEnumerable<CSharpSyntaxWalker> CreateExerciseAnalyzer(Solution solution, Analysis analysis)
+    {
+        switch (solution.Slug)
         {
-            "leap" => new LeapAnalyzer(solution),
-            "gigasecond" => new GigasecondAnalyzer(solution),
-            "two-fer" => new TwoFerAnalyzer(solution),
-            "weighing-machine" => new WeighingMachineAnalyzer(solution),
-            _ => new ExerciseAnalyzer(solution)
-        };
+            case "leap":
+                yield return new LeapAnalyzer(solution.Compilation, analysis);
+                break;
+            case "gigasecond":
+                yield return new GigasecondAnalyzer(solution.Compilation, analysis);
+                break;
+            case "two-fer":
+                yield return new TwoFerAnalyzer(solution.Compilation, analysis);
+                break;
+            case "weighing-machine":
+                yield return new WeighingMachineAnalyzer(solution.Compilation, analysis);
+                break;
+        }
+
+        yield return new CommonAnalyzer(solution.Compilation, analysis);
+        yield return new TagAnalyzer(analysis);
+    }
 }

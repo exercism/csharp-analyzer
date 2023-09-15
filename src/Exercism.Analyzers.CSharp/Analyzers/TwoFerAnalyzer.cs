@@ -1,13 +1,17 @@
-﻿namespace Exercism.Analyzers.CSharp.Exercises;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
-internal record TwoFerAnalyzer(Solution Solution) : ExerciseAnalyzer(Solution)
+namespace Exercism.Analyzers.CSharp.Analyzers;
+
+internal class TwoFerAnalyzer : CSharpSyntaxWalker
 {
-    protected override void AnalyzeExerciseSpecific()
-    {
-        // TODO
-    }
-    
-    internal static class Comments
+    private readonly Analysis _analysis;
+    private readonly Compilation _compilation;
+
+    public TwoFerAnalyzer(Compilation compilation, Analysis analysis) =>
+        (_compilation, _analysis) = (compilation, analysis);
+
+    private static class Comments
     {
         public static readonly Comment UseSingleFormattedStringNotMultiple = new("csharp.two-fer.use_single_formatted_string_not_multiple", CommentType.Essential);
         public static readonly Comment UseStringInterpolationNotStringReplace = new("csharp.two-fer.use_string_interpolation_not_string_replace", CommentType.Actionable);

@@ -37,32 +37,32 @@ internal static class Loader
         var configJson = JsonNode.Parse(configJsonFile);
         return configJson["files"]["test"].Deserialize<string[]>();
     }
-}
 
-internal static class Parser
-{
-    public static async Task<IEnumerable<SyntaxTree>> ParseSyntaxTrees(IEnumerable<FileInfo> files) =>
-        await Task.WhenAll(files.Select(ParseSyntaxTree).ToArray());
-
-    private static async Task<SyntaxTree> ParseSyntaxTree(FileInfo implementationFile)
+    private static class Parser
     {
-        var text = await File.ReadAllTextAsync(implementationFile.FullName);
-        var sourceText = SourceText.From(text);
-        return CSharpSyntaxTree.ParseText(sourceText);
+        public static async Task<IEnumerable<SyntaxTree>> ParseSyntaxTrees(IEnumerable<FileInfo> files) =>
+            await Task.WhenAll(files.Select(ParseSyntaxTree).ToArray());
+
+        private static async Task<SyntaxTree> ParseSyntaxTree(FileInfo implementationFile)
+        {
+            var text = await File.ReadAllTextAsync(implementationFile.FullName);
+            var sourceText = SourceText.From(text);
+            return CSharpSyntaxTree.ParseText(sourceText);
+        }
     }
-}
 
-internal static class Compiler
-{
-    public static CSharpCompilation Compile(IEnumerable<SyntaxTree> syntaxTrees) =>
-        CSharpCompilation.Create(AssemblyName(), syntaxTrees, References(), CompilationOptions());
+    private static class Compiler
+    {
+        public static CSharpCompilation Compile(IEnumerable<SyntaxTree> syntaxTrees) =>
+            CSharpCompilation.Create(AssemblyName(), syntaxTrees, References(), CompilationOptions());
 
-    private static string AssemblyName() => Guid.NewGuid().ToString("N");
+        private static string AssemblyName() => Guid.NewGuid().ToString("N");
 
-    private static CSharpCompilationOptions CompilationOptions() =>
-        new(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Debug);
+        private static CSharpCompilationOptions CompilationOptions() =>
+            new(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Debug);
 
-    private static IEnumerable<PortableExecutableReference> References() =>
-        ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES"))!.Split(Path.PathSeparator)
-        .Select(p => MetadataReference.CreateFromFile(p));
+        private static IEnumerable<PortableExecutableReference> References() =>
+            ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES"))!.Split(Path.PathSeparator)
+            .Select(p => MetadataReference.CreateFromFile(p));
+    }
 }

@@ -4,42 +4,15 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Exercism.Analyzers.CSharp.Exercises;
+namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal record GigasecondAnalyzer(Solution Solution) : ExerciseAnalyzer(Solution)
-{
-    protected override void AnalyzeExerciseSpecific()
-    {
-        var syntaxWalker = new SyntaxWalker(Solution.Compilation, Analysis);
-
-        foreach (var syntaxTree in Solution.Compilation.SyntaxTrees)
-        {
-            syntaxWalker.Visit(syntaxTree.GetRoot());
-        }
-    }
-
-    private static class Comments
-    {
-        public static readonly Comment UseAddSeconds = new("csharp.gigasecond.use_add_seconds", CommentType.Actionable);
-
-        public static readonly Comment DoNotCreateDateTime =
-            new("csharp.gigasecond.do_not_create_datetime", CommentType.Essential);
-
-        public static Comment UseScientificNotationNotMathPow(string currentValue) =>
-            new("csharp.gigasecond.use_1e9_not_math_pow", CommentType.Informative,
-                new CommentParameter("value", currentValue));
-
-        public static Comment UseScientificNotationOrDigitSeparators(string currentValue) =>
-            new("csharp.gigasecond.use_1e9_or_digit_separator", CommentType.Informative,
-                new CommentParameter("value", currentValue));
-    }
-
-    private class SyntaxWalker : CSharpSyntaxWalker
+    
+    internal class GigasecondAnalyzer : CSharpSyntaxWalker
     {
         private readonly Analysis _analysis;
         private readonly Compilation _compilation;
 
-        public SyntaxWalker(Compilation compilation, Analysis analysis) =>
+        public GigasecondAnalyzer(Compilation compilation, Analysis analysis) =>
             (_compilation, _analysis) = (compilation, analysis);
 
         public override void VisitInvocationExpression(InvocationExpressionSyntax node)
@@ -79,5 +52,21 @@ internal record GigasecondAnalyzer(Solution Solution) : ExerciseAnalyzer(Solutio
 
             base.VisitObjectCreationExpression(node);
         }
+        
+        private static class Comments
+        {
+            public static readonly Comment UseAddSeconds = new("csharp.gigasecond.use_add_seconds", CommentType.Actionable);
+
+            public static readonly Comment DoNotCreateDateTime =
+                new("csharp.gigasecond.do_not_create_datetime", CommentType.Essential);
+
+            public static Comment UseScientificNotationNotMathPow(string currentValue) =>
+                new("csharp.gigasecond.use_1e9_not_math_pow", CommentType.Informative,
+                    new CommentParameter("value", currentValue));
+
+            public static Comment UseScientificNotationOrDigitSeparators(string currentValue) =>
+                new("csharp.gigasecond.use_1e9_or_digit_separator", CommentType.Informative,
+                    new CommentParameter("value", currentValue));
+        }
+
     }
-}
