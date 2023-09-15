@@ -4,28 +4,25 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
+internal class CommonAnalyzer : CSharpSyntaxWalker
+{
+    private readonly Analysis _analysis;
+    private readonly Compilation _compilation;
 
-    
+    public CommonAnalyzer(Compilation compilation, Analysis analysis) =>
+        (_compilation, _analysis) = (compilation, analysis);
 
-    internal class CommonAnalyzer : CSharpSyntaxWalker
+    public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
-        private readonly Analysis _analysis;
-        private readonly Compilation _compilation;
-
-        public CommonAnalyzer(Compilation compilation, Analysis analysis) =>
-            (_compilation, _analysis) = (compilation, analysis);
-
-        public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
+        if (node.Body is {Statements: [ReturnStatementSyntax]})
         {
-            if (node.Body is {Statements: [ReturnStatementSyntax]})
-            {
-                _analysis.AddComment(Comments.UseExpressionBodiedMember(node.Identifier.Text));
-            }
-
-            base.VisitMethodDeclaration(node);
+            _analysis.AddComment(Comments.UseExpressionBodiedMember(node.Identifier.Text));
         }
-        
-        private static class Comments
+
+        base.VisitMethodDeclaration(node);
+    }
+
+    private static class Comments
     {
         public static readonly Comment HasMainMethod = new("csharp.general.has_main_method", CommentType.Essential);
 
@@ -89,4 +86,4 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
             new("csharp.general.property_better_use_initializer", CommentType.Actionable,
                 new CommentParameter("name", name));
     }
-    }
+}

@@ -10,12 +10,17 @@ internal class LeapAnalyzer : CSharpSyntaxWalker
 
     public LeapAnalyzer(Compilation compilation, Analysis analysis) =>
         (_compilation, _analysis) = (compilation, analysis);
-    
+
     private static class Comments
     {
-        public static readonly Comment DoNotUseIsLeapYear = new("csharp.leap.do_not_use_is_leap_year", CommentType.Essential);
-        public static readonly Comment DoNotUseIfStatement = new("csharp.leap.do_not_use_if_statement", CommentType.Actionable);
-        public static readonly Comment UseMinimumNumberOfChecks = new("csharp.leap.use_minimum_number_of_checks", CommentType.Actionable);
+        public static readonly Comment DoNotUseIsLeapYear =
+            new("csharp.leap.do_not_use_is_leap_year", CommentType.Essential);
+
+        public static readonly Comment DoNotUseIfStatement =
+            new("csharp.leap.do_not_use_if_statement", CommentType.Actionable);
+
+        public static readonly Comment UseMinimumNumberOfChecks =
+            new("csharp.leap.use_minimum_number_of_checks", CommentType.Actionable);
     }
 }
 

@@ -28,7 +28,7 @@ internal static class Analyzer
         }
 
         var analysis = Analysis.Empty;
-        
+
         foreach (var analyzer in CreateExerciseAnalyzer(solution, analysis))
         {
             foreach (var syntaxTree in solution.Compilation.SyntaxTrees)

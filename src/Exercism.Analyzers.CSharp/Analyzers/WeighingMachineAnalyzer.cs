@@ -10,7 +10,7 @@ internal class WeighingMachineAnalyzer : CSharpSyntaxWalker
 
     public WeighingMachineAnalyzer(Compilation compilation, Analysis analysis) =>
         (_compilation, _analysis) = (compilation, analysis);
-    
+
     private static class Comments
     {
         public static Comment RoundMethodNotCalledInDisplayWeightProperty =

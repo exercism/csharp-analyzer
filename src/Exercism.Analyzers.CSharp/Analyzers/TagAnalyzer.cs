@@ -4,8 +4,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using CSharpExtensions = Microsoft.CodeAnalysis.CSharpExtensions;
-
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class TagAnalyzer : CSharpSyntaxWalker
@@ -46,7 +44,7 @@ internal class TagAnalyzer : CSharpSyntaxWalker
 
     public override void VisitParameter(ParameterSyntax node)
     {
-        if (node.Modifiers.Any(modifier => CSharpExtensions.IsKind((SyntaxToken)modifier, SyntaxKind.ThisKeyword)))
+        if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ThisKeyword)))
         {
             _analysis.AddTag(Tag.ConstructExtensionMethod);
         }
