@@ -3,13 +3,9 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class WeighingMachineAnalyzer : CSharpSyntaxWalker
+internal class WeighingMachineAnalyzer : Analyzer
 {
-    private readonly Analysis _analysis;
-    private readonly Compilation _compilation;
-
-    public WeighingMachineAnalyzer(Compilation compilation, Analysis analysis) =>
-        (_compilation, _analysis) = (compilation, analysis);
+    public WeighingMachineAnalyzer(Compilation compilation, Analysis analysis) : base(compilation, analysis) { }
 
     private static class Comments
     {

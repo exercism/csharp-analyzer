@@ -12,6 +12,12 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Exercism.Analyzers.CSharp;
 
+internal record Solution(string Slug, Compilation Compilation)
+{
+    public bool HasCompilationErrors =>
+        Compilation.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
+}
+
 internal static class Loader
 {
     public static async Task<Solution> Load(Options options)

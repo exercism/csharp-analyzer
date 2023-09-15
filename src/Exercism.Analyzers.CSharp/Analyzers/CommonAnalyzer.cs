@@ -1,16 +1,11 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class CommonAnalyzer : CSharpSyntaxWalker
+internal class CommonAnalyzer : Analyzer
 {
-    private readonly Analysis _analysis;
-    private readonly Compilation _compilation;
-
-    public CommonAnalyzer(Compilation compilation, Analysis analysis) =>
-        (_compilation, _analysis) = (compilation, analysis);
+    public CommonAnalyzer(Compilation compilation, Analysis analysis) : base(compilation, analysis) { }
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {

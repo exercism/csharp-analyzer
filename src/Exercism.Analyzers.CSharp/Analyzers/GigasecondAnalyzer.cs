@@ -6,13 +6,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class GigasecondAnalyzer : CSharpSyntaxWalker
+internal class GigasecondAnalyzer : Analyzer
 {
-    private readonly Analysis _analysis;
-    private readonly Compilation _compilation;
-
-    public GigasecondAnalyzer(Compilation compilation, Analysis analysis) =>
-        (_compilation, _analysis) = (compilation, analysis);
+    public GigasecondAnalyzer(Compilation compilation, Analysis analysis) : base(compilation, analysis) { }
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {

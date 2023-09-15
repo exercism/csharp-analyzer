@@ -6,11 +6,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class TagAnalyzer : CSharpSyntaxWalker
+internal class TagAnalyzer : Analyzer
 {
-    private readonly Analysis _analysis;
-
-    public TagAnalyzer(Analysis analysis) => _analysis = analysis;
+    public TagAnalyzer(Compilation compilation, Analysis analysis) : base(compilation, analysis) { }
 
     public override void VisitForStatement(ForStatementSyntax node)
     {
