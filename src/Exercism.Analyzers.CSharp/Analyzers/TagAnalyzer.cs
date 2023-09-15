@@ -8,8 +8,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class TagAnalyzer : Analyzer
 {
-    public TagAnalyzer(Compilation compilation, Analysis analysis) : base(compilation, analysis) { }
-
     public override void VisitForStatement(ForStatementSyntax node)
     {
         _analysis.AddTag(Tag.ConstructFor);

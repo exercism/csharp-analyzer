@@ -5,8 +5,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class WeighingMachineAnalyzer : Analyzer
 {
-    public WeighingMachineAnalyzer(Compilation compilation, Analysis analysis) : base(compilation, analysis) { }
-
     private static class Comments
     {
         public static Comment RoundMethodNotCalledInDisplayWeightProperty =

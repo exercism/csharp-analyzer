@@ -5,8 +5,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class TwoFerAnalyzer : Analyzer
 {
-    public TwoFerAnalyzer(Compilation compilation, Analysis analysis) : base(compilation, analysis) { }
-
     private static class Comments
     {
         public static readonly Comment UseSingleFormattedStringNotMultiple =

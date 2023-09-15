@@ -5,8 +5,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class CommonAnalyzer : Analyzer
 {
-    public CommonAnalyzer(Compilation compilation, Analysis analysis) : base(compilation, analysis) { }
-
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         if (node.Body is {Statements: [ReturnStatementSyntax]})

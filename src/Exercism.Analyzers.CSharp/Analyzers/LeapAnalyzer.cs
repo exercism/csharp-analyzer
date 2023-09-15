@@ -5,8 +5,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class LeapAnalyzer : Analyzer
 {
-    public LeapAnalyzer(Compilation compilation, Analysis analysis) : base(compilation, analysis) { }
-
     private static class Comments
     {
         public static readonly Comment DoNotUseIsLeapYear =

@@ -17,52 +17,43 @@ internal record Analysis(List<Comment> Comments, List<string> Tags)
 
 internal abstract class Analyzer : CSharpSyntaxWalker
 {
-    protected readonly Analysis _analysis;
-    protected readonly Compilation _compilation;
-
-    protected Analyzer(Compilation compilation, Analysis analysis) =>
-        (_compilation, _analysis) = (compilation, analysis);
-
-    private void Analyze()
-    {
-        foreach (var syntaxTree in _compilation.SyntaxTrees)
-            Visit(syntaxTree.GetRoot());
-    }
+    protected Analysis _analysis;
+    protected Compilation _compilation;
     
     public static Analysis Analyze(Solution solution)
     {
         if (solution.HasCompilationErrors)
-        {
             return Analysis.Empty; // We can't really analyze the solution when there are compilation errors
-        }
 
         var analysis = Analysis.Empty;
 
-        foreach (var analyzer in CreateAnalyzers(solution, analysis))
-            analyzer.Analyze();
+        foreach (var analyzer in CreateAnalyzers(solution.Slug))
+            analyzer.Analyze(solution.Compilation, analysis);
 
         return analysis;
     }
 
-    private static IEnumerable<Analyzer> CreateAnalyzers(Solution solution, Analysis analysis)
+    private void Analyze(Compilation compilation, Analysis analysis)
     {
-        switch (solution.Slug)
-        {
-            case "leap":
-                yield return new LeapAnalyzer(solution.Compilation, analysis);
-                break;
-            case "gigasecond":
-                yield return new GigasecondAnalyzer(solution.Compilation, analysis);
-                break;
-            case "two-fer":
-                yield return new TwoFerAnalyzer(solution.Compilation, analysis);
-                break;
-            case "weighing-machine":
-                yield return new WeighingMachineAnalyzer(solution.Compilation, analysis);
-                break;
-        }
+        _compilation = compilation;
+        _analysis = analysis;
+        
+        foreach (var syntaxTree in _compilation.SyntaxTrees)
+            Visit(syntaxTree.GetRoot());
+    }
 
-        yield return new CommonAnalyzer(solution.Compilation, analysis);
-        yield return new TagAnalyzer(solution.Compilation, analysis);
+    private static IEnumerable<Analyzer> CreateAnalyzers(string slug)
+    {
+        if (slug == "leap")
+            yield return new LeapAnalyzer();
+        else if (slug == "gigasecond")
+            yield return new GigasecondAnalyzer();
+        else if (slug == "two-fer")
+            yield return new TwoFerAnalyzer();
+        else if (slug == "weighing-machine")
+            yield return new WeighingMachineAnalyzer();
+
+        yield return new CommonAnalyzer();
+        yield return new TagAnalyzer();
     }
 }

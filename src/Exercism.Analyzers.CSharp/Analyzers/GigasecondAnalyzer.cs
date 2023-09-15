@@ -8,8 +8,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class GigasecondAnalyzer : Analyzer
 {
-    public GigasecondAnalyzer(Compilation compilation, Analysis analysis) : base(compilation, analysis) { }
-
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         var semanticModel = _compilation.GetSemanticModel(node.SyntaxTree);
