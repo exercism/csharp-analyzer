@@ -16,17 +16,18 @@ internal abstract class Analyzer : CSharpSyntaxWalker
 {
     protected Analysis Analysis;
     protected Compilation Compilation;
+    protected Project Project;
     protected SemanticModel SemanticModel;
 
-    public static Analysis Analyze(Solution solution)
+    public static Analysis Analyze(Submission submission)
     {
-        if (solution.HasCompilationErrors)
+        if (submission.HasCompilationErrors)
             return Analysis.Empty; // We can't really analyze the solution when there are compilation errors
 
         var analysis = Analysis.Empty;
 
-        foreach (var analyzer in CreateAnalyzers(solution.Slug))
-            analyzer.Analyze(solution.Compilation, analysis);
+        foreach (var analyzer in CreateAnalyzers(submission.Slug))
+            analyzer.Analyze(submission.Compilation, submission.Project, analysis);
 
         return analysis;
     }
@@ -34,10 +35,11 @@ internal abstract class Analyzer : CSharpSyntaxWalker
     protected void AddComment(Comment comment) => Analysis.Comments.Add(comment);
     protected void AddTag(string tag) => Analysis.Tags.Add(tag);
 
-    private void Analyze(Compilation compilation, Analysis analysis)
+    private void Analyze(Compilation compilation, Project project, Analysis analysis)
     {
         Compilation = compilation;
         Analysis = analysis;
+        Project = project;
 
         foreach (var syntaxTree in Compilation.SyntaxTrees)
         {

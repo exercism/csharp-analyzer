@@ -12,7 +12,7 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Exercism.Analyzers.CSharp;
 
-internal record Solution(string Slug, Compilation Compilation)
+internal record Submission(string Slug, Compilation Compilation, Project Project)
 {
     public bool HasCompilationErrors =>
         Compilation.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
@@ -20,54 +20,66 @@ internal record Solution(string Slug, Compilation Compilation)
 
 internal static class Loader
 {
-    public static async Task<Solution> Load(Options options)
+    private record SubmissionFile(string FilePath, SourceText SourceText);
+    
+    public static async Task<Submission> Load(Options options)
     {
-        var syntaxTrees = await Parser.ParseSyntaxTrees(EnumerateSolutionFiles(options));
-        var compilation = Compiler.Compile(syntaxTrees);
-        return new Solution(options.Slug, compilation);
+        var workspace = new AdhocWorkspace();
+        var project = workspace.AddProject(options.Slug, LanguageNames.CSharp);
+
+        foreach (var submissionFile in await Task.WhenAll(SubmissionFiles.Enumerate(options)))
+            project = project.AddDocument(submissionFile.FilePath, submissionFile.SourceText).Project;
+        
+        var compilation = await Compiler.Compile(project);
+        return new Submission(options.Slug, compilation, project);
     }
 
-    private static IEnumerable<FileInfo> EnumerateSolutionFiles(Options options)
+    private static class SubmissionFiles
     {
-        var testFiles = GetTestFiles(options);
-
-        return Directory.EnumerateFiles(options.InputDirectory, "*.cs")
-            .Where(sourceFile => !testFiles.Contains(sourceFile))
-            .Select(sourceFile => new FileInfo(sourceFile));
-    }
-
-    private static string[] GetTestFiles(Options options)
-    {
-        var configJsonFilePath = Path.Combine(options.InputDirectory, ".meta", "config.json");
-        using var configJsonFile = new FileStream(configJsonFilePath, FileMode.Open);
-        var configJson = JsonNode.Parse(configJsonFile);
-        return configJson["files"]["test"].Deserialize<string[]>();
-    }
-
-    private static class Parser
-    {
-        public static async Task<IEnumerable<SyntaxTree>> ParseSyntaxTrees(IEnumerable<FileInfo> files) =>
-            await Task.WhenAll(files.Select(ParseSyntaxTree).ToArray());
-
-        private static async Task<SyntaxTree> ParseSyntaxTree(FileInfo implementationFile)
+        public static IEnumerable<Task<SubmissionFile>> Enumerate(Options options)
         {
-            var text = await File.ReadAllTextAsync(implementationFile.FullName);
-            var sourceText = SourceText.From(text);
-            return CSharpSyntaxTree.ParseText(sourceText);
+            var nonSubmissionFiles = NonSubmissionFiles(options);
+
+            return Directory.EnumerateFiles(options.InputDirectory, "*.cs")
+                .Where(sourceFile => !nonSubmissionFiles.Contains(sourceFile))
+                .Select(async sourceFile =>
+                {
+                    var source = await File.ReadAllTextAsync(sourceFile);
+                    return new SubmissionFile(sourceFile, SourceText.From(source));
+                });
+        }
+
+        private static HashSet<string> NonSubmissionFiles(Options options)
+        {
+            var filesConfig = ParseConfigFiles(options);
+            var nonSubmissionFiles = new HashSet<string>();
+            nonSubmissionFiles.UnionWith(filesConfig?["test"]?.Deserialize<IEnumerable<string>>() ?? Enumerable.Empty<string>());
+            nonSubmissionFiles.UnionWith(filesConfig?["invalidator"]?.Deserialize<IEnumerable<string>>() ?? Enumerable.Empty<string>());
+            nonSubmissionFiles.UnionWith(filesConfig?["editor"]?.Deserialize<IEnumerable<string>>() ?? Enumerable.Empty<string>());
+            return nonSubmissionFiles;
+        }
+
+        private static JsonNode ParseConfigFiles(Options options)
+        {
+            var configJsonFilePath = Path.Combine(options.InputDirectory, ".meta", "config.json");
+            using var configJsonFile = new FileStream(configJsonFilePath, FileMode.Open);
+            var configJson = JsonNode.Parse(configJsonFile);
+            return configJson["files"];
         }
     }
 
     private static class Compiler
     {
-        public static CSharpCompilation Compile(IEnumerable<SyntaxTree> syntaxTrees) =>
-            CSharpCompilation.Create(AssemblyName(), syntaxTrees, References(), CompilationOptions());
-
-        private static string AssemblyName() => Guid.NewGuid().ToString("N");
+        public static async Task<Compilation> Compile(Project project) =>
+            await project
+                .WithMetadataReferences(References())
+                .WithCompilationOptions(CompilationOptions())
+                .GetCompilationAsync();
 
         private static CSharpCompilationOptions CompilationOptions() =>
             new(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Debug);
 
-        private static IEnumerable<PortableExecutableReference> References() =>
+        private static IEnumerable<MetadataReference> References() =>
             ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES"))!.Split(Path.PathSeparator)
             .Select(p => MetadataReference.CreateFromFile(p));
     }
