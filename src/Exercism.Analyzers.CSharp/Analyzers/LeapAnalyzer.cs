@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,18 +10,15 @@ internal class LeapAnalyzer : Analyzer
 {
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
-        if (SemanticModel.GetDeclaredSymbol(node)?.ToString() == "Leap.IsLeapYear(int)")
+        if (SemanticModel.GetDeclaredSymbol(node)?.ToString() == "Leap.IsLeapYear(int)" && 
+            SemanticModel.GetDeclaredSymbol(node.ParameterList.Parameters[0]) is { } symbol)
         {
-            var symbol = SemanticModel.GetDeclaredSymbol(node.ParameterList.Parameters[0]);
-            if (symbol != null)
+            foreach (var references in SymbolFinder.FindReferencesAsync(symbol, Project.Solution).GetAwaiter()
+                         .GetResult())
             {
-                foreach (var references in SymbolFinder.FindReferencesAsync(symbol, Project.Solution).GetAwaiter()
-                             .GetResult())
-                {
-                    if (references.Locations.Count() > 3)
-                        AddComment(Comments.UseMinimumNumberOfChecks);
-                }
-            }   
+                if (references.Locations.Count() > 3)
+                    AddComment(Comments.UseMinimumNumberOfChecks);
+            }
         }
 
         base.VisitMethodDeclaration(node);
