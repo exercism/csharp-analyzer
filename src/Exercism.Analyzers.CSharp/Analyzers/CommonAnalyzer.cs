@@ -1,4 +1,8 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using System;
+
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
@@ -7,11 +11,25 @@ internal class CommonAnalyzer : Analyzer
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         if (node.Body is {Statements: [ReturnStatementSyntax]})
-        {
             AddComment(Comments.UseExpressionBodiedMember(node.Identifier.Text));
-        }
 
         base.VisitMethodDeclaration(node);
+    }
+
+    public override void VisitBlock(BlockSyntax node)
+    {
+        if (node.Statements is [.., 
+                LocalDeclarationStatementSyntax { Declaration.Variables.Count: 1 } localDeclarationStatement, 
+                ReturnStatementSyntax { Expression: IdentifierNameSyntax identifierName }
+            ])
+        {
+            var declaredSymbol = SemanticModel.GetDeclaredSymbol(localDeclarationStatement.Declaration.Variables[0]);
+            var returnedSymbol = SemanticModel.GetSymbolInfo(identifierName);
+            if (declaredSymbol!.Equals(returnedSymbol.Symbol, SymbolEqualityComparer.Default))
+                AddComment(Comments.DoNotAssignAndReturn);
+        }
+        
+        base.VisitBlock(node);
     }
 
     private static class Comments
@@ -26,9 +44,6 @@ internal class CommonAnalyzer : Analyzer
 
         public static readonly Comment UseStringInterpolationNotStringConcatenation =
             new("csharp.general.use_string_interpolation_not_string_concatenation", CommentType.Informative);
-
-        public static readonly Comment RemoveThrowNotImplementedException =
-            new("csharp.general.remove_throw_not_implemented_exception", CommentType.Essential);
 
         public static readonly Comment DoNotWriteToConsole =
             new("csharp.general.do_not_write_to_console", CommentType.Actionable);

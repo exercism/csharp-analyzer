@@ -29,9 +29,7 @@ internal static class Output
         jsonTextWriter.WriteStartArray();
 
         foreach (var comment in comments)
-        {
             jsonTextWriter.WriteComment(comment);
-        }
 
         jsonTextWriter.WriteEndArray();
     }
@@ -57,9 +55,7 @@ internal static class Output
         jsonTextWriter.WriteStartObject();
 
         foreach (var parameter in comment.Parameters)
-        {
             jsonTextWriter.WriteCommentParameter(parameter);
-        }
 
         jsonTextWriter.WriteEndObject();
     }
@@ -72,9 +68,7 @@ internal static class Output
         jsonTextWriter.WriteStartArray("tags");
 
         foreach (var tag in tags)
-        {
             jsonTextWriter.WriteStringValue(tag);
-        }
 
         jsonTextWriter.WriteEndArray();
     }

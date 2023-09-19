@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "AssignAndReturn.csproj"
+    ],
+    "solution": [
+      "AssignAndReturn.cs"
+    ],
+    "test": [
+      "AssignAndReturnTests.cs"
+    ]
+  }
+}
