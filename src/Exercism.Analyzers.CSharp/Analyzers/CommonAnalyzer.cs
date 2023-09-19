@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
@@ -12,6 +14,9 @@ internal class CommonAnalyzer : Analyzer
     {
         if (node.Body is {Statements: [ReturnStatementSyntax]})
             AddComment(Comments.UseExpressionBodiedMember(node.Identifier.Text));
+        
+        if (node.Identifier.Text == "Main" && node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.StaticKeyword)))
+            AddComment(Comments.DoNotUseMainMethod);
 
         base.VisitMethodDeclaration(node);
     }
@@ -23,8 +28,8 @@ internal class CommonAnalyzer : Analyzer
                 ReturnStatementSyntax { Expression: IdentifierNameSyntax identifierName }
             ])
         {
-            var declaredSymbol = SemanticModel.GetDeclaredSymbol(localDeclarationStatement.Declaration.Variables[0]);
-            var returnedSymbol = SemanticModel.GetSymbolInfo(identifierName);
+            var declaredSymbol = ModelExtensions.GetDeclaredSymbol(SemanticModel, localDeclarationStatement.Declaration.Variables[0]);
+            var returnedSymbol = ModelExtensions.GetSymbolInfo(SemanticModel, identifierName);
             if (declaredSymbol!.Equals(returnedSymbol.Symbol, SymbolEqualityComparer.Default))
                 AddComment(Comments.DoNotAssignAndReturn);
         }
@@ -32,9 +37,28 @@ internal class CommonAnalyzer : Analyzer
         base.VisitBlock(node);
     }
 
+    public override void VisitInvocationExpression(InvocationExpressionSyntax node)
+    {
+        if (node.Expression is MemberAccessExpressionSyntax memberAccessExpression &&
+            ConsoleOutputIdentifierNames.Contains(memberAccessExpression.ToString()))
+            AddComment(Comments.DoNotWriteToConsole);
+        
+        base.VisitInvocationExpression(node);
+    }
+
+    private static readonly HashSet<string> ConsoleOutputIdentifierNames = new()
+    {
+        "Console.Write",
+        "Console.WriteLine",
+        "Console.Error.Write",
+        "Console.Error.WriteLine",
+        "Console.Out.Write",
+        "Console.Out.WriteLine"
+    };
+
     private static class Comments
     {
-        public static readonly Comment HasMainMethod = new("csharp.general.has_main_method", CommentType.Essential);
+        public static readonly Comment DoNotUseMainMethod = new("csharp.general.has_main_method", CommentType.Essential);
 
         public static readonly Comment UseNullCoalescingOperatorNotNullCheck =
             new("csharp.general.use_null_coalescing_operator_not_null_check", CommentType.Actionable);
