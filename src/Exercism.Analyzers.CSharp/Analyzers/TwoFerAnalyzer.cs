@@ -25,6 +25,20 @@ internal class TwoFerAnalyzer : Analyzer
         base.VisitMethodDeclaration(node);
     }
     
+    public override void VisitInvocationExpression(InvocationExpressionSyntax node)
+    {
+        var method = SemanticModel.GetSymbolInfo(node).Symbol?.ToString();
+
+        if (method == "string.Concat(string?, string?, string?)")
+            AddComment(Comments.UseStringInterpolationNotStringConcat);
+        else if (method == "string.IsNullOrEmpty(string?)")
+            AddComment(Comments.UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
+        else if (method == "string.IsNullOrWhiteSpace(string?)")
+            AddComment(Comments.UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
+
+        base.VisitInvocationExpression(node);
+    }
+    
     private static class Comments
     {
         public static readonly Comment UseSingleFormattedStringNotMultiple =

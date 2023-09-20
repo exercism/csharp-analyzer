@@ -42,8 +42,34 @@ internal class CommonAnalyzer : Analyzer
         if (node.Expression is MemberAccessExpressionSyntax memberAccessExpression &&
             ConsoleOutputIdentifierNames.Contains(memberAccessExpression.ToString()))
             AddComment(Comments.DoNotWriteToConsole);
-        
+
+        var method = SemanticModel.GetSymbolInfo(node).Symbol?.ToString();
+        if (method == "string.Format(string, object?)")
+            AddComment(Comments.UseStringInterpolationNotStringFormat);
+
         base.VisitInvocationExpression(node);
+    }
+
+    public override void VisitBinaryExpression(BinaryExpressionSyntax node)
+    {
+        var operatorMethod = SemanticModel.GetSymbolInfo(node).Symbol?.ToString();
+        if (operatorMethod == "string.operator +(string, string)")
+            AddComment(Comments.UseStringInterpolationNotStringConcatenation);
+        
+        base.VisitBinaryExpression(node);
+    }
+
+    public override void VisitConditionalExpression(ConditionalExpressionSyntax node)
+    {
+        if (node.Condition is BinaryExpressionSyntax { 
+                OperatorToken: var token,
+                Left: LiteralExpressionSyntax { Token: var leftLiteralToken },
+                Right: LiteralExpressionSyntax { Token: var rightLiteralToken }})
+            if (token.IsKind(SyntaxKind.EqualsExpression) && rightLiteralToken.IsKind(SyntaxKind.NullLiteralExpression) ||
+                token.IsKind(SyntaxKind.NotEqualsExpression) && leftLiteralToken.IsKind(SyntaxKind.NullLiteralExpression))
+                AddComment(Comments.UseNullCoalescingOperatorNotNullCheck);
+        
+        base.VisitConditionalExpression(node);
     }
 
     private static readonly HashSet<string> ConsoleOutputIdentifierNames = new()
