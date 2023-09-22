@@ -75,17 +75,11 @@ internal class CommonAnalyzer : Analyzer
     private static readonly HashSet<string> ConsoleOutputIdentifierNames = new()
     {
         "Console.Write",
-        "Console.WriteAsync",
         "Console.WriteLine",
-        "Console.WriteLineAsync",
         "Console.Error.Write",
-        "Console.Error.WriteAsync",
         "Console.Error.WriteLine",
-        "Console.Error.WriteLineAsync",
         "Console.Out.Write",
-        "Console.Out.WriteAsync",
-        "Console.Out.WriteLine",
-        "Console.Out.WriteLineAsync"
+        "Console.Out.WriteLine"
     };
 
     private static class Comments
