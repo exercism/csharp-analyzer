@@ -68,9 +68,14 @@ internal static class Output
     {
         jsonTextWriter.WriteStartArray("tags");
 
-        foreach (var tag in tags.Distinct())
+        foreach (var tag in tags.ToSortedSet())
             jsonTextWriter.WriteStringValue(tag);
 
         jsonTextWriter.WriteEndArray();
     }
+}
+
+internal static class EnumerableExtensions
+{
+    public static SortedSet<T> ToSortedSet<T>(this IEnumerable<T> enumerable) => new(enumerable);
 }
