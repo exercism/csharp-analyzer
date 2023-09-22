@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace Exercism.Analyzers.CSharp;
@@ -28,7 +29,7 @@ internal static class Output
         jsonTextWriter.WritePropertyName("comments");
         jsonTextWriter.WriteStartArray();
 
-        foreach (var comment in comments)
+        foreach (var comment in comments.DistinctBy(comment => comment.Type))
             jsonTextWriter.WriteComment(comment);
 
         jsonTextWriter.WriteEndArray();
@@ -67,7 +68,7 @@ internal static class Output
     {
         jsonTextWriter.WriteStartArray("tags");
 
-        foreach (var tag in tags)
+        foreach (var tag in tags.Distinct())
             jsonTextWriter.WriteStringValue(tag);
 
         jsonTextWriter.WriteEndArray();
