@@ -1,9 +1,23 @@
 {
   "comments": [
     {
-      "comment": "csharp.leap.do_not_use_if_statement",
+      "comment": "csharp.general.do_not_assign_and_return",
       "type": "actionable",
       "params": {}
+    },
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "AssignInLambda"
+      }
     }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:method",
+    "construct:parameter",
+    "construct:if",
+    "construct:invocation"
   ]
 }

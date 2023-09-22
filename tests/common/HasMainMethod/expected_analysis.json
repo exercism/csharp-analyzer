@@ -5,5 +5,10 @@
       "type": "essential",
       "params": {}
     }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:method",
+    "construct:parameter"
   ]
 }

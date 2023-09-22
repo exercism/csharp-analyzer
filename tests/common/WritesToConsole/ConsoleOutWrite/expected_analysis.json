@@ -5,5 +5,10 @@
       "type": "actionable",
       "params": {}
     }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:method",
+    "construct:invocation"
   ]
 }
