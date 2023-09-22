@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Errors.csproj"
+      "MissingFile.csproj"
     ],
     "solution": [
-      "Errors.cs"
+      "MissingFile.cs"
     ],
     "test": [
-      "ErrorsTests.cs"
+      "MissingFileTests.cs"
     ]
   }
 }

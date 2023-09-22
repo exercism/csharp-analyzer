@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Errors.csproj"
+      "HasMainMethod.csproj"
     ],
     "solution": [
-      "Errors.cs"
+      "HasMainMethod.cs"
     ],
     "test": [
-      "ErrorsTests.cs"
+      "HasMainMethodTests.cs"
     ]
   }
 }
