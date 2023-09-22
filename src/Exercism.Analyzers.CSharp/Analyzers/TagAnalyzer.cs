@@ -71,9 +71,7 @@ internal class TagAnalyzer : Analyzer
     public override void VisitStructDeclaration(StructDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
-        {
             AddTag(Tag.ConstructGenericType);
-        }
 
         AddTag(Tag.ConstructStruct);
 
@@ -83,9 +81,7 @@ internal class TagAnalyzer : Analyzer
     public override void VisitRecordDeclaration(RecordDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
-        {
             AddTag(Tag.ConstructGenericType);
-        }
 
         AddTag(Tag.ConstructRecord);
 
@@ -127,23 +123,70 @@ internal class TagAnalyzer : Analyzer
         base.VisitConditionalExpression(node);
     }
 
+    public override void VisitBinaryExpression(BinaryExpressionSyntax node)
+    {
+        switch (node.Kind())
+        {
+            case SyntaxKind.LogicalAndExpression:
+                AddTags(Tag.ConstructBoolean, Tag.ConstructLogicalAnd, Tag.TechniqueBooleanLogic);
+                break;
+            case SyntaxKind.LogicalOrExpression:
+                AddTags(Tag.ConstructBoolean, Tag.ConstructLogicalOr, Tag.TechniqueBooleanLogic);
+                break;
+            case SyntaxKind.LogicalNotExpression:
+                AddTags(Tag.ConstructBoolean, Tag.ConstructLogicalNot, Tag.TechniqueBooleanLogic);
+                break;
+            case SyntaxKind.BitwiseAndExpression:
+                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructBitwiseAnd);
+                break;
+            case SyntaxKind.BitwiseOrExpression:
+                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructBitwiseOr);
+                break;
+            case SyntaxKind.BitwiseNotExpression:
+                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructBitwiseNot);
+                break;
+            case SyntaxKind.ExclusiveOrExpression:
+                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructBitwiseXor);
+                break;
+            case SyntaxKind.ExclusiveOrAssignmentExpression:
+                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructBitwiseXor, Tag.TechniqueCompoundAssignment);
+                break;
+            case SyntaxKind.LeftShiftExpression:
+                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructLeftShift);
+                break;
+            case SyntaxKind.LeftShiftAssignmentExpression:
+                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructLeftShift, Tag.TechniqueCompoundAssignment);
+                break;
+            case SyntaxKind.RightShiftExpression:
+                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructRightShift);
+                break;
+            case SyntaxKind.RightShiftAssignmentExpression:
+                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructRightShift, Tag.TechniqueCompoundAssignment);
+                break;
+        }
+        
+        base.VisitBinaryExpression(node);
+    }
+
     public override void VisitToken(SyntaxToken token)
     {
-        var tag = token.Kind() switch
+        switch (token.Kind())
         {
-            SyntaxKind.PublicKeyword => Tag.ConstructVisibilityModifiers,
-            SyntaxKind.ProtectedKeyword => Tag.ConstructVisibilityModifiers,
-            SyntaxKind.PrivateKeyword => Tag.ConstructVisibilityModifiers,
-            SyntaxKind.InternalKeyword => Tag.ConstructVisibilityModifiers,
-            SyntaxKind.ReturnKeyword => Tag.ConstructReturn,
-            SyntaxKind.BreakKeyword => Tag.ConstructBreak,
-            SyntaxKind.ContinueKeyword => Tag.ConstructContinue,
-            _ => null
-        };
-
-        if (tag != null)
-        {
-            AddTag(tag);
+            case SyntaxKind.PublicKeyword:
+            case SyntaxKind.ProtectedKeyword:
+            case SyntaxKind.PrivateKeyword:
+            case SyntaxKind.InternalKeyword:
+                AddTag(Tag.ConstructVisibilityModifiers);
+                break;
+            case SyntaxKind.ReturnKeyword:
+                AddTag(Tag.ConstructReturn);
+                break;
+            case SyntaxKind.BreakKeyword:
+                AddTag(Tag.ConstructBreak);
+                break;
+            case SyntaxKind.ContinueKeyword:
+                AddTag(Tag.ConstructContinue);
+                break;
         }
 
         base.VisitToken(token);
@@ -178,6 +221,76 @@ internal class TagAnalyzer : Analyzer
         base.VisitPropertyDeclaration(node);
     }
 
+    public override void VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
+    {
+        AddTag(Tag.ConstructLocalFunction);
+        
+        base.VisitLocalFunctionStatement(node);
+    }
+
+    public override void VisitLiteralExpression(LiteralExpressionSyntax node)
+    {
+        var typeInfo = SemanticModel.GetTypeInfo(node);
+        
+        switch (typeInfo.ConvertedType?.SpecialType)
+        {
+            case SpecialType.System_Int16:
+                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesShort);
+                break;
+            case SpecialType.System_Int32:
+                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesInt);
+                break;
+            case SpecialType.System_Int64:
+                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesLong);
+                break;
+            case SpecialType.System_Byte:
+                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesByte);
+                break;
+            case SpecialType.System_UInt16:
+                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesUshort);
+                break;
+            case SpecialType.System_UInt32:
+                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesUint);
+                break;
+            case SpecialType.System_UInt64:
+                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesUlong);
+                break;
+            case SpecialType.System_SByte:
+                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesSbyte);
+                break;
+            case SpecialType.System_Single:
+                AddTags(Tag.ConstructNumber, Tag.ConstructFloatingPointNumber, Tag.UsesFloat);
+                break;
+            case SpecialType.System_Double:
+                AddTags(Tag.ConstructNumber, Tag.ConstructFloatingPointNumber, Tag.UsesDouble);
+                break;
+            case SpecialType.System_Decimal:
+                AddTags(Tag.ConstructNumber, Tag.ConstructFloatingPointNumber, Tag.UsesDecimal);
+                break;
+            case SpecialType.System_String:
+                AddTag(Tag.ConstructString);
+                break;
+            case SpecialType.System_Boolean:
+                AddTag(Tag.ConstructBoolean);
+                break;        }
+
+        base.VisitLiteralExpression(node);
+    }
+
+    public override void VisitInterpolatedStringExpression(InterpolatedStringExpressionSyntax node)
+    {   
+        AddTag(Tag.ConstructStringInterpolation);
+
+        base.VisitInterpolatedStringExpression(node);
+    }
+
+    public override void VisitLockStatement(LockStatementSyntax node)
+    {
+        AddTag(Tag.TechniqueLocks);
+        
+        base.VisitLockStatement(node);
+    }
+
     private static class Tag
     {
         // Paradigms
@@ -204,6 +317,7 @@ internal class TagAnalyzer : Analyzer
         public const string TechniqueParallelism = "technique:parallelism";
         public const string TechniqueConcurrency = "technique:concurrency";
         public const string TechniqueImmutability = "technique:immutability";
+        public const string TechniqueCompoundAssignment = "technique:compound-assignment";
 
         // Constructs
         public const string ConstructIf = "construct:if";
@@ -226,6 +340,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructRightShift = "construct:right-shift";
         public const string ConstructBitwiseAnd = "construct:bitwise-and";
         public const string ConstructBitwiseOr = "construct:bitwise-or";
+        public const string ConstructBitwiseNot = "construct:bitwise-not";
         public const string ConstructBitwiseXor = "construct:bitwise-xor";
         public const string ConstructAsyncAwait = "construct:async-await";
         public const string ConstructLambda = "construct:lambda";
@@ -246,6 +361,7 @@ internal class TagAnalyzer : Analyzer
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
         public const string ConstructString = "construct:string";
+        public const string ConstructNumber = "construct:number";
         public const string ConstructIntegralNumber = "construct:integral-number";
         public const string ConstructFloatingPointNumber = "construct:floating-point-number";
         public const string ConstructBigInteger = "construct:big-integer";

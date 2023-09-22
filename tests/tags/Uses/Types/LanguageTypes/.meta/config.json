@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "LanguageTypes.csproj"
+    ],
+    "solution": [
+      "LanguageTypes.cs"
+    ],
+    "test": [
+      "LanguageTypesTests.cs"
+    ]
+  }
+}

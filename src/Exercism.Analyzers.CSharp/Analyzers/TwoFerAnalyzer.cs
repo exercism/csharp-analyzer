@@ -18,7 +18,7 @@ internal class TwoFerAnalyzer : Analyzer
             
             if (parameter is { Default: null })
                 AddComment(Comments.UseDefaultValue(parameterName));
-            else if (parameter is { Default.Value: LiteralExpressionSyntax { Token: { Text: {} defaultValue and not "you" } } })
+            else if (parameter is { Default.Value: LiteralExpressionSyntax { Token: { Text: {} defaultValue and not "\"you\"" } } })
                 AddComment(Comments.InvalidDefaultValue(parameterName, defaultValue));
         }
 
