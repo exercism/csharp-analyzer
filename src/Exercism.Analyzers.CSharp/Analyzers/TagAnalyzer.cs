@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Net.Http.Headers;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -163,6 +164,9 @@ internal class TagAnalyzer : Analyzer
             case SyntaxKind.RightShiftAssignmentExpression:
                 AddTags(Tag.TechniqueBitManipulation, Tag.ConstructRightShift, Tag.TechniqueCompoundAssignment);
                 break;
+            case SyntaxKind.AsExpression:
+                AddTags(Tag.ConstructAsCast, Tag.TechniqueTypeConversion);
+                break;
         }
         
         base.VisitBinaryExpression(node);
@@ -289,6 +293,49 @@ internal class TagAnalyzer : Analyzer
         AddTag(Tag.TechniqueLocks);
         
         base.VisitLockStatement(node);
+    }
+
+    public override void VisitAwaitExpression(AwaitExpressionSyntax node)
+    {
+        AddTag(Tag.ConstructAsyncAwait);
+        
+        base.VisitAwaitExpression(node);
+    }
+
+    public override void VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
+    {
+        AddTag(Tag.ConstructLambda);
+        
+        base.VisitSimpleLambdaExpression(node);
+    }
+
+    public override void VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
+    {
+        AddTag(Tag.ConstructLambda);
+        
+        base.VisitParenthesizedLambdaExpression(node);
+    }
+
+    public override void VisitCastExpression(CastExpressionSyntax node)
+    {
+        AddTags(Tag.ConstructCast, Tag.TechniqueTypeConversion);
+        
+        base.VisitCastExpression(node);
+    }
+
+    public override void VisitIsPatternExpression(IsPatternExpressionSyntax node)
+    {
+        AddTag(Tag.ConstructIsCast);
+        
+        base.VisitIsPatternExpression(node);
+    }
+
+    public override void VisitIdentifierName(IdentifierNameSyntax node)
+    {
+        if (node.Identifier.IsKind(SyntaxKind.VarKeyword))
+            AddTag(Tag.ConstructTypeInference);
+        
+        base.VisitIdentifierName(node);
     }
 
     private static class Tag
