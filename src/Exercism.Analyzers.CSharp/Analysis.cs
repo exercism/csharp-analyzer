@@ -33,11 +33,11 @@ internal abstract class Analyzer : CSharpSyntaxWalker
     }
 
     protected void AddComment(Comment comment) => Analysis.Comments.Add(comment);
-    protected void AddTag(string tag) => Analysis.Tags.Add(tag);
+
     protected void AddTags(params string[] tags)
     {
         foreach (var tag in tags)
-            AddTag(tag);
+            AddTags(tag);
     }
 
     private void Analyze(Compilation compilation, Project project, Analysis analysis)

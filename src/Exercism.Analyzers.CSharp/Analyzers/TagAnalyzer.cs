@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net.Http.Headers;
 
@@ -11,87 +12,85 @@ internal class TagAnalyzer : Analyzer
 {
     public override void VisitForStatement(ForStatementSyntax node)
     {
-        AddTag(Tag.ConstructFor);
+        AddTags(Tag.ConstructFor);
         base.VisitForStatement(node);
     }
 
     public override void VisitForEachStatement(ForEachStatementSyntax node)
     {
-        AddTag(Tag.ConstructForeach);
+        AddTags(Tag.ConstructForeach);
         base.VisitForEachStatement(node);
     }
 
     public override void VisitIfStatement(IfStatementSyntax node)
     {
-        AddTag(Tag.ConstructIf);
+        AddTags(Tag.ConstructIf);
         base.VisitIfStatement(node);
     }
 
     public override void VisitSwitchStatement(SwitchStatementSyntax node)
     {
-        AddTag(Tag.ConstructSwitch);
+        AddTags(Tag.ConstructSwitch);
         base.VisitSwitchStatement(node);
     }
 
     public override void VisitSwitchExpression(SwitchExpressionSyntax node)
     {
-        AddTag(Tag.ConstructSwitchExpression);
+        AddTags(Tag.ConstructSwitchExpression, Tag.ConstructPatternMatching);
         base.VisitSwitchExpression(node);
     }
 
     public override void VisitParameter(ParameterSyntax node)
     {
         if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ThisKeyword)))
-            AddTag(Tag.ConstructExtensionMethod);
+            AddTags(Tag.ConstructExtensionMethod);
 
-        AddTag(Tag.ConstructParameter);
-
+        AddTags(Tag.ConstructParameter);
         base.VisitParameter(node);
     }
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
-            AddTag(Tag.ConstructGenericMethod);
+            AddTags(Tag.ConstructGenericMethod);
+        
+        if (node.ExpressionBody is not null)
+            AddTags(Tag.UsesExpressionBodiedMember);
 
-        AddTag(Tag.ConstructMethod);
-
+        AddTags(Tag.ConstructMethod);
         base.VisitMethodDeclaration(node);
     }
 
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
-            AddTag(Tag.ConstructGenericType);
+            AddTags(Tag.ConstructGenericType);
 
-        AddTag(Tag.ConstructClass);
-
+        AddTags(Tag.ConstructClass);
         base.VisitClassDeclaration(node);
     }
 
     public override void VisitStructDeclaration(StructDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
-            AddTag(Tag.ConstructGenericType);
+            AddTags(Tag.ConstructGenericType);
 
-        AddTag(Tag.ConstructStruct);
-
+        AddTags(Tag.ConstructStruct);
         base.VisitStructDeclaration(node);
     }
 
     public override void VisitRecordDeclaration(RecordDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
-            AddTag(Tag.ConstructGenericType);
+            AddTags(Tag.ConstructGenericType);
 
-        AddTag(Tag.ConstructRecord);
-
+        AddTags(Tag.ConstructRecord);
         base.VisitRecordDeclaration(node);
     }
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        AddTag(Tag.ConstructInvocation);
+        AddTags(Tag.ConstructInvocation);
 
         if (node.Expression is IdentifierNameSyntax identifierName)
         {
@@ -103,7 +102,7 @@ internal class TagAnalyzer : Analyzer
                 parent is LocalFunctionStatementSyntax localFunctionStatement &&
                 localFunctionStatement.Identifier.Text == identifierName.Identifier.Text)
             {
-                AddTag(Tag.TechniqueRecursion);
+                AddTags(Tag.TechniqueRecursion);
             }
         }
 
@@ -112,15 +111,13 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
     {
-        AddTag(Tag.ConstructInterface);
-
+        AddTags(Tag.ConstructInterface);
         base.VisitInterfaceDeclaration(node);
     }
 
     public override void VisitConditionalExpression(ConditionalExpressionSyntax node)
     {
-        AddTag(Tag.ConstructTernary);
-
+        AddTags(Tag.ConstructTernary);
         base.VisitConditionalExpression(node);
     }
 
@@ -180,16 +177,16 @@ internal class TagAnalyzer : Analyzer
             case SyntaxKind.ProtectedKeyword:
             case SyntaxKind.PrivateKeyword:
             case SyntaxKind.InternalKeyword:
-                AddTag(Tag.ConstructVisibilityModifiers);
+                AddTags(Tag.ConstructVisibilityModifiers);
                 break;
             case SyntaxKind.ReturnKeyword:
-                AddTag(Tag.ConstructReturn);
+                AddTags(Tag.ConstructReturn);
                 break;
             case SyntaxKind.BreakKeyword:
-                AddTag(Tag.ConstructBreak);
+                AddTags(Tag.ConstructBreak);
                 break;
             case SyntaxKind.ContinueKeyword:
-                AddTag(Tag.ConstructContinue);
+                AddTags(Tag.ConstructContinue);
                 break;
         }
 
@@ -198,37 +195,30 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
     {
-        AddTag(Tag.ConstructProperty);
+        AddTags(Tag.ConstructProperty);
+        
+        if (node.ExpressionBody is not null)
+            AddTags(Tag.UsesExpressionBodiedMember);
 
-        var getAccessor =
-            node.AccessorList?.Accessors.FirstOrDefault(accessor =>
-                accessor.IsKind(SyntaxKind.GetAccessorDeclaration));
-        var setAccessor =
-            node.AccessorList?.Accessors.FirstOrDefault(accessor =>
-                accessor.IsKind(SyntaxKind.SetAccessorDeclaration));
+        var accessors = node.AccessorList?.Accessors;
+        var getAccessor = accessors?.FirstOrDefault(accessor => accessor.IsKind(SyntaxKind.GetAccessorDeclaration));
+        var setAccessor = accessors?.FirstOrDefault(accessor => accessor.IsKind(SyntaxKind.SetAccessorDeclaration));
 
         if (getAccessor != null)
-        {
-            AddTag(Tag.ConstructGetter);
-        }
+            AddTags(Tag.ConstructGetter);
 
         if (setAccessor != null)
-        {
-            AddTag(Tag.ConstructSetter);
-        }
+            AddTags(Tag.ConstructSetter);
 
-        if (getAccessor is {Body: null} && setAccessor is {Body: null})
-        {
-            AddTag(Tag.UsesAutoImplementedProperty);
-        }
+        if (getAccessor is {Body: null} && setAccessor is {Body: null} or null)
+            AddTags(Tag.UsesAutoImplementedProperty);
 
         base.VisitPropertyDeclaration(node);
     }
 
     public override void VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
     {
-        AddTag(Tag.ConstructLocalFunction);
-        
+        AddTags(Tag.ConstructLocalFunction);
         base.VisitLocalFunctionStatement(node);
     }
 
@@ -272,70 +262,94 @@ internal class TagAnalyzer : Analyzer
                 AddTags(Tag.ConstructNumber, Tag.ConstructFloatingPointNumber, Tag.UsesDecimal);
                 break;
             case SpecialType.System_String:
-                AddTag(Tag.ConstructString);
+                AddTags(Tag.ConstructString);
+
+                var lineSpan = node.GetLocation().GetLineSpan();
+                if (lineSpan.EndLinePosition.Line > lineSpan.StartLinePosition.Line)
+                    AddTags(Tag.ConstructMultilineString);
+
                 break;
             case SpecialType.System_Boolean:
-                AddTag(Tag.ConstructBoolean);
-                break;        }
+                AddTags(Tag.ConstructBoolean);
+                break;
+        }
+        
+        if (node.IsKind(SyntaxKind.NumericLiteralExpression))
+        {
+            if (node.Token.Text.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                AddTags(Tag.ConstructHexadecimalNumber);
+            else if (node.Token.Text.StartsWith("0b", StringComparison.OrdinalIgnoreCase))
+                AddTags(Tag.ConstructBinaryNumber);
+            else if (node.Token.Text.Contains('.', StringComparison.OrdinalIgnoreCase) && 
+                     node.Token.Text.Contains('e', StringComparison.OrdinalIgnoreCase))
+                AddTags(Tag.ConstructScientificNumber);
+        }
 
         base.VisitLiteralExpression(node);
     }
 
     public override void VisitInterpolatedStringExpression(InterpolatedStringExpressionSyntax node)
     {   
-        AddTag(Tag.ConstructStringInterpolation);
-
+        AddTags(Tag.ConstructStringInterpolation);
         base.VisitInterpolatedStringExpression(node);
     }
 
     public override void VisitLockStatement(LockStatementSyntax node)
     {
-        AddTag(Tag.TechniqueLocks);
-        
+        AddTags(Tag.TechniqueLocks);
         base.VisitLockStatement(node);
     }
 
     public override void VisitAwaitExpression(AwaitExpressionSyntax node)
     {
-        AddTag(Tag.ConstructAsyncAwait);
-        
+        AddTags(Tag.ConstructAsyncAwait);
         base.VisitAwaitExpression(node);
     }
 
     public override void VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
     {
-        AddTag(Tag.ConstructLambda);
-        
+        AddTags(Tag.ConstructLambda);
         base.VisitSimpleLambdaExpression(node);
     }
 
     public override void VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
     {
-        AddTag(Tag.ConstructLambda);
-        
+        AddTags(Tag.ConstructLambda);
         base.VisitParenthesizedLambdaExpression(node);
     }
 
     public override void VisitCastExpression(CastExpressionSyntax node)
     {
         AddTags(Tag.ConstructCast, Tag.TechniqueTypeConversion);
-        
         base.VisitCastExpression(node);
     }
 
     public override void VisitIsPatternExpression(IsPatternExpressionSyntax node)
     {
-        AddTag(Tag.ConstructIsCast);
-        
+        AddTags(Tag.ConstructIsCast, Tag.ConstructPatternMatching);
         base.VisitIsPatternExpression(node);
     }
 
     public override void VisitIdentifierName(IdentifierNameSyntax node)
     {
         if (node.Identifier.IsKind(SyntaxKind.VarKeyword))
-            AddTag(Tag.ConstructTypeInference);
+            AddTags(Tag.ConstructTypeInference);
         
         base.VisitIdentifierName(node);
+    }
+
+    public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
+    {
+        if (node.ExpressionBody is not null)
+            AddTags(Tag.UsesExpressionBodiedMember);
+        
+        base.VisitConstructorDeclaration(node);
+    }
+
+    public override void VisitQueryExpression(QueryExpressionSyntax node)
+    {
+        AddTags(Tag.ConstructQueryExpression, Tag.UsesLinq);
+        base.VisitQueryExpression(node);
     }
 
     private static class Tag
@@ -404,6 +418,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructContinue = "construct:continue";
         public const string ConstructReturn = "construct:return";
         public const string ConstructTypeInference = "construct:type-inference";
+        public const string ConstructQueryExpression = "construct:query-expression";
 
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
@@ -425,7 +440,6 @@ internal class TagAnalyzer : Analyzer
 
         // Constructs - notation
         public const string ConstructHexadecimalNumber = "construct:hexadecimal-number";
-        public const string ConstructOctalNumber = "construct:octal-number";
         public const string ConstructBinaryNumber = "construct:binary-number";
         public const string ConstructScientificNumber = "construct:scientific-number";
         public const string ConstructMultilineString = "construct-multiline-string";
