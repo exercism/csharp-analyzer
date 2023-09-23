@@ -27,7 +27,10 @@ internal class LeapAnalyzer : Analyzer
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         if (SemanticModel.GetSymbolInfo(node).Symbol?.ToString() == "System.DateTime.IsLeapYear(int)")
+        {
             AddComment(Comments.DoNotUseIsLeapYear);
+            AddTags(Tags.UsesDateTimeIsLeapYear);
+        }
 
         base.VisitInvocationExpression(node);
     }
@@ -49,5 +52,10 @@ internal class LeapAnalyzer : Analyzer
 
         public static readonly Comment UseMinimumNumberOfChecks =
             new("csharp.leap.use_minimum_number_of_checks", CommentType.Actionable);
+    }
+
+    private static class Tags
+    {
+        public const string UsesDateTimeIsLeapYear = "uses:DateTime.IsLeapYear";
     }
 }

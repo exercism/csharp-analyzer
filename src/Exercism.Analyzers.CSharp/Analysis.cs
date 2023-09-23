@@ -37,7 +37,7 @@ internal abstract class Analyzer : CSharpSyntaxWalker
     protected void AddTags(params string[] tags)
     {
         foreach (var tag in tags)
-            AddTags(tag);
+            Analysis.Tags.Add(tag);
     }
 
     private void Analyze(Compilation compilation, Project project, Analysis analysis)

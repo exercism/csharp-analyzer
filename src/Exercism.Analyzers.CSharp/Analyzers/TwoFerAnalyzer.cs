@@ -27,13 +27,13 @@ internal class TwoFerAnalyzer : Analyzer
     
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        var method = SemanticModel.GetSymbolInfo(node).Symbol?.ToString();
+        var symbol = SemanticModel.GetSymbolInfo(node).Symbol?.ToString();
 
-        if (method == "string.Concat(string?, string?, string?)")
+        if (symbol == "string.Concat(string?, string?, string?)")
             AddComment(Comments.UseStringInterpolationNotStringConcat);
-        else if (method == "string.IsNullOrEmpty(string?)")
+        else if (symbol == "string.IsNullOrEmpty(string?)")
             AddComment(Comments.UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
-        else if (method == "string.IsNullOrWhiteSpace(string?)")
+        else if (symbol == "string.IsNullOrWhiteSpace(string?)")
             AddComment(Comments.UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
 
         base.VisitInvocationExpression(node);

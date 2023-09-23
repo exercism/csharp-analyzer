@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Net.Http.Headers;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -10,88 +9,101 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class TagAnalyzer : Analyzer
 {
+    private readonly Lazy<INamespaceOrTypeSymbol> _linqNamespaceSymbol;
+    private INamespaceOrTypeSymbol LinqNamespaceSymbol => _linqNamespaceSymbol.Value;
+    
+    public TagAnalyzer() => 
+        _linqNamespaceSymbol = new Lazy<INamespaceOrTypeSymbol>(() => Compilation.GetTypeByMetadataName("System.Linq.Enumerable")?.ContainingNamespace);
+
     public override void VisitForStatement(ForStatementSyntax node)
     {
-        AddTags(Tag.ConstructFor);
+        AddTags(Tags.ConstructFor);
         base.VisitForStatement(node);
     }
 
     public override void VisitForEachStatement(ForEachStatementSyntax node)
     {
-        AddTags(Tag.ConstructForeach);
+        AddTags(Tags.ConstructForeach);
         base.VisitForEachStatement(node);
     }
 
     public override void VisitIfStatement(IfStatementSyntax node)
     {
-        AddTags(Tag.ConstructIf);
+        AddTags(Tags.ConstructIf);
         base.VisitIfStatement(node);
     }
 
     public override void VisitSwitchStatement(SwitchStatementSyntax node)
     {
-        AddTags(Tag.ConstructSwitch);
+        AddTags(Tags.ConstructSwitch);
         base.VisitSwitchStatement(node);
     }
 
     public override void VisitSwitchExpression(SwitchExpressionSyntax node)
     {
-        AddTags(Tag.ConstructSwitchExpression, Tag.ConstructPatternMatching);
+        AddTags(Tags.ConstructSwitchExpression, Tags.ConstructPatternMatching);
         base.VisitSwitchExpression(node);
     }
 
     public override void VisitParameter(ParameterSyntax node)
     {
         if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ThisKeyword)))
-            AddTags(Tag.ConstructExtensionMethod);
+            AddTags(Tags.ConstructExtensionMethod);
 
-        AddTags(Tag.ConstructParameter);
+        AddTags(Tags.ConstructParameter);
         base.VisitParameter(node);
     }
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
-            AddTags(Tag.ConstructGenericMethod);
+            AddTags(Tags.ConstructGenericMethod);
         
         if (node.ExpressionBody is not null)
-            AddTags(Tag.UsesExpressionBodiedMember);
+            AddTags(Tags.UsesExpressionBodiedMember);
 
-        AddTags(Tag.ConstructMethod);
+        AddTags(Tags.ConstructMethod);
         base.VisitMethodDeclaration(node);
     }
 
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
-            AddTags(Tag.ConstructGenericType);
+            AddTags(Tags.ConstructGenericType);
 
-        AddTags(Tag.ConstructClass);
+        AddTags(Tags.ConstructClass, Tags.ParadigmObjectOriented);
         base.VisitClassDeclaration(node);
     }
 
     public override void VisitStructDeclaration(StructDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
-            AddTags(Tag.ConstructGenericType);
+            AddTags(Tags.ConstructGenericType);
 
-        AddTags(Tag.ConstructStruct);
+        AddTags(Tags.ConstructStruct, Tags.ParadigmObjectOriented);
         base.VisitStructDeclaration(node);
     }
 
     public override void VisitRecordDeclaration(RecordDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
-            AddTags(Tag.ConstructGenericType);
+            AddTags(Tags.ConstructGenericType);
 
-        AddTags(Tag.ConstructRecord);
+        AddTags(Tags.ConstructRecord, Tags.ParadigmObjectOriented, Tags.ParadigmFunctional);
         base.VisitRecordDeclaration(node);
+    }
+
+    public override void VisitTupleExpression(TupleExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructTuple);
+        base.VisitTupleExpression(node);
     }
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        AddTags(Tag.ConstructInvocation);
+        AddTags(Tags.ConstructInvocation);
 
+        // TODO: properly detect recursion
         if (node.Expression is IdentifierNameSyntax identifierName)
         {
             var parent = node.AncestorsAndSelf()
@@ -102,22 +114,26 @@ internal class TagAnalyzer : Analyzer
                 parent is LocalFunctionStatementSyntax localFunctionStatement &&
                 localFunctionStatement.Identifier.Text == identifierName.Identifier.Text)
             {
-                AddTags(Tag.TechniqueRecursion);
+                AddTags(Tags.TechniqueRecursion);
             }
         }
+        
+        var symbol = SemanticModel.GetSymbolInfo(node).Symbol;
+        if (symbol is not null && symbol.ContainingNamespace.Equals(LinqNamespaceSymbol, SymbolEqualityComparer.Default))
+            AddTags(Tags.UsesLinq, Tags.ParadigmFunctional);
 
         base.VisitInvocationExpression(node);
     }
 
     public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
     {
-        AddTags(Tag.ConstructInterface);
+        AddTags(Tags.ConstructInterface);
         base.VisitInterfaceDeclaration(node);
     }
 
     public override void VisitConditionalExpression(ConditionalExpressionSyntax node)
     {
-        AddTags(Tag.ConstructTernary);
+        AddTags(Tags.ConstructTernary);
         base.VisitConditionalExpression(node);
     }
 
@@ -126,43 +142,43 @@ internal class TagAnalyzer : Analyzer
         switch (node.Kind())
         {
             case SyntaxKind.LogicalAndExpression:
-                AddTags(Tag.ConstructBoolean, Tag.ConstructLogicalAnd, Tag.TechniqueBooleanLogic);
+                AddTags(Tags.ConstructBoolean, Tags.ConstructLogicalAnd, Tags.TechniqueBooleanLogic);
                 break;
             case SyntaxKind.LogicalOrExpression:
-                AddTags(Tag.ConstructBoolean, Tag.ConstructLogicalOr, Tag.TechniqueBooleanLogic);
+                AddTags(Tags.ConstructBoolean, Tags.ConstructLogicalOr, Tags.TechniqueBooleanLogic);
                 break;
             case SyntaxKind.LogicalNotExpression:
-                AddTags(Tag.ConstructBoolean, Tag.ConstructLogicalNot, Tag.TechniqueBooleanLogic);
+                AddTags(Tags.ConstructBoolean, Tags.ConstructLogicalNot, Tags.TechniqueBooleanLogic);
                 break;
             case SyntaxKind.BitwiseAndExpression:
-                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructBitwiseAnd);
+                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseAnd);
                 break;
             case SyntaxKind.BitwiseOrExpression:
-                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructBitwiseOr);
+                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseOr);
                 break;
             case SyntaxKind.BitwiseNotExpression:
-                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructBitwiseNot);
+                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseNot);
                 break;
             case SyntaxKind.ExclusiveOrExpression:
-                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructBitwiseXor);
+                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseXor);
                 break;
             case SyntaxKind.ExclusiveOrAssignmentExpression:
-                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructBitwiseXor, Tag.TechniqueCompoundAssignment);
+                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseXor, Tags.TechniqueCompoundAssignment);
                 break;
             case SyntaxKind.LeftShiftExpression:
-                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructLeftShift);
+                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructLeftShift);
                 break;
             case SyntaxKind.LeftShiftAssignmentExpression:
-                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructLeftShift, Tag.TechniqueCompoundAssignment);
+                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructLeftShift, Tags.TechniqueCompoundAssignment);
                 break;
             case SyntaxKind.RightShiftExpression:
-                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructRightShift);
+                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructRightShift);
                 break;
             case SyntaxKind.RightShiftAssignmentExpression:
-                AddTags(Tag.TechniqueBitManipulation, Tag.ConstructRightShift, Tag.TechniqueCompoundAssignment);
+                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructRightShift, Tags.TechniqueCompoundAssignment);
                 break;
             case SyntaxKind.AsExpression:
-                AddTags(Tag.ConstructAsCast, Tag.TechniqueTypeConversion);
+                AddTags(Tags.ConstructAsCast, Tags.TechniqueTypeConversion);
                 break;
         }
         
@@ -177,16 +193,16 @@ internal class TagAnalyzer : Analyzer
             case SyntaxKind.ProtectedKeyword:
             case SyntaxKind.PrivateKeyword:
             case SyntaxKind.InternalKeyword:
-                AddTags(Tag.ConstructVisibilityModifiers);
+                AddTags(Tags.ConstructVisibilityModifiers);
                 break;
             case SyntaxKind.ReturnKeyword:
-                AddTags(Tag.ConstructReturn);
+                AddTags(Tags.ConstructReturn);
                 break;
             case SyntaxKind.BreakKeyword:
-                AddTags(Tag.ConstructBreak);
+                AddTags(Tags.ConstructBreak);
                 break;
             case SyntaxKind.ContinueKeyword:
-                AddTags(Tag.ConstructContinue);
+                AddTags(Tags.ConstructContinue);
                 break;
         }
 
@@ -195,30 +211,30 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
     {
-        AddTags(Tag.ConstructProperty);
+        AddTags(Tags.ConstructProperty);
         
         if (node.ExpressionBody is not null)
-            AddTags(Tag.UsesExpressionBodiedMember);
+            AddTags(Tags.UsesExpressionBodiedMember);
 
         var accessors = node.AccessorList?.Accessors;
         var getAccessor = accessors?.FirstOrDefault(accessor => accessor.IsKind(SyntaxKind.GetAccessorDeclaration));
         var setAccessor = accessors?.FirstOrDefault(accessor => accessor.IsKind(SyntaxKind.SetAccessorDeclaration));
 
         if (getAccessor != null)
-            AddTags(Tag.ConstructGetter);
+            AddTags(Tags.ConstructGetter);
 
         if (setAccessor != null)
-            AddTags(Tag.ConstructSetter);
+            AddTags(Tags.ConstructSetter);
 
         if (getAccessor is {Body: null} && setAccessor is {Body: null} or null)
-            AddTags(Tag.UsesAutoImplementedProperty);
+            AddTags(Tags.UsesAutoImplementedProperty);
 
         base.VisitPropertyDeclaration(node);
     }
 
     public override void VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
     {
-        AddTags(Tag.ConstructLocalFunction);
+        AddTags(Tags.ConstructLocalFunction);
         base.VisitLocalFunctionStatement(node);
     }
 
@@ -229,60 +245,68 @@ internal class TagAnalyzer : Analyzer
         switch (typeInfo.ConvertedType?.SpecialType)
         {
             case SpecialType.System_Int16:
-                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesShort);
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesShort);
                 break;
             case SpecialType.System_Int32:
-                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesInt);
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesInt);
                 break;
             case SpecialType.System_Int64:
-                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesLong);
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesLong);
                 break;
             case SpecialType.System_Byte:
-                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesByte);
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesByte);
                 break;
             case SpecialType.System_UInt16:
-                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesUshort);
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUshort);
                 break;
             case SpecialType.System_UInt32:
-                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesUint);
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUint);
                 break;
             case SpecialType.System_UInt64:
-                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesUlong);
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUlong);
                 break;
             case SpecialType.System_SByte:
-                AddTags(Tag.ConstructNumber, Tag.ConstructIntegralNumber, Tag.UsesSbyte);
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesSbyte);
                 break;
             case SpecialType.System_Single:
-                AddTags(Tag.ConstructNumber, Tag.ConstructFloatingPointNumber, Tag.UsesFloat);
+                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesFloat);
                 break;
             case SpecialType.System_Double:
-                AddTags(Tag.ConstructNumber, Tag.ConstructFloatingPointNumber, Tag.UsesDouble);
+                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesDouble);
                 break;
             case SpecialType.System_Decimal:
-                AddTags(Tag.ConstructNumber, Tag.ConstructFloatingPointNumber, Tag.UsesDecimal);
+                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesDecimal);
                 break;
             case SpecialType.System_String:
-                AddTags(Tag.ConstructString);
-
+                AddTags(Tags.ConstructString);
+                
                 var lineSpan = node.GetLocation().GetLineSpan();
                 if (lineSpan.EndLinePosition.Line > lineSpan.StartLinePosition.Line)
-                    AddTags(Tag.ConstructMultilineString);
+                    AddTags(Tags.ConstructMultilineString);
 
+                if (node.Token.Text.StartsWith('@'))
+                    AddTags(Tags.ConstructVerbatimString);
+                
                 break;
             case SpecialType.System_Boolean:
-                AddTags(Tag.ConstructBoolean);
+                AddTags(Tags.ConstructBoolean);
                 break;
         }
         
         if (node.IsKind(SyntaxKind.NumericLiteralExpression))
         {
+            AddTags(Tags.ConstructNumber);
+            
             if (node.Token.Text.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                AddTags(Tag.ConstructHexadecimalNumber);
+                AddTags(Tags.ConstructHexadecimalNumber);
             else if (node.Token.Text.StartsWith("0b", StringComparison.OrdinalIgnoreCase))
-                AddTags(Tag.ConstructBinaryNumber);
+                AddTags(Tags.ConstructBinaryNumber);
             else if (node.Token.Text.Contains('.', StringComparison.OrdinalIgnoreCase) && 
                      node.Token.Text.Contains('e', StringComparison.OrdinalIgnoreCase))
-                AddTags(Tag.ConstructScientificNumber);
+                AddTags(Tags.ConstructScientificNumber);
+            
+            if (node.Token.Text.Contains('_'))
+                AddTags(Tags.ConstructUnderscoreNumberNotation);
         }
 
         base.VisitLiteralExpression(node);
@@ -290,50 +314,50 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitInterpolatedStringExpression(InterpolatedStringExpressionSyntax node)
     {   
-        AddTags(Tag.ConstructStringInterpolation);
+        AddTags(Tags.ConstructStringInterpolation);
         base.VisitInterpolatedStringExpression(node);
     }
 
     public override void VisitLockStatement(LockStatementSyntax node)
     {
-        AddTags(Tag.TechniqueLocks);
+        AddTags(Tags.TechniqueLocks);
         base.VisitLockStatement(node);
     }
 
     public override void VisitAwaitExpression(AwaitExpressionSyntax node)
     {
-        AddTags(Tag.ConstructAsyncAwait);
+        AddTags(Tags.ConstructAsyncAwait);
         base.VisitAwaitExpression(node);
     }
 
     public override void VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
     {
-        AddTags(Tag.ConstructLambda);
+        AddTags(Tags.ConstructLambda, Tags.ParadigmFunctional);
         base.VisitSimpleLambdaExpression(node);
     }
 
     public override void VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
     {
-        AddTags(Tag.ConstructLambda);
+        AddTags(Tags.ConstructLambda, Tags.ParadigmFunctional);
         base.VisitParenthesizedLambdaExpression(node);
     }
 
     public override void VisitCastExpression(CastExpressionSyntax node)
     {
-        AddTags(Tag.ConstructCast, Tag.TechniqueTypeConversion);
+        AddTags(Tags.ConstructCast, Tags.TechniqueTypeConversion);
         base.VisitCastExpression(node);
     }
 
     public override void VisitIsPatternExpression(IsPatternExpressionSyntax node)
     {
-        AddTags(Tag.ConstructIsCast, Tag.ConstructPatternMatching);
+        AddTags(Tags.ConstructIsCast, Tags.ConstructPatternMatching);
         base.VisitIsPatternExpression(node);
     }
 
     public override void VisitIdentifierName(IdentifierNameSyntax node)
     {
         if (node.Identifier.IsKind(SyntaxKind.VarKeyword))
-            AddTags(Tag.ConstructTypeInference);
+            AddTags(Tags.ConstructTypeInference);
         
         base.VisitIdentifierName(node);
     }
@@ -341,18 +365,24 @@ internal class TagAnalyzer : Analyzer
     public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
     {
         if (node.ExpressionBody is not null)
-            AddTags(Tag.UsesExpressionBodiedMember);
+            AddTags(Tags.UsesExpressionBodiedMember);
         
         base.VisitConstructorDeclaration(node);
     }
 
     public override void VisitQueryExpression(QueryExpressionSyntax node)
     {
-        AddTags(Tag.ConstructQueryExpression, Tag.UsesLinq);
+        AddTags(Tags.ConstructQueryExpression, Tags.UsesLinq, Tags.ParadigmFunctional, Tags.ParadigmDeclarative);
         base.VisitQueryExpression(node);
     }
 
-    private static class Tag
+    public override void VisitFieldDeclaration(FieldDeclarationSyntax node)
+    {
+        AddTags(Tags.ConstructField);
+        base.VisitFieldDeclaration(node);
+    }
+
+    private static class Tags
     {
         // Paradigms
         public const string ParadigmDeclarative = "paradigm:declarative";
@@ -437,13 +467,16 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructRecord = "construct:record";
         public const string ConstructClass = "construct:class";
         public const string ConstructInterface = "construct:interface";
+        public const string ConstructTuple = "construct:tuple";
 
         // Constructs - notation
         public const string ConstructHexadecimalNumber = "construct:hexadecimal-number";
         public const string ConstructBinaryNumber = "construct:binary-number";
         public const string ConstructScientificNumber = "construct:scientific-number";
+        public const string ConstructUnderscoreNumberNotation = "construct:underscore-number-notation";
         public const string ConstructMultilineString = "construct-multiline-string";
         public const string ConstructStringInterpolation = "construct-string-interpolation";
+        public const string ConstructVerbatimString = "construct-verbatim-string";
 
         // Uses
         public const string UsesLinq = "uses:linq";
@@ -468,11 +501,6 @@ internal class TagAnalyzer : Analyzer
         public const string UsesMemory = "uses:memory";
 
         // Uses - members
-        public const string UsesDateTimeAddDays = "uses:DateTime.AddDays";
-        public const string UsesDateTimeAddSeconds = "uses:DateTime.AddSeconds";
-        public const string UsesDateTimePlusTimeSpan = "uses:DateTime.Plus(TimeSpan)";
-        public const string UsesDateTimeIsLeapYear = "uses:DateTime.IsLeapYear";
-        public const string UsesMathPow = "uses:Math.Pow";
         public const string UsesUInt64MaxValue = "uses:UInt64.MaxValue";
         public const string UsesEnumerableCount = "uses:Enumerable.Count";
         public const string UsesEnumerableDistinct = "uses:Enumerable.Distinct";

@@ -29,8 +29,8 @@ internal class CommonAnalyzer : Analyzer
             ])
         {
             var declaredSymbol = ModelExtensions.GetDeclaredSymbol(SemanticModel, localDeclarationStatement.Declaration.Variables[0]);
-            var returnedSymbol = ModelExtensions.GetSymbolInfo(SemanticModel, identifierName);
-            if (declaredSymbol!.Equals(returnedSymbol.Symbol, SymbolEqualityComparer.Default))
+            var returnedSymbolInfo = ModelExtensions.GetSymbolInfo(SemanticModel, identifierName);
+            if (declaredSymbol!.Equals(returnedSymbolInfo.Symbol, SymbolEqualityComparer.Default))
                 AddComment(Comments.DoNotAssignAndReturn);
         }
         
@@ -43,8 +43,8 @@ internal class CommonAnalyzer : Analyzer
             ConsoleOutputIdentifierNames.Contains(memberAccessExpression.ToString()))
             AddComment(Comments.DoNotWriteToConsole);
 
-        var method = SemanticModel.GetSymbolInfo(node).Symbol?.ToString();
-        if (method == "string.Format(string, object?)")
+        var symbol = SemanticModel.GetSymbolInfo(node).Symbol?.ToString();
+        if (symbol == "string.Format(string, object?)")
             AddComment(Comments.UseStringInterpolationNotStringFormat);
 
         base.VisitInvocationExpression(node);
@@ -52,8 +52,8 @@ internal class CommonAnalyzer : Analyzer
 
     public override void VisitBinaryExpression(BinaryExpressionSyntax node)
     {
-        var operatorMethod = SemanticModel.GetSymbolInfo(node).Symbol?.ToString();
-        if (operatorMethod == "string.operator +(string, string)")
+        var symbol = SemanticModel.GetSymbolInfo(node).Symbol?.ToString();
+        if (symbol == "string.operator +(string, string)")
             AddComment(Comments.UseStringInterpolationNotStringConcatenation);
         
         base.VisitBinaryExpression(node);
