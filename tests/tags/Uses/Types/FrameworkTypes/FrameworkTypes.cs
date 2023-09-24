@@ -3,20 +3,22 @@
     public static void Integrals()
     {
         sbyte explicitSbyte = 0;
-        byte explicitByte = 0;
-        short explicitShort = 0;
-        ushort explicitUshort = 0;
-        int explicitInt = 0;
-        uint explicitUint = 0;
-        long explicitLong = 0;
-        uint explicitUlong = 0;
+        byte explicitByte = 1;
+        short explicitShort = 2;
+        ushort explicitUshort = 3;
+        int explicitInt = 4;
+        uint explicitUint = 5;
+        long explicitLong = 6;
+        uint explicitUlong = 7;
+        nint explicitNint = 8;
+        nuint explicitNuint = 9;
     }
     
     public static void FloatingPoint()
     {
         float explicitFloat = 0.0f;
-        double explicitDouble = 0.0;
-        decimal explicitDecimal = 0.0m;
+        double explicitDouble = 1.0;
+        decimal explicitDecimal = 2.0m;
     }
 
     public static void Other()

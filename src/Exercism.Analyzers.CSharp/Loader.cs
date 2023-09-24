@@ -44,21 +44,7 @@ internal static class Loader
                 .Where(sourceFile => !nonSubmissionFiles.Contains(sourceFile))
                 .Select(async sourceFile =>
                 {
-                    // var source = await File.ReadAllTextAsync(sourceFile);
-                    var source = @"
-using System.Collections.Generic;
-using System.Linq;
-
-public static class Types
-{
-    public static void Integrals()
-    {
-        int[] numbers = { 5, 10, 8, 3, 6, 12};
-IEnumerable<int> numQuery2 = numbers.Where(num => num % 2 == 0).OrderBy(n => n);
-    }
-}
-";
-                        
+                    var source = await File.ReadAllTextAsync(sourceFile);
                     return new SubmissionFile(sourceFile, SourceText.From(source));
                 });
         }

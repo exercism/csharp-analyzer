@@ -268,6 +268,12 @@ internal class TagAnalyzer : Analyzer
             case SpecialType.System_SByte:
                 AddTags(Tags.ConstructIntegralNumber, Tags.UsesSbyte);
                 break;
+            case SpecialType.System_IntPtr:
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesNint);
+                break;
+            case SpecialType.System_UIntPtr:
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUint);
+                break;
             case SpecialType.System_Single:
                 AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesFloat);
                 break;
@@ -290,6 +296,12 @@ internal class TagAnalyzer : Analyzer
                 break;
             case SpecialType.System_Boolean:
                 AddTags(Tags.ConstructBoolean);
+                break;
+            case SpecialType.System_Array:
+                AddTags(Tags.ConstructArray);
+                break;
+            case SpecialType.System_Char:
+                AddTags(Tags.ConstructChar);
                 break;
         }
         
@@ -453,6 +465,7 @@ internal class TagAnalyzer : Analyzer
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
         public const string ConstructString = "construct:string";
+        public const string ConstructChar = "construct:char";
         public const string ConstructNumber = "construct:number";
         public const string ConstructIntegralNumber = "construct:integral-number";
         public const string ConstructFloatingPointNumber = "construct:floating-point-number";
