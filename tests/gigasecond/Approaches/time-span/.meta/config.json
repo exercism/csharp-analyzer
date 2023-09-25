@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "TimeSpan.csproj"
+    ],
+    "solution": [
+      "TimeSpan.cs"
+    ],
+    "test": [
+      "TimeSpanTests.cs"
+    ]
+  }
+}

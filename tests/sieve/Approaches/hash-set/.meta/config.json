@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "HashSet.csproj"
+    ],
+    "solution": [
+      "HashSet.cs"
+    ],
+    "test": [
+      "HashSetTests.cs"
+    ]
+  }
+}

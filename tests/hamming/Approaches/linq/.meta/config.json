@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Linq.csproj"
+    ],
+    "solution": [
+      "Linq.cs"
+    ],
+    "test": [
+      "LinqTests.cs"
+    ]
+  }
+}

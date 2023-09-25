@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "MaxValue.csproj"
+    ],
+    "solution": [
+      "MaxValue.cs"
+    ],
+    "test": [
+      "MaxValueTests.cs"
+    ]
+  }
+}

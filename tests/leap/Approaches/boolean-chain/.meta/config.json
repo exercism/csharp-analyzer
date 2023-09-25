@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "BooleanChain.csproj"
+    ],
+    "solution": [
+      "BooleanChain.cs"
+    ],
+    "test": [
+      "BooleanChainTests.cs"
+    ]
+  }
+}

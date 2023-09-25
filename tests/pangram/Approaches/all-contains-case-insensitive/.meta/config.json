@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "AllContainsCaseInsensitive.csproj"
+    ],
+    "solution": [
+      "AllContainsCaseInsensitive.cs"
+    ],
+    "test": [
+      "AllContainsCaseInsensitiveTests.cs"
+    ]
+  }
+}

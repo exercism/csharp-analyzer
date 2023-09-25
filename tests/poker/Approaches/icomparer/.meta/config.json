@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Icomparer.csproj"
+    ],
+    "solution": [
+      "Icomparer.cs"
+    ],
+    "test": [
+      "IcomparerTests.cs"
+    ]
+  }
+}

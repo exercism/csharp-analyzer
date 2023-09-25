@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "BuiltInMethod.csproj"
+    ],
+    "solution": [
+      "BuiltInMethod.cs"
+    ],
+    "test": [
+      "BuiltInMethodTests.cs"
+    ]
+  }
+}

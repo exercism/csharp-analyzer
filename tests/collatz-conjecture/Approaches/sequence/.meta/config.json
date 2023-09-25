@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Sequence.csproj"
+    ],
+    "solution": [
+      "Sequence.cs"
+    ],
+    "test": [
+      "SequenceTests.cs"
+    ]
+  }
+}

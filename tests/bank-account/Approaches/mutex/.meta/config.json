@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Mutex.csproj"
+    ],
+    "solution": [
+      "Mutex.cs"
+    ],
+    "test": [
+      "MutexTests.cs"
+    ]
+  }
+}

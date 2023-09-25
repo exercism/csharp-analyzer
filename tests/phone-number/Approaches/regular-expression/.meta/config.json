@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "RegularExpression.csproj"
+    ],
+    "solution": [
+      "RegularExpression.cs"
+    ],
+    "test": [
+      "RegularExpressionTests.cs"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "WhileLoop.csproj"
+    ],
+    "solution": [
+      "WhileLoop.cs"
+    ],
+    "test": [
+      "WhileLoopTests.cs"
+    ]
+  }
+}

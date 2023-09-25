@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "GraphShortestPath.csproj"
+    ],
+    "solution": [
+      "GraphShortestPath.cs"
+    ],
+    "test": [
+      "GraphShortestPathTests.cs"
+    ]
+  }
+}

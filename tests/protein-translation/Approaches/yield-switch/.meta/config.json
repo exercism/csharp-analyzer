@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "YieldSwitch.csproj"
+    ],
+    "solution": [
+      "YieldSwitch.cs"
+    ],
+    "test": [
+      "YieldSwitchTests.cs"
+    ]
+  }
+}

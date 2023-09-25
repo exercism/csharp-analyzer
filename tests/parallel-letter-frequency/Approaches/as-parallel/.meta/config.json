@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "AsParallel.csproj"
+    ],
+    "solution": [
+      "AsParallel.cs"
+    ],
+    "test": [
+      "AsParallelTests.cs"
+    ]
+  }
+}

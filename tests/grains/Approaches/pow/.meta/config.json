@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Pow.csproj"
+    ],
+    "solution": [
+      "Pow.cs"
+    ],
+    "test": [
+      "PowTests.cs"
+    ]
+  }
+}

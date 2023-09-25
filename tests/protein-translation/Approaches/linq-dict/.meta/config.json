@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "LinqDict.csproj"
+    ],
+    "solution": [
+      "LinqDict.cs"
+    ],
+    "test": [
+      "LinqDictTests.cs"
+    ]
+  }
+}

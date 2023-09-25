@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "BitArray.csproj"
+    ],
+    "solution": [
+      "BitArray.cs"
+    ],
+    "test": [
+      "BitArrayTests.cs"
+    ]
+  }
+}

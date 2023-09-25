@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "ForStatement.csproj"
+    ],
+    "solution": [
+      "ForStatement.cs"
+    ],
+    "test": [
+      "ForStatementTests.cs"
+    ]
+  }
+}

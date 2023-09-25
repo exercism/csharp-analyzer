@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "SwitchExpression.csproj"
+    ],
+    "solution": [
+      "SwitchExpression.cs"
+    ],
+    "test": [
+      "SwitchExpressionTests.cs"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Span.csproj"
+    ],
+    "solution": [
+      "Span.cs"
+    ],
+    "test": [
+      "SpanTests.cs"
+    ]
+  }
+}

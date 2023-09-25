@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "LockStatement.csproj"
+    ],
+    "solution": [
+      "LockStatement.cs"
+    ],
+    "test": [
+      "LockStatementTests.cs"
+    ]
+  }
+}

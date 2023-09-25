@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Bitfield.csproj"
+    ],
+    "solution": [
+      "Bitfield.cs"
+    ],
+    "test": [
+      "BitfieldTests.cs"
+    ]
+  }
+}

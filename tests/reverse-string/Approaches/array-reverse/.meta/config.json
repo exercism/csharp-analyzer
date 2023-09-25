@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "ArrayReverse.csproj"
+    ],
+    "solution": [
+      "ArrayReverse.cs"
+    ],
+    "test": [
+      "ArrayReverseTests.cs"
+    ]
+  }
+}

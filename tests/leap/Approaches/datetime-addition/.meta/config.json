@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "DatetimeAddition.csproj"
+    ],
+    "solution": [
+      "DatetimeAddition.cs"
+    ],
+    "test": [
+      "DatetimeAdditionTests.cs"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "SortedCollections.csproj"
+    ],
+    "solution": [
+      "SortedCollections.cs"
+    ],
+    "test": [
+      "SortedCollectionsTests.cs"
+    ]
+  }
+}

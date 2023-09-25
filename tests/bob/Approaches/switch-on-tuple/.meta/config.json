@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "SwitchOnTuple.csproj"
+    ],
+    "solution": [
+      "SwitchOnTuple.cs"
+    ],
+    "test": [
+      "SwitchOnTupleTests.cs"
+    ]
+  }
+}

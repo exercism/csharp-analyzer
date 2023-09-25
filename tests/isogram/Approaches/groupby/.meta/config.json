@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Groupby.csproj"
+    ],
+    "solution": [
+      "Groupby.cs"
+    ],
+    "test": [
+      "GroupbyTests.cs"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "BigInteger.csproj"
+    ],
+    "solution": [
+      "BigInteger.cs"
+    ],
+    "test": [
+      "BigIntegerTests.cs"
+    ]
+  }
+}

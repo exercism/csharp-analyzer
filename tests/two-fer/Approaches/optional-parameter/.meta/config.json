@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "OptionalParameter.csproj"
+    ],
+    "solution": [
+      "OptionalParameter.cs"
+    ],
+    "test": [
+      "OptionalParameterTests.cs"
+    ]
+  }
+}

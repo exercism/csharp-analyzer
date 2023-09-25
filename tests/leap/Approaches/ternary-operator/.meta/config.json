@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "TernaryOperator.csproj"
+    ],
+    "solution": [
+      "TernaryOperator.cs"
+    ],
+    "test": [
+      "TernaryOperatorTests.cs"
+    ]
+  }
+}

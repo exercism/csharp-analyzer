@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "YieldDict.csproj"
+    ],
+    "solution": [
+      "YieldDict.cs"
+    ],
+    "test": [
+      "YieldDictTests.cs"
+    ]
+  }
+}

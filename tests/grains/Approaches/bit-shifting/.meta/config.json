@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "BitShifting.csproj"
+    ],
+    "solution": [
+      "BitShifting.cs"
+    ],
+    "test": [
+      "BitShiftingTests.cs"
+    ]
+  }
+}

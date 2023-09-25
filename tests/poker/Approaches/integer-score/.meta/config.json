@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "IntegerScore.csproj"
+    ],
+    "solution": [
+      "IntegerScore.cs"
+    ],
+    "test": [
+      "IntegerScoreTests.cs"
+    ]
+  }
+}

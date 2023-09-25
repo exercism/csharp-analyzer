@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "AnswerArray.csproj"
+    ],
+    "solution": [
+      "AnswerArray.cs"
+    ],
+    "test": [
+      "AnswerArrayTests.cs"
+    ]
+  }
+}

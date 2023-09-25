@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "SwitchOnATuple.csproj"
+    ],
+    "solution": [
+      "SwitchOnATuple.cs"
+    ],
+    "test": [
+      "SwitchOnATupleTests.cs"
+    ]
+  }
+}
