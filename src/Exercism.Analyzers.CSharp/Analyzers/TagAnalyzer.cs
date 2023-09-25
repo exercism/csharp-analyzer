@@ -272,7 +272,7 @@ internal class TagAnalyzer : Analyzer
                 AddTags(Tags.ConstructIntegralNumber, Tags.UsesNint);
                 break;
             case SpecialType.System_UIntPtr:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUint);
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesNuint);
                 break;
             case SpecialType.System_Single:
                 AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesFloat);
@@ -394,6 +394,12 @@ internal class TagAnalyzer : Analyzer
         base.VisitFieldDeclaration(node);
     }
 
+    public override void VisitAssignmentExpression(AssignmentExpressionSyntax node)
+    {
+        AddTags(Tags.ParadigmImperative);
+        base.VisitAssignmentExpression(node);
+    }
+
     private static class Tags
     {
         // Paradigms
@@ -421,6 +427,7 @@ internal class TagAnalyzer : Analyzer
         public const string TechniqueConcurrency = "technique:concurrency";
         public const string TechniqueImmutability = "technique:immutability";
         public const string TechniqueCompoundAssignment = "technique:compound-assignment";
+        public const string TechniquePointers = "technique:pointers";
 
         // Constructs
         public const string ConstructIf = "construct:if";
