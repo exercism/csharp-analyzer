@@ -8,6 +8,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class LeapAnalyzer : Analyzer
 {
+    public LeapAnalyzer(Submission submission) : base(submission)
+    {
+    }
+
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         if (SemanticModel.GetDeclaredSymbol(node)?.ToString() == "Leap.IsLeapYear(int)" && 

@@ -2,6 +2,10 @@
 
 internal class WeighingMachineAnalyzer : Analyzer
 {
+    public WeighingMachineAnalyzer(Submission submission) : base(submission)
+    {
+    }
+
     private static class Comments
     {
         public static Comment RoundMethodNotCalledInDisplayWeightProperty =

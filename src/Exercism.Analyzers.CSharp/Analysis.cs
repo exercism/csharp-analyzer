@@ -14,10 +14,13 @@ internal record Analysis(List<Comment> Comments, List<string> Tags)
 
 internal abstract class Analyzer : CSharpSyntaxWalker
 {
-    protected Analysis Analysis;
-    protected Compilation Compilation;
-    protected Project Project;
+    protected Submission Submission;
+    protected Compilation Compilation => Submission.Compilation;
+    protected Project Project => Submission.Project;
     protected SemanticModel SemanticModel;
+    protected Analysis Analysis;
+
+    protected Analyzer(Submission submission) => Submission = submission;
 
     public static Analysis Analyze(Submission submission)
     {
@@ -26,8 +29,8 @@ internal abstract class Analyzer : CSharpSyntaxWalker
 
         var analysis = Analysis.Empty;
 
-        foreach (var analyzer in CreateAnalyzers(submission.Slug))
-            analyzer.Analyze(submission.Compilation, submission.Project, analysis);
+        foreach (var analyzer in CreateAnalyzers(submission))
+            analyzer.Analyze(analysis);
 
         return analysis;
     }
@@ -40,11 +43,9 @@ internal abstract class Analyzer : CSharpSyntaxWalker
             Analysis.Tags.Add(tag);
     }
 
-    private void Analyze(Compilation compilation, Project project, Analysis analysis)
+    private void Analyze(Analysis analysis)
     {
-        Compilation = compilation;
         Analysis = analysis;
-        Project = project;
 
         foreach (var syntaxTree in Compilation.SyntaxTrees)
         {
@@ -53,18 +54,18 @@ internal abstract class Analyzer : CSharpSyntaxWalker
         }
     }
 
-    private static IEnumerable<Analyzer> CreateAnalyzers(string slug)
+    private static IEnumerable<Analyzer> CreateAnalyzers(Submission submission)
     {
-        if (slug == "leap")
-            yield return new LeapAnalyzer();
-        else if (slug == "gigasecond")
-            yield return new GigasecondAnalyzer();
-        else if (slug == "two-fer")
-            yield return new TwoFerAnalyzer();
-        else if (slug == "weighing-machine")
-            yield return new WeighingMachineAnalyzer();
+        if (submission.Slug == "leap")
+            yield return new LeapAnalyzer(submission);
+        else if (submission.Slug == "gigasecond")
+            yield return new GigasecondAnalyzer(submission);
+        else if (submission.Slug == "two-fer")
+            yield return new TwoFerAnalyzer(submission);
+        else if (submission.Slug == "weighing-machine")
+            yield return new WeighingMachineAnalyzer(submission);
 
-        yield return new CommonAnalyzer();
-        yield return new TagAnalyzer();
+        yield return new CommonAnalyzer(submission);
+        yield return new TagAnalyzer(submission);
     }
 }

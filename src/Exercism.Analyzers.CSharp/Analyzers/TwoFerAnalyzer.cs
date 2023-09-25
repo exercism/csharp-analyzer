@@ -5,6 +5,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class TwoFerAnalyzer : Analyzer
 {
+    public TwoFerAnalyzer(Submission submission) : base(submission)
+    {
+    }
+
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         if (SemanticModel.GetDeclaredSymbol(node)?.ToString() == "TwoFer.Speak()")

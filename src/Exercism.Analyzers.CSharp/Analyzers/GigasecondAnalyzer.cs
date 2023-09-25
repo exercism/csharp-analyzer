@@ -8,6 +8,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class GigasecondAnalyzer : Analyzer
 {
+    public GigasecondAnalyzer(Submission submission) : base(submission)
+    {
+    }
+
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         var symbol = SemanticModel.GetSymbolInfo(node).Symbol;

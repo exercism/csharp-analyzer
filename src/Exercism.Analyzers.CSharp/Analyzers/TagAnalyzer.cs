@@ -12,7 +12,7 @@ internal class TagAnalyzer : Analyzer
     private readonly Lazy<INamespaceOrTypeSymbol> _linqNamespaceSymbol;
     private INamespaceOrTypeSymbol LinqNamespaceSymbol => _linqNamespaceSymbol.Value;
     
-    public TagAnalyzer() => 
+    public TagAnalyzer(Submission submission) : base(submission) => 
         _linqNamespaceSymbol = new Lazy<INamespaceOrTypeSymbol>(() => Compilation.GetTypeByMetadataName("System.Linq.Enumerable")?.ContainingNamespace);
 
     public override void VisitForStatement(ForStatementSyntax node)

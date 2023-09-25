@@ -82,6 +82,10 @@ internal class CommonAnalyzer : Analyzer
         "Console.Out.WriteLine"
     };
 
+    public CommonAnalyzer(Submission submission) : base(submission)
+    {
+    }
+
     private static class Comments
     {
         public static readonly Comment DoNotUseMainMethod = new("csharp.general.has_main_method", CommentType.Essential);
