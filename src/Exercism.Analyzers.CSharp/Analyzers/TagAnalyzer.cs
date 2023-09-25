@@ -140,6 +140,13 @@ internal class TagAnalyzer : Analyzer
         base.VisitInvocationExpression(node);
     }
 
+    public override void VisitVariableDeclaration(VariableDeclarationSyntax node)
+    {
+        VisitTypeInfo(SemanticModel.GetTypeInfo(node.Type));
+
+        base.VisitVariableDeclaration(node);
+    }
+
     public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
     {
         AddTags(Tags.ConstructInterface);
@@ -230,6 +237,8 @@ internal class TagAnalyzer : Analyzer
         
         if (node.ExpressionBody is not null)
             AddTags(Tags.UsesExpressionBodiedMember);
+        
+        VisitTypeInfo(SemanticModel.GetTypeInfo(node.Type));
 
         var accessors = node.AccessorList?.Accessors;
         var getAccessor = accessors?.FirstOrDefault(accessor => accessor.IsKind(SyntaxKind.GetAccessorDeclaration));
@@ -255,85 +264,32 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitLiteralExpression(LiteralExpressionSyntax node)
     {
-        var typeInfo = SemanticModel.GetTypeInfo(node);
-        
-        switch (typeInfo.ConvertedType?.SpecialType)
+        VisitTypeInfo(SemanticModel.GetTypeInfo(node));
+
+        switch (node.Kind())
         {
-            case SpecialType.System_Int16:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesShort);
+            case SyntaxKind.NumericLiteralExpression:
+                AddTags(Tags.ConstructNumber);
+            
+                if (node.Token.Text.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                    AddTags(Tags.ConstructHexadecimalNumber);
+                else if (node.Token.Text.StartsWith("0b", StringComparison.OrdinalIgnoreCase))
+                    AddTags(Tags.ConstructBinaryNumber);
+                else if (node.Token.Text.Contains('.', StringComparison.OrdinalIgnoreCase) && 
+                         node.Token.Text.Contains('e', StringComparison.OrdinalIgnoreCase))
+                    AddTags(Tags.ConstructScientificNumber);
+            
+                if (node.Token.Text.Contains('_'))
+                    AddTags(Tags.ConstructUnderscoreNumberNotation);
                 break;
-            case SpecialType.System_Int32:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesInt);
-                break;
-            case SpecialType.System_Int64:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesLong);
-                break;
-            case SpecialType.System_Byte:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesByte);
-                break;
-            case SpecialType.System_UInt16:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUshort);
-                break;
-            case SpecialType.System_UInt32:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUint);
-                break;
-            case SpecialType.System_UInt64:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUlong);
-                break;
-            case SpecialType.System_SByte:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesSbyte);
-                break;
-            case SpecialType.System_IntPtr:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesNint);
-                break;
-            case SpecialType.System_UIntPtr:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesNuint);
-                break;
-            case SpecialType.System_Single:
-                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesFloat);
-                break;
-            case SpecialType.System_Double:
-                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesDouble);
-                break;
-            case SpecialType.System_Decimal:
-                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesDecimal);
-                break;
-            case SpecialType.System_String:
-                AddTags(Tags.ConstructString);
-                
+            case SyntaxKind.StringLiteralExpression:
                 var lineSpan = node.GetLocation().GetLineSpan();
                 if (lineSpan.EndLinePosition.Line > lineSpan.StartLinePosition.Line)
                     AddTags(Tags.ConstructMultilineString);
 
                 if (node.Token.Text.StartsWith('@'))
                     AddTags(Tags.ConstructVerbatimString);
-                
                 break;
-            case SpecialType.System_Boolean:
-                AddTags(Tags.ConstructBoolean);
-                break;
-            case SpecialType.System_Array:
-                AddTags(Tags.ConstructArray);
-                break;
-            case SpecialType.System_Char:
-                AddTags(Tags.ConstructChar);
-                break;
-        }
-        
-        if (node.IsKind(SyntaxKind.NumericLiteralExpression))
-        {
-            AddTags(Tags.ConstructNumber);
-            
-            if (node.Token.Text.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                AddTags(Tags.ConstructHexadecimalNumber);
-            else if (node.Token.Text.StartsWith("0b", StringComparison.OrdinalIgnoreCase))
-                AddTags(Tags.ConstructBinaryNumber);
-            else if (node.Token.Text.Contains('.', StringComparison.OrdinalIgnoreCase) && 
-                     node.Token.Text.Contains('e', StringComparison.OrdinalIgnoreCase))
-                AddTags(Tags.ConstructScientificNumber);
-            
-            if (node.Token.Text.Contains('_'))
-                AddTags(Tags.ConstructUnderscoreNumberNotation);
         }
 
         base.VisitLiteralExpression(node);
@@ -413,6 +369,64 @@ internal class TagAnalyzer : Analyzer
     {
         AddTags(Tags.ParadigmImperative);
         base.VisitAssignmentExpression(node);
+    }
+
+    private void VisitTypeInfo(TypeInfo typeInfo)
+    {
+        switch (typeInfo.ConvertedType?.SpecialType)
+        {
+            case SpecialType.System_Int16:
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesShort);
+                break;
+            case SpecialType.System_Int32:
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesInt);
+                break;
+            case SpecialType.System_Int64:
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesLong);
+                break;
+            case SpecialType.System_Byte:
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesByte);
+                break;
+            case SpecialType.System_UInt16:
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUshort);
+                break;
+            case SpecialType.System_UInt32:
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUint);
+                break;
+            case SpecialType.System_UInt64:
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUlong);
+                break;
+            case SpecialType.System_SByte:
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesSbyte);
+                break;
+            case SpecialType.System_IntPtr:
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesNint);
+                break;
+            case SpecialType.System_UIntPtr:
+                AddTags(Tags.ConstructIntegralNumber, Tags.UsesNuint);
+                break;
+            case SpecialType.System_Single:
+                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesFloat);
+                break;
+            case SpecialType.System_Double:
+                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesDouble);
+                break;
+            case SpecialType.System_Decimal:
+                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesDecimal);
+                break;
+            case SpecialType.System_String:
+                AddTags(Tags.ConstructString);
+                break;
+            case SpecialType.System_Boolean:
+                AddTags(Tags.ConstructBoolean);
+                break;
+            case SpecialType.System_Array:
+                AddTags(Tags.ConstructArray);
+                break;
+            case SpecialType.System_Char:
+                AddTags(Tags.ConstructChar);
+                break;
+        }
     }
 
     private static class Tags
