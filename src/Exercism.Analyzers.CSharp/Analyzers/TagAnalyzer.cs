@@ -9,11 +9,14 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class TagAnalyzer : Analyzer
 {
-    private readonly Lazy<INamespaceOrTypeSymbol> _linqNamespaceSymbol;
-    private INamespaceOrTypeSymbol LinqNamespaceSymbol => _linqNamespaceSymbol.Value;
-    
-    public TagAnalyzer(Submission submission) : base(submission) => 
-        _linqNamespaceSymbol = new Lazy<INamespaceOrTypeSymbol>(() => Compilation.GetTypeByMetadataName("System.Linq.Enumerable")?.ContainingNamespace);
+    private readonly INamespaceOrTypeSymbol _linqNamespaceSymbol;
+    private readonly INamedTypeSymbol _mutexClassSymbol;
+
+    public TagAnalyzer(Submission submission) : base(submission)
+    {
+        _linqNamespaceSymbol = Compilation.GetTypeByMetadataName("System.Linq.Enumerable")?.ContainingNamespace;
+        _mutexClassSymbol = Compilation.GetTypeByMetadataName("System.Threading.Mutex");
+    }
 
     public override void VisitForStatement(ForStatementSyntax node)
     {
@@ -117,10 +120,22 @@ internal class TagAnalyzer : Analyzer
                 AddTags(Tags.TechniqueRecursion);
             }
         }
-        
+
         var symbol = SemanticModel.GetSymbolInfo(node).Symbol;
-        if (symbol is not null && symbol.ContainingNamespace.Equals(LinqNamespaceSymbol, SymbolEqualityComparer.Default))
-            AddTags(Tags.UsesLinq, Tags.ParadigmFunctional);
+        if (symbol is not null)
+        {
+            if (symbol.ContainingNamespace.Equals(_linqNamespaceSymbol, SymbolEqualityComparer.Default))
+                AddTags(Tags.UsesLinq, Tags.ParadigmFunctional);
+        }
+
+        if (node.Expression is MemberAccessExpressionSyntax memberAccessExpression)
+        {
+            var memberTypeInfo = SemanticModel.GetTypeInfo(memberAccessExpression.Expression);
+
+            if (memberTypeInfo.Type is not null &&
+                memberTypeInfo.Type.Equals(_mutexClassSymbol, SymbolEqualityComparer.Default))
+                AddTags(Tags.TechniqueMutexes, Tags.UsesMutex);
+        }
 
         base.VisitInvocationExpression(node);
     }
@@ -519,6 +534,7 @@ internal class TagAnalyzer : Analyzer
         public const string UsesNuint = "uses:nuint";
         public const string UsesSpan = "uses:span";
         public const string UsesMemory = "uses:memory";
+        public const string UsesMutex = "uses:mutex";
 
         // Uses - members
         public const string UsesUInt64MaxValue = "uses:UInt64.MaxValue";
