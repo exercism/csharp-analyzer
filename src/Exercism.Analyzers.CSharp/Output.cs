@@ -1,18 +1,24 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 
 namespace Exercism.Analyzers.CSharp;
 
 internal static class Output
 {
-    private static readonly JsonWriterOptions JsonWriterOptions = new() {Indented = true};
+    private static readonly JsonWriterOptions JsonWriterOptions = new()
+    {
+        Indented = true,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+    };
 
     public static void WriteToFile(Options options, Analysis analysis)
     {
         using var fileStream = File.Create(GetAnalysisFilePath(options));
-        using var jsonWriter = new Utf8JsonWriter(fileStream, JsonWriterOptions);
+        var jsonWriter = new Utf8JsonWriter(fileStream, JsonWriterOptions);
         jsonWriter.WriteStartObject();
         jsonWriter.WriteComments(analysis.Comments);
         jsonWriter.WriteTags(analysis.Tags);

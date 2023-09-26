@@ -1,4 +1,6 @@
-﻿public static class Types
+﻿using System;
+
+public static class Types
 {
     public static void Integrals()
     {
@@ -24,5 +26,6 @@
     public static void Other()
     {
         string explicitString = "";
+        DateTime dateTime = new DateTime(1);
     }
 }

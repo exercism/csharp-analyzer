@@ -21,7 +21,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitForEachStatement(ForEachStatementSyntax node)
     {
-        AddTags(Tags.ConstructForeach);
+        AddTags(Tags.ConstructForeach, Tags.ConstructEnumeration);
         base.VisitForEachStatement(node);
     }
 
@@ -419,6 +419,48 @@ internal class TagAnalyzer : Analyzer
             case SpecialType.System_Char:
                 AddTags(Tags.ConstructChar);
                 break;
+            case SpecialType.System_Enum:
+                AddTags(Tags.ConstructEnum);
+                break;
+            case SpecialType.System_MulticastDelegate:
+                AddTags(Tags.UsesDelegate);
+                break;
+            case SpecialType.System_Delegate:
+                AddTags(Tags.UsesDelegate);
+                break;
+            case SpecialType.System_Collections_IEnumerable:
+                AddTags(Tags.UsesIEnumerable);
+                break;
+            case SpecialType.System_Collections_Generic_IEnumerable_T:
+                AddTags(Tags.UsesIEnumerable, Tags.ConstructGenericType);
+                break;
+            case SpecialType.System_Collections_Generic_IList_T:
+                AddTags(Tags.UsesIList, Tags.ConstructGenericType);
+                break;
+            case SpecialType.System_Collections_Generic_ICollection_T:
+                AddTags(Tags.UsesICollection, Tags.ConstructGenericType);
+                break;
+            case SpecialType.System_Collections_IEnumerator:
+                AddTags(Tags.UsesIEnumerator);
+                break;
+            case SpecialType.System_Collections_Generic_IEnumerator_T:
+                AddTags(Tags.UsesIEnumerator);
+                break;
+            case SpecialType.System_Collections_Generic_IReadOnlyList_T:
+                AddTags(Tags.UsesIReadOnlyList, Tags.TechniqueImmutability);
+                break;
+            case SpecialType.System_Collections_Generic_IReadOnlyCollection_T:
+                AddTags(Tags.UsesIReadOnlyCollection, Tags.TechniqueImmutability);
+                break;
+            case SpecialType.System_Nullable_T:
+                AddTags(Tags.ConstructNullable);
+                break;
+            case SpecialType.System_DateTime:
+                AddTags(Tags.ConstructDateTime);
+                break;
+            case SpecialType.System_IDisposable:
+                AddTags(Tags.UsesIDisposable, Tags.TechniqueMemoryManagement);
+                break;
         }
 
         if (typeInfo.Type is not INamedTypeSymbol namedTypeSymbol)
@@ -428,11 +470,44 @@ internal class TagAnalyzer : Analyzer
         {
             switch (namedTypeSymbol.ConstructedFrom.ToDisplayString())
             {
+                case "System.Collections.Generic.List<T>":
+                    AddTags(Tags.ConstructList, Tags.UsesList);
+                    break;
+                case "System.Collections.Generic.SortedList<T>":
+                    AddTags(Tags.ConstructList, Tags.UsesSortedList, Tags.TechniqueSorting);
+                    break;
+                case "System.Collections.Generic.Dictionary<TKey, TValue>":
+                    AddTags(Tags.ConstructMap, Tags.UsesDictionary);
+                    break;
+                case "System.Collections.Generic.SortedDictionary<TKey, TValue>":
+                    AddTags(Tags.ConstructMap, Tags.UsesSortedDictionary, Tags.TechniqueSorting);
+                    break;
+                case "System.Collections.Generic.HashSet<T>":
+                    AddTags(Tags.ConstructSet, Tags.UsesSet);
+                    break;
+                case "System.Collections.Generic.SortedSet<T>":
+                    AddTags(Tags.ConstructSet, Tags.UsesSortedSet, Tags.TechniqueSorting);
+                    break;
+                case "System.Collections.Generic.Stack<T>":
+                    AddTags(Tags.ConstructStack, Tags.UsesStack);
+                    break;
+                case "System.Collections.Generic.Queue<T>":
+                    AddTags(Tags.ConstructQueue, Tags.UsesQueue);
+                    break;
+                case "System.Collections.Generic.LinkedList<T>":
+                    AddTags(Tags.ConstructLinkedList, Tags.UsesLinkedList);
+                    break;
                 case "System.Span<T>":
-                    AddTags(Tags.UsesSpan, Tags.TechniquePerformance);
+                    AddTags(Tags.UsesSpan, Tags.TechniquePerformance, Tags.TechniqueMemoryManagement);
+                    break;
+                case "System.ReadOnlySpan<T>":
+                    AddTags(Tags.UsesSpan, Tags.TechniquePerformance, Tags.TechniqueMemoryManagement, Tags.TechniqueImmutability);
                     break;
                 case "System.Memory<T>":
-                    AddTags(Tags.UsesMemory, Tags.TechniquePerformance);
+                    AddTags(Tags.UsesMemory, Tags.TechniquePerformance, Tags.TechniqueMemoryManagement);
+                    break;
+                case "System.ReadOnlyMemory<T>":
+                    AddTags(Tags.UsesMemory, Tags.TechniquePerformance, Tags.TechniqueMemoryManagement, Tags.TechniqueImmutability);
                     break;
             }
         }
@@ -483,6 +558,8 @@ internal class TagAnalyzer : Analyzer
         public const string TechniqueCompoundAssignment = "technique:compound-assignment";
         public const string TechniquePointers = "technique:pointers";
         public const string TechniquePerformance = "technique:performance";
+        public const string TechniqueMemoryManagement = "technique:memory-management";
+        public const string TechniqueSorting = "technique:sorting";
 
         // Constructs
         public const string ConstructIf = "construct:if";
@@ -524,6 +601,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructTypeInference = "construct:type-inference";
         public const string ConstructQueryExpression = "construct:query-expression";
         public const string ConstructAssignment = "construct:assignment";
+        public const string ConstructEnumeration = "construct:enumeration";
 
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
@@ -544,6 +622,10 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructClass = "construct:class";
         public const string ConstructInterface = "construct:interface";
         public const string ConstructTuple = "construct:tuple";
+        public const string ConstructDateTime = "construct:date-time";
+        public const string ConstructNullable = "construct:nullable";
+        public const string ConstructEnum = "construct:enum";
+        public const string ConstructLinkedList = "construct:linked-list";
 
         // Constructs - notation
         public const string ConstructHexadecimalNumber = "construct:hexadecimal-number";
@@ -576,6 +658,27 @@ internal class TagAnalyzer : Analyzer
         public const string UsesSpan = "uses:span";
         public const string UsesMemory = "uses:memory";
         public const string UsesMutex = "uses:mutex";
+        public const string UsesDelegate = "uses:delegate";
+        
+        // Uses - collections
+        public const string UsesList = "uses:List<T>";
+        public const string UsesSortedList = "uses:SortedList<T>";
+        public const string UsesDictionary = "uses:Dictionary<TKey,TValue>";
+        public const string UsesSortedDictionary = "uses:SortedDictionary<TKey,TValue>";
+        public const string UsesSet = "uses:Set<T>";
+        public const string UsesSortedSet = "uses:SortedSet<T>";
+        public const string UsesStack = "uses:Stack<T>";
+        public const string UsesQueue = "uses:Queue<T>";
+        public const string UsesLinkedList = "uses:LinkedList<T>";
+        
+        // Uses - interfaces
+        public const string UsesIReadOnlyList = "uses:IReadOnlyList<T>";
+        public const string UsesIReadOnlyCollection = "uses:IReadOnlyCollection<T>";
+        public const string UsesIList = "uses:IList<T>";
+        public const string UsesICollection = "uses:ICollection<T>";
+        public const string UsesIDisposable = "uses:IDisposable";
+        public const string UsesIEnumerable = "uses:IEnumerable<T>";
+        public const string UsesIEnumerator = "uses:IEnumerator<T>";
 
         // Uses - members
         public const string UsesUInt64MaxValue = "uses:UInt64.MaxValue";
