@@ -60,6 +60,9 @@ internal class TagAnalyzer : Analyzer
         if (node.ExpressionBody is not null)
             AddTags(Tags.UsesExpressionBodiedMember);
 
+        if (UsesRecursion(node))
+            AddTags(Tags.TechniqueRecursion, Tags.ParadigmFunctional);
+
         AddTags(Tags.ConstructMethod);
         base.VisitMethodDeclaration(node);
     }
@@ -100,21 +103,6 @@ internal class TagAnalyzer : Analyzer
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         AddTags(Tags.ConstructInvocation);
-
-        // TODO: properly detect recursion
-        if (node.Expression is IdentifierNameSyntax identifierName)
-        {
-            var parent = node.AncestorsAndSelf()
-                .FirstOrDefault(node => node is MethodDeclarationSyntax or LocalFunctionStatementSyntax);
-
-            if (parent is MethodDeclarationSyntax methodDeclaration &&
-                methodDeclaration.Identifier.Text == identifierName.Identifier.Text ||
-                parent is LocalFunctionStatementSyntax localFunctionStatement &&
-                localFunctionStatement.Identifier.Text == identifierName.Identifier.Text)
-            {
-                AddTags(Tags.TechniqueRecursion);
-            }
-        }
 
         var symbol = SemanticModel.GetSymbolInfo(node).Symbol;
         if (symbol is not null)
@@ -252,6 +240,10 @@ internal class TagAnalyzer : Analyzer
     public override void VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
     {
         AddTags(Tags.ConstructLocalFunction);
+        
+        if (UsesRecursion(node))
+            AddTags(Tags.TechniqueRecursion, Tags.ParadigmFunctional);
+        
         base.VisitLocalFunctionStatement(node);
     }
 
@@ -515,6 +507,9 @@ internal class TagAnalyzer : Analyzer
         {
             switch (namedTypeSymbol.ToDisplayString())
             {
+                case "System.Text.RegularExpressions.Regex":
+                    AddTags(Tags.TechniqueRegularExpression, Tags.UsesRegex);
+                    break;
                 case "System.Threading.Mutex":    
                     AddTags(Tags.TechniqueMutexes, Tags.UsesMutex);
                     break;
@@ -527,6 +522,18 @@ internal class TagAnalyzer : Analyzer
         VisitTypeInfo(SemanticModel.GetTypeInfo(node.Type));
         
         base.VisitObjectCreationExpression(node);
+    }
+
+    private bool UsesRecursion(SyntaxNode methodOrFunctionNode)
+    {
+        var methodOrFunctionSymbol = SemanticModel.GetDeclaredSymbol(methodOrFunctionNode);
+        if (methodOrFunctionSymbol is null)
+            return false;
+
+        return methodOrFunctionNode.DescendantNodes()
+            .OfType<InvocationExpressionSyntax>()
+            .Select(invocationExpression => SemanticModel.GetSymbolInfo(invocationExpression.Expression).Symbol)
+            .Any(invokedSymbol => methodOrFunctionSymbol.Equals(invokedSymbol, SymbolEqualityComparer.IncludeNullability));
     }
 
     private static class Tags
@@ -659,6 +666,7 @@ internal class TagAnalyzer : Analyzer
         public const string UsesMemory = "uses:memory";
         public const string UsesMutex = "uses:mutex";
         public const string UsesDelegate = "uses:delegate";
+        public const string UsesRegex = "uses:Regex";
         
         // Uses - collections
         public const string UsesList = "uses:List<T>";

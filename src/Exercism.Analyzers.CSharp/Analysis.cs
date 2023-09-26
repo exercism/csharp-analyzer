@@ -17,6 +17,7 @@ internal abstract class Analyzer : CSharpSyntaxWalker
     protected Submission Submission;
     protected Compilation Compilation => Submission.Compilation;
     protected Project Project => Submission.Project;
+    protected Solution Solution => Project.Solution;
     protected SemanticModel SemanticModel;
     protected Analysis Analysis;
 
