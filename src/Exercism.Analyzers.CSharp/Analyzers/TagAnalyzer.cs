@@ -10,12 +10,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 internal class TagAnalyzer : Analyzer
 {
     private readonly INamespaceOrTypeSymbol _linqNamespaceSymbol;
-    private readonly INamedTypeSymbol _mutexClassSymbol;
 
     public TagAnalyzer(Submission submission) : base(submission)
     {
         _linqNamespaceSymbol = Compilation.GetTypeByMetadataName("System.Linq.Enumerable")?.ContainingNamespace;
-        _mutexClassSymbol = Compilation.GetTypeByMetadataName("System.Threading.Mutex");
     }
 
     public override void VisitForStatement(ForStatementSyntax node)
@@ -124,17 +122,8 @@ internal class TagAnalyzer : Analyzer
         var symbol = SemanticModel.GetSymbolInfo(node).Symbol;
         if (symbol is not null)
         {
-            if (symbol.ContainingNamespace.Equals(_linqNamespaceSymbol, SymbolEqualityComparer.Default))
+            if (symbol.ContainingNamespace.ToDisplayString() == "System.Linq")
                 AddTags(Tags.UsesLinq, Tags.ParadigmFunctional);
-        }
-
-        if (node.Expression is MemberAccessExpressionSyntax memberAccessExpression)
-        {
-            var memberTypeInfo = SemanticModel.GetTypeInfo(memberAccessExpression.Expression);
-
-            if (memberTypeInfo.Type is not null &&
-                memberTypeInfo.Type.Equals(_mutexClassSymbol, SymbolEqualityComparer.Default))
-                AddTags(Tags.TechniqueMutexes, Tags.UsesMutex);
         }
 
         base.VisitInvocationExpression(node);
@@ -229,6 +218,13 @@ internal class TagAnalyzer : Analyzer
         }
 
         base.VisitToken(token);
+    }
+
+    public override void VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
+    {
+        VisitTypeInfo(SemanticModel.GetTypeInfo(node.Expression));
+        
+        base.VisitMemberAccessExpression(node);
     }
 
     public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
@@ -367,7 +363,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitAssignmentExpression(AssignmentExpressionSyntax node)
     {
-        AddTags(Tags.ParadigmImperative);
+        AddTags(Tags.ConstructAssignment, Tags.ParadigmImperative);
         base.VisitAssignmentExpression(node);
     }
 
@@ -427,6 +423,21 @@ internal class TagAnalyzer : Analyzer
                 AddTags(Tags.ConstructChar);
                 break;
         }
+
+        switch (typeInfo.Type?.ToDisplayString())
+        {
+            case "System.Threading.Mutex":    
+                AddTags(Tags.TechniqueMutexes, Tags.UsesMutex);
+                break;
+        }
+        
+    }
+
+    public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
+    {
+        VisitTypeInfo(SemanticModel.GetTypeInfo(node.Type));
+        
+        base.VisitObjectCreationExpression(node);
     }
 
     private static class Tags
@@ -497,6 +508,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructReturn = "construct:return";
         public const string ConstructTypeInference = "construct:type-inference";
         public const string ConstructQueryExpression = "construct:query-expression";
+        public const string ConstructAssignment = "construct:assignment";
 
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
