@@ -9,11 +9,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class TagAnalyzer : Analyzer
 {
-    private readonly INamespaceOrTypeSymbol _linqNamespaceSymbol;
-
     public TagAnalyzer(Submission submission) : base(submission)
     {
-        _linqNamespaceSymbol = Compilation.GetTypeByMetadataName("System.Linq.Enumerable")?.ContainingNamespace;
     }
 
     public override void VisitForStatement(ForStatementSyntax node)
