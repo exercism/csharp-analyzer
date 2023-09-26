@@ -421,13 +421,30 @@ internal class TagAnalyzer : Analyzer
                 break;
         }
 
-        switch (typeInfo.Type?.ToDisplayString())
+        if (typeInfo.Type is not INamedTypeSymbol namedTypeSymbol)
+            return;
+
+        if (namedTypeSymbol.IsGenericType)
         {
-            case "System.Threading.Mutex":    
-                AddTags(Tags.TechniqueMutexes, Tags.UsesMutex);
-                break;
+            switch (namedTypeSymbol.ConstructedFrom.ToDisplayString())
+            {
+                case "System.Span<T>":
+                    AddTags(Tags.UsesSpan, Tags.TechniquePerformance);
+                    break;
+                case "System.Memory<T>":
+                    AddTags(Tags.UsesMemory, Tags.TechniquePerformance);
+                    break;
+            }
         }
-        
+        else
+        {
+            switch (namedTypeSymbol.ToDisplayString())
+            {
+                case "System.Threading.Mutex":    
+                    AddTags(Tags.TechniqueMutexes, Tags.UsesMutex);
+                    break;
+            }
+        }
     }
 
     public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
@@ -465,6 +482,7 @@ internal class TagAnalyzer : Analyzer
         public const string TechniqueImmutability = "technique:immutability";
         public const string TechniqueCompoundAssignment = "technique:compound-assignment";
         public const string TechniquePointers = "technique:pointers";
+        public const string TechniquePerformance = "technique:performance";
 
         // Constructs
         public const string ConstructIf = "construct:if";
