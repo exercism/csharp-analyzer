@@ -176,6 +176,18 @@ internal class TagAnalyzer : Analyzer
             case SyntaxKind.AsExpression:
                 AddTags(Tags.ConstructAsCast, Tags.TechniqueTypeConversion);
                 break;
+            case SyntaxKind.MultiplyExpression:
+                AddTags(Tags.TechniqueMath, Tags.ConstructMultiply);
+                break;
+            case SyntaxKind.DivideExpression:
+                AddTags(Tags.TechniqueMath, Tags.ConstructDivide);
+                break;
+            case SyntaxKind.AddExpression:
+                AddTags(Tags.TechniqueMath, Tags.ConstructAdd);
+                break;
+            case SyntaxKind.SubtractExpression:
+                AddTags(Tags.TechniqueMath, Tags.ConstructSubtract);
+                break;
         }
         
         base.VisitBinaryExpression(node);
@@ -641,6 +653,10 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructAssignment = "construct:assignment";
         public const string ConstructEnumeration = "construct:enumeration";
         public const string ConstructException = "construct:exception";
+        public const string ConstructMultiply = "construct:multiply";
+        public const string ConstructDivide = "construct:divide";
+        public const string ConstructAdd = "construct:add";
+        public const string ConstructSubtract = "construct:subtract";
 
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
