@@ -15,7 +15,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitForStatement(ForStatementSyntax node)
     {
-        AddTags(Tags.ConstructFor);
+        AddTags(Tags.ConstructForLoop);
         base.VisitForStatement(node);
     }
 
@@ -520,8 +520,37 @@ internal class TagAnalyzer : Analyzer
     public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
     {
         VisitTypeInfo(SemanticModel.GetTypeInfo(node.Type));
-        
         base.VisitObjectCreationExpression(node);
+    }
+
+    public override void VisitWhileStatement(WhileStatementSyntax node)
+    {
+        AddTags(Tags.ConstructWhileLoop);
+        base.VisitWhileStatement(node);
+    }
+
+    public override void VisitDoStatement(DoStatementSyntax node)
+    {
+        AddTags(Tags.ConstructDoLoop);
+        base.VisitDoStatement(node);
+    }
+
+    public override void VisitThrowExpression(ThrowExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructException);
+        base.VisitThrowExpression(node);
+    }
+
+    public override void VisitThrowStatement(ThrowStatementSyntax node)
+    {
+        AddTags(Tags.ConstructException);
+        base.VisitThrowStatement(node);
+    }
+
+    public override void VisitYieldStatement(YieldStatementSyntax node)
+    {
+        AddTags(Tags.TechniqueLaziness, Tags.UsesYield);
+        base.VisitYieldStatement(node);
     }
 
     private bool UsesRecursion(SyntaxNode methodOrFunctionNode)
@@ -581,7 +610,9 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructSwitchExpression = "construct:switch-expression";
         public const string ConstructSwitch = "construct:switch";
         public const string ConstructForeach = "construct:foreach";
-        public const string ConstructFor = "construct:for";
+        public const string ConstructForLoop = "construct:for-loop";
+        public const string ConstructWhileLoop = "construct:while-loop";
+        public const string ConstructDoLoop = "construct:do-loop";
         public const string ConstructLogicalAnd = "construct:logical-and";
         public const string ConstructLogicalOr = "construct:logical-or";
         public const string ConstructLogicalNot = "construct:logical-not";
@@ -609,6 +640,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructQueryExpression = "construct:query-expression";
         public const string ConstructAssignment = "construct:assignment";
         public const string ConstructEnumeration = "construct:enumeration";
+        public const string ConstructException = "construct:exception";
 
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
@@ -647,6 +679,7 @@ internal class TagAnalyzer : Analyzer
         public const string UsesLinq = "uses:linq";
         public const string UsesExpressionBodiedMember = "uses:expression-bodied-member";
         public const string UsesAutoImplementedProperty = "uses:auto-implemented-property";
+        public const string UsesYield = "uses:yield";
 
         // Uses - types
         public const string UsesDecimal = "uses:decimal";
