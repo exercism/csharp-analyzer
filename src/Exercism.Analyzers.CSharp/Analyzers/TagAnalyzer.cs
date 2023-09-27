@@ -177,16 +177,16 @@ internal class TagAnalyzer : Analyzer
                 AddTags(Tags.ConstructAsCast, Tags.TechniqueTypeConversion);
                 break;
             case SyntaxKind.MultiplyExpression:
-                AddTags(Tags.TechniqueMath, Tags.ConstructMultiply);
+                AddTags(Tags.ConstructMultiply);
                 break;
             case SyntaxKind.DivideExpression:
-                AddTags(Tags.TechniqueMath, Tags.ConstructDivide);
+                AddTags(Tags.ConstructDivide);
                 break;
             case SyntaxKind.AddExpression:
-                AddTags(Tags.TechniqueMath, Tags.ConstructAdd);
+                AddTags(Tags.ConstructAdd);
                 break;
             case SyntaxKind.SubtractExpression:
-                AddTags(Tags.TechniqueMath, Tags.ConstructSubtract);
+                AddTags(Tags.ConstructSubtract);
                 break;
         }
         
