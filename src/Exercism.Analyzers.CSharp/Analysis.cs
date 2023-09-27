@@ -57,14 +57,24 @@ internal abstract class Analyzer : CSharpSyntaxWalker
 
     private static IEnumerable<Analyzer> CreateAnalyzers(Submission submission)
     {
-        if (submission.Slug == "leap")
-            yield return new LeapAnalyzer(submission);
-        else if (submission.Slug == "gigasecond")
-            yield return new GigasecondAnalyzer(submission);
-        else if (submission.Slug == "two-fer")
-            yield return new TwoFerAnalyzer(submission);
-        else if (submission.Slug == "weighing-machine")
-            yield return new WeighingMachineAnalyzer(submission);
+        switch (submission.Slug)
+        {
+            case "difference-of-squares":
+                yield return new DifferenceOfSquaresAnalyzer(submission);
+                break;
+            case "gigasecond":
+                yield return new GigasecondAnalyzer(submission);
+                break;
+            case "leap":
+                yield return new LeapAnalyzer(submission);
+                break;
+            case "two-fer":
+                yield return new TwoFerAnalyzer(submission);
+                break;
+            case "weighing-machine":
+                yield return new WeighingMachineAnalyzer(submission);
+                break;
+        }
 
         yield return new CommonAnalyzer(submission);
         yield return new TagAnalyzer(submission);
