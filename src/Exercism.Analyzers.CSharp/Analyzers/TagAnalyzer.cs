@@ -162,16 +162,16 @@ internal class TagAnalyzer : Analyzer
                 AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseXor, Tags.TechniqueCompoundAssignment);
                 break;
             case SyntaxKind.LeftShiftExpression:
-                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructLeftShift);
+                AddTags(Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting, Tags.ConstructLeftShift);
                 break;
             case SyntaxKind.LeftShiftAssignmentExpression:
-                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructLeftShift, Tags.TechniqueCompoundAssignment);
+                AddTags(Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting, Tags.ConstructLeftShift, Tags.TechniqueCompoundAssignment);
                 break;
             case SyntaxKind.RightShiftExpression:
-                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructRightShift);
+                AddTags(Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting, Tags.ConstructRightShift);
                 break;
             case SyntaxKind.RightShiftAssignmentExpression:
-                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructRightShift, Tags.TechniqueCompoundAssignment);
+                AddTags(Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting, Tags.ConstructRightShift, Tags.TechniqueCompoundAssignment);
                 break;
             case SyntaxKind.AsExpression:
                 AddTags(Tags.ConstructAsCast, Tags.TechniqueTypeConversion);
@@ -525,6 +525,9 @@ internal class TagAnalyzer : Analyzer
                 case "System.Threading.Mutex":    
                     AddTags(Tags.TechniqueMutexes, Tags.UsesMutex);
                     break;
+                case "System.Numerics.BigInteger":    
+                    AddTags(Tags.ConstructIntegralNumber, Tags.ConstructBigInteger);
+                    break;
             }
         }
     }
@@ -598,6 +601,7 @@ internal class TagAnalyzer : Analyzer
         public const string TechniqueTypeConversion = "technique:type-conversion";
         public const string TechniqueHigherOrderFunctions = "technique:higher-order-functions";
         public const string TechniqueBitManipulation = "technique:bit-manipulation";
+        public const string TechniqueBitShifting = "technique:bit-shifting";
         public const string TechniqueBooleanLogic = "technique:boolean-logic";
         public const string TechniqueLaziness = "technique:laziness";
         public const string TechniqueParallelism = "technique:parallelism";
@@ -738,7 +742,6 @@ internal class TagAnalyzer : Analyzer
         public const string UsesIEnumerator = "uses:IEnumerator<T>";
 
         // Uses - members
-        public const string UsesUInt64MaxValue = "uses:UInt64.MaxValue";
         public const string UsesEnumerableCount = "uses:Enumerable.Count";
         public const string UsesEnumerableDistinct = "uses:Enumerable.Distinct";
         public const string UsesEnumerableGroupBy = "uses:Enumerable.GroupBy";

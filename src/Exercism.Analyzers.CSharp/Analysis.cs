@@ -65,6 +65,9 @@ internal abstract class Analyzer : CSharpSyntaxWalker
             case "gigasecond":
                 yield return new GigasecondAnalyzer(submission);
                 break;
+            case "grains":
+                yield return new GrainsAnalyzer(submission);
+                break;
             case "leap":
                 yield return new LeapAnalyzer(submission);
                 break;
