@@ -494,7 +494,7 @@ internal class TagAnalyzer : Analyzer
                     AddTags(Tags.ConstructMap, Tags.UsesSortedDictionary, Tags.TechniqueSorting);
                     break;
                 case "System.Collections.Generic.HashSet<T>":
-                    AddTags(Tags.ConstructSet, Tags.UsesSet);
+                    AddTags(Tags.ConstructSet, Tags.UsesHashSet);
                     break;
                 case "System.Collections.Generic.SortedSet<T>":
                     AddTags(Tags.ConstructSet, Tags.UsesSortedSet, Tags.TechniqueSorting);
@@ -534,6 +534,9 @@ internal class TagAnalyzer : Analyzer
                     break;
                 case "System.Numerics.BigInteger":    
                     AddTags(Tags.ConstructIntegralNumber, Tags.ConstructBigInteger);
+                    break;
+                case "System.Collections.BitArray":    
+                    AddTags(Tags.ConstructBitArray);
                     break;
             }
         }
@@ -694,6 +697,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructNullable = "construct:nullable";
         public const string ConstructEnum = "construct:enum";
         public const string ConstructLinkedList = "construct:linked-list";
+        public const string ConstructBitArray = "construct:bit-array";
 
         // Constructs - notation
         public const string ConstructHexadecimalNumber = "construct:hexadecimal-number";
@@ -735,7 +739,7 @@ internal class TagAnalyzer : Analyzer
         public const string UsesSortedList = "uses:SortedList<T>";
         public const string UsesDictionary = "uses:Dictionary<TKey,TValue>";
         public const string UsesSortedDictionary = "uses:SortedDictionary<TKey,TValue>";
-        public const string UsesSet = "uses:Set<T>";
+        public const string UsesHashSet = "uses:HashSet<T>";
         public const string UsesSortedSet = "uses:SortedSet<T>";
         public const string UsesStack = "uses:Stack<T>";
         public const string UsesQueue = "uses:Queue<T>";
