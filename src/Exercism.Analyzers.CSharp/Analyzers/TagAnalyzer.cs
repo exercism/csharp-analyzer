@@ -47,6 +47,9 @@ internal class TagAnalyzer : Analyzer
     {
         if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ThisKeyword)))
             AddTags(Tags.ConstructExtensionMethod);
+        
+        if (node.Default is not null)
+            AddTags(Tags.ConstructOptionalParameter);
 
         AddTags(Tags.ConstructParameter);
         base.VisitParameter(node);
@@ -54,6 +57,10 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
+        var symbol = SemanticModel.GetDeclaredSymbol(node);
+        if (symbol is not null && symbol.ContainingType.GetMembers(symbol.Name).Length > 1)
+            AddTags(Tags.ConstructMethodOverloading);
+        
         if (node.TypeParameterList != null)
             AddTags(Tags.ConstructGenericMethod);
         
@@ -623,6 +630,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructExtensionMethod = "construct:extension-method";
         public const string ConstructLocalFunction = "construct:local-function";
         public const string ConstructParameter = "construct:parameter";
+        public const string ConstructOptionalParameter = "construct:optional-parameter";
         public const string ConstructSwitchExpression = "construct:switch-expression";
         public const string ConstructSwitch = "construct:switch";
         public const string ConstructForeach = "construct:foreach";
@@ -661,6 +669,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructDivide = "construct:divide";
         public const string ConstructAdd = "construct:add";
         public const string ConstructSubtract = "construct:subtract";
+        public const string ConstructMethodOverloading = "construct:method-overloading";
 
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
