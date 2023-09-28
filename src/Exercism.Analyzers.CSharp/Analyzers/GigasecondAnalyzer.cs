@@ -11,14 +11,24 @@ internal class GigasecondAnalyzer : Analyzer
     {
     }
 
+    public override void VisitCompilationUnit(CompilationUnitSyntax node)
+    {
+        if (node.DescendantNodes()
+                .OfType<InvocationExpressionSyntax>()
+                .Select(invocationExpresssion => SemanticModel.GetSymbolInfo(invocationExpresssion).Symbol)
+                .Where(symbol => symbol is not null)
+                .All(symbol => symbol.ToDisplayString() != "System.DateTime.AddSeconds(double)"))
+            AddComment(Comments.UseAddSeconds);
+        
+        base.VisitCompilationUnit(node);
+    }
+
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         var symbol = SemanticModel.GetSymbolInfo(node).Symbol;
         switch (symbol?.ToString())
         {
             case "System.DateTime.AddSeconds(double)":
-                AddComment(Comments.UseAddSeconds);
-
                 var argument = node.ArgumentList.Arguments[0].Expression.ToString();
                 if (argument.All(char.IsDigit))
                     AddComment(Comments.UseScientificNotationOrDigitSeparators(argument));
