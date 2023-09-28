@@ -307,7 +307,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitLockStatement(LockStatementSyntax node)
     {
-        AddTags(Tags.TechniqueLocks);
+        AddTags(Tags.TechniqueLocks, Tags.ConstructLock);
         base.VisitLockStatement(node);
     }
 
@@ -673,6 +673,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructAdd = "construct:add";
         public const string ConstructSubtract = "construct:subtract";
         public const string ConstructMethodOverloading = "construct:method-overloading";
+        public const string ConstructLock = "construct:lock";
 
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
