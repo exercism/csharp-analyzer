@@ -538,6 +538,9 @@ internal class TagAnalyzer : Analyzer
                 case "System.Collections.BitArray":    
                     AddTags(Tags.ConstructBitArray);
                     break;
+                case "System.Text.StringBuilder":    
+                    AddTags(Tags.UsesStringBuilder);
+                    break;
             }
         }
     }
@@ -729,11 +732,12 @@ internal class TagAnalyzer : Analyzer
         public const string UsesUlong = "uses:ulong";
         public const string UsesNint = "uses:nint";
         public const string UsesNuint = "uses:nuint";
-        public const string UsesSpan = "uses:span";
-        public const string UsesMemory = "uses:memory";
-        public const string UsesMutex = "uses:mutex";
+        public const string UsesSpan = "uses:Span<T>";
+        public const string UsesMemory = "uses:Memort<T>";
+        public const string UsesMutex = "uses:Mutex";
         public const string UsesDelegate = "uses:delegate";
         public const string UsesRegex = "uses:Regex";
+        public const string UsesStringBuilder = "uses:StringBuilder";
         
         // Uses - collections
         public const string UsesList = "uses:List<T>";

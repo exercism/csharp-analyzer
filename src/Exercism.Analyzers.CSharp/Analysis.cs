@@ -71,6 +71,9 @@ internal abstract class Analyzer : CSharpSyntaxWalker
             case "leap":
                 yield return new LeapAnalyzer(submission);
                 break;
+            case "reverse-string":
+                yield return new ReverseStringAnalyzer(submission);
+                break;
             case "two-fer":
                 yield return new TwoFerAnalyzer(submission);
                 break;

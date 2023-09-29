@@ -19,20 +19,18 @@ internal class CommonAnalyzer : Analyzer
         if (node.Identifier.Text == "Main" && node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.StaticKeyword)))
             AddComment(Comments.DoNotUseMainMethod);
 
-        // var symbol = SemanticModel.GetDeclaredSymbol(node);
-        // if (symbol is not null)
-        // {
-        //     var callers = SymbolFinder.FindCallersAsync(symbol, Solution).GetAwaiter().GetResult();
-        //     if (callers.Any(caller => caller.Locations.All(location => node.GetLocation())))
-        //     
-        //     Console.WriteLine();
-        //     
-        //     // else if (symbol.OriginalDefinition.Equals(symbol, SymbolEqualityComparer.Default))
-        //     //     AddTags(Tags.TechniqueRecursion, Tags.ParadigmFunctional);    
-        // }
-        
-
         base.VisitMethodDeclaration(node);
+    }
+
+    public override void VisitFieldDeclaration(FieldDeclarationSyntax node)
+    {
+        var symbol = SemanticModel.GetDeclaredSymbol(node);
+        if (symbol is not null)
+        {
+            var referencedSymbols = SymbolFinder.FindReferencesAsync(symbol, Solution).GetAwaiter().GetResult();    
+        }
+        
+        base.VisitFieldDeclaration(node);
     }
 
     public override void VisitBlock(BlockSyntax node)
