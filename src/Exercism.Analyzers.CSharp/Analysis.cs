@@ -30,7 +30,7 @@ internal abstract class Analyzer : CSharpSyntaxWalker
 
         var analysis = Analysis.Empty;
 
-        foreach (var analyzer in CreateAnalyzers(submission))
+        foreach (var analyzer in AnalyzerFactory.CreateAnalyzers(submission))
             analyzer.Analyze(analysis);
 
         return analysis;
@@ -55,34 +55,40 @@ internal abstract class Analyzer : CSharpSyntaxWalker
         }
     }
 
-    private static IEnumerable<Analyzer> CreateAnalyzers(Submission submission)
+    private static class AnalyzerFactory
     {
-        switch (submission.Slug)
+        public static IEnumerable<Analyzer> CreateAnalyzers(Submission submission)
         {
-            case "difference-of-squares":
-                yield return new DifferenceOfSquaresAnalyzer(submission);
-                break;
-            case "gigasecond":
-                yield return new GigasecondAnalyzer(submission);
-                break;
-            case "grains":
-                yield return new GrainsAnalyzer(submission);
-                break;
-            case "leap":
-                yield return new LeapAnalyzer(submission);
-                break;
-            case "reverse-string":
-                yield return new ReverseStringAnalyzer(submission);
-                break;
-            case "two-fer":
-                yield return new TwoFerAnalyzer(submission);
-                break;
-            case "weighing-machine":
-                yield return new WeighingMachineAnalyzer(submission);
-                break;
-        }
+            switch (submission.Slug)
+            {
+                case "difference-of-squares":
+                    yield return new DifferenceOfSquaresAnalyzer(submission);
+                    break;
+                case "gigasecond":
+                    yield return new GigasecondAnalyzer(submission);
+                    break;
+                case "grains":
+                    yield return new GrainsAnalyzer(submission);
+                    break;
+                case "leap":
+                    yield return new LeapAnalyzer(submission);
+                    break;
+                case "raindrops":
+                    yield return new RaindropsAnalyzer(submission);
+                    break;
+                case "reverse-string":
+                    yield return new ReverseStringAnalyzer(submission);
+                    break;
+                case "two-fer":
+                    yield return new TwoFerAnalyzer(submission);
+                    break;
+                case "weighing-machine":
+                    yield return new WeighingMachineAnalyzer(submission);
+                    break;
+            }
 
-        yield return new CommonAnalyzer(submission);
-        yield return new TagAnalyzer(submission);
+            yield return new CommonAnalyzer(submission);
+            yield return new TagAnalyzer(submission);
+        }
     }
 }
