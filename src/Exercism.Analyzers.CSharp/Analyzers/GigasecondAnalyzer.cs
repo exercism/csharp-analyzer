@@ -26,7 +26,7 @@ internal class GigasecondAnalyzer : Analyzer
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         var symbol = SemanticModel.GetSymbolInfo(node).Symbol;
-        switch (symbol?.ToString())
+        switch (symbol?.ToDisplayString())
         {
             case "System.DateTime.AddSeconds(double)":
                 var argument = node.ArgumentList.Arguments[0].Expression.ToString();
@@ -52,7 +52,7 @@ internal class GigasecondAnalyzer : Analyzer
     {
         var symbol = SemanticModel.GetSymbolInfo(node);
 
-        if (symbol.ToString() == "System.DateTime.DateTime(long)")
+        if (symbol.Symbol?.ToDisplayString() == "System.DateTime.DateTime(long)")
         {
             AddComment(Comments.DoNotCreateDateTime);
             AddTags(Tags.UsesDateTimeConstructor);
@@ -64,7 +64,7 @@ internal class GigasecondAnalyzer : Analyzer
     public override void VisitBinaryExpression(BinaryExpressionSyntax node)
     {
         // TODO: convert ToString to ToDisplayString
-        if (SemanticModel.GetSymbolInfo(node).Symbol?.ToString() == "System.DateTime.operator +(System.DateTime, System.TimeSpan)")
+        if (SemanticModel.GetSymbolInfo(node).Symbol?.ToDisplayString() == "System.DateTime.operator +(System.DateTime, System.TimeSpan)")
             AddTags(Tags.UsesDateTimePlusTimeSpan);
 
         base.VisitBinaryExpression(node);

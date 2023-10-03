@@ -11,19 +11,22 @@ internal class TwoFerAnalyzer : Analyzer
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
-        if (SemanticModel.GetDeclaredSymbol(node)?.ToString() == "TwoFer.Speak()")
+        switch (SemanticModel.GetDeclaredSymbol(node)?.ToDisplayString())
         {
-            AddComment(Comments.UseDefaultValueNotOverloads);
-        }
-        else if (SemanticModel.GetDeclaredSymbol(node)?.ToString() == "TwoFer.Speak(string)")
-        {
-            var parameter = node.ParameterList.Parameters[0];
-            var parameterName = parameter.Identifier.Text;
+            case "TwoFer.Speak()":
+                AddComment(Comments.UseDefaultValueNotOverloads);
+                break;
+            case "TwoFer.Speak(string)":
+            {
+                var parameter = node.ParameterList.Parameters[0];
+                var parameterName = parameter.Identifier.Text;
             
-            if (parameter is { Default: null })
-                AddComment(Comments.UseDefaultValue(parameterName));
-            else if (parameter is { Default.Value: LiteralExpressionSyntax { Token: { Text: {} defaultValue and not "\"you\"" } } })
-                AddComment(Comments.InvalidDefaultValue(parameterName, defaultValue));
+                if (parameter is { Default: null })
+                    AddComment(Comments.UseDefaultValue(parameterName));
+                else if (parameter is { Default.Value: LiteralExpressionSyntax { Token: { Text: {} defaultValue and not "\"you\"" } } })
+                    AddComment(Comments.InvalidDefaultValue(parameterName, defaultValue));
+                break;
+            }
         }
 
         base.VisitMethodDeclaration(node);
@@ -31,7 +34,7 @@ internal class TwoFerAnalyzer : Analyzer
     
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        var symbol = SemanticModel.GetSymbolInfo(node).Symbol?.ToString();
+        var symbol = SemanticModel.GetSymbolInfo(node).Symbol?.ToDisplayString();
 
         if (symbol == "string.Concat(string?, string?, string?)")
             AddComment(Comments.UseStringInterpolationNotStringConcat);

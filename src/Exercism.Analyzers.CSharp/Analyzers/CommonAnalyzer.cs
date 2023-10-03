@@ -55,7 +55,7 @@ internal class CommonAnalyzer : Analyzer
             ConsoleOutputIdentifierNames.Contains(memberAccessExpression.ToString()))
             AddComment(Comments.DoNotWriteToConsole);
 
-        var symbol = SemanticModel.GetSymbolInfo(node).Symbol?.ToString();
+        var symbol = SemanticModel.GetSymbolInfo(node).Symbol?.ToDisplayString();
         if (symbol == "string.Format(string, object?)")
             AddComment(Comments.UseStringInterpolationNotStringFormat);
 
@@ -64,7 +64,7 @@ internal class CommonAnalyzer : Analyzer
 
     public override void VisitBinaryExpression(BinaryExpressionSyntax node)
     {
-        var symbol = SemanticModel.GetSymbolInfo(node).Symbol?.ToString();
+        var symbol = SemanticModel.GetSymbolInfo(node).Symbol?.ToDisplayString();
         if (symbol == "string.operator +(string, string)")
             AddComment(Comments.UseStringInterpolationNotStringConcatenation);
         

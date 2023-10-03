@@ -1,9 +1,17 @@
-﻿namespace Exercism.Analyzers.CSharp.Analyzers;
+﻿using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class WeighingMachineAnalyzer : Analyzer
 {
     public WeighingMachineAnalyzer(Submission submission) : base(submission)
     {
+    }
+
+    public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
+    {   
+        base.VisitPropertyDeclaration(node);
     }
 
     private static class Comments
