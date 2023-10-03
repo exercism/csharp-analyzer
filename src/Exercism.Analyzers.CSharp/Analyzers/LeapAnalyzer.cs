@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -17,8 +18,7 @@ internal class LeapAnalyzer : Analyzer
         if (SemanticModel.GetDeclaredSymbol(node)?.ToDisplayString() == "Leap.IsLeapYear(int)" && 
             SemanticModel.GetDeclaredSymbol(node.ParameterList.Parameters[0]) is { } symbol)
         {
-            foreach (var references in SymbolFinder.FindReferencesAsync(symbol, Project.Solution).GetAwaiter()
-                         .GetResult())
+            foreach (var references in GetReferences(symbol))
             {
                 if (references.Locations.Count() > 3)
                     AddComment(Comments.UseMinimumNumberOfChecks);
@@ -30,7 +30,7 @@ internal class LeapAnalyzer : Analyzer
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        if (SemanticModel.GetSymbolInfo(node).Symbol?.ToDisplayString() == "System.DateTime.IsLeapYear(int)")
+        if (GetSymbolName(node) == "System.DateTime.IsLeapYear(int)")
         {
             AddComment(Comments.DoNotUseIsLeapYear);
             AddTags(Tags.UsesDateTimeIsLeapYear);
@@ -42,7 +42,6 @@ internal class LeapAnalyzer : Analyzer
     public override void VisitIfStatement(IfStatementSyntax node)
     {
         AddComment(Comments.DoNotUseIfStatement);
-        
         base.VisitIfStatement(node);
     }
 

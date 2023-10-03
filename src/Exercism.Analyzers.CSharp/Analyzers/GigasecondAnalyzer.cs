@@ -63,8 +63,7 @@ internal class GigasecondAnalyzer : Analyzer
 
     public override void VisitBinaryExpression(BinaryExpressionSyntax node)
     {
-        // TODO: convert ToString to ToDisplayString
-        if (SemanticModel.GetSymbolInfo(node).Symbol?.ToDisplayString() == "System.DateTime.operator +(System.DateTime, System.TimeSpan)")
+        if (GetSymbolName(node) == "System.DateTime.operator +(System.DateTime, System.TimeSpan)")
             AddTags(Tags.UsesDateTimePlusTimeSpan);
 
         base.VisitBinaryExpression(node);

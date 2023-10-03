@@ -34,14 +34,18 @@ internal class TwoFerAnalyzer : Analyzer
     
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        var symbol = SemanticModel.GetSymbolInfo(node).Symbol?.ToDisplayString();
-
-        if (symbol == "string.Concat(string?, string?, string?)")
-            AddComment(Comments.UseStringInterpolationNotStringConcat);
-        else if (symbol == "string.IsNullOrEmpty(string?)")
-            AddComment(Comments.UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
-        else if (symbol == "string.IsNullOrWhiteSpace(string?)")
-            AddComment(Comments.UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
+        switch (GetSymbolName(node))
+        {
+            case "string.Concat(string?, string?, string?)":
+                AddComment(Comments.UseStringInterpolationNotStringConcat);
+                break;
+            case "string.IsNullOrEmpty(string?)":
+                AddComment(Comments.UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
+                break;
+            case "string.IsNullOrWhiteSpace(string?)":
+                AddComment(Comments.UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
+                break;
+        }
 
         base.VisitInvocationExpression(node);
     }

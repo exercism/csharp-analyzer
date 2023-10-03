@@ -4,6 +4,7 @@ using Exercism.Analyzers.CSharp.Analyzers;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace Exercism.Analyzers.CSharp;
 
@@ -97,4 +98,12 @@ internal abstract class Analyzer : CSharpSyntaxWalker
             yield return new TagAnalyzer(submission);
         }
     }
+
+    protected SymbolInfo GetSymbolInfo(SyntaxNode node) => SemanticModel.GetSymbolInfo(node);
+    protected string GetSymbolName(SyntaxNode node) => GetSymbolInfo(node).Symbol?.ToDisplayString();
+
+    protected IEnumerable<ReferencedSymbol> GetReferences(ISymbol symbol) =>
+        SymbolFinder.FindReferencesAsync(symbol, Project.Solution)
+            .GetAwaiter()
+            .GetResult();
 }
