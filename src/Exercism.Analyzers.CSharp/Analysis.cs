@@ -70,6 +70,9 @@ internal abstract class Analyzer : CSharpSyntaxWalker
                 case "grains":
                     yield return new GrainsAnalyzer(submission);
                     break;
+                case "pangram":
+                    yield return new PangramAnalyzer(submission);
+                    break;
                 case "leap":
                     yield return new LeapAnalyzer(submission);
                     break;
