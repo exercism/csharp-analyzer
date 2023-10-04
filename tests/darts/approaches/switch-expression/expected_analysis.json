@@ -1,14 +1,27 @@
 {
   "comments": [
     {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "Score"
+      }
     }
   ],
   "tags": [
+    "construct:add",
     "construct:class",
+    "construct:floating-point-number",
+    "construct:integral-number",
+    "construct:invocation",
     "construct:method",
-    "construct:parameter"
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "construct:pattern-matching",
+    "construct:switch-expression",
+    "paradigm:object-oriented",
+    "uses:double",
+    "uses:int"
   ]
 }
