@@ -13,6 +13,7 @@
     "construct:invocation",
     "construct:method",
     "construct:parameter",
+    "construct:string",
     "paradigm:functional",
     "paradigm:object-oriented",
     "uses:linq"
