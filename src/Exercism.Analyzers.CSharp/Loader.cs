@@ -12,7 +12,7 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Exercism.Analyzers.CSharp;
 
-internal record Submission(string Slug, Compilation Compilation, Project Project)
+internal record Submission(string Slug, Compilation Compilation)
 {
     public bool HasCompilationErrors =>
         Compilation.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
@@ -20,23 +20,16 @@ internal record Submission(string Slug, Compilation Compilation, Project Project
 
 internal static class Loader
 {
-    private record SubmissionFile(string FilePath, SourceText SourceText);
-    
     public static async Task<Submission> Load(Options options)
     {
-        var workspace = new AdhocWorkspace();
-        var project = workspace.AddProject(options.Slug, LanguageNames.CSharp);
-
-        foreach (var submissionFile in await Task.WhenAll(SubmissionFiles.Enumerate(options)))
-            project = project.AddDocument(submissionFile.FilePath, submissionFile.SourceText).Project;
-        
-        var compilation = await Compiler.Compile(project);
-        return new Submission(options.Slug, compilation, project);
+        var syntaxTrees = await Task.WhenAll(SubmissionFiles.Parse(options));
+        var compilation = Compiler.Compile(syntaxTrees);
+        return new Submission(options.Slug, compilation);
     }
 
     private static class SubmissionFiles
     {
-        public static IEnumerable<Task<SubmissionFile>> Enumerate(Options options)
+        public static IEnumerable<Task<SyntaxTree>> Parse(Options options)
         {
             var nonSubmissionFiles = NonSubmissionFiles(options);
 
@@ -45,7 +38,7 @@ internal static class Loader
                 .Select(async sourceFile =>
                 {
                     var source = await File.ReadAllTextAsync(sourceFile);
-                    return new SubmissionFile(sourceFile, SourceText.From(source));
+                    return CSharpSyntaxTree.ParseText(SourceText.From(source));
                 });
         }
 
@@ -70,11 +63,11 @@ internal static class Loader
 
     private static class Compiler
     {
-        public static async Task<Compilation> Compile(Project project) =>
-            await project
-                .WithMetadataReferences(References())
-                .WithCompilationOptions(CompilationOptions())
-                .GetCompilationAsync();
+        public static Compilation Compile(IEnumerable<SyntaxTree> syntaxTrees) =>
+            CSharpCompilation.Create(Guid.NewGuid().ToString(), 
+                syntaxTrees: syntaxTrees,
+                references: References(),
+                options: CompilationOptions());
 
         private static CSharpCompilationOptions CompilationOptions() =>
             new(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Debug);

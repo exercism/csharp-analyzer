@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using System.Linq;
 
 using Exercism.Analyzers.CSharp.Analyzers;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace Exercism.Analyzers.CSharp;
 
@@ -18,8 +16,6 @@ internal abstract class Analyzer : CSharpSyntaxWalker
 {
     protected Submission Submission;
     protected Compilation Compilation => Submission.Compilation;
-    protected Project Project => Submission.Project;
-    protected Solution Solution => Project.Solution;
     protected SemanticModel SemanticModel;
     protected Analysis Analysis;
 
@@ -115,9 +111,4 @@ internal abstract class Analyzer : CSharpSyntaxWalker
     protected IMethodSymbol GetConstructedFromSymbol(SyntaxNode node) =>
         GetSymbol(node) is IMethodSymbol methodSymbol ? methodSymbol.ConstructedFrom : null;
     protected string GetConstructedFromSymbolName(SyntaxNode node) => GetConstructedFromSymbol(node)?.ToDisplayString();
-    
-    protected IEnumerable<ReferencedSymbol> GetReferences(ISymbol symbol) =>
-        SymbolFinder.FindReferencesAsync(symbol, Project.Solution)
-            .GetAwaiter()
-            .GetResult();
 }

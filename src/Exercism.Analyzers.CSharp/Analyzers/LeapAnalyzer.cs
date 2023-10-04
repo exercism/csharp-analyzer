@@ -15,11 +15,12 @@ internal class LeapAnalyzer : Analyzer
         if (GetDeclaredSymbolName(node) == "Leap.IsLeapYear(int)" && 
             GetDeclaredSymbol(node.ParameterList.Parameters[0]) is { } symbol)
         {
-            foreach (var references in GetReferences(symbol))
-            {
-                if (references.Locations.Count() > 3)
-                    AddComment(Comments.UseMinimumNumberOfChecks);
-            }
+            // TODO:
+            // foreach (var references in GetReferences(symbol))
+            // {
+            //     if (references.Locations.Count() > 3)
+            //         AddComment(Comments.UseMinimumNumberOfChecks);
+            // }
         }
 
         base.VisitMethodDeclaration(node);
