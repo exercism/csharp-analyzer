@@ -7,5 +7,14 @@
         "name": "Speak"
       }
     }
+  ],
+  "tags": [
+    "construct-string-interpolation",
+    "construct:class",
+    "construct:method",
+    "construct:optional-parameter",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:object-oriented"
   ]
 }

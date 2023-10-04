@@ -1,9 +1,23 @@
 {
   "comments": [
     {
-      "comment": "csharp.two-fer.use_single_formatted_string_not_multiple",
-      "type": "essential",
-      "params": {}
+      "comment": "csharp.two-fer.invalid_default_value",
+      "type": "actionable",
+      "params": {
+        "name": "input",
+        "value": "null"
+      }
     }
+  ],
+  "tags": [
+    "construct-string-interpolation",
+    "construct:class",
+    "construct:if",
+    "construct:invocation",
+    "construct:method",
+    "construct:optional-parameter",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:object-oriented"
   ]
 }

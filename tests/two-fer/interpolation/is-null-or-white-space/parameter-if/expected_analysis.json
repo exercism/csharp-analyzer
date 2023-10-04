@@ -1,9 +1,25 @@
 {
   "comments": [
     {
-      "comment": "csharp.two-fer.use_null_coalescing_operator_not_is_null_or_white_space",
+      "comment": "csharp.two-fer.invalid_default_value",
       "type": "actionable",
-      "params": {}
+      "params": {
+        "name": "input",
+        "value": "null"
+      }
     }
+  ],
+  "tags": [
+    "construct-string-interpolation",
+    "construct:assignment",
+    "construct:class",
+    "construct:if",
+    "construct:invocation",
+    "construct:method",
+    "construct:optional-parameter",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:imperative",
+    "paradigm:object-oriented"
   ]
 }

@@ -5,5 +5,15 @@
       "type": "informative",
       "params": {}
     }
+  ],
+  "tags": [
+    "construct:add",
+    "construct:class",
+    "construct:method",
+    "construct:optional-parameter",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:object-oriented",
+    "uses:expression-bodied-member"
   ]
 }

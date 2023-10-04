@@ -7,5 +7,13 @@
         "name": "input"
       }
     }
+  ],
+  "tags": [
+    "construct-string-interpolation",
+    "construct:class",
+    "construct:method",
+    "construct:parameter",
+    "paradigm:object-oriented",
+    "uses:expression-bodied-member"
   ]
 }

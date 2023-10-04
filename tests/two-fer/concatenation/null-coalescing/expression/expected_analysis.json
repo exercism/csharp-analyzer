@@ -1,9 +1,27 @@
 {
   "comments": [
     {
+      "comment": "csharp.two-fer.invalid_default_value",
+      "type": "actionable",
+      "params": {
+        "name": "input",
+        "value": "null"
+      }
+    },
+    {
       "comment": "csharp.general.use_string_interpolation_not_string_concatenation",
       "type": "informative",
       "params": {}
     }
+  ],
+  "tags": [
+    "construct:add",
+    "construct:class",
+    "construct:method",
+    "construct:optional-parameter",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:object-oriented",
+    "uses:expression-bodied-member"
   ]
 }

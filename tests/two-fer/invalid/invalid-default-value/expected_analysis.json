@@ -5,8 +5,18 @@
       "type": "actionable",
       "params": {
         "name": "input",
-        "value": "\u0022hi\u0022"
+        "value": "\"hi\""
       }
     }
+  ],
+  "tags": [
+    "construct-string-interpolation",
+    "construct:class",
+    "construct:method",
+    "construct:optional-parameter",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:object-oriented",
+    "uses:expression-bodied-member"
   ]
 }

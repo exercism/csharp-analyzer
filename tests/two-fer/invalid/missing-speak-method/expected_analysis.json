@@ -1,11 +1,15 @@
 {
-  "comments": [
-    {
-      "comment": "csharp.general.missing_method",
-      "type": "essential",
-      "params": {
-        "name": "Speak"
-      }
-    }
+  "comments": [],
+  "tags": [
+    "construct:assignment",
+    "construct:class",
+    "construct:if",
+    "construct:invocation",
+    "construct:method",
+    "construct:optional-parameter",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:imperative",
+    "paradigm:object-oriented"
   ]
 }

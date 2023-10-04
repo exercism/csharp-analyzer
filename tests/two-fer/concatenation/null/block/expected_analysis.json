@@ -1,9 +1,12 @@
 {
   "comments": [
     {
-      "comment": "csharp.general.use_string_interpolation_not_string_concatenation",
-      "type": "informative",
-      "params": {}
+      "comment": "csharp.two-fer.invalid_default_value",
+      "type": "actionable",
+      "params": {
+        "name": "input",
+        "value": "null"
+      }
     },
     {
       "comment": "csharp.general.use_expression_bodied_member",
@@ -12,5 +15,15 @@
         "name": "Speak"
       }
     }
+  ],
+  "tags": [
+    "construct:add",
+    "construct:class",
+    "construct:method",
+    "construct:optional-parameter",
+    "construct:parameter",
+    "construct:string",
+    "construct:ternary",
+    "paradigm:object-oriented"
   ]
 }

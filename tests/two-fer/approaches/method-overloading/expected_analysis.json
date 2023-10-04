@@ -1,14 +1,26 @@
 {
   "comments": [
     {
-      "comment": "csharp.general.has_main_method",
+      "comment": "csharp.two-fer.use_default_value_not_overloads",
       "type": "essential",
       "params": {}
+    },
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "Speak"
+      }
     }
   ],
   "tags": [
+    "construct-string-interpolation",
     "construct:class",
+    "construct:invocation",
     "construct:method",
-    "construct:parameter"
+    "construct:method-overloading",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:object-oriented"
   ]
 }
