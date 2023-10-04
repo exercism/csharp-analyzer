@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "BitShifting.csproj"
+      "Grains.csproj"
     ],
     "solution": [
-      "BitShifting.cs"
+      "Grains.cs"
     ],
     "test": [
-      "BitShiftingTests.cs"
+      "GrainsTests.cs"
     ]
   }
 }

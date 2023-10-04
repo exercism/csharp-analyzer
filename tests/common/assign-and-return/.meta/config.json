@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "AssignAndReturn.csproj"
+      "Common.csproj"
     ],
     "solution": [
-      "AssignAndReturn.cs"
+      "Common.cs"
     ],
     "test": [
-      "AssignAndReturnTests.cs"
+      "CommonTests.cs"
     ]
   }
 }

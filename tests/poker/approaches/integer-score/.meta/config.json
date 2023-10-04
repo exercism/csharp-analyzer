@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "IntegerScore.csproj"
+      "Poker.csproj"
     ],
     "solution": [
-      "IntegerScore.cs"
+      "Poker.cs"
     ],
     "test": [
-      "IntegerScoreTests.cs"
+      "PokerTests.cs"
     ]
   }
 }

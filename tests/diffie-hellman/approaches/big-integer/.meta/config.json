@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "BigInteger.csproj"
+      "DiffieHellman.csproj"
     ],
     "solution": [
-      "BigInteger.cs"
+      "DiffieHellman.cs"
     ],
     "test": [
-      "BigIntegerTests.cs"
+      "DiffieHellmanTests.cs"
     ]
   }
 }

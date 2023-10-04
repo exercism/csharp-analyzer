@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Linq.csproj"
+      "Hamming.csproj"
     ],
     "solution": [
-      "Linq.cs"
+      "Hamming.cs"
     ],
     "test": [
-      "LinqTests.cs"
+      "HammingTests.cs"
     ]
   }
 }

@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "IfStatements.csproj"
+      "Raindrops.csproj"
     ],
     "solution": [
-      "IfStatements.cs"
+      "Raindrops.cs"
     ],
     "test": [
-      "IfStatementsTests.cs"
+      "RaindropsTests.cs"
     ]
   }
 }

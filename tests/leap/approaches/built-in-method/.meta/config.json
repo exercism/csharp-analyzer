@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "BuiltInMethod.csproj"
+      "Leap.csproj"
     ],
     "solution": [
-      "BuiltInMethod.cs"
+      "Leap.cs"
     ],
     "test": [
-      "BuiltInMethodTests.cs"
+      "LeapTests.cs"
     ]
   }
 }

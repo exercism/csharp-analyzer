@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Groupby.csproj"
+      "Isogram.csproj"
     ],
     "solution": [
-      "Groupby.cs"
+      "Isogram.cs"
     ],
     "test": [
-      "GroupbyTests.cs"
+      "IsogramTests.cs"
     ]
   }
 }

@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Bitfield.csproj"
+      "Pangram.csproj"
     ],
     "solution": [
-      "Bitfield.cs"
+      "Pangram.cs"
     ],
     "test": [
-      "BitfieldTests.cs"
+      "PangramTests.cs"
     ]
   }
 }

@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "GraphShortestPath.csproj"
+      "TwoBucket.csproj"
     ],
     "solution": [
-      "GraphShortestPath.cs"
+      "TwoBucket.cs"
     ],
     "test": [
-      "GraphShortestPathTests.cs"
+      "TwoBucketTests.cs"
     ]
   }
 }

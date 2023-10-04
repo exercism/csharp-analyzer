@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "AllContainsTolower.csproj"
+      "Pangram.csproj"
     ],
     "solution": [
-      "AllContainsTolower.cs"
+      "Pangram.cs"
     ],
     "test": [
-      "AllContainsTolowerTests.cs"
+      "PangramTests.cs"
     ]
   }
 }

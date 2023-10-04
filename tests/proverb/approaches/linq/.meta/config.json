@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Linq.csproj"
+      "Proverb.csproj"
     ],
     "solution": [
-      "Linq.cs"
+      "Proverb.cs"
     ],
     "test": [
-      "LinqTests.cs"
+      "ProverbTests.cs"
     ]
   }
 }

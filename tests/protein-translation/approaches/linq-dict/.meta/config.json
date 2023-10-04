@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "LinqDict.csproj"
+      "ProteinTranslation.csproj"
     ],
     "solution": [
-      "LinqDict.cs"
+      "ProteinTranslation.cs"
     ],
     "test": [
-      "LinqDictTests.cs"
+      "ProteinTranslationTests.cs"
     ]
   }
 }

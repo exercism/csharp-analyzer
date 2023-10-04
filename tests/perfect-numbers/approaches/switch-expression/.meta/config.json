@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "SwitchExpression.csproj"
+      "PerfectNumbers.csproj"
     ],
     "solution": [
-      "SwitchExpression.cs"
+      "PerfectNumbers.cs"
     ],
     "test": [
-      "SwitchExpressionTests.cs"
+      "PerfectNumbersTests.cs"
     ]
   }
 }

@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "RegularExpressions.csproj"
+      "PigLatin.csproj"
     ],
     "solution": [
-      "RegularExpressions.cs"
+      "PigLatin.cs"
     ],
     "test": [
-      "RegularExpressionsTests.cs"
+      "PigLatinTests.cs"
     ]
   }
 }

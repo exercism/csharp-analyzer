@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "FactorsFirst.csproj"
+      "PalindromeProducts.csproj"
     ],
     "solution": [
-      "FactorsFirst.cs"
+      "PalindromeProducts.cs"
     ],
     "test": [
-      "FactorsFirstTests.cs"
+      "PalindromeProductsTests.cs"
     ]
   }
 }

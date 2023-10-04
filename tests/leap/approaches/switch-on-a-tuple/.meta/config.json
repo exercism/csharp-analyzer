@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "SwitchOnATuple.csproj"
+      "Leap.csproj"
     ],
     "solution": [
-      "SwitchOnATuple.cs"
+      "Leap.cs"
     ],
     "test": [
-      "SwitchOnATupleTests.cs"
+      "LeapTests.cs"
     ]
   }
 }

@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "SwitchExpression.csproj"
+      "RnaTranscription.csproj"
     ],
     "solution": [
-      "SwitchExpression.cs"
+      "RnaTranscription.cs"
     ],
     "test": [
-      "SwitchExpressionTests.cs"
+      "RnaTranscriptionTests.cs"
     ]
   }
 }

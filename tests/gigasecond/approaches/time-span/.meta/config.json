@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "TimeSpan.csproj"
+      "Gigasecond.csproj"
     ],
     "solution": [
-      "TimeSpan.cs"
+      "Gigasecond.cs"
     ],
     "test": [
-      "TimeSpanTests.cs"
+      "GigasecondTests.cs"
     ]
   }
 }

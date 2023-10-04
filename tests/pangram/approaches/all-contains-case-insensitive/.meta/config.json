@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "AllContainsCaseInsensitive.csproj"
+      "Pangram.csproj"
     ],
     "solution": [
-      "AllContainsCaseInsensitive.cs"
+      "Pangram.cs"
     ],
     "test": [
-      "AllContainsCaseInsensitiveTests.cs"
+      "PangramTests.cs"
     ]
   }
 }

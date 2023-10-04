@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "MaxValue.csproj"
+      "Grains.csproj"
     ],
     "solution": [
-      "MaxValue.cs"
+      "Grains.cs"
     ],
     "test": [
-      "MaxValueTests.cs"
+      "GrainsTests.cs"
     ]
   }
 }

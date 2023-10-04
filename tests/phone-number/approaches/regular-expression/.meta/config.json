@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "RegularExpression.csproj"
+      "PhoneNumber.csproj"
     ],
     "solution": [
-      "RegularExpression.cs"
+      "PhoneNumber.cs"
     ],
     "test": [
-      "RegularExpressionTests.cs"
+      "PhoneNumberTests.cs"
     ]
   }
 }

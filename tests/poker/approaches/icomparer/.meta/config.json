@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Icomparer.csproj"
+      "Poker.csproj"
     ],
     "solution": [
-      "Icomparer.cs"
+      "Poker.cs"
     ],
     "test": [
-      "IcomparerTests.cs"
+      "PokerTests.cs"
     ]
   }
 }

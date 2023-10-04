@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "YieldSwitch.csproj"
+      "ProteinTranslation.csproj"
     ],
     "solution": [
-      "YieldSwitch.cs"
+      "ProteinTranslation.cs"
     ],
     "test": [
-      "YieldSwitchTests.cs"
+      "ProteinTranslationTests.cs"
     ]
   }
 }

@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "AnswerArray.csproj"
+      "Bob.csproj"
     ],
     "solution": [
-      "AnswerArray.cs"
+      "Bob.cs"
     ],
     "test": [
-      "AnswerArrayTests.cs"
+      "BobTests.cs"
     ]
   }
 }

@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "BooleanChain.csproj"
+      "Leap.csproj"
     ],
     "solution": [
-      "BooleanChain.cs"
+      "Leap.cs"
     ],
     "test": [
-      "BooleanChainTests.cs"
+      "LeapTests.cs"
     ]
   }
 }

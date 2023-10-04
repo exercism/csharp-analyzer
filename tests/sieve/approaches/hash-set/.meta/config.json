@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "HashSet.csproj"
+      "Sieve.csproj"
     ],
     "solution": [
-      "HashSet.cs"
+      "Sieve.cs"
     ],
     "test": [
-      "HashSetTests.cs"
+      "SieveTests.cs"
     ]
   }
 }

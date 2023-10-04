@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "StringBuilder.csproj"
+      "ReverseString.csproj"
     ],
     "solution": [
-      "StringBuilder.cs"
+      "ReverseString.cs"
     ],
     "test": [
-      "StringBuilderTests.cs"
+      "ReverseStringTests.cs"
     ]
   }
 }

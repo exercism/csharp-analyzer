@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "TernaryOperator.csproj"
+      "Leap.csproj"
     ],
     "solution": [
-      "TernaryOperator.cs"
+      "Leap.cs"
     ],
     "test": [
-      "TernaryOperatorTests.cs"
+      "LeapTests.cs"
     ]
   }
 }

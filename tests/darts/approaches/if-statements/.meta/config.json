@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "IfStatements.csproj"
+      "Darts.csproj"
     ],
     "solution": [
-      "IfStatements.cs"
+      "Darts.cs"
     ],
     "test": [
-      "IfStatementsTests.cs"
+      "DartsTests.cs"
     ]
   }
 }

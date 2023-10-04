@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "DatetimeAddition.csproj"
+      "Leap.csproj"
     ],
     "solution": [
-      "DatetimeAddition.cs"
+      "Leap.cs"
     ],
     "test": [
-      "DatetimeAdditionTests.cs"
+      "LeapTests.cs"
     ]
   }
 }

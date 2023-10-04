@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "ForStatement.csproj"
+      "DifferenceOfSquares.csproj"
     ],
     "solution": [
-      "ForStatement.cs"
+      "DifferenceOfSquares.cs"
     ],
     "test": [
-      "ForStatementTests.cs"
+      "DifferenceOfSquaresTests.cs"
     ]
   }
 }

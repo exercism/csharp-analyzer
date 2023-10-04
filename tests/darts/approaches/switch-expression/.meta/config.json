@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "SwitchExpression.csproj"
+      "Darts.csproj"
     ],
     "solution": [
-      "SwitchExpression.cs"
+      "Darts.cs"
     ],
     "test": [
-      "SwitchExpressionTests.cs"
+      "DartsTests.cs"
     ]
   }
 }

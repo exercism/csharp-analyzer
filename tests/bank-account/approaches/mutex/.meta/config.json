@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Mutex.csproj"
+      "BankAccount.csproj"
     ],
     "solution": [
-      "Mutex.cs"
+      "BankAccount.cs"
     ],
     "test": [
-      "MutexTests.cs"
+      "BankAccountTests.cs"
     ]
   }
 }

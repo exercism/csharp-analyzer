@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "IfStatements.csproj"
+      "PerfectNumbers.csproj"
     ],
     "solution": [
-      "IfStatements.cs"
+      "PerfectNumbers.cs"
     ],
     "test": [
-      "IfStatementsTests.cs"
+      "PerfectNumbersTests.cs"
     ]
   }
 }

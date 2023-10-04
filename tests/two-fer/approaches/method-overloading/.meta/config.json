@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "MethodOverloading.csproj"
+      "TwoFer.csproj"
     ],
     "solution": [
-      "MethodOverloading.cs"
+      "TwoFer.cs"
     ],
     "test": [
-      "MethodOverloadingTests.cs"
+      "TwoFerTests.cs"
     ]
   }
 }

@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "BitArray.csproj"
+      "Sieve.csproj"
     ],
     "solution": [
-      "BitArray.cs"
+      "Sieve.cs"
     ],
     "test": [
-      "BitArrayTests.cs"
+      "SieveTests.cs"
     ]
   }
 }

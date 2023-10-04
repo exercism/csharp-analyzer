@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "LockStatement.csproj"
+      "BankAccount.csproj"
     ],
     "solution": [
-      "LockStatement.cs"
+      "BankAccount.cs"
     ],
     "test": [
-      "LockStatementTests.cs"
+      "BankAccountTests.cs"
     ]
   }
 }

@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "SortedCollections.csproj"
+      "GradeSchool.csproj"
     ],
     "solution": [
-      "SortedCollections.cs"
+      "GradeSchool.cs"
     ],
     "test": [
-      "SortedCollectionsTests.cs"
+      "GradeSchoolTests.cs"
     ]
   }
 }

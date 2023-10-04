@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Aggregate.csproj"
+      "Raindrops.csproj"
     ],
     "solution": [
-      "Aggregate.cs"
+      "Raindrops.cs"
     ],
     "test": [
-      "AggregateTests.cs"
+      "RaindropsTests.cs"
     ]
   }
 }

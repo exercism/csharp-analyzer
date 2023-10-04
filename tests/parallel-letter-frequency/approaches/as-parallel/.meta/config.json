@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "AsParallel.csproj"
+      "ParallelLetterFrequency.csproj"
     ],
     "solution": [
-      "AsParallel.cs"
+      "ParallelLetterFrequency.cs"
     ],
     "test": [
-      "AsParallelTests.cs"
+      "ParallelLetterFrequencyTests.cs"
     ]
   }
 }

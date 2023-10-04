@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Span.csproj"
+      "ReverseString.csproj"
     ],
     "solution": [
-      "Span.cs"
+      "ReverseString.cs"
     ],
     "test": [
-      "SpanTests.cs"
+      "ReverseStringTests.cs"
     ]
   }
 }

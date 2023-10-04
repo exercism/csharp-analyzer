@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Distinct.csproj"
+      "Isogram.csproj"
     ],
     "solution": [
-      "Distinct.cs"
+      "Isogram.cs"
     ],
     "test": [
-      "DistinctTests.cs"
+      "IsogramTests.cs"
     ]
   }
 }

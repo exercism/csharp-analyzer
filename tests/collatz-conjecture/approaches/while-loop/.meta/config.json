@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "WhileLoop.csproj"
+      "CollatzConjecture.csproj"
     ],
     "solution": [
-      "WhileLoop.cs"
+      "CollatzConjecture.cs"
     ],
     "test": [
-      "WhileLoopTests.cs"
+      "CollatzConjectureTests.cs"
     ]
   }
 }

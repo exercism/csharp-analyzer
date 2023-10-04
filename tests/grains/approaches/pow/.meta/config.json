@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Pow.csproj"
+      "Grains.csproj"
     ],
     "solution": [
-      "Pow.cs"
+      "Grains.cs"
     ],
     "test": [
-      "PowTests.cs"
+      "GrainsTests.cs"
     ]
   }
 }

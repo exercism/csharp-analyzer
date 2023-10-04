@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Sequence.csproj"
+      "CollatzConjecture.csproj"
     ],
     "solution": [
-      "Sequence.cs"
+      "CollatzConjecture.cs"
     ],
     "test": [
-      "SequenceTests.cs"
+      "CollatzConjectureTests.cs"
     ]
   }
 }

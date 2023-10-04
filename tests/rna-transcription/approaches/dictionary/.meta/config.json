@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Dictionary.csproj"
+      "RnaTranscription.csproj"
     ],
     "solution": [
-      "Dictionary.cs"
+      "RnaTranscription.cs"
     ],
     "test": [
-      "DictionaryTests.cs"
+      "RnaTranscriptionTests.cs"
     ]
   }
 }

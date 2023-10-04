@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "ForLoop.csproj"
+      "Hamming.csproj"
     ],
     "solution": [
-      "ForLoop.cs"
+      "Hamming.cs"
     ],
     "test": [
-      "ForLoopTests.cs"
+      "HammingTests.cs"
     ]
   }
 }

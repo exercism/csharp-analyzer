@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "SwitchOnTuple.csproj"
+      "Bob.csproj"
     ],
     "solution": [
-      "SwitchOnTuple.cs"
+      "Bob.cs"
     ],
     "test": [
-      "SwitchOnTupleTests.cs"
+      "BobTests.cs"
     ]
   }
 }

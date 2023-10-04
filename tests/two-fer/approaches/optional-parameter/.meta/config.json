@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "OptionalParameter.csproj"
+      "TwoFer.csproj"
     ],
     "solution": [
-      "OptionalParameter.cs"
+      "TwoFer.cs"
     ],
     "test": [
-      "OptionalParameterTests.cs"
+      "TwoFerTests.cs"
     ]
   }
 }

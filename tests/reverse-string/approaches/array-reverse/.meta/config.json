@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "ArrayReverse.csproj"
+      "ReverseString.csproj"
     ],
     "solution": [
-      "ArrayReverse.cs"
+      "ReverseString.cs"
     ],
     "test": [
-      "ArrayReverseTests.cs"
+      "ReverseStringTests.cs"
     ]
   }
 }
