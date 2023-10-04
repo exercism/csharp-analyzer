@@ -18,6 +18,7 @@
     "paradigm:imperative",
     "paradigm:object-oriented",
     "technique:laziness",
+    "uses:Enumerable.Count",
     "uses:int",
     "uses:linq",
     "uses:yield"
