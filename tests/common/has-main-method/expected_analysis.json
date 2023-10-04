@@ -9,6 +9,7 @@
   "tags": [
     "construct:class",
     "construct:method",
-    "construct:parameter"
+    "construct:parameter",
+    "paradigm:object-oriented"
   ]
 }

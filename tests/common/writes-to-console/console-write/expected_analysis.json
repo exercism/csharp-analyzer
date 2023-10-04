@@ -8,7 +8,9 @@
   ],
   "tags": [
     "construct:class",
+    "construct:invocation",
     "construct:method",
-    "construct:invocation"
+    "construct:string",
+    "paradigm:object-oriented"
   ]
 }
