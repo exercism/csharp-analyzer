@@ -1,14 +1,32 @@
 {
   "comments": [
     {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "Calculate"
+      }
     }
   ],
   "tags": [
+    "construct:add",
+    "construct:assignment",
+    "construct:char",
     "construct:class",
+    "construct:dictionary",
+    "construct:enumeration",
+    "construct:foreach",
+    "construct:if",
+    "construct:invocation",
+    "construct:lambda",
     "construct:method",
-    "construct:parameter"
+    "construct:parameter",
+    "construct:string",
+    "paradigm:functional",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "uses:Dictionary<TKey,TValue>",
+    "uses:Enumerable.AsParallel",
+    "uses:linq"
   ]
 }
