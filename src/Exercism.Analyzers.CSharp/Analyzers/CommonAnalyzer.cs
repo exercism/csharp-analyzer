@@ -71,8 +71,10 @@ internal class CommonAnalyzer : Analyzer
 
     public override void VisitAssignmentExpression(AssignmentExpressionSyntax node)
     {
-        if (node.Ancestors().OfType<ConstructorDeclarationSyntax>().Any() &&
-            GetSymbol(node.Left) is IPropertySymbol propertySymbol)
+        var constructorDeclarationSyntax = node.Ancestors().OfType<ConstructorDeclarationSyntax>().FirstOrDefault();
+        if (constructorDeclarationSyntax is not null &&
+            GetSymbol(node.Left) is IPropertySymbol propertySymbol &&
+            GetSymbol(node.Right) is not IParameterSymbol)
             AddComment(Comments.PropertyBetterUseInitializer(propertySymbol.Name));
 
         base.VisitAssignmentExpression(node);
