@@ -375,9 +375,9 @@ internal class TagAnalyzer : Analyzer
         base.VisitAssignmentExpression(node);
     }
 
-    private void VisitTypeInfo(TypeInfo typeInfo)
+    private void VisitTypeSymbol(ITypeSymbol typeSymbol)
     {
-        switch (typeInfo.ConvertedType?.SpecialType)
+        switch (typeSymbol.SpecialType)
         {
             case SpecialType.System_Int16:
                 AddTags(Tags.ConstructIntegralNumber, Tags.UsesShort);
@@ -474,7 +474,7 @@ internal class TagAnalyzer : Analyzer
                 break;
         }
 
-        if (typeInfo.Type is not INamedTypeSymbol namedTypeSymbol)
+        if (typeSymbol is not INamedTypeSymbol namedTypeSymbol)
             return;
 
         if (namedTypeSymbol.IsGenericType)
@@ -489,6 +489,9 @@ internal class TagAnalyzer : Analyzer
                     break;
                 case "System.Collections.Generic.Dictionary<TKey, TValue>":
                     AddTags(Tags.ConstructDictionary, Tags.UsesDictionary);
+                    break;
+                case "System.Collections.Generic.IDictionary<TKey, TValue>":
+                    AddTags(Tags.ConstructDictionary);
                     break;
                 case "System.Collections.Generic.SortedDictionary<TKey, TValue>":
                     AddTags(Tags.ConstructDictionary, Tags.UsesSortedDictionary, Tags.TechniqueSorting, Tags.TechniqueSortedCollection);
@@ -545,9 +548,22 @@ internal class TagAnalyzer : Analyzer
         }
     }
 
+    private void VisitTypeInfo(TypeInfo typeInfo)
+    {
+        if (typeInfo.Type != null)
+            VisitTypeSymbol(typeInfo.Type);
+        
+        if (typeInfo.ConvertedType != null)
+            VisitTypeSymbol(typeInfo.ConvertedType);
+    }
+
     public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
     {
-        VisitTypeInfo(GetTypeInfo(node.Type));
+        if (GetSymbol(node.Type) is ITypeSymbol typeSymbol)
+            VisitTypeSymbol(typeSymbol);
+        else
+            VisitTypeInfo(GetTypeInfo(node.Type));
+
         base.VisitObjectCreationExpression(node);
     }
 
@@ -579,6 +595,12 @@ internal class TagAnalyzer : Analyzer
     {
         AddTags(Tags.TechniqueLaziness, Tags.UsesYield);
         base.VisitYieldStatement(node);
+    }
+
+    public override void VisitElementAccessExpression(ElementAccessExpressionSyntax node)
+    {
+        VisitTypeInfo(GetTypeInfo(node.Expression));
+        base.VisitElementAccessExpression(node);
     }
 
     private bool UsesRecursion(SyntaxNode methodOrFunctionNode)
