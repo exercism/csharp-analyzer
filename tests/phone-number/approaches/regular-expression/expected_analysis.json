@@ -4,6 +4,7 @@
     "construct-string-interpolation",
     "construct-verbatim-string",
     "construct:class",
+    "construct:constructor",
     "construct:exception",
     "construct:if",
     "construct:integral-number",

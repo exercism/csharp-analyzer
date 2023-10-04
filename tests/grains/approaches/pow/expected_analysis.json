@@ -10,6 +10,7 @@
   ],
   "tags": [
     "construct:class",
+    "construct:constructor",
     "construct:exception",
     "construct:floating-point-number",
     "construct:if",

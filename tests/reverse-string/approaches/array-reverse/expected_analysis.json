@@ -3,6 +3,7 @@
   "tags": [
     "construct:array",
     "construct:class",
+    "construct:constructor",
     "construct:invocation",
     "construct:method",
     "construct:parameter",

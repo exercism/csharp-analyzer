@@ -22,6 +22,7 @@
   ],
   "tags": [
     "construct:class",
+    "construct:constructor",
     "construct:date-time",
     "construct:floating-point-number",
     "construct:invocation",

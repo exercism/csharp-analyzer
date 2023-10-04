@@ -6,6 +6,7 @@
     "construct:bit-array",
     "construct:boolean",
     "construct:class",
+    "construct:constructor",
     "construct:exception",
     "construct:for-loop",
     "construct:if",

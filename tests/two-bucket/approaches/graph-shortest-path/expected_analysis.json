@@ -5,6 +5,7 @@
     "construct:assignment",
     "construct:boolean",
     "construct:class",
+    "construct:constructor",
     "construct:dictionary",
     "construct:enumeration",
     "construct:exception",

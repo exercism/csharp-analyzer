@@ -10,6 +10,7 @@
   ],
   "tags": [
     "construct:class",
+    "construct:constructor",
     "construct:dictionary",
     "construct:field",
     "construct:integral-number",
@@ -22,6 +23,7 @@
     "paradigm:functional",
     "paradigm:object-oriented",
     "uses:Dictionary<TKey,TValue>",
+    "uses:String.Substring",
     "uses:int",
     "uses:linq"
   ]

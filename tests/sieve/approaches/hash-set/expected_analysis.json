@@ -3,6 +3,7 @@
   "tags": [
     "construct:assignment",
     "construct:class",
+    "construct:constructor",
     "construct:exception",
     "construct:for-loop",
     "construct:if",

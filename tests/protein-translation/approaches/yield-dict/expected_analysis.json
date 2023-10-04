@@ -4,6 +4,7 @@
     "construct:add",
     "construct:assignment",
     "construct:class",
+    "construct:constructor",
     "construct:dictionary",
     "construct:extension-method",
     "construct:field",

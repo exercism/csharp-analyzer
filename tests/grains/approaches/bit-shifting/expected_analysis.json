@@ -13,6 +13,7 @@
     "construct:boolean",
     "construct:cast",
     "construct:class",
+    "construct:constructor",
     "construct:exception",
     "construct:integral-number",
     "construct:left-shift",

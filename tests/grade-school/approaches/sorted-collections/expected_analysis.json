@@ -3,6 +3,7 @@
   "tags": [
     "construct:boolean",
     "construct:class",
+    "construct:constructor",
     "construct:dictionary",
     "construct:field",
     "construct:if",

@@ -4,6 +4,7 @@
     "construct:add",
     "construct:boolean",
     "construct:class",
+    "construct:constructor",
     "construct:exception",
     "construct:if",
     "construct:integral-number",

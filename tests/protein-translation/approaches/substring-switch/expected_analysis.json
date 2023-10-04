@@ -3,6 +3,7 @@
   "tags": [
     "construct:assignment",
     "construct:class",
+    "construct:constructor",
     "construct:exception",
     "construct:integral-number",
     "construct:invocation",
@@ -19,6 +20,7 @@
     "paradigm:imperative",
     "paradigm:object-oriented",
     "uses:List<T>",
+    "uses:String.Substring",
     "uses:expression-bodied-member",
     "uses:int"
   ]
