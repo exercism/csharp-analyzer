@@ -7,5 +7,18 @@
         "name": "Add"
       }
     }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:date-time",
+    "construct:floating-point-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:number",
+    "construct:parameter",
+    "construct:underscore-number-notation",
+    "paradigm:object-oriented",
+    "uses:DateTime.AddSeconds",
+    "uses:double"
   ]
 }

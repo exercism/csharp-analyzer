@@ -12,5 +12,16 @@
         "name": "Add"
       }
     }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:date-time",
+    "construct:floating-point-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:number",
+    "construct:parameter",
+    "paradigm:object-oriented",
+    "uses:double"
   ]
 }
