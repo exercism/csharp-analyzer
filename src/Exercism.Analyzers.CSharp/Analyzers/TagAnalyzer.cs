@@ -488,10 +488,10 @@ internal class TagAnalyzer : Analyzer
                     AddTags(Tags.ConstructList, Tags.UsesSortedList, Tags.TechniqueSorting);
                     break;
                 case "System.Collections.Generic.Dictionary<TKey, TValue>":
-                    AddTags(Tags.ConstructMap, Tags.UsesDictionary);
+                    AddTags(Tags.ConstructDictionary, Tags.UsesDictionary);
                     break;
                 case "System.Collections.Generic.SortedDictionary<TKey, TValue>":
-                    AddTags(Tags.ConstructMap, Tags.UsesSortedDictionary, Tags.TechniqueSorting);
+                    AddTags(Tags.ConstructDictionary, Tags.UsesSortedDictionary, Tags.TechniqueSorting);
                     break;
                 case "System.Collections.Generic.HashSet<T>":
                     AddTags(Tags.ConstructSet, Tags.UsesHashSet);
@@ -691,7 +691,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructArray = "construct:array";
         public const string ConstructStack = "construct:stack";
         public const string ConstructQueue = "construct:queue";
-        public const string ConstructMap = "construct:map";
+        public const string ConstructDictionary = "construct:dictionary";
         public const string ConstructStruct = "construct:struct";
         public const string ConstructRecord = "construct:record";
         public const string ConstructClass = "construct:class";
