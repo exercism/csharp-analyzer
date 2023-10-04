@@ -28,8 +28,7 @@ internal class LeapAnalyzer : Analyzer
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        var symbolName = GetSymbolName(node);
-        switch (symbolName)
+        switch (GetSymbolName(node))
         {
             case "System.DateTime.IsLeapYear(int)":
                 AddComment(Comments.DoNotUseIsLeapYear);
