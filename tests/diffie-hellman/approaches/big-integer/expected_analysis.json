@@ -10,7 +10,9 @@
     "construct:number",
     "construct:parameter",
     "paradigm:object-oriented",
+    "technique:randomness",
     "technique:type-conversion",
+    "uses:Random",
     "uses:expression-bodied-member",
     "uses:long"
   ]
