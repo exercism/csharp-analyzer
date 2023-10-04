@@ -34,7 +34,7 @@ internal static class Output
         jsonTextWriter.WritePropertyName("comments");
         jsonTextWriter.WriteStartArray();
 
-        foreach (var comment in comments.DistinctBy(comment => comment.Type))
+        foreach (var comment in comments.DistinctBy(comment => comment.Text))
             jsonTextWriter.WriteComment(comment);
 
         jsonTextWriter.WriteEndArray();
