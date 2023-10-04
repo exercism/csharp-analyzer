@@ -80,6 +80,9 @@ internal abstract class Analyzer : CSharpSyntaxWalker
                 case "parallel-letter-frequency":
                     yield return new ParallelLetterFrequencyAnalyzer(submission);
                     break;
+                case "protein-translation":
+                    yield return new ProteinTranslationAnalyzer(submission);
+                    break;
                 case "leap":
                     yield return new LeapAnalyzer(submission);
                     break;

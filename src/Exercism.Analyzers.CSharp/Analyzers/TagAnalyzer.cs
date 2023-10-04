@@ -785,16 +785,5 @@ internal class TagAnalyzer : Analyzer
         public const string UsesIDisposable = "uses:IDisposable";
         public const string UsesIEnumerable = "uses:IEnumerable<T>";
         public const string UsesIEnumerator = "uses:IEnumerator<T>";
-
-        // Uses - members
-        public const string UsesEnumerableCount = "uses:Enumerable.Count";
-        public const string UsesEnumerableDistinct = "uses:Enumerable.Distinct";
-        public const string UsesEnumerableGroupBy = "uses:Enumerable.GroupBy";
-        public const string UsesEnumerableAll = "uses:Enumerable.All";
-        public const string UsesEnumerableAsParallel = "uses:Enumerable.AsParallel";
-        public const string UsesStringToLower = "uses:String.ToLower";
-        public const string UsesStringContains = "uses:String.Contains";
-        public const string UsesStringContainsWithComparer = "uses:String.Contains(StringComparer)";
-        public const string UsesStringSubstring = "uses:String.Substring";
     }
 }
