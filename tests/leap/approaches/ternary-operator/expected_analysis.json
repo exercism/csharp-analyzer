@@ -1,14 +1,21 @@
 {
   "comments": [
     {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "IsLeapYear"
+      }
     }
   ],
   "tags": [
     "construct:class",
+    "construct:integral-number",
     "construct:method",
-    "construct:parameter"
+    "construct:number",
+    "construct:parameter",
+    "construct:ternary",
+    "paradigm:object-oriented",
+    "uses:int"
   ]
 }

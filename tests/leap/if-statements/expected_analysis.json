@@ -5,5 +5,18 @@
       "type": "actionable",
       "params": {}
     }
+  ],
+  "tags": [
+    "construct:boolean",
+    "construct:class",
+    "construct:if",
+    "construct:integral-number",
+    "construct:logical-or",
+    "construct:method",
+    "construct:number",
+    "construct:parameter",
+    "paradigm:object-oriented",
+    "technique:boolean-logic",
+    "uses:int"
   ]
 }

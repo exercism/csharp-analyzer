@@ -12,5 +12,18 @@
         "name": "IsLeapYear"
       }
     }
+  ],
+  "tags": [
+    "construct:boolean",
+    "construct:class",
+    "construct:integral-number",
+    "construct:logical-and",
+    "construct:logical-or",
+    "construct:method",
+    "construct:number",
+    "construct:parameter",
+    "paradigm:object-oriented",
+    "technique:boolean-logic",
+    "uses:int"
   ]
 }

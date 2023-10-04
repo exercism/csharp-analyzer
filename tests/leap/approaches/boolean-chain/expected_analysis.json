@@ -1,14 +1,24 @@
 {
   "comments": [
     {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "IsLeapYear"
+      }
     }
   ],
   "tags": [
+    "construct:boolean",
     "construct:class",
+    "construct:integral-number",
+    "construct:logical-and",
+    "construct:logical-or",
     "construct:method",
-    "construct:parameter"
+    "construct:number",
+    "construct:parameter",
+    "paradigm:object-oriented",
+    "technique:boolean-logic",
+    "uses:int"
   ]
 }

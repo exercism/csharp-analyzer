@@ -5,5 +5,15 @@
       "type": "essential",
       "params": {}
     }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:date-time",
+    "construct:invocation",
+    "construct:method",
+    "construct:parameter",
+    "paradigm:object-oriented",
+    "uses:DateTime.IsLeapYear",
+    "uses:expression-bodied-member"
   ]
 }
