@@ -28,10 +28,16 @@ internal class LeapAnalyzer : Analyzer
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        if (GetSymbolName(node) == "System.DateTime.IsLeapYear(int)")
+        var symbolName = GetSymbolName(node);
+        switch (symbolName)
         {
-            AddComment(Comments.DoNotUseIsLeapYear);
-            AddTags(Tags.UsesDateTimeIsLeapYear);
+            case "System.DateTime.IsLeapYear(int)":
+                AddComment(Comments.DoNotUseIsLeapYear);
+                AddTags(Tags.UsesDateTimeIsLeapYear);
+                break;
+            case "System.DateTime.AddDays(double)":
+                AddTags(Tags.UsesDateTimeAddDays);
+                break;
         }
 
         base.VisitInvocationExpression(node);
@@ -58,5 +64,6 @@ internal class LeapAnalyzer : Analyzer
     private static class Tags
     {
         public const string UsesDateTimeIsLeapYear = "uses:DateTime.IsLeapYear";
+        public const string UsesDateTimeAddDays = "uses:DateTime.AddDays";
     }
 }
