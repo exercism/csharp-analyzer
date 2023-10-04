@@ -377,7 +377,7 @@ internal class TagAnalyzer : Analyzer
 
     private void VisitTypeSymbol(ITypeSymbol typeSymbol)
     {
-        switch (typeSymbol.SpecialType)
+        switch (typeSymbol?.SpecialType)
         {
             case SpecialType.System_Int16:
                 AddTags(Tags.ConstructIntegralNumber, Tags.UsesShort);
@@ -544,15 +544,15 @@ internal class TagAnalyzer : Analyzer
                 case "System.Text.StringBuilder":    
                     AddTags(Tags.UsesStringBuilder);
                     break;
+                case "System.Random":    
+                    AddTags(Tags.TechniqueRandomess, Tags.UsesRandom);
+                    break;
             }
         }
     }
 
     private void VisitTypeInfo(TypeInfo typeInfo)
     {
-        if (typeInfo.Type != null)
-            VisitTypeSymbol(typeInfo.Type);
-        
         if (typeInfo.ConvertedType != null)
             VisitTypeSymbol(typeInfo.ConvertedType);
     }
@@ -648,6 +648,7 @@ internal class TagAnalyzer : Analyzer
         public const string TechniqueMemoryManagement = "technique:memory-management";
         public const string TechniqueSorting = "technique:sorting";
         public const string TechniqueSortedCollection = "technique:sorted-collection";
+        public const string TechniqueRandomess = "technique:randomness";
 
         // Constructs
         public const string ConstructIf = "construct:if";
@@ -761,6 +762,7 @@ internal class TagAnalyzer : Analyzer
         public const string UsesDelegate = "uses:delegate";
         public const string UsesRegex = "uses:Regex";
         public const string UsesStringBuilder = "uses:StringBuilder";
+        public const string UsesRandom = "uses:Random";
         
         // Uses - collections
         public const string UsesList = "uses:List<T>";
