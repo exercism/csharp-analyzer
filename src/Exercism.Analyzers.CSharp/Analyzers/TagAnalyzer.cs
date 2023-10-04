@@ -485,19 +485,19 @@ internal class TagAnalyzer : Analyzer
                     AddTags(Tags.ConstructList, Tags.UsesList);
                     break;
                 case "System.Collections.Generic.SortedList<T>":
-                    AddTags(Tags.ConstructList, Tags.UsesSortedList, Tags.TechniqueSorting);
+                    AddTags(Tags.ConstructList, Tags.UsesSortedList, Tags.TechniqueSorting, Tags.TechniqueSortedCollection);
                     break;
                 case "System.Collections.Generic.Dictionary<TKey, TValue>":
                     AddTags(Tags.ConstructDictionary, Tags.UsesDictionary);
                     break;
                 case "System.Collections.Generic.SortedDictionary<TKey, TValue>":
-                    AddTags(Tags.ConstructDictionary, Tags.UsesSortedDictionary, Tags.TechniqueSorting);
+                    AddTags(Tags.ConstructDictionary, Tags.UsesSortedDictionary, Tags.TechniqueSorting, Tags.TechniqueSortedCollection);
                     break;
                 case "System.Collections.Generic.HashSet<T>":
                     AddTags(Tags.ConstructSet, Tags.UsesHashSet);
                     break;
                 case "System.Collections.Generic.SortedSet<T>":
-                    AddTags(Tags.ConstructSet, Tags.UsesSortedSet, Tags.TechniqueSorting);
+                    AddTags(Tags.ConstructSet, Tags.UsesSortedSet, Tags.TechniqueSorting, Tags.TechniqueSortedCollection);
                     break;
                 case "System.Collections.Generic.Stack<T>":
                     AddTags(Tags.ConstructStack, Tags.UsesStack);
@@ -625,6 +625,7 @@ internal class TagAnalyzer : Analyzer
         public const string TechniquePerformance = "technique:performance";
         public const string TechniqueMemoryManagement = "technique:memory-management";
         public const string TechniqueSorting = "technique:sorting";
+        public const string TechniqueSortedCollection = "technique:sorted-collection";
 
         // Constructs
         public const string ConstructIf = "construct:if";
