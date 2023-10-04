@@ -15,7 +15,7 @@ internal class GigasecondAnalyzer : Analyzer
     {
         if (node.DescendantNodes()
                 .OfType<InvocationExpressionSyntax>()
-                .Select(invocationExpresssion => SemanticModel.GetSymbolInfo(invocationExpresssion).Symbol)
+                .Select(GetSymbol)
                 .Where(symbol => symbol is not null)
                 .All(symbol => symbol.ToDisplayString() != "System.DateTime.AddSeconds(double)"))
             AddComment(Comments.UseAddSeconds);
@@ -25,8 +25,7 @@ internal class GigasecondAnalyzer : Analyzer
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        var symbol = SemanticModel.GetSymbolInfo(node).Symbol;
-        switch (symbol?.ToDisplayString())
+        switch (GetSymbolName(node))
         {
             case "System.DateTime.AddSeconds(double)":
                 var argument = node.ArgumentList.Arguments[0].Expression.ToString();
@@ -50,9 +49,7 @@ internal class GigasecondAnalyzer : Analyzer
 
     public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
     {
-        var symbol = SemanticModel.GetSymbolInfo(node);
-
-        if (symbol.Symbol?.ToDisplayString() == "System.DateTime.DateTime(long)")
+        if (GetSymbolName(node) == "System.DateTime.DateTime(long)")
         {
             AddComment(Comments.DoNotCreateDateTime);
             AddTags(Tags.UsesDateTimeConstructor);

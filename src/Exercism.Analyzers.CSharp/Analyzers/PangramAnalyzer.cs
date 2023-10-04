@@ -11,9 +11,9 @@ internal class PangramAnalyzer : Analyzer
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        var symbol = SemanticModel.GetSymbolInfo(node).Symbol;
+        var symbol = GetSymbol(node);
 
-        switch (symbol?.ToDisplayString())
+        switch (GetSymbolName(node))
         {
             case "string.ToLower()":
                 AddTags(Tags.UsesStringToLower);

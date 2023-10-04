@@ -11,13 +11,12 @@ internal class ReverseStringAnalyzer : Analyzer
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        var symbol = SemanticModel.GetSymbolInfo(node).Symbol;
-        if (symbol is IMethodSymbol methodSymbol && methodSymbol.ConstructedFrom.ToDisplayString() == "System.Array.Reverse<T>(T[])")
+        if (GetSymbolConstructedFromName(node) == "System.Array.Reverse<T>(T[])")
             AddTags(Tags.UsesArrayReverse);
 
         base.VisitInvocationExpression(node);
     }
-    
+
     private static class Tags
     {
         public const string UsesArrayReverse = "uses:Array.Reverse";

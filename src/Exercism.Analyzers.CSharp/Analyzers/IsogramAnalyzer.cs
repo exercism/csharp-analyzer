@@ -11,7 +11,7 @@ internal class IsogramAnalyzer : Analyzer
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        if (SemanticModel.GetSymbolInfo(node).Symbol is IMethodSymbol methodSymbol)
+        if (GetSymbolInfo(node).Symbol is IMethodSymbol methodSymbol)
         {
             switch (methodSymbol.ConstructedFrom.ToDisplayString())
             {

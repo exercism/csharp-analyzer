@@ -11,7 +11,7 @@ internal class TwoFerAnalyzer : Analyzer
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
-        switch (SemanticModel.GetDeclaredSymbol(node)?.ToDisplayString())
+        switch (GetDeclaredSymbolName(node))
         {
             case "TwoFer.Speak()":
                 AddComment(Comments.UseDefaultValueNotOverloads);

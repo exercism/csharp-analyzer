@@ -100,10 +100,21 @@ internal abstract class Analyzer : CSharpSyntaxWalker
     }
 
     protected SymbolInfo GetSymbolInfo(SyntaxNode node) => SemanticModel.GetSymbolInfo(node);
-    protected string GetSymbolName(SyntaxNode node) => GetSymbolInfo(node).Symbol?.ToDisplayString();
+    protected ISymbol GetSymbol(SyntaxNode node) => GetSymbolInfo(node).Symbol;
+    protected string GetSymbolName(SyntaxNode node) => GetSymbol(node)?.ToDisplayString();
+    
+    protected ISymbol GetDeclaredSymbol(SyntaxNode node) => SemanticModel.GetDeclaredSymbol(node);
+    protected string GetDeclaredSymbolName(SyntaxNode node) => GetDeclaredSymbol(node)?.ToDisplayString();
 
+    protected TypeInfo GetTypeInfo(SyntaxNode node) => SemanticModel.GetTypeInfo(node);
+    
+    protected string GetSymbolConstructedFromName(SyntaxNode node) =>
+        GetSymbol(node) is IMethodSymbol methodSymbol ? methodSymbol.ConstructedFrom.ToDisplayString() : null;
+    
     protected IEnumerable<ReferencedSymbol> GetReferences(ISymbol symbol) =>
         SymbolFinder.FindReferencesAsync(symbol, Project.Solution)
             .GetAwaiter()
             .GetResult();
+
+    
 }

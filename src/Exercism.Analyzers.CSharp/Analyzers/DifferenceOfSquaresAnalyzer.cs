@@ -2,7 +2,6 @@
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
@@ -16,7 +15,7 @@ internal class DifferenceOfSquaresAnalyzer : Analyzer
     {
         if (node.DescendantNodes()
             .OfType<InvocationExpressionSyntax>()
-            .Select(invocationExpression => SemanticModel.GetSymbolInfo(invocationExpression).Symbol)
+            .Select(GetSymbol)
             .Where(invocationSymbol => invocationSymbol is not null)
             .All(invocationSymbol => invocationSymbol.ContainingType.ToDisplayString() == "System.Math"))
             AddTags(Tags.TechniqueMath);

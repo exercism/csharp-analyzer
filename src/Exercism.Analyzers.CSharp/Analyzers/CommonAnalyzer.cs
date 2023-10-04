@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
@@ -27,7 +26,8 @@ internal class CommonAnalyzer : Analyzer
         var symbol = SemanticModel.GetDeclaredSymbol(node);
         if (symbol is not null)
         {
-            var referencedSymbols = SymbolFinder.FindReferencesAsync(symbol, Solution).GetAwaiter().GetResult();    
+            var referencedSymbols = SymbolFinder.FindReferencesAsync(symbol, Solution).GetAwaiter().GetResult();
+            // TODO: Check if field can be made private
         }
         
         base.VisitFieldDeclaration(node);

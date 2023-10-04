@@ -11,8 +11,7 @@ internal class RaindropsAnalyzer : Analyzer
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        var symbol = SemanticModel.GetSymbolInfo(node).Symbol;
-        if (symbol is IMethodSymbol methodSymbol && 
+        if (GetSymbol(node) is IMethodSymbol methodSymbol && 
             methodSymbol.ConstructedFrom.ReceiverType?.ToDisplayString() == "System.Collections.Generic.IEnumerable<TSource>" &&
             methodSymbol.ConstructedFrom.Name == "Aggregate")
             AddTags(Tags.UsesEnumerableAggregate);

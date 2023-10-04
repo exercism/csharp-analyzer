@@ -57,7 +57,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
-        var symbol = SemanticModel.GetDeclaredSymbol(node);
+        var symbol = GetDeclaredSymbol(node);
         if (symbol is not null && symbol.ContainingType.GetMembers(symbol.Name).Length > 1)
             AddTags(Tags.ConstructMethodOverloading);
         
@@ -123,7 +123,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitVariableDeclaration(VariableDeclarationSyntax node)
     {
-        VisitTypeInfo(SemanticModel.GetTypeInfo(node.Type));
+        VisitTypeInfo(GetTypeInfo(node.Type));
 
         base.VisitVariableDeclaration(node);
     }
@@ -226,7 +226,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
     {
-        VisitTypeInfo(SemanticModel.GetTypeInfo(node.Expression));
+        VisitTypeInfo(GetTypeInfo(node.Expression));
         
         base.VisitMemberAccessExpression(node);
     }
@@ -238,7 +238,7 @@ internal class TagAnalyzer : Analyzer
         if (node.ExpressionBody is not null)
             AddTags(Tags.UsesExpressionBodiedMember);
         
-        VisitTypeInfo(SemanticModel.GetTypeInfo(node.Type));
+        VisitTypeInfo(GetTypeInfo(node.Type));
 
         var accessors = node.AccessorList?.Accessors;
         var getAccessor = accessors?.FirstOrDefault(accessor => accessor.IsKind(SyntaxKind.GetAccessorDeclaration));
@@ -268,7 +268,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitLiteralExpression(LiteralExpressionSyntax node)
     {
-        VisitTypeInfo(SemanticModel.GetTypeInfo(node));
+        VisitTypeInfo(GetTypeInfo(node));
 
         switch (node.Kind())
         {
@@ -547,7 +547,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
     {
-        VisitTypeInfo(SemanticModel.GetTypeInfo(node.Type));
+        VisitTypeInfo(GetTypeInfo(node.Type));
         base.VisitObjectCreationExpression(node);
     }
 
@@ -589,7 +589,7 @@ internal class TagAnalyzer : Analyzer
 
         return methodOrFunctionNode.DescendantNodes()
             .OfType<InvocationExpressionSyntax>()
-            .Select(invocationExpression => SemanticModel.GetSymbolInfo(invocationExpression.Expression).Symbol)
+            .Select(invocationExpression => GetSymbolInfo(invocationExpression.Expression).Symbol)
             .Any(invokedSymbol => methodOrFunctionSymbol.Equals(invokedSymbol, SymbolEqualityComparer.IncludeNullability));
     }
 
