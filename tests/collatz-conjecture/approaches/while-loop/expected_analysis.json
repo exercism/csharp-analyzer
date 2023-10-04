@@ -1,14 +1,21 @@
 {
-  "comments": [
-    {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
-    }
-  ],
+  "comments": [],
   "tags": [
+    "construct:add",
+    "construct:assignment",
     "construct:class",
+    "construct:divide",
+    "construct:exception",
+    "construct:if",
+    "construct:integral-number",
+    "construct:invocation",
     "construct:method",
-    "construct:parameter"
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "construct:while-loop",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "uses:int"
   ]
 }
