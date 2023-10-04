@@ -1,14 +1,24 @@
 {
-  "comments": [
-    {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
-    }
-  ],
+  "comments": [],
   "tags": [
+    "construct:assignment",
+    "construct:boolean",
     "construct:class",
+    "construct:exception",
+    "construct:field",
+    "construct:floating-point-number",
+    "construct:if",
+    "construct:invocation",
     "construct:method",
-    "construct:parameter"
+    "construct:parameter",
+    "construct:property",
+    "construct:string",
+    "construct:ternary",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "technique:mutexes",
+    "uses:Mutex",
+    "uses:decimal",
+    "uses:expression-bodied-member"
   ]
 }
