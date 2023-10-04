@@ -1,14 +1,20 @@
 {
-  "comments": [
-    {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
-    }
-  ],
+  "comments": [],
   "tags": [
+    "construct:assignment",
+    "construct:char",
     "construct:class",
+    "construct:dictionary",
+    "construct:field",
+    "construct:invocation",
+    "construct:lambda",
     "construct:method",
-    "construct:parameter"
+    "construct:parameter",
+    "paradigm:functional",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "uses:Dictionary<TKey,TValue>",
+    "uses:expression-bodied-member",
+    "uses:linq"
   ]
 }
