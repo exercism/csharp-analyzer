@@ -4,7 +4,7 @@
       "comment": "csharp.general.property_better_use_initializer",
       "type": "actionable",
       "params": {
-        "name": "Precision"
+        "name": "TareAdjustment"
       }
     },
     {

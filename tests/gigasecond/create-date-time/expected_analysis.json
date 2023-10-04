@@ -1,16 +1,16 @@
 {
   "comments": [
     {
+      "comment": "csharp.gigasecond.do_not_create_datetime",
+      "type": "essential",
+      "params": {}
+    },
+    {
       "comment": "csharp.gigasecond.use_1e9_or_digit_separator",
       "type": "informative",
       "params": {
         "value": "1000000000"
       }
-    },
-    {
-      "comment": "csharp.gigasecond.do_not_create_datetime",
-      "type": "essential",
-      "params": {}
     },
     {
       "comment": "csharp.general.use_expression_bodied_member",
