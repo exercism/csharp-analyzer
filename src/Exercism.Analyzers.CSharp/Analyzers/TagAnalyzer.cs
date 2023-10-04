@@ -124,7 +124,7 @@ internal class TagAnalyzer : Analyzer
     public override void VisitVariableDeclaration(VariableDeclarationSyntax node)
     {
         VisitTypeInfo(GetTypeInfo(node.Type));
-
+        AddTags(Tags.ConstructVariable);
         base.VisitVariableDeclaration(node);
     }
 
@@ -375,6 +375,73 @@ internal class TagAnalyzer : Analyzer
         base.VisitAssignmentExpression(node);
     }
 
+    public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
+    {
+        if (GetSymbol(node.Type) is ITypeSymbol typeSymbol)
+            VisitTypeSymbol(typeSymbol);
+        else
+            VisitTypeInfo(GetTypeInfo(node.Type));
+
+        AddTags(Tags.ConstructConstructor);
+        base.VisitObjectCreationExpression(node);
+    }
+
+    public override void VisitWhileStatement(WhileStatementSyntax node)
+    {
+        AddTags(Tags.ConstructWhileLoop);
+        base.VisitWhileStatement(node);
+    }
+
+    public override void VisitDoStatement(DoStatementSyntax node)
+    {
+        AddTags(Tags.ConstructDoLoop);
+        base.VisitDoStatement(node);
+    }
+
+    public override void VisitThrowExpression(ThrowExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructException);
+        base.VisitThrowExpression(node);
+    }
+
+    public override void VisitThrowStatement(ThrowStatementSyntax node)
+    {
+        AddTags(Tags.ConstructException);
+        base.VisitThrowStatement(node);
+    }
+
+    public override void VisitYieldStatement(YieldStatementSyntax node)
+    {
+        AddTags(Tags.TechniqueLaziness, Tags.UsesYield);
+        base.VisitYieldStatement(node);
+    }
+
+    public override void VisitElementAccessExpression(ElementAccessExpressionSyntax node)
+    {
+        VisitTypeInfo(GetTypeInfo(node.Expression));
+        base.VisitElementAccessExpression(node);
+    }
+
+    public override void VisitTrivia(SyntaxTrivia trivia)
+    {
+        if (trivia.IsKind(SyntaxKind.XmlComment))
+            AddTags(Tags.ConstructXmlComment);
+            
+        base.VisitTrivia(trivia);
+    }
+
+    private bool UsesRecursion(SyntaxNode methodOrFunctionNode)
+    {
+        var methodOrFunctionSymbol = SemanticModel.GetDeclaredSymbol(methodOrFunctionNode);
+        if (methodOrFunctionSymbol is null)
+            return false;
+
+        return methodOrFunctionNode.DescendantNodes()
+            .OfType<InvocationExpressionSyntax>()
+            .Select(invocationExpression => GetSymbolInfo(invocationExpression.Expression).Symbol)
+            .Any(invokedSymbol => methodOrFunctionSymbol.Equals(invokedSymbol, SymbolEqualityComparer.IncludeNullability));
+    }
+
     private void VisitTypeSymbol(ITypeSymbol typeSymbol)
     {
         switch (typeSymbol?.SpecialType)
@@ -557,65 +624,6 @@ internal class TagAnalyzer : Analyzer
             VisitTypeSymbol(typeInfo.ConvertedType);
     }
 
-    public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
-    {
-        if (GetSymbol(node.Type) is ITypeSymbol typeSymbol)
-            VisitTypeSymbol(typeSymbol);
-        else
-            VisitTypeInfo(GetTypeInfo(node.Type));
-
-        AddTags(Tags.ConstructConstructor);
-        base.VisitObjectCreationExpression(node);
-    }
-
-    public override void VisitWhileStatement(WhileStatementSyntax node)
-    {
-        AddTags(Tags.ConstructWhileLoop);
-        base.VisitWhileStatement(node);
-    }
-
-    public override void VisitDoStatement(DoStatementSyntax node)
-    {
-        AddTags(Tags.ConstructDoLoop);
-        base.VisitDoStatement(node);
-    }
-
-    public override void VisitThrowExpression(ThrowExpressionSyntax node)
-    {
-        AddTags(Tags.ConstructException);
-        base.VisitThrowExpression(node);
-    }
-
-    public override void VisitThrowStatement(ThrowStatementSyntax node)
-    {
-        AddTags(Tags.ConstructException);
-        base.VisitThrowStatement(node);
-    }
-
-    public override void VisitYieldStatement(YieldStatementSyntax node)
-    {
-        AddTags(Tags.TechniqueLaziness, Tags.UsesYield);
-        base.VisitYieldStatement(node);
-    }
-
-    public override void VisitElementAccessExpression(ElementAccessExpressionSyntax node)
-    {
-        VisitTypeInfo(GetTypeInfo(node.Expression));
-        base.VisitElementAccessExpression(node);
-    }
-
-    private bool UsesRecursion(SyntaxNode methodOrFunctionNode)
-    {
-        var methodOrFunctionSymbol = SemanticModel.GetDeclaredSymbol(methodOrFunctionNode);
-        if (methodOrFunctionSymbol is null)
-            return false;
-
-        return methodOrFunctionNode.DescendantNodes()
-            .OfType<InvocationExpressionSyntax>()
-            .Select(invocationExpression => GetSymbolInfo(invocationExpression.Expression).Symbol)
-            .Any(invokedSymbol => methodOrFunctionSymbol.Equals(invokedSymbol, SymbolEqualityComparer.IncludeNullability));
-    }
-
     private static class Tags
     {
         // Paradigms
@@ -703,6 +711,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructMethodOverloading = "construct:method-overloading";
         public const string ConstructLock = "construct:lock";
         public const string ConstructConstructor = "construct:constructor";
+        public const string ConstructVariable = "construct:variable";
 
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
@@ -737,6 +746,9 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructMultilineString = "construct-multiline-string";
         public const string ConstructStringInterpolation = "construct-string-interpolation";
         public const string ConstructVerbatimString = "construct-verbatim-string";
+        
+        // Constructs - trivia
+        public const string ConstructXmlComment = "construct:xml-comment";
 
         // Uses
         public const string UsesLinq = "uses:linq";
