@@ -1,14 +1,17 @@
 {
-  "comments": [
-    {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
-    }
-  ],
+  "comments": [],
   "tags": [
+    "construct-verbatim-string",
     "construct:class",
+    "construct:field",
+    "construct:invocation",
     "construct:method",
-    "construct:parameter"
+    "construct:parameter",
+    "construct:string",
+    "construct:ternary",
+    "paradigm:object-oriented",
+    "technique:regular-expression",
+    "uses:Regex",
+    "uses:expression-bodied-member"
   ]
 }
