@@ -1,6 +1,10 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
 public static class PalindromeProducts
 {
-    public static (int, Pairs) Largest(int min, int max)
+    public static (int, IEnumerable<(int,int)>) Largest(int min, int max)
     {
         var largestProduct = int.MinValue;
         var factors = new List<(int, int)>();
