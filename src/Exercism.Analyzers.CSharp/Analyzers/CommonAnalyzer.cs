@@ -152,5 +152,7 @@ internal class CommonAnalyzer : Analyzer
         public static Comment PropertyBetterUseInitializer(string name) =>
             new("csharp.general.property_better_use_initializer", CommentType.Actionable,
                 new CommentParameter("name", name));
+
+        
     }
 }

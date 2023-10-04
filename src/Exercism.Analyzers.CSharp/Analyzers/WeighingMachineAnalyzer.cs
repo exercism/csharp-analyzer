@@ -29,13 +29,15 @@ internal class WeighingMachineAnalyzer : Analyzer
                     getter.DescendantNodes()
                         .OfType<InvocationExpressionSyntax>()
                         .Select(GetSymbolName)
-                        .All(symbolName => symbolName != "System.Math.Round(double, double)"))
+                        .All(symbolName => symbolName != "System.Math.Round(double, int)"))
                     AddComment(Comments.UseMathRoundInDisplayWeight);
                 break;
             }
             case "WeighingMachine.Precision":
                 if (IsNotAutoImplementedProperty(node))
                     AddComment(Comments.PropertyIsNotAutoProperty(node.Identifier.Text));
+                else if (GetDeclaredSymbol(node) is IPropertySymbol {SetMethod: not null})
+                    AddComment(Comments.PropertyUseGetterOnly(node.Identifier.Text));
                 break;
             case "WeighingMachine.TareAdjustment":
                 if (IsNotAutoImplementedProperty(node))
@@ -44,6 +46,14 @@ internal class WeighingMachineAnalyzer : Analyzer
         }
         
         base.VisitPropertyDeclaration(node);
+    }
+
+    public override void VisitFieldDeclaration(FieldDeclarationSyntax node)
+    {
+        if (!node.Modifiers.Any(token => token.IsKind(SyntaxKind.PrivateKeyword)))
+            AddComment(Comments.UsePrivateVisibility(node.Declaration.Variables.First().Identifier.Text));
+        
+        base.VisitFieldDeclaration(node);
     }
 
     private static bool IsNotAutoImplementedProperty(PropertyDeclarationSyntax node)
@@ -64,6 +74,13 @@ internal class WeighingMachineAnalyzer : Analyzer
         
         public static Comment PropertyIsNotAutoProperty(string name) =>
             new("csharp.general.property_is_not_auto_property", CommentType.Actionable,
+                new CommentParameter("name", name));
+
+        public static Comment UsePrivateVisibility(string field) =>
+            new("csharp.general.use_private_visibility", CommentType.Actionable, new CommentParameter("name", field));
+        
+        public static Comment PropertyUseGetterOnly(string name) =>
+            new("csharp.general.property_use_getter_only", CommentType.Actionable,
                 new CommentParameter("name", name));
     }
 }
