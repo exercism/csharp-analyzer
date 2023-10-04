@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
@@ -13,14 +14,13 @@ internal class LeapAnalyzer : Analyzer
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         if (GetDeclaredSymbolName(node) == "Leap.IsLeapYear(int)" && 
-            GetDeclaredSymbol(node.ParameterList.Parameters[0]) is { } symbol)
+            GetDeclaredSymbol(node.ParameterList.Parameters[0]) is { } parameterSymbol)
         {
-            // TODO:
-            // foreach (var references in GetReferences(symbol))
-            // {
-            //     if (references.Locations.Count() > 3)
-            //         AddComment(Comments.UseMinimumNumberOfChecks);
-            // }
+            if (node.DescendantNodes()
+                    .OfType<IdentifierNameSyntax>()
+                    .Select(GetSymbol)
+                    .Count(symbol => parameterSymbol.Equals(symbol, SymbolEqualityComparer.Default)) > 3)
+                AddComment(Comments.UseMinimumNumberOfChecks);
         }
 
         base.VisitMethodDeclaration(node);
