@@ -564,6 +564,7 @@ internal class TagAnalyzer : Analyzer
         else
             VisitTypeInfo(GetTypeInfo(node.Type));
 
+        AddTags(Tags.ConstructConstructor);
         base.VisitObjectCreationExpression(node);
     }
 
@@ -701,6 +702,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructSubtract = "construct:subtract";
         public const string ConstructMethodOverloading = "construct:method-overloading";
         public const string ConstructLock = "construct:lock";
+        public const string ConstructConstructor = "construct:constructor";
 
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
