@@ -14,6 +14,7 @@
     "construct:ternary",
     "paradigm:functional",
     "paradigm:object-oriented",
+    "technique:sorted-collection",
     "technique:sorting",
     "uses:SortedDictionary<TKey,TValue>",
     "uses:SortedSet<T>",
