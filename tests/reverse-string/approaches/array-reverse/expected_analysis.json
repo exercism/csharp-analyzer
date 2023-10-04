@@ -1,14 +1,13 @@
 {
-  "comments": [
-    {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
-    }
-  ],
+  "comments": [],
   "tags": [
+    "construct:array",
     "construct:class",
+    "construct:invocation",
     "construct:method",
-    "construct:parameter"
+    "construct:parameter",
+    "construct:string",
+    "paradigm:object-oriented",
+    "uses:Array.Reverse"
   ]
 }
