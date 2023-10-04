@@ -1,14 +1,33 @@
 {
-  "comments": [
-    {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
-    }
-  ],
+  "comments": [],
   "tags": [
+    "construct:boolean",
+    "construct:char",
     "construct:class",
+    "construct:dictionary",
+    "construct:field",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:is-cast",
+    "construct:lambda",
+    "construct:logical-and",
+    "construct:logical-or",
     "construct:method",
-    "construct:parameter"
+    "construct:number",
+    "construct:parameter",
+    "construct:pattern-matching",
+    "construct:property",
+    "construct:record",
+    "construct:string",
+    "construct:subtract",
+    "construct:switch-expression",
+    "construct:tuple",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "technique:boolean-logic",
+    "uses:Dictionary<TKey,TValue>",
+    "uses:expression-bodied-member",
+    "uses:int",
+    "uses:linq"
   ]
 }

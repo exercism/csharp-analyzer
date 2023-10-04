@@ -1,3 +1,35 @@
 {
-  "comments": []
+  "comments": [
+    {
+      "comment": "csharp.general.property_better_use_initializer",
+      "type": "actionable",
+      "params": {
+        "name": "Precision"
+      }
+    }
+  ],
+  "tags": [
+    "construct-string-interpolation",
+    "construct:assignment",
+    "construct:class",
+    "construct:constructor",
+    "construct:exception",
+    "construct:field",
+    "construct:floating-point-number",
+    "construct:getter",
+    "construct:if",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:number",
+    "construct:parameter",
+    "construct:property",
+    "construct:setter",
+    "construct:string",
+    "construct:subtract",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "uses:auto-implemented-property",
+    "uses:double",
+    "uses:int"
+  ]
 }
