@@ -1,14 +1,22 @@
 {
-  "comments": [
-    {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
-    }
-  ],
+  "comments": [],
   "tags": [
+    "construct:boolean",
     "construct:class",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:lambda",
     "construct:method",
-    "construct:parameter"
+    "construct:number",
+    "construct:parameter",
+    "construct:pattern-matching",
+    "construct:subtract",
+    "construct:switch-expression",
+    "construct:ternary",
+    "construct:tuple",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "uses:int",
+    "uses:linq"
   ]
 }
