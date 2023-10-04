@@ -1,14 +1,26 @@
 {
   "comments": [
     {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "IsSilence"
+      }
     }
   ],
   "tags": [
+    "construct-verbatim-string",
+    "construct:boolean",
     "construct:class",
+    "construct:if",
+    "construct:invocation",
+    "construct:logical-and",
     "construct:method",
-    "construct:parameter"
+    "construct:parameter",
+    "construct:string",
+    "paradigm:object-oriented",
+    "technique:boolean-logic",
+    "technique:regular-expression",
+    "uses:Regex"
   ]
 }
