@@ -1,14 +1,24 @@
 {
-  "comments": [
-    {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
-    }
-  ],
+  "comments": [],
   "tags": [
+    "construct:add",
+    "construct:assignment",
+    "construct:bit-array",
+    "construct:boolean",
     "construct:class",
+    "construct:exception",
+    "construct:for-loop",
+    "construct:if",
+    "construct:integral-number",
+    "construct:invocation",
     "construct:method",
-    "construct:parameter"
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "technique:laziness",
+    "uses:int",
+    "uses:yield"
   ]
 }
