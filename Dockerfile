@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0.400-alpine3.18-amd64 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0.401-alpine3.18-amd64 AS build
 WORKDIR /app
 
 # Copy csproj and restore as distinct layer
@@ -10,7 +10,7 @@ COPY src/Exercism.Analyzers.CSharp .
 RUN dotnet publish -r linux-musl-x64 -c Release --self-contained true -o /opt/analyzer
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/runtime-deps:7.0.10-alpine3.18-amd64 AS runtime
+FROM mcr.microsoft.com/dotnet/runtime-deps:7.0.11-alpine3.18-amd64 AS runtime
 WORKDIR /opt/analyzer
 
 COPY --from=build /opt/analyzer/ .
