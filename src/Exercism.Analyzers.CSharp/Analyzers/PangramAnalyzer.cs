@@ -11,8 +11,6 @@ internal class PangramAnalyzer : Analyzer
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        var symbol = GetSymbol(node);
-
         switch (GetSymbolName(node))
         {
             case "string.ToLower()":
@@ -26,7 +24,7 @@ internal class PangramAnalyzer : Analyzer
                 break;
         }
         
-        if (symbol is IMethodSymbol methodSymbol && methodSymbol.ConstructedFrom.ToDisplayString() == "System.Collections.Generic.IEnumerable<TSource>.All<TSource>(System.Func<TSource, bool>)")
+        if (GetConstructedFromSymbolName(node) == "System.Collections.Generic.IEnumerable<TSource>.All<TSource>(System.Func<TSource, bool>)")
             AddTags(Tags.UsesEnumerableAll);
 
         base.VisitInvocationExpression(node);

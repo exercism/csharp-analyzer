@@ -11,7 +11,7 @@ internal class ReverseStringAnalyzer : Analyzer
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        if (GetSymbolConstructedFromName(node) == "System.Array.Reverse<T>(T[])")
+        if (GetConstructedFromSymbolName(node) == "System.Array.Reverse<T>(T[])")
             AddTags(Tags.UsesArrayReverse);
 
         base.VisitInvocationExpression(node);

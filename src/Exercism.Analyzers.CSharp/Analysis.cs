@@ -63,6 +63,9 @@ internal abstract class Analyzer : CSharpSyntaxWalker
         {
             switch (submission.Slug)
             {
+                case "collatz-conjecture":
+                    yield return new CollatzConjectureAnalyzer(submission);
+                    break;
                 case "difference-of-squares":
                     yield return new DifferenceOfSquaresAnalyzer(submission);
                     break;
@@ -108,9 +111,10 @@ internal abstract class Analyzer : CSharpSyntaxWalker
     protected string GetDeclaredSymbolName(SyntaxNode node) => GetDeclaredSymbol(node)?.ToDisplayString();
 
     protected TypeInfo GetTypeInfo(SyntaxNode node) => SemanticModel.GetTypeInfo(node);
-    
-    protected string GetSymbolConstructedFromName(SyntaxNode node) =>
-        GetSymbol(node) is IMethodSymbol methodSymbol ? methodSymbol.ConstructedFrom.ToDisplayString() : null;
+
+    protected IMethodSymbol GetConstructedFromSymbol(SyntaxNode node) =>
+        GetSymbol(node) is IMethodSymbol methodSymbol ? methodSymbol.ConstructedFrom : null;
+    protected string GetConstructedFromSymbolName(SyntaxNode node) => GetConstructedFromSymbol(node)?.ToDisplayString();
     
     protected IEnumerable<ReferencedSymbol> GetReferences(ISymbol symbol) =>
         SymbolFinder.FindReferencesAsync(symbol, Project.Solution)

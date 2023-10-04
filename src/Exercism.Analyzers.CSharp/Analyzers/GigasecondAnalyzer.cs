@@ -37,7 +37,7 @@ internal class GigasecondAnalyzer : Analyzer
                 AddComment(Comments.UseAddSeconds);
                 AddTags(Tags.UsesDateTimeAddDays);
                 break;
-            case "System.Math.Pow(double, double)" when node.ArgumentList.ToString() == "(10,9)":
+            case "System.Math.Pow(double, double)" when node.ArgumentList.ToString() == "(10, 9)":
                 AddComment(Comments.UseScientificNotationNotMathPow(node.ToString()));
                 AddTags(Tags.UsesMathPow);
                 break;
