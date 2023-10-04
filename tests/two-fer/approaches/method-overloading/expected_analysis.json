@@ -6,6 +6,13 @@
       "params": {}
     },
     {
+      "comment": "csharp.two-fer.use_default_value",
+      "type": "essential",
+      "params": {
+        "name": "name"
+      }
+    },
+    {
       "comment": "csharp.general.use_expression_bodied_member",
       "type": "informative",
       "params": {

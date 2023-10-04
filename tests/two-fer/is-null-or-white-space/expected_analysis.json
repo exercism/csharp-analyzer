@@ -9,6 +9,11 @@
       }
     },
     {
+      "comment": "csharp.two-fer.use_null_coalescing_operator_not_is_null_or_white_space",
+      "type": "actionable",
+      "params": {}
+    },
+    {
       "comment": "csharp.general.use_expression_bodied_member",
       "type": "informative",
       "params": {
