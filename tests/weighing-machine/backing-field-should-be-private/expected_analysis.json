@@ -1,0 +1,41 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.general.use_private_visibility",
+      "type": "actionable",
+      "params": {
+        "name": "_weightStrangeName"
+      }
+    },
+    {
+      "comment": "csharp.general.use_string_interpolation_not_string_concatenation",
+      "type": "informative",
+      "params": {}
+    }
+  ],
+  "tags": [
+    "construct-string-interpolation",
+    "construct:add",
+    "construct:assignment",
+    "construct:class",
+    "construct:constructor",
+    "construct:exception",
+    "construct:field",
+    "construct:floating-point-number",
+    "construct:getter",
+    "construct:if",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:number",
+    "construct:parameter",
+    "construct:property",
+    "construct:setter",
+    "construct:string",
+    "construct:subtract",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "uses:auto-implemented-property",
+    "uses:double",
+    "uses:int"
+  ]
+}

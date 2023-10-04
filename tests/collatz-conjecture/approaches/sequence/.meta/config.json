@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "CollatzConjecture.csproj"
+    ],
+    "solution": [
+      "CollatzConjecture.cs"
+    ],
+    "test": [
+      "CollatzConjectureTests.cs"
+    ]
+  }
+}

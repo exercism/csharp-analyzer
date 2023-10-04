@@ -1,0 +1,22 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:add",
+    "construct:class",
+    "construct:constructor",
+    "construct:divide",
+    "construct:exception",
+    "construct:if",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:method-overloading",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "technique:recursion",
+    "uses:int"
+  ]
+}

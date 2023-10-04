@@ -1,0 +1,25 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "IsPangram"
+      }
+    }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:field",
+    "construct:invocation",
+    "construct:lambda",
+    "construct:method",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "uses:Enumerable.All",
+    "uses:linq",
+    "uses:string.Contains(char, System.StringComparison)"
+  ]
+}

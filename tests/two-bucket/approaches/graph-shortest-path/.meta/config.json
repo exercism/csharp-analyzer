@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "TwoBucket.csproj"
+    ],
+    "solution": [
+      "TwoBucket.cs"
+    ],
+    "test": [
+      "TwoBucketTests.cs"
+    ]
+  }
+}

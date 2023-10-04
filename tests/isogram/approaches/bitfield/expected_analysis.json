@@ -1,0 +1,25 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:assignment",
+    "construct:bitwise-and",
+    "construct:boolean",
+    "construct:class",
+    "construct:enumeration",
+    "construct:foreach",
+    "construct:if",
+    "construct:integral-number",
+    "construct:left-shift",
+    "construct:logical-and",
+    "construct:method",
+    "construct:number",
+    "construct:parameter",
+    "construct:subtract",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "technique:bit-manipulation",
+    "technique:bit-shifting",
+    "technique:boolean-logic",
+    "uses:int"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Hamming.csproj"
+    ],
+    "solution": [
+      "Hamming.cs"
+    ],
+    "test": [
+      "HammingTests.cs"
+    ]
+  }
+}

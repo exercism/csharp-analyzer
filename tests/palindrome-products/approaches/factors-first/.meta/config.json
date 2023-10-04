@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "PalindromeProducts.csproj"
+    ],
+    "solution": [
+      "PalindromeProducts.cs"
+    ],
+    "test": [
+      "PalindromeProductsTests.cs"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:char",
+    "construct:class",
+    "construct:invocation",
+    "construct:list",
+    "construct:method",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "uses:Enumerable.Distinct",
+    "uses:List<T>",
+    "uses:linq"
+  ]
+}

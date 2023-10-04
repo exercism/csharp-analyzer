@@ -1,9 +1,0 @@
-{
-  "comments": [
-    {
-      "comment": "csharp.two-fer.use_null_coalescing_operator_not_is_null_or_empty",
-      "type": "actionable",
-      "params": {}
-    }
-  ]
-}

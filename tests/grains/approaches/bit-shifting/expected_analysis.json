@@ -1,0 +1,34 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "Total"
+      }
+    }
+  ],
+  "tags": [
+    "construct:big-integer",
+    "construct:boolean",
+    "construct:cast",
+    "construct:class",
+    "construct:constructor",
+    "construct:exception",
+    "construct:integral-number",
+    "construct:left-shift",
+    "construct:logical-and",
+    "construct:method",
+    "construct:number",
+    "construct:parameter",
+    "construct:string",
+    "construct:subtract",
+    "construct:switch",
+    "paradigm:object-oriented",
+    "technique:bit-manipulation",
+    "technique:bit-shifting",
+    "technique:boolean-logic",
+    "technique:type-conversion",
+    "uses:int"
+  ]
+}

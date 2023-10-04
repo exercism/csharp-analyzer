@@ -1,0 +1,16 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:char",
+    "construct:class",
+    "construct:invocation",
+    "construct:method",
+    "construct:parameter",
+    "construct:pattern-matching",
+    "construct:switch-expression",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "uses:expression-bodied-member",
+    "uses:linq"
+  ]
+}

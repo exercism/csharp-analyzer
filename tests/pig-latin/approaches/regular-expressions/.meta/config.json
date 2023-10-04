@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "PigLatin.csproj"
+    ],
+    "solution": [
+      "PigLatin.cs"
+    ],
+    "test": [
+      "PigLatinTests.cs"
+    ]
+  }
+}

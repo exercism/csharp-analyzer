@@ -1,0 +1,28 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:assignment",
+    "construct:class",
+    "construct:constructor",
+    "construct:dictionary",
+    "construct:enumeration",
+    "construct:field",
+    "construct:foreach",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:list",
+    "construct:method",
+    "construct:number",
+    "construct:parameter",
+    "construct:string",
+    "construct:subtract",
+    "construct:switch",
+    "construct:while-loop",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "uses:Dictionary<TKey,TValue>",
+    "uses:List<T>",
+    "uses:String.Substring",
+    "uses:int"
+  ]
+}

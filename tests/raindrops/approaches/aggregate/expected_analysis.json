@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.general.use_string_interpolation_not_string_concatenation",
+      "type": "informative",
+      "params": {}
+    }
+  ],
+  "tags": [
+    "construct:add",
+    "construct:class",
+    "construct:field",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:lambda",
+    "construct:method",
+    "construct:number",
+    "construct:parameter",
+    "construct:string",
+    "construct:ternary",
+    "construct:tuple",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "uses:Enumerable.Aggregate",
+    "uses:int",
+    "uses:linq"
+  ]
+}

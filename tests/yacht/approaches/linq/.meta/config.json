@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Yacht.csproj"
+    ],
+    "solution": [
+      "Yacht.cs"
+    ],
+    "test": [
+      "YachtTests.cs"
+    ]
+  }
+}

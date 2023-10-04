@@ -1,9 +1,0 @@
-{
-  "comments": [
-    {
-      "comment": "csharp.two-fer.use_string_interpolation_not_string_replace",
-      "type": "actionable",
-      "params": {}
-    }
-  ]
-}

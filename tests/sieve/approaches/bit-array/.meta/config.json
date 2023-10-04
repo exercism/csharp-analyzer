@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Sieve.csproj"
+    ],
+    "solution": [
+      "Sieve.cs"
+    ],
+    "test": [
+      "SieveTests.cs"
+    ]
+  }
+}

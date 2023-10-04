@@ -1,0 +1,22 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:boolean",
+    "construct:char",
+    "construct:class",
+    "construct:if",
+    "construct:invocation",
+    "construct:lambda",
+    "construct:logical-and",
+    "construct:method",
+    "construct:parameter",
+    "construct:string",
+    "construct:switch",
+    "construct:tuple",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "technique:boolean-logic",
+    "uses:expression-bodied-member",
+    "uses:linq"
+  ]
+}

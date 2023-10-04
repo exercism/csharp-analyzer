@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "GradeSchool.csproj"
+    ],
+    "solution": [
+      "GradeSchool.cs"
+    ],
+    "test": [
+      "GradeSchoolTests.cs"
+    ]
+  }
+}

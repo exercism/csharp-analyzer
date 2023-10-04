@@ -1,0 +1,27 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:boolean",
+    "construct:class",
+    "construct:constructor",
+    "construct:exception",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:lambda",
+    "construct:logical-and",
+    "construct:method",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "construct:pattern-matching",
+    "construct:string",
+    "construct:switch-expression",
+    "construct:ternary",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "technique:boolean-logic",
+    "uses:expression-bodied-member",
+    "uses:int",
+    "uses:linq"
+  ]
+}

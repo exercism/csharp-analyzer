@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "FlowControl.csproj"
+    ],
+    "solution": [
+      "FlowControl.cs"
+    ],
+    "test": [
+      "FlowControlTests.cs"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Pangram.csproj"
+    ],
+    "solution": [
+      "Pangram.cs"
+    ],
+    "test": [
+      "PangramTests.cs"
+    ]
+  }
+}

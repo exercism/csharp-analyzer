@@ -1,0 +1,20 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:assignment",
+    "construct:class",
+    "construct:for-loop",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "construct:subtract",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "technique:math",
+    "uses:expression-bodied-member",
+    "uses:int"
+  ]
+}

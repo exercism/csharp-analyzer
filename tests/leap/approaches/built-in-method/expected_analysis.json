@@ -1,0 +1,25 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.leap.do_not_use_is_leap_year",
+      "type": "essential",
+      "params": {}
+    },
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "IsLeapYear"
+      }
+    }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:date-time",
+    "construct:invocation",
+    "construct:method",
+    "construct:parameter",
+    "paradigm:object-oriented",
+    "uses:DateTime.IsLeapYear"
+  ]
+}

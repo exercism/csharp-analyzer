@@ -1,0 +1,25 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:add",
+    "construct:assignment",
+    "construct:bit-array",
+    "construct:boolean",
+    "construct:class",
+    "construct:constructor",
+    "construct:exception",
+    "construct:for-loop",
+    "construct:if",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "technique:laziness",
+    "uses:int",
+    "uses:yield"
+  ]
+}

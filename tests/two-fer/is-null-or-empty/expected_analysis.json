@@ -1,0 +1,35 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.two-fer.invalid_default_value",
+      "type": "actionable",
+      "params": {
+        "name": "input",
+        "value": "null"
+      }
+    },
+    {
+      "comment": "csharp.two-fer.use_null_coalescing_operator_not_is_null_or_empty",
+      "type": "actionable",
+      "params": {}
+    },
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "Speak"
+      }
+    }
+  ],
+  "tags": [
+    "construct-string-interpolation",
+    "construct:class",
+    "construct:invocation",
+    "construct:method",
+    "construct:optional-parameter",
+    "construct:parameter",
+    "construct:string",
+    "construct:ternary",
+    "paradigm:object-oriented"
+  ]
+}

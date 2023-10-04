@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "RnaTranscription.csproj"
+    ],
+    "solution": [
+      "RnaTranscription.cs"
+    ],
+    "test": [
+      "RnaTranscriptionTests.cs"
+    ]
+  }
+}

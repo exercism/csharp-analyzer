@@ -1,0 +1,17 @@
+{
+  "comments": [],
+  "tags": [
+    "construct-verbatim-string",
+    "construct:class",
+    "construct:field",
+    "construct:invocation",
+    "construct:method",
+    "construct:parameter",
+    "construct:string",
+    "construct:ternary",
+    "paradigm:object-oriented",
+    "technique:regular-expression",
+    "uses:Regex",
+    "uses:expression-bodied-member"
+  ]
+}

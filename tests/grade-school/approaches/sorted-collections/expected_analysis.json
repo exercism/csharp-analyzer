@@ -1,0 +1,25 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:boolean",
+    "construct:class",
+    "construct:constructor",
+    "construct:dictionary",
+    "construct:field",
+    "construct:if",
+    "construct:invocation",
+    "construct:lambda",
+    "construct:method",
+    "construct:parameter",
+    "construct:set",
+    "construct:ternary",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "technique:sorted-collection",
+    "technique:sorting",
+    "uses:SortedDictionary<TKey,TValue>",
+    "uses:SortedSet<T>",
+    "uses:expression-bodied-member",
+    "uses:linq"
+  ]
+}

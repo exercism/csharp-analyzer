@@ -1,0 +1,24 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:assignment",
+    "construct:class",
+    "construct:constructor",
+    "construct:exception",
+    "construct:for-loop",
+    "construct:if",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "construct:set",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "technique:laziness",
+    "uses:HashSet<T>",
+    "uses:int",
+    "uses:yield"
+  ]
+}

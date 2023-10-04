@@ -1,0 +1,18 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:class",
+    "construct:constructor",
+    "construct:for-loop",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:number",
+    "construct:parameter",
+    "construct:string",
+    "construct:subtract",
+    "paradigm:object-oriented",
+    "uses:StringBuilder",
+    "uses:int"
+  ]
+}

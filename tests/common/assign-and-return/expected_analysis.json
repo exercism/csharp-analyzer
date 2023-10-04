@@ -1,0 +1,31 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.general.do_not_assign_and_return",
+      "type": "actionable",
+      "params": {}
+    },
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "AssignInLambda"
+      }
+    }
+  ],
+  "tags": [
+    "construct:boolean",
+    "construct:class",
+    "construct:if",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:lambda",
+    "construct:method",
+    "construct:number",
+    "construct:parameter",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "uses:int",
+    "uses:linq"
+  ]
+}

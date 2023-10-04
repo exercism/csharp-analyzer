@@ -1,0 +1,24 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:assignment",
+    "construct:boolean",
+    "construct:class",
+    "construct:constructor",
+    "construct:exception",
+    "construct:field",
+    "construct:floating-point-number",
+    "construct:if",
+    "construct:lock",
+    "construct:method",
+    "construct:parameter",
+    "construct:property",
+    "construct:string",
+    "construct:ternary",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "technique:locks",
+    "uses:decimal",
+    "uses:expression-bodied-member"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:assignment",
+    "construct:boolean",
+    "construct:class",
+    "construct:constructor",
+    "construct:exception",
+    "construct:for-loop",
+    "construct:if",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:list",
+    "construct:logical-and",
+    "construct:method",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "construct:string",
+    "construct:tuple",
+    "paradigm:functional",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "technique:boolean-logic",
+    "technique:laziness",
+    "uses:List<T>",
+    "uses:expression-bodied-member",
+    "uses:int",
+    "uses:linq",
+    "uses:yield"
+  ]
+}

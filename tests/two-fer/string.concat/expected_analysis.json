@@ -1,0 +1,25 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.two-fer.use_string_interpolation_not_string_concat",
+      "type": "actionable",
+      "params": {}
+    },
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "Speak"
+      }
+    }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:invocation",
+    "construct:method",
+    "construct:optional-parameter",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:object-oriented"
+  ]
+}

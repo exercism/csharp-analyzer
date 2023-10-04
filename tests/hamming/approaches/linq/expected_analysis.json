@@ -1,0 +1,17 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:class",
+    "construct:constructor",
+    "construct:exception",
+    "construct:if",
+    "construct:invocation",
+    "construct:lambda",
+    "construct:method",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "uses:linq"
+  ]
+}

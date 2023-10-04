@@ -1,0 +1,19 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:class",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "construct:subtract",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "technique:math",
+    "uses:expression-bodied-member",
+    "uses:int",
+    "uses:linq"
+  ]
+}

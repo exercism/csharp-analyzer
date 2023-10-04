@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "PerfectNumbers.csproj"
+    ],
+    "solution": [
+      "PerfectNumbers.cs"
+    ],
+    "test": [
+      "PerfectNumbersTests.cs"
+    ]
+  }
+}

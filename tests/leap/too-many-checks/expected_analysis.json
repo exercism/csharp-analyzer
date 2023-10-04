@@ -1,0 +1,29 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.leap.use_minimum_number_of_checks",
+      "type": "actionable",
+      "params": {}
+    },
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "IsLeapYear"
+      }
+    }
+  ],
+  "tags": [
+    "construct:boolean",
+    "construct:class",
+    "construct:integral-number",
+    "construct:logical-and",
+    "construct:logical-or",
+    "construct:method",
+    "construct:number",
+    "construct:parameter",
+    "paradigm:object-oriented",
+    "technique:boolean-logic",
+    "uses:int"
+  ]
+}

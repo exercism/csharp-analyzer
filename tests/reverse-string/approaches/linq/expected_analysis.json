@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "Reverse"
+      }
+    }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:constructor",
+    "construct:invocation",
+    "construct:method",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "uses:linq"
+  ]
+}

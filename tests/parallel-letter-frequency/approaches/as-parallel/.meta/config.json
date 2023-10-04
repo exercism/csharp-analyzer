@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "ParallelLetterFrequency.csproj"
+    ],
+    "solution": [
+      "ParallelLetterFrequency.cs"
+    ],
+    "test": [
+      "ParallelLetterFrequencyTests.cs"
+    ]
+  }
+}

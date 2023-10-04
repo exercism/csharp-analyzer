@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Isogram.csproj"
+    ],
+    "solution": [
+      "Isogram.cs"
+    ],
+    "test": [
+      "IsogramTests.cs"
+    ]
+  }
+}

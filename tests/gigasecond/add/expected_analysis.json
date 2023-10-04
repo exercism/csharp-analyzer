@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.gigasecond.use_add_seconds",
+      "type": "actionable",
+      "params": {}
+    },
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "Add"
+      }
+    }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:date-time",
+    "construct:floating-point-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:number",
+    "construct:parameter",
+    "paradigm:object-oriented",
+    "uses:double"
+  ]
+}

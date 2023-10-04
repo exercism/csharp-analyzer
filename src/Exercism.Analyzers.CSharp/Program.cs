@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace Exercism.Analyzers.CSharp;
 
@@ -6,20 +7,20 @@ internal record Options(string Slug, string InputDirectory, string OutputDirecto
 
 public static class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var options = new Options(args[0], args[1], args[2]);
 
-        RunAnalysis(options);
+        await RunAnalysis(options);
     }
 
-    private static void RunAnalysis(Options options)
+    private static async Task RunAnalysis(Options options)
     {
         Console.WriteLine($"Analyzing {options.Slug} solution in directory {options.InputDirectory}");
 
-        var solution = SolutionParser.Parse(options);
-        var solutionAnalysis = SolutionAnalyzer.Analyze(solution);
-        SolutionAnalysisWriter.WriteToFile(options, solutionAnalysis);
+        var solution = await Loader.Load(options);
+        var analysis = Analyzer.Analyze(solution);
+        Output.WriteToFile(options, analysis);
 
         Console.WriteLine($"Analyzed {options.Slug} solution in directory {options.InputDirectory}");
     }

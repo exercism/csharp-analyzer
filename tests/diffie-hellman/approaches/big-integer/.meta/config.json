@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "DiffieHellman.csproj"
+    ],
+    "solution": [
+      "DiffieHellman.cs"
+    ],
+    "test": [
+      "DiffieHellmanTests.cs"
+    ]
+  }
+}

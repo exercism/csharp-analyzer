@@ -1,0 +1,18 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:add",
+    "construct:class",
+    "construct:floating-point-number",
+    "construct:if",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "paradigm:object-oriented",
+    "uses:double",
+    "uses:int"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Raindrops.csproj"
+    ],
+    "solution": [
+      "Raindrops.cs"
+    ],
+    "test": [
+      "RaindropsTests.cs"
+    ]
+  }
+}

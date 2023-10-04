@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Poker.csproj"
+    ],
+    "solution": [
+      "Poker.cs"
+    ],
+    "test": [
+      "PokerTests.cs"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Grains.csproj"
+    ],
+    "solution": [
+      "Grains.cs"
+    ],
+    "test": [
+      "GrainsTests.cs"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "DifferenceOfSquares.csproj"
+    ],
+    "solution": [
+      "DifferenceOfSquares.cs"
+    ],
+    "test": [
+      "DifferenceOfSquaresTests.cs"
+    ]
+  }
+}
