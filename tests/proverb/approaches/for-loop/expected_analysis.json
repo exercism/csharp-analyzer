@@ -1,14 +1,4 @@
 {
-  "comments": [
-    {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
-    }
-  ],
-  "tags": [
-    "construct:class",
-    "construct:method",
-    "construct:parameter"
-  ]
+  "comments": [],
+  "tags": []
 }
