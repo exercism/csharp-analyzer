@@ -1,4 +1,7 @@
-public static bool IsLeapYear(int year)
+public static class Leap
 {
-    return year % 100 == 0 ? year % 400 == 0 : year % 4 == 0;
+    public static bool IsLeapYear(int year)
+    {
+        return year % 100 == 0 ? year % 400 == 0 : year % 4 == 0;
+    }
 }

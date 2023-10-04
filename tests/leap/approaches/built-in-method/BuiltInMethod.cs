@@ -1,6 +1,9 @@
 using System; // for DateTime
 
-public static bool IsLeapYear(int year)
+public static class Leap
 {
-    return DateTime.IsLeapYear(year);
+    public static bool IsLeapYear(int year)
+    {
+        return DateTime.IsLeapYear(year);
+    }
 }
