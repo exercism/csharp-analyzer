@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using Exercism.Analyzers.CSharp.Analyzers;
 
@@ -115,6 +116,4 @@ internal abstract class Analyzer : CSharpSyntaxWalker
         SymbolFinder.FindReferencesAsync(symbol, Project.Solution)
             .GetAwaiter()
             .GetResult();
-
-    
 }

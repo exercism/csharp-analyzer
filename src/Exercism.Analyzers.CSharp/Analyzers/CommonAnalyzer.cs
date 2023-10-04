@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
@@ -19,18 +18,6 @@ internal class CommonAnalyzer : Analyzer
             AddComment(Comments.DoNotUseMainMethod);
 
         base.VisitMethodDeclaration(node);
-    }
-
-    public override void VisitFieldDeclaration(FieldDeclarationSyntax node)
-    {
-        var symbol = SemanticModel.GetDeclaredSymbol(node);
-        if (symbol is not null)
-        {
-            var referencedSymbols = SymbolFinder.FindReferencesAsync(symbol, Solution).GetAwaiter().GetResult();
-            // TODO: Check if field can be made private
-        }
-        
-        base.VisitFieldDeclaration(node);
     }
 
     public override void VisitBlock(BlockSyntax node)
@@ -80,6 +67,15 @@ internal class CommonAnalyzer : Analyzer
                 AddComment(Comments.UseNullCoalescingOperatorNotNullCheck);
         
         base.VisitConditionalExpression(node);
+    }
+
+    public override void VisitAssignmentExpression(AssignmentExpressionSyntax node)
+    {
+        if (node.Ancestors().OfType<ConstructorDeclarationSyntax>().Any() &&
+            GetSymbol(node.Left) is IPropertySymbol propertySymbol)
+            AddComment(Comments.PropertyBetterUseInitializer(propertySymbol.Name));
+
+        base.VisitAssignmentExpression(node);
     }
 
     private static readonly HashSet<string> ConsoleOutputIdentifierNames = new()
