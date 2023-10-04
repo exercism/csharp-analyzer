@@ -1,14 +1,28 @@
 {
   "comments": [
     {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "Proteins"
+      }
     }
   ],
   "tags": [
     "construct:class",
+    "construct:dictionary",
+    "construct:field",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:lambda",
     "construct:method",
-    "construct:parameter"
+    "construct:number",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "uses:Dictionary<TKey,TValue>",
+    "uses:int",
+    "uses:linq"
   ]
 }

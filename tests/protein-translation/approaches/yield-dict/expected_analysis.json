@@ -1,14 +1,28 @@
 {
-  "comments": [
-    {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
-    }
-  ],
+  "comments": [],
   "tags": [
+    "construct:add",
+    "construct:assignment",
     "construct:class",
+    "construct:dictionary",
+    "construct:extension-method",
+    "construct:field",
+    "construct:for-loop",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:lambda",
     "construct:method",
-    "construct:parameter"
+    "construct:number",
+    "construct:parameter",
+    "construct:string",
+    "paradigm:functional",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "technique:laziness",
+    "uses:Dictionary<TKey,TValue>",
+    "uses:expression-bodied-member",
+    "uses:int",
+    "uses:linq",
+    "uses:yield"
   ]
 }
