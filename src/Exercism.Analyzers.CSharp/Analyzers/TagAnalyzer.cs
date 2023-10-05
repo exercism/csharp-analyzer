@@ -113,14 +113,14 @@ internal class TagAnalyzer : Analyzer
                 AddTags(Tags.UsesIDisposable);
                 break;
             case "System.IComparable":
-                AddTags(Tags.UsesIComparable, Tags.TechniqueCustomComparer);
+                AddTags(Tags.UsesIComparable, Tags.TechniqueOrdering);
                 break;
         }
 
         switch (GetConstructedFromSymbolName(node.Type))
         {
             case "System.IComparable<T>":
-                AddTags(Tags.UsesIComparable, Tags.TechniqueCustomComparer);
+                AddTags(Tags.UsesIComparable, Tags.TechniqueOrdering);
                 break;
             case "System.IEquatable<T>":
                 AddTags(Tags.UsesIEquatable, Tags.TechniqueEqualityComparison);
@@ -918,7 +918,7 @@ internal class TagAnalyzer : Analyzer
         public const string TechniqueBooleanLogic = "technique:boolean-logic";
         public const string TechniqueCompoundAssignment = "technique:compound-assignment";
         public const string TechniqueConcurrency = "technique:concurrency";
-        public const string TechniqueCustomComparer = "technique:custom-comparer";
+        public const string TechniqueDefensiveCopying = "technique:defensive-copying";
         public const string TechniqueEnumeration = "technique:enumeration";
         public const string TechniqueEqualityComparison = "technique:equality-comparison";
         public const string TechniqueExceptions = "technique:exceptions";
@@ -931,6 +931,7 @@ internal class TagAnalyzer : Analyzer
         public const string TechniqueLooping = "technique:looping";
         public const string TechniqueMemoryManagement = "technique:memory-management";
         public const string TechniqueMutexes = "technique:mutexes";
+        public const string TechniqueOrdering = "technique:ordering";
         public const string TechniqueParallelism = "technique:parallelism";
         public const string TechniquePerformance = "technique:performance";
         public const string TechniquePointers = "technique:pointers";
