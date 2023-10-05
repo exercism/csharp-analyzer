@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+# Synopsis:
+# Update the golden tests.
+
+# Example:
+# ./bin/update-golden-tests.sh
+
+# Generate the up-to-date analysis.json files
+./bin/run-tests-in-docker.sh
+
+# Overwrite the existing files
+find tests -name analysis.json -execdir cp analysis.json expected_analysis.json \;
