@@ -27,5 +27,7 @@ public static class Types
     {
         string explicitString = "";
         DateTime dateTime = new DateTime(1);
+        var valueTuple = (1, 2);
+        var systemTuple = new Tuple<int, int>(3, 4);
     }
 }

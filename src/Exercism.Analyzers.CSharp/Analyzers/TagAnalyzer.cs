@@ -48,11 +48,22 @@ internal class TagAnalyzer : Analyzer
         if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ThisKeyword)))
             AddTags(Tags.ConstructExtensionMethod);
         
+        if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ParamsKeyword)))
+            AddTags(Tags.ConstructVarargs);
+        
         if (node.Default is not null)
             AddTags(Tags.ConstructOptionalParameter);
 
         AddTags(Tags.ConstructParameter);
         base.VisitParameter(node);
+    }
+
+    public override void VisitArgument(ArgumentSyntax node)
+    {
+        if (node.NameColon is not null)
+            AddTags(Tags.ConstructNamedArgument);
+
+        base.VisitArgument(node);
     }
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
@@ -79,6 +90,10 @@ internal class TagAnalyzer : Analyzer
         if (node.TypeParameterList != null)
             AddTags(Tags.ConstructGenericType);
 
+        if (GetDeclaredSymbol(node) is INamedTypeSymbol namedTypeSymbol &&
+            DerivesFromException(namedTypeSymbol))
+            AddTags(Tags.ConstructException, Tags.ConstructUserDefinedException);
+
         AddTags(Tags.ConstructClass, Tags.ParadigmObjectOriented);
         base.VisitClassDeclaration(node);
     }
@@ -103,7 +118,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitTupleExpression(TupleExpressionSyntax node)
     {
-        AddTags(Tags.ConstructTuple);
+        AddTags(Tags.ConstructTuple, Tags.UsesValueTuple);
         base.VisitTupleExpression(node);
     }
 
@@ -115,6 +130,18 @@ internal class TagAnalyzer : Analyzer
             AddTags(Tags.UsesLinq, Tags.ParadigmFunctional);
 
         base.VisitInvocationExpression(node);
+    }
+
+    public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
+    {
+        AddTags(Tags.ConstructNamespace);
+        base.VisitNamespaceDeclaration(node);
+    }
+
+    public override void VisitFileScopedNamespaceDeclaration(FileScopedNamespaceDeclarationSyntax node)
+    {
+        AddTags(Tags.ConstructNamespace, Tags.ConstructFileScopedNamespace);
+        base.VisitFileScopedNamespaceDeclaration(node);
     }
 
     public override void VisitVariableDeclaration(VariableDeclarationSyntax node)
@@ -268,6 +295,9 @@ internal class TagAnalyzer : Analyzer
 
         switch (node.Kind())
         {
+            case SyntaxKind.NullLiteralExpression:
+                AddTags(Tags.ConstructNullability, Tags.ConstructNull);
+                break;
             case SyntaxKind.NumericLiteralExpression:
                 AddTags(Tags.ConstructNumber);
             
@@ -525,16 +555,16 @@ internal class TagAnalyzer : Analyzer
                 AddTags(Tags.UsesIEnumerator);
                 break;
             case SpecialType.System_Collections_Generic_IReadOnlyList_T:
-                AddTags(Tags.UsesIReadOnlyList, Tags.TechniqueImmutability);
+                AddTags(Tags.UsesIReadOnlyList, Tags.TechniqueImmutability, Tags.TechniqueImmutableCollection);
                 break;
             case SpecialType.System_Collections_Generic_IReadOnlyCollection_T:
-                AddTags(Tags.UsesIReadOnlyCollection, Tags.TechniqueImmutability);
+                AddTags(Tags.UsesIReadOnlyCollection, Tags.TechniqueImmutability, Tags.TechniqueImmutableCollection);
                 break;
             case SpecialType.System_Nullable_T:
-                AddTags(Tags.ConstructNullable);
+                AddTags(Tags.ConstructNullable, Tags.ConstructNullability);
                 break;
             case SpecialType.System_DateTime:
-                AddTags(Tags.ConstructDateTime);
+                AddTags(Tags.ConstructDateTime, Tags.UsesDateTime);
                 break;
             case SpecialType.System_IDisposable:
                 AddTags(Tags.UsesIDisposable, Tags.TechniqueMemoryManagement);
@@ -590,6 +620,27 @@ internal class TagAnalyzer : Analyzer
                 case "System.ReadOnlyMemory<T>":
                     AddTags(Tags.UsesMemory, Tags.TechniquePerformance, Tags.TechniqueMemoryManagement, Tags.TechniqueImmutability);
                     break;
+                case "System.Tuple<T1>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
+                case "System.Tuple<T1, T2>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
+                case "System.Tuple<T1, T2, T3>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
+                case "System.Tuple<T1, T2, T3, T4>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
+                case "System.Tuple<T1, T2, T3, T4, T5>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
+                case "System.Tuple<T1, T2, T3, T4, T5, T6>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
+                case "System.Tuple<T1, T2, T3, T4, T5, T6, T7>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
             }
         }
         else
@@ -614,6 +665,15 @@ internal class TagAnalyzer : Analyzer
                 case "System.Random":    
                     AddTags(Tags.TechniqueRandomess, Tags.UsesRandom);
                     break;
+                case "System.TimeZoneInfo":
+                    AddTags(Tags.ConstructDateTime, Tags.UsesTimeZoneInfo);
+                    break;
+                case "System.TimeOnly":
+                    AddTags(Tags.ConstructDateTime, Tags.UsesTimeOnly);
+                    break;
+                case "System.DateOnly":
+                    AddTags(Tags.ConstructDateTime, Tags.UsesDateOnly);
+                    break;
             }
         }
     }
@@ -622,6 +682,100 @@ internal class TagAnalyzer : Analyzer
     {
         if (typeInfo.ConvertedType != null)
             VisitTypeSymbol(typeInfo.ConvertedType);
+    }
+
+    public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
+    {
+        if (GetSymbol(node.Type) is ITypeSymbol typeSymbol)
+            VisitTypeSymbol(typeSymbol);
+        else
+            VisitTypeInfo(GetTypeInfo(node.Type));
+
+        AddTags(Tags.ConstructConstructor);
+        base.VisitObjectCreationExpression(node);
+    }
+
+    public override void VisitWhileStatement(WhileStatementSyntax node)
+    {
+        AddTags(Tags.ConstructWhileLoop);
+        base.VisitWhileStatement(node);
+    }
+
+    public override void VisitDoStatement(DoStatementSyntax node)
+    {
+        AddTags(Tags.ConstructDoLoop);
+        base.VisitDoStatement(node);
+    }
+
+    public override void VisitThrowExpression(ThrowExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructException, Tags.ConstructThrow, Tags.ConstructThrowExpression);
+        base.VisitThrowExpression(node);
+    }
+
+    public override void VisitThrowStatement(ThrowStatementSyntax node)
+    {
+        AddTags(Tags.ConstructException, Tags.ConstructThrow);
+        base.VisitThrowStatement(node);
+    }
+
+    public override void VisitFinallyClause(FinallyClauseSyntax node)
+    {
+        AddTags(Tags.ConstructException, Tags.ConstructFinally);
+        base.VisitFinallyClause(node);
+    }
+
+    public override void VisitTryStatement(TryStatementSyntax node)
+    {
+        AddTags(Tags.ConstructException, Tags.ConstructTry);
+        base.VisitTryStatement(node);
+    }
+
+    public override void VisitCatchClause(CatchClauseSyntax node)
+    {
+        AddTags(Tags.ConstructException, Tags.ConstructCatch);
+        base.VisitCatchClause(node);
+    }
+
+    public override void VisitCatchFilterClause(CatchFilterClauseSyntax node)
+    {
+        AddTags(Tags.ConstructException, Tags.ConstructCatchFilter);
+        base.VisitCatchFilterClause(node);
+    }
+
+    public override void VisitYieldStatement(YieldStatementSyntax node)
+    {
+        AddTags(Tags.TechniqueLaziness, Tags.UsesYield);
+        base.VisitYieldStatement(node);
+    }
+
+    public override void VisitElementAccessExpression(ElementAccessExpressionSyntax node)
+    {
+        VisitTypeInfo(GetTypeInfo(node.Expression));
+        base.VisitElementAccessExpression(node);
+    }
+
+    private bool UsesRecursion(SyntaxNode methodOrFunctionNode)
+    {
+        var methodOrFunctionSymbol = SemanticModel.GetDeclaredSymbol(methodOrFunctionNode);
+        if (methodOrFunctionSymbol is null)
+            return false;
+
+        return methodOrFunctionNode.DescendantNodes()
+            .OfType<InvocationExpressionSyntax>()
+            .Select(invocationExpression => GetSymbolInfo(invocationExpression.Expression).Symbol)
+            .Any(invokedSymbol => methodOrFunctionSymbol.Equals(invokedSymbol, SymbolEqualityComparer.IncludeNullability));
+    }
+
+    private bool DerivesFromException(INamedTypeSymbol symbol)
+    {
+        if (symbol.BaseType == null)
+            return false;
+
+        if (symbol.BaseType.ToDisplayString() == "System.Exception")
+            return true;
+
+        return DerivesFromException(symbol.BaseType);
     }
 
     private static class Tags
@@ -656,6 +810,7 @@ internal class TagAnalyzer : Analyzer
         public const string TechniquePerformance = "technique:performance";
         public const string TechniqueMemoryManagement = "technique:memory-management";
         public const string TechniqueSorting = "technique:sorting";
+        public const string TechniqueImmutableCollection = "technique:immutable-collection";
         public const string TechniqueSortedCollection = "technique:sorted-collection";
         public const string TechniqueRandomess = "technique:randomness";
 
@@ -704,6 +859,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructAssignment = "construct:assignment";
         public const string ConstructEnumeration = "construct:enumeration";
         public const string ConstructException = "construct:exception";
+        public const string ConstructUserDefinedException = "construct:user-defined-exception";
         public const string ConstructMultiply = "construct:multiply";
         public const string ConstructDivide = "construct:divide";
         public const string ConstructAdd = "construct:add";
@@ -711,6 +867,16 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructMethodOverloading = "construct:method-overloading";
         public const string ConstructLock = "construct:lock";
         public const string ConstructConstructor = "construct:constructor";
+        public const string ConstructVarargs = "construct:varargs";
+        public const string ConstructTry = "construct:try";
+        public const string ConstructThrow = "construct:throw";
+        public const string ConstructThrowExpression = "construct:throw-expression";
+        public const string ConstructCatch = "construct:catch";
+        public const string ConstructCatchFilter = "construct:catch-filter";
+        public const string ConstructFinally = "construct:finally";
+        public const string ConstructNamespace = "construct:namespace";
+        public const string ConstructFileScopedNamespace = "construct:file-scoped-namespace";
+        public const string ConstructNamedArgument = "construct:named-argument";
         public const string ConstructVariable = "construct:variable";
 
         // Constructs - types
@@ -733,6 +899,8 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructInterface = "construct:interface";
         public const string ConstructTuple = "construct:tuple";
         public const string ConstructDateTime = "construct:date-time";
+        public const string ConstructNull = "construct:null";
+        public const string ConstructNullability = "construct:nullability";
         public const string ConstructNullable = "construct:nullable";
         public const string ConstructEnum = "construct:enum";
         public const string ConstructLinkedList = "construct:linked-list";
@@ -750,6 +918,9 @@ internal class TagAnalyzer : Analyzer
         // Constructs - trivia
         public const string ConstructComment = "construct:comment";
         public const string ConstructXmlComment = "construct:xml-comment";
+        public const string ConstructMultilineString = "construct:multiline-string";
+        public const string ConstructStringInterpolation = "construct:string-interpolation";
+        public const string ConstructVerbatimString = "construct:verbatim-string";
 
         // Uses
         public const string UsesLinq = "uses:linq";
@@ -778,6 +949,10 @@ internal class TagAnalyzer : Analyzer
         public const string UsesRegex = "uses:Regex";
         public const string UsesStringBuilder = "uses:StringBuilder";
         public const string UsesRandom = "uses:Random";
+        public const string UsesTimeZoneInfo = "uses:TimeZoneInfo";
+        public const string UsesDateTime = "uses:DateTime";
+        public const string UsesDateOnly = "uses:DateOnly";
+        public const string UsesTimeOnly = "uses:TimeOnly";
         
         // Uses - collections
         public const string UsesList = "uses:List<T>";
@@ -789,6 +964,8 @@ internal class TagAnalyzer : Analyzer
         public const string UsesStack = "uses:Stack<T>";
         public const string UsesQueue = "uses:Queue<T>";
         public const string UsesLinkedList = "uses:LinkedList<T>";
+        public const string UsesValueTuple = "uses:ValueTuple";
+        public const string UsesTuple = "uses:Tuple";
         
         // Uses - interfaces
         public const string UsesIReadOnlyList = "uses:IReadOnlyList<T>";

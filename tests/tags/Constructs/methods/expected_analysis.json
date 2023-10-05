@@ -1,0 +1,23 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "Returning"
+      }
+    }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:local-function",
+    "construct:method",
+    "construct:number",
+    "construct:optional-parameter",
+    "construct:parameter",
+    "paradigm:object-oriented",
+    "uses:int"
+  ]
+}

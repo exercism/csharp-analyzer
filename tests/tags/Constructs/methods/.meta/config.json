@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Comments.csproj"
+      "Methods.csproj"
     ],
     "solution": [
-      "FlowControl.cs"
+      "Methods.cs"
     ],
     "test": [
-      "FlowControlTests.cs"
+      "MethodsTests.cs"
     ]
   }
 }

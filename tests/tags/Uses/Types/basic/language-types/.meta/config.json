@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "LanguageTypes.csproj"
+      "Types.csproj"
     ],
     "solution": [
-      "LanguageTypes.cs"
+      "Types.cs"
     ],
     "test": [
-      "LanguageTypesTests.cs"
+      "TypesTests.cs"
     ]
   }
 }

@@ -1,21 +1,16 @@
-﻿public static class Comments
+﻿public static class Program
 {
     /// <summary>
-    /// Foo the bar
+    /// This is an XML comment
     /// </summary>
-    /// <returns>The baz</returns>
-    public static void Foo()
+    public static void Main()
     {
+        // Single line comment
+        var x = 1;
+
         /*
          * Multi line comment
          */
-        var x = 0;
-
-        // Single line comment
-        var y = 1;
-
-        var a = 2; // Trailing single line comment
-
-        var b = 3; /* Trailing multi line comment */
+        var y = 2;
     }
 }
