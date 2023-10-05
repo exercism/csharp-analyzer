@@ -6,12 +6,15 @@
     "construct:class",
     "construct:constructor",
     "construct:exception",
+    "construct:expression-bodied-member",
     "construct:extension-method",
     "construct:for-loop",
     "construct:indexer",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:lambda",
+    "construct:linq",
     "construct:method",
     "construct:number",
     "construct:parameter",
@@ -24,13 +27,11 @@
     "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
+    "construct:yield",
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
-    "technique:laziness",
-    "uses:expression-bodied-member",
-    "uses:int",
-    "uses:linq",
-    "uses:yield"
+    "technique:higher-order-functions",
+    "technique:laziness"
   ]
 }

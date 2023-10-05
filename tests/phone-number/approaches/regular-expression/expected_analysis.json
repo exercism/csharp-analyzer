@@ -8,6 +8,7 @@
     "construct:exception",
     "construct:if",
     "construct:indexer",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:method",
@@ -21,7 +22,6 @@
     "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "technique:regular-expression",
-    "uses:Regex",
-    "uses:int"
+    "uses:Regex"
   ]
 }

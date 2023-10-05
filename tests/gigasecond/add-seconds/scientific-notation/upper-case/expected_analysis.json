@@ -11,6 +11,7 @@
   "tags": [
     "construct:class",
     "construct:date-time",
+    "construct:double",
     "construct:floating-point-number",
     "construct:invocation",
     "construct:method",
@@ -21,7 +22,6 @@
     "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "uses:DateTime",
-    "uses:DateTime.AddSeconds",
-    "uses:double"
+    "uses:DateTime.AddSeconds"
   ]
 }

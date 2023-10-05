@@ -7,6 +7,7 @@
     "construct:implicit-conversion",
     "construct:invocation",
     "construct:lambda",
+    "construct:linq",
     "construct:method",
     "construct:parameter",
     "construct:return",
@@ -16,9 +17,9 @@
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
+    "technique:higher-order-functions",
     "uses:Enumerable.All",
     "uses:String.Contains(char)",
-    "uses:String.ToLower",
-    "uses:linq"
+    "uses:String.ToLower"
   ]
 }

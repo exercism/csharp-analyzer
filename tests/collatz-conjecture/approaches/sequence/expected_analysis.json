@@ -8,8 +8,10 @@
     "construct:divide",
     "construct:exception",
     "construct:if",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
+    "construct:linq",
     "construct:method",
     "construct:multiply",
     "construct:number",
@@ -20,13 +22,11 @@
     "construct:variable",
     "construct:visibility-modifiers",
     "construct:while-loop",
+    "construct:yield",
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
     "technique:laziness",
-    "uses:Enumerable.Count",
-    "uses:int",
-    "uses:linq",
-    "uses:yield"
+    "uses:Enumerable.Count"
   ]
 }

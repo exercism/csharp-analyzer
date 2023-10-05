@@ -13,6 +13,7 @@
     "construct:file-scoped-namespace",
     "construct:for-loop",
     "construct:if",
+    "construct:int",
     "construct:integral-number",
     "construct:method",
     "construct:namespace",
@@ -21,7 +22,6 @@
     "construct:ternary",
     "construct:variable",
     "construct:visibility-modifiers",
-    "paradigm:object-oriented",
-    "uses:int"
+    "paradigm:object-oriented"
   ]
 }

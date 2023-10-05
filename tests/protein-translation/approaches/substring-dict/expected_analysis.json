@@ -10,8 +10,10 @@
     "construct:field",
     "construct:foreach",
     "construct:indexer",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
+    "construct:lambda",
     "construct:list",
     "construct:method",
     "construct:number",
@@ -26,11 +28,12 @@
     "construct:variable",
     "construct:visibility-modifiers",
     "construct:while-loop",
+    "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:higher-order-functions",
     "uses:Dictionary<TKey,TValue>",
     "uses:List<T>",
-    "uses:String.Substring",
-    "uses:int"
+    "uses:String.Substring"
   ]
 }

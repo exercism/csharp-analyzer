@@ -12,6 +12,7 @@
     "construct:variable",
     "construct:visibility-modifiers",
     "paradigm:object-oriented",
-    "technique:inheritance"
+    "technique:inheritance",
+    "uses:IDisposable"
   ]
 }

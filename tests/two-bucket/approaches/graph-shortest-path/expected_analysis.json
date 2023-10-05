@@ -17,8 +17,10 @@
     "construct:implicit-conversion",
     "construct:indexer",
     "construct:initializer",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
+    "construct:lambda",
     "construct:logical-and",
     "construct:method",
     "construct:named-argument",
@@ -36,13 +38,13 @@
     "construct:variable",
     "construct:visibility-modifiers",
     "construct:while-loop",
+    "construct:yield",
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
     "technique:boolean-logic",
+    "technique:higher-order-functions",
     "technique:laziness",
-    "uses:Dictionary<TKey,TValue>",
-    "uses:int",
-    "uses:yield"
+    "uses:Dictionary<TKey,TValue>"
   ]
 }

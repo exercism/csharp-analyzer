@@ -8,6 +8,7 @@
     "construct:exception",
     "construct:for-loop",
     "construct:if",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:method",
@@ -20,11 +21,10 @@
     "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
+    "construct:yield",
     "paradigm:imperative",
     "paradigm:object-oriented",
     "technique:laziness",
-    "uses:HashSet<T>",
-    "uses:int",
-    "uses:yield"
+    "uses:HashSet<T>"
   ]
 }

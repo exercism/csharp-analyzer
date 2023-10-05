@@ -5,6 +5,7 @@
     "construct:constructor",
     "construct:dictionary",
     "construct:initializer",
+    "construct:int",
     "construct:integral-number",
     "construct:linked-list",
     "construct:list",
@@ -26,12 +27,11 @@
     "uses:HashSet<T>",
     "uses:LinkedList<T>",
     "uses:List<T>",
-    "uses:Memort<T>",
+    "uses:Memory<T>",
     "uses:Queue<T>",
     "uses:SortedDictionary<TKey,TValue>",
     "uses:SortedSet<T>",
     "uses:Span<T>",
-    "uses:Stack<T>",
-    "uses:int"
+    "uses:Stack<T>"
   ]
 }

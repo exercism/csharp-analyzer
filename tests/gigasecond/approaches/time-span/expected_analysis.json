@@ -16,6 +16,7 @@
   "tags": [
     "construct:add",
     "construct:class",
+    "construct:double",
     "construct:floating-point-number",
     "construct:implicit-conversion",
     "construct:invocation",
@@ -23,11 +24,10 @@
     "construct:number",
     "construct:parameter",
     "construct:return",
-    "construct:underscore-number-notation",
+    "construct:underscored-number",
     "construct:using-directive",
     "construct:visibility-modifiers",
     "paradigm:object-oriented",
-    "uses:DateTime.Plus(TimeSpan)",
-    "uses:double"
+    "uses:DateTime.Plus(TimeSpan)"
   ]
 }

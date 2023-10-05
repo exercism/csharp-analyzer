@@ -17,6 +17,7 @@
     "construct:exception",
     "construct:explicit-conversion",
     "construct:implicit-conversion",
+    "construct:int",
     "construct:integral-number",
     "construct:left-shift",
     "construct:logical-and",
@@ -34,7 +35,6 @@
     "technique:bit-manipulation",
     "technique:bit-shifting",
     "technique:boolean-logic",
-    "technique:type-conversion",
-    "uses:int"
+    "technique:type-conversion"
   ]
 }

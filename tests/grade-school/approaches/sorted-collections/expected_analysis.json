@@ -6,6 +6,7 @@
     "construct:collection-initializer",
     "construct:constructor",
     "construct:dictionary",
+    "construct:expression-bodied-member",
     "construct:field",
     "construct:if",
     "construct:implicit-conversion",
@@ -13,6 +14,7 @@
     "construct:initializer",
     "construct:invocation",
     "construct:lambda",
+    "construct:linq",
     "construct:method",
     "construct:parameter",
     "construct:read-only",
@@ -24,11 +26,10 @@
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
+    "technique:higher-order-functions",
     "technique:sorted-collection",
     "technique:sorting",
     "uses:SortedDictionary<TKey,TValue>",
-    "uses:SortedSet<T>",
-    "uses:expression-bodied-member",
-    "uses:linq"
+    "uses:SortedSet<T>"
   ]
 }

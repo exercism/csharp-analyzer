@@ -17,16 +17,20 @@
     "construct-string-interpolation",
     "construct:add",
     "construct:assignment",
+    "construct:auto-implemented-property",
     "construct:class",
     "construct:constructor",
+    "construct:double",
     "construct:exception",
     "construct:field",
     "construct:floating-point-number",
     "construct:getter",
     "construct:if",
     "construct:implicit-conversion",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
+    "construct:lambda",
     "construct:method",
     "construct:number",
     "construct:parameter",
@@ -39,10 +43,9 @@
     "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
+    "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
-    "uses:auto-implemented-property",
-    "uses:double",
-    "uses:int"
+    "technique:higher-order-functions"
   ]
 }

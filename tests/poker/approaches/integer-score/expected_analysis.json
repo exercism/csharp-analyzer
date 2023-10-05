@@ -6,13 +6,16 @@
     "construct:cast",
     "construct:char",
     "construct:class",
+    "construct:expression-bodied-member",
     "construct:field",
     "construct:implicit-conversion",
     "construct:indexer",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:is-cast",
     "construct:lambda",
+    "construct:linq",
     "construct:logical-and",
     "construct:logical-or",
     "construct:method",
@@ -33,8 +36,6 @@
     "paradigm:functional",
     "paradigm:object-oriented",
     "technique:boolean-logic",
-    "uses:expression-bodied-member",
-    "uses:int",
-    "uses:linq"
+    "technique:higher-order-functions"
   ]
 }

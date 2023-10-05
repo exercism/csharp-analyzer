@@ -6,8 +6,11 @@
     "construct:class",
     "construct:constructor",
     "construct:exception",
+    "construct:expression-bodied-member",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
+    "construct:lambda",
     "construct:list",
     "construct:method",
     "construct:number",
@@ -24,11 +27,11 @@
     "construct:variable",
     "construct:visibility-modifiers",
     "construct:while-loop",
+    "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:higher-order-functions",
     "uses:List<T>",
-    "uses:String.Substring",
-    "uses:expression-bodied-member",
-    "uses:int"
+    "uses:String.Substring"
   ]
 }

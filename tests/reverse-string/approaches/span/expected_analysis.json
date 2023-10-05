@@ -6,7 +6,9 @@
     "construct:constructor",
     "construct:for-loop",
     "construct:indexer",
+    "construct:int",
     "construct:integral-number",
+    "construct:lambda",
     "construct:method",
     "construct:number",
     "construct:parameter",
@@ -16,11 +18,12 @@
     "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
+    "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:higher-order-functions",
     "technique:memory-management",
     "technique:performance",
-    "uses:Span<T>",
-    "uses:int"
+    "uses:Span<T>"
   ]
 }

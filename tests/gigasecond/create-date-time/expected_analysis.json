@@ -24,6 +24,7 @@
     "construct:class",
     "construct:constructor",
     "construct:date-time",
+    "construct:double",
     "construct:floating-point-number",
     "construct:implicit-conversion",
     "construct:invocation",
@@ -36,7 +37,6 @@
     "paradigm:object-oriented",
     "uses:DateTime",
     "uses:DateTime.AddSeconds",
-    "uses:DateTime.DateTime(long)",
-    "uses:double"
+    "uses:DateTime.DateTime(long)"
   ]
 }

@@ -9,8 +9,10 @@
     "construct:for-loop",
     "construct:if",
     "construct:indexer",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
+    "construct:lambda",
     "construct:method",
     "construct:number",
     "construct:parameter",
@@ -19,8 +21,9 @@
     "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
+    "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
-    "uses:int"
+    "technique:higher-order-functions"
   ]
 }

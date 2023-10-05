@@ -16,6 +16,7 @@
   "tags": [
     "construct:boolean",
     "construct:class",
+    "construct:int",
     "construct:integral-number",
     "construct:logical-and",
     "construct:logical-or",
@@ -25,7 +26,6 @@
     "construct:return",
     "construct:visibility-modifiers",
     "paradigm:object-oriented",
-    "technique:boolean-logic",
-    "uses:int"
+    "technique:boolean-logic"
   ]
 }

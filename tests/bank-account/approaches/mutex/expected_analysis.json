@@ -5,7 +5,9 @@
     "construct:boolean",
     "construct:class",
     "construct:constructor",
+    "construct:decimal",
     "construct:exception",
+    "construct:expression-bodied-member",
     "construct:field",
     "construct:finally",
     "construct:floating-point-number",
@@ -26,8 +28,6 @@
     "paradigm:imperative",
     "paradigm:object-oriented",
     "technique:mutexes",
-    "uses:Mutex",
-    "uses:decimal",
-    "uses:expression-bodied-member"
+    "uses:Mutex"
   ]
 }

@@ -12,6 +12,7 @@
     "construct:add",
     "construct:class",
     "construct:file-scoped-namespace",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:local-function",
@@ -24,7 +25,6 @@
     "construct:return",
     "construct:varargs",
     "construct:visibility-modifiers",
-    "paradigm:object-oriented",
-    "uses:int"
+    "paradigm:object-oriented"
   ]
 }

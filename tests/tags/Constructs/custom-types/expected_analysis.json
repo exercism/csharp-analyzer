@@ -3,13 +3,16 @@
   "tags": [
     "construct:assignment",
     "construct:attribute",
+    "construct:auto-implemented-property",
     "construct:boolean",
     "construct:class",
     "construct:enum",
+    "construct:expression-bodied-member",
     "construct:field",
     "construct:file-scoped-namespace",
     "construct:flags-enum",
     "construct:getter",
+    "construct:int",
     "construct:integral-number",
     "construct:interface",
     "construct:method",
@@ -28,9 +31,6 @@
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
-    "technique:inheritance",
-    "uses:auto-implemented-property",
-    "uses:expression-bodied-member",
-    "uses:int"
+    "technique:inheritance"
   ]
 }

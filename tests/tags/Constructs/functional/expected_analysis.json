@@ -1,20 +1,34 @@
 {
   "comments": [
     {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "FunctionParameter"
+      }
     }
   ],
   "tags": [
+    "construct:add",
     "construct:class",
-    "construct:comment",
+    "construct:expression-bodied-member",
+    "construct:implicit-conversion",
+    "construct:initializer",
+    "construct:int",
     "construct:integral-number",
+    "construct:invocation",
+    "construct:lambda",
+    "construct:linq",
+    "construct:local-function",
     "construct:method",
     "construct:number",
+    "construct:parameter",
+    "construct:return",
+    "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
+    "paradigm:functional",
     "paradigm:object-oriented",
-    "uses:int"
+    "technique:higher-order-functions"
   ]
 }

@@ -5,7 +5,9 @@
     "construct:boolean",
     "construct:class",
     "construct:constructor",
+    "construct:decimal",
     "construct:exception",
+    "construct:expression-bodied-member",
     "construct:field",
     "construct:floating-point-number",
     "construct:if",
@@ -23,8 +25,6 @@
     "construct:visibility-modifiers",
     "paradigm:imperative",
     "paradigm:object-oriented",
-    "technique:locks",
-    "uses:decimal",
-    "uses:expression-bodied-member"
+    "technique:locks"
   ]
 }

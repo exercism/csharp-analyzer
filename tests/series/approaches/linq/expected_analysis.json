@@ -7,9 +7,11 @@
     "construct:constructor",
     "construct:exception",
     "construct:if",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:lambda",
+    "construct:linq",
     "construct:logical-or",
     "construct:method",
     "construct:number",
@@ -23,7 +25,6 @@
     "paradigm:functional",
     "paradigm:object-oriented",
     "technique:boolean-logic",
-    "uses:int",
-    "uses:linq"
+    "technique:higher-order-functions"
   ]
 }

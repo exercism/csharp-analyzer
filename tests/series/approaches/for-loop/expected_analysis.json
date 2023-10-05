@@ -7,6 +7,7 @@
     "construct:exception",
     "construct:for-loop",
     "construct:if",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:logical-or",
@@ -20,10 +21,9 @@
     "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
+    "construct:yield",
     "paradigm:object-oriented",
     "technique:boolean-logic",
-    "technique:laziness",
-    "uses:int",
-    "uses:yield"
+    "technique:laziness"
   ]
 }

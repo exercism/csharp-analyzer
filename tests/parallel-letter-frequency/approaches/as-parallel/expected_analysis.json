@@ -22,6 +22,7 @@
     "construct:indexer",
     "construct:invocation",
     "construct:lambda",
+    "construct:linq",
     "construct:method",
     "construct:parameter",
     "construct:return",
@@ -31,8 +32,9 @@
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:higher-order-functions",
+    "technique:parallelism",
     "uses:Dictionary<TKey,TValue>",
-    "uses:Enumerable.AsParallel",
-    "uses:linq"
+    "uses:Enumerable.AsParallel"
   ]
 }

@@ -8,6 +8,7 @@
     "construct:foreach",
     "construct:if",
     "construct:implicit-conversion",
+    "construct:int",
     "construct:integral-number",
     "construct:left-shift",
     "construct:logical-and",
@@ -22,7 +23,6 @@
     "paradigm:object-oriented",
     "technique:bit-manipulation",
     "technique:bit-shifting",
-    "technique:boolean-logic",
-    "uses:int"
+    "technique:boolean-logic"
   ]
 }

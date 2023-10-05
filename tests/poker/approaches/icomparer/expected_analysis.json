@@ -7,13 +7,16 @@
     "construct:class",
     "construct:dictionary",
     "construct:enum",
+    "construct:expression-bodied-member",
     "construct:field",
     "construct:implicit-conversion",
     "construct:indexer",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:is-cast",
     "construct:lambda",
+    "construct:linq",
     "construct:logical-and",
     "construct:logical-or",
     "construct:method",
@@ -35,10 +38,8 @@
     "paradigm:functional",
     "paradigm:object-oriented",
     "technique:boolean-logic",
+    "technique:higher-order-functions",
     "uses:Dictionary<TKey,TValue>",
-    "uses:ValueTuple",
-    "uses:expression-bodied-member",
-    "uses:int",
-    "uses:linq"
+    "uses:ValueTuple"
   ]
 }

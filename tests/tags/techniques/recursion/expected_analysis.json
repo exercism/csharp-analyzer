@@ -12,8 +12,10 @@
     "construct:add",
     "construct:class",
     "construct:if",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
+    "construct:lambda",
     "construct:local-function",
     "construct:method",
     "construct:multiply",
@@ -24,7 +26,7 @@
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
-    "technique:recursion",
-    "uses:int"
+    "technique:higher-order-functions",
+    "technique:recursion"
   ]
 }

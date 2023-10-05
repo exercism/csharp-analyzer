@@ -11,7 +11,9 @@
   "tags": [
     "construct:boolean",
     "construct:class",
+    "construct:int",
     "construct:integral-number",
+    "construct:lambda",
     "construct:method",
     "construct:number",
     "construct:parameter",
@@ -20,8 +22,9 @@
     "construct:switch-expression",
     "construct:tuple",
     "construct:visibility-modifiers",
+    "paradigm:functional",
     "paradigm:object-oriented",
-    "uses:ValueTuple",
-    "uses:int"
+    "technique:higher-order-functions",
+    "uses:ValueTuple"
   ]
 }

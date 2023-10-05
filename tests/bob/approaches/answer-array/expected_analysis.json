@@ -10,9 +10,11 @@
     "construct:implicit-conversion",
     "construct:indexer",
     "construct:initializer",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:lambda",
+    "construct:linq",
     "construct:logical-and",
     "construct:method",
     "construct:number",
@@ -27,7 +29,6 @@
     "paradigm:functional",
     "paradigm:object-oriented",
     "technique:boolean-logic",
-    "uses:int",
-    "uses:linq"
+    "technique:higher-order-functions"
   ]
 }

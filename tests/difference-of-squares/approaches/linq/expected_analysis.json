@@ -2,8 +2,12 @@
   "comments": [],
   "tags": [
     "construct:class",
+    "construct:expression-bodied-member",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
+    "construct:lambda",
+    "construct:linq",
     "construct:method",
     "construct:multiply",
     "construct:number",
@@ -13,9 +17,7 @@
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
-    "technique:math",
-    "uses:expression-bodied-member",
-    "uses:int",
-    "uses:linq"
+    "technique:higher-order-functions",
+    "technique:math"
   ]
 }

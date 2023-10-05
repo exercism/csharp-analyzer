@@ -6,10 +6,13 @@
     "construct:constructor",
     "construct:enum",
     "construct:exception",
+    "construct:expression-bodied-member",
     "construct:implicit-conversion",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:lambda",
+    "construct:linq",
     "construct:logical-and",
     "construct:method",
     "construct:multiply",
@@ -26,8 +29,6 @@
     "paradigm:functional",
     "paradigm:object-oriented",
     "technique:boolean-logic",
-    "uses:expression-bodied-member",
-    "uses:int",
-    "uses:linq"
+    "technique:higher-order-functions"
   ]
 }

@@ -8,6 +8,7 @@
     "construct:implicit-conversion",
     "construct:invocation",
     "construct:lambda",
+    "construct:linq",
     "construct:method",
     "construct:parameter",
     "construct:return",
@@ -17,6 +18,6 @@
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
-    "uses:linq"
+    "technique:higher-order-functions"
   ]
 }

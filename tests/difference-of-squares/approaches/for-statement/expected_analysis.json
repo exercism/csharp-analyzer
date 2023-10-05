@@ -3,7 +3,9 @@
   "tags": [
     "construct:assignment",
     "construct:class",
+    "construct:expression-bodied-member",
     "construct:for-loop",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:method",
@@ -16,8 +18,6 @@
     "construct:visibility-modifiers",
     "paradigm:imperative",
     "paradigm:object-oriented",
-    "technique:math",
-    "uses:expression-bodied-member",
-    "uses:int"
+    "technique:math"
   ]
 }

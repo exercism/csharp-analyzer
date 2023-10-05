@@ -4,9 +4,11 @@
     "construct:boolean",
     "construct:class",
     "construct:enum",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:lambda",
+    "construct:linq",
     "construct:method",
     "construct:number",
     "construct:parameter",
@@ -21,8 +23,7 @@
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
-    "uses:ValueTuple",
-    "uses:int",
-    "uses:linq"
+    "technique:higher-order-functions",
+    "uses:ValueTuple"
   ]
 }

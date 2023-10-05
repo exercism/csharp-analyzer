@@ -12,8 +12,10 @@
     "construct:for-loop",
     "construct:if",
     "construct:indexer",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
+    "construct:lambda",
     "construct:method",
     "construct:multiply",
     "construct:number",
@@ -23,10 +25,11 @@
     "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
+    "construct:yield",
+    "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
-    "technique:laziness",
-    "uses:int",
-    "uses:yield"
+    "technique:higher-order-functions",
+    "technique:laziness"
   ]
 }

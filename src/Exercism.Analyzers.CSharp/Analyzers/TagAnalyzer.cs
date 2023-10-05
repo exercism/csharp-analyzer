@@ -96,7 +96,7 @@ internal class TagAnalyzer : Analyzer
             AddTags(Tags.ConstructGenericMethod);
         
         if (node.ExpressionBody is not null)
-            AddTags(Tags.UsesExpressionBodiedMember);
+            AddTags(Tags.ConstructExpressionBodiedMember);
 
         if (UsesRecursion(node))
             AddTags(Tags.TechniqueRecursion, Tags.ParadigmFunctional);
@@ -179,7 +179,7 @@ internal class TagAnalyzer : Analyzer
         AddTags(Tags.ConstructInvocation, Tags.ConstructMethod);
 
         if (GetSymbol(node) is not null && GetSymbol(node).ContainingNamespace.ToDisplayString() == "System.Linq")
-            AddTags(Tags.UsesLinq, Tags.ParadigmFunctional);
+            AddTags(Tags.ConstructLinq, Tags.ParadigmFunctional);
 
         if (GetConstructedFromSymbolName(node) ==
             "System.Collections.Generic.IEnumerable<TSource>.AsParallel<TSource>()")
@@ -315,7 +315,7 @@ internal class TagAnalyzer : Analyzer
         AddTags(Tags.ConstructProperty);
         
         if (node.ExpressionBody is not null)
-            AddTags(Tags.UsesExpressionBodiedMember);
+            AddTags(Tags.ConstructExpressionBodiedMember);
         
         VisitTypeInfo(GetTypeInfo(node.Type));
 
@@ -330,7 +330,7 @@ internal class TagAnalyzer : Analyzer
             AddTags(Tags.ConstructSetter);
 
         if (getAccessor is {Body: null} && setAccessor is {Body: null} or null)
-            AddTags(Tags.UsesAutoImplementedProperty);
+            AddTags(Tags.ConstructAutoImplementedProperty);
 
         base.VisitPropertyDeclaration(node);
     }
@@ -365,10 +365,10 @@ internal class TagAnalyzer : Analyzer
                     AddTags(Tags.ConstructBinaryNumber);
                 else if (node.Token.Text.Contains('.', StringComparison.OrdinalIgnoreCase) && 
                          node.Token.Text.Contains('e', StringComparison.OrdinalIgnoreCase))
-                    AddTags(Tags.ConstructScientificNumber);
+                    AddTags(Tags.ConstructScientificNotationNumber);
             
                 if (node.Token.Text.Contains('_'))
-                    AddTags(Tags.ConstructUnderscoreNumberNotation);
+                    AddTags(Tags.ConstructUnderscoredNumber);
                 break;
             case SyntaxKind.StringLiteralExpression:
                 var lineSpan = node.GetLocation().GetLineSpan();
@@ -436,14 +436,14 @@ internal class TagAnalyzer : Analyzer
     public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
     {
         if (node.ExpressionBody is not null)
-            AddTags(Tags.UsesExpressionBodiedMember);
+            AddTags(Tags.ConstructExpressionBodiedMember);
         
         base.VisitConstructorDeclaration(node);
     }
 
     public override void VisitQueryExpression(QueryExpressionSyntax node)
     {
-        AddTags(Tags.ConstructQueryExpression, Tags.UsesLinq, Tags.ParadigmFunctional, Tags.ParadigmDeclarative);
+        AddTags(Tags.ConstructQueryExpression, Tags.ConstructLinq, Tags.ParadigmFunctional, Tags.ParadigmDeclarative);
         base.VisitQueryExpression(node);
     }
 
@@ -492,43 +492,43 @@ internal class TagAnalyzer : Analyzer
         switch (typeSymbol?.SpecialType)
         {
             case SpecialType.System_Int16:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesShort);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructShort);
                 break;
             case SpecialType.System_Int32:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesInt);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructInt);
                 break;
             case SpecialType.System_Int64:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesLong);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructLong);
                 break;
             case SpecialType.System_Byte:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesByte);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructByte);
                 break;
             case SpecialType.System_UInt16:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUshort);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructUshort);
                 break;
             case SpecialType.System_UInt32:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUint);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructUint);
                 break;
             case SpecialType.System_UInt64:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUlong);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructUlong);
                 break;
             case SpecialType.System_SByte:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesSbyte);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructSbyte);
                 break;
             case SpecialType.System_IntPtr:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesNint);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructNint);
                 break;
             case SpecialType.System_UIntPtr:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesNuint);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructNuint);
                 break;
             case SpecialType.System_Single:
-                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesFloat);
+                AddTags(Tags.ConstructFloatingPointNumber, Tags.ConstructFloat);
                 break;
             case SpecialType.System_Double:
-                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesDouble);
+                AddTags(Tags.ConstructFloatingPointNumber, Tags.ConstructDouble);
                 break;
             case SpecialType.System_Decimal:
-                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesDecimal);
+                AddTags(Tags.ConstructFloatingPointNumber, Tags.ConstructDecimal);
                 break;
             case SpecialType.System_String:
                 AddTags(Tags.ConstructString);
@@ -764,7 +764,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitYieldStatement(YieldStatementSyntax node)
     {
-        AddTags(Tags.TechniqueLaziness, Tags.UsesYield);
+        AddTags(Tags.TechniqueLaziness, Tags.ConstructYield);
         base.VisitYieldStatement(node);
     }
 
@@ -1010,6 +1010,10 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructChecked = "construct:checked";
         public const string ConstructUsingStatement = "construct:using-statement";
         public const string ConstructUsingDirective = "construct:using-directive";
+        public const string ConstructLinq = "construct:linq";
+        public const string ConstructExpressionBodiedMember = "construct:expression-bodied-member";
+        public const string ConstructAutoImplementedProperty = "construct:auto-implemented-property";
+        public const string ConstructYield = "construct:yield";
         
         // Constructs - types
         public const string ConstructBoolean = "construct:boolean";
@@ -1038,12 +1042,25 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructFlagsEnum = "construct:flags-enum";
         public const string ConstructLinkedList = "construct:linked-list";
         public const string ConstructBitArray = "construct:bit-array";
+        public const string ConstructDecimal = "construct:decimal";
+        public const string ConstructDouble = "construct:double";
+        public const string ConstructFloat = "construct:float";
+        public const string ConstructSbyte = "construct:sbyte";
+        public const string ConstructByte = "construct:byte";
+        public const string ConstructShort = "construct:short";
+        public const string ConstructUshort = "construct:ushort";
+        public const string ConstructInt = "construct:int";
+        public const string ConstructUint = "construct:uint";
+        public const string ConstructLong = "construct:long";
+        public const string ConstructUlong = "construct:ulong";
+        public const string ConstructNint = "construct:nint";
+        public const string ConstructNuint = "construct:nuint";
 
         // Constructs - notation
         public const string ConstructHexadecimalNumber = "construct:hexadecimal-number";
         public const string ConstructBinaryNumber = "construct:binary-number";
-        public const string ConstructScientificNumber = "construct:scientific-number";
-        public const string ConstructUnderscoreNumberNotation = "construct:underscore-number-notation";
+        public const string ConstructScientificNotationNumber = "construct:scientific-notation-number";
+        public const string ConstructUnderscoredNumber = "construct:underscored-number";
         public const string ConstructMultilineString = "construct-multiline-string";
         public const string ConstructStringInterpolation = "construct-string-interpolation";
         public const string ConstructVerbatimString = "construct-verbatim-string";
@@ -1052,28 +1069,9 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructComment = "construct:comment";
         public const string ConstructXmlComment = "construct:xml-comment";
 
-        // Uses
-        public const string UsesLinq = "uses:linq";
-        public const string UsesExpressionBodiedMember = "uses:expression-bodied-member";
-        public const string UsesAutoImplementedProperty = "uses:auto-implemented-property";
-        public const string UsesYield = "uses:yield";
-
-        // Uses - types
-        public const string UsesDecimal = "uses:decimal";
-        public const string UsesDouble = "uses:double";
-        public const string UsesFloat = "uses:float";
-        public const string UsesSbyte = "uses:sbyte";
-        public const string UsesByte = "uses:byte";
-        public const string UsesShort = "uses:short";
-        public const string UsesUshort = "uses:ushort";
-        public const string UsesInt = "uses:int";
-        public const string UsesUint = "uses:uint";
-        public const string UsesLong = "uses:long";
-        public const string UsesUlong = "uses:ulong";
-        public const string UsesNint = "uses:nint";
-        public const string UsesNuint = "uses:nuint";
+        // Uses - C#-specific types
         public const string UsesSpan = "uses:Span<T>";
-        public const string UsesMemory = "uses:Memort<T>";
+        public const string UsesMemory = "uses:Memory<T>";
         public const string UsesMutex = "uses:Mutex";
         public const string UsesDelegate = "uses:delegate";
         public const string UsesRegex = "uses:Regex";

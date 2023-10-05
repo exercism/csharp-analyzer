@@ -12,9 +12,11 @@
     "construct:field",
     "construct:implicit-conversion",
     "construct:initializer",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:lambda",
+    "construct:linq",
     "construct:method",
     "construct:number",
     "construct:parameter",
@@ -28,9 +30,8 @@
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
+    "technique:higher-order-functions",
     "uses:Enumerable.Aggregate",
-    "uses:ValueTuple",
-    "uses:int",
-    "uses:linq"
+    "uses:ValueTuple"
   ]
 }

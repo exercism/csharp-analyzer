@@ -5,6 +5,8 @@
     "construct:class",
     "construct:implicit-conversion",
     "construct:invocation",
+    "construct:lambda",
+    "construct:linq",
     "construct:list",
     "construct:method",
     "construct:parameter",
@@ -15,8 +17,8 @@
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
+    "technique:higher-order-functions",
     "uses:Enumerable.Distinct",
-    "uses:List<T>",
-    "uses:linq"
+    "uses:List<T>"
   ]
 }
