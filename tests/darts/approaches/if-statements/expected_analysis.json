@@ -12,6 +12,7 @@
     "construct:number",
     "construct:parameter",
     "construct:return",
+    "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
     "paradigm:object-oriented",

@@ -17,6 +17,7 @@
     "construct:return",
     "construct:set",
     "construct:throw",
+    "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
     "paradigm:imperative",

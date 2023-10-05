@@ -21,6 +21,7 @@
     "construct:pattern-matching",
     "construct:return",
     "construct:switch-expression",
+    "construct:using-directive",
     "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "uses:double",

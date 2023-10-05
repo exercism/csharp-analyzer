@@ -11,6 +11,7 @@
   "tags": [
     "construct:char",
     "construct:class",
+    "construct:implicit-conversion",
     "construct:integral-number",
     "construct:invocation",
     "construct:lambda",
@@ -19,6 +20,7 @@
     "construct:parameter",
     "construct:return",
     "construct:string",
+    "construct:using-directive",
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",

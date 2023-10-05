@@ -16,6 +16,7 @@
     "construct:optional-parameter",
     "construct:parameter",
     "construct:string",
+    "construct:using-directive",
     "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "uses:expression-bodied-member"

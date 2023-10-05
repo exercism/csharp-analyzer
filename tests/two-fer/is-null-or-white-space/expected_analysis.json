@@ -33,6 +33,7 @@
     "construct:return",
     "construct:string",
     "construct:ternary",
+    "construct:using-directive",
     "construct:visibility-modifiers",
     "paradigm:object-oriented"
   ]

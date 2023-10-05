@@ -17,6 +17,7 @@
     "construct:string",
     "construct:subtract",
     "construct:throw",
+    "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
     "paradigm:object-oriented",

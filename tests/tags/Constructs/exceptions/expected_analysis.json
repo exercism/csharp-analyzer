@@ -13,7 +13,9 @@
     "construct:throw",
     "construct:try",
     "construct:user-defined-exception",
+    "construct:using-directive",
     "construct:visibility-modifiers",
-    "paradigm:object-oriented"
+    "paradigm:object-oriented",
+    "technique:inheritance"
   ]
 }

@@ -1,22 +1,17 @@
 {
   "comments": [],
   "tags": [
-    "construct:char",
     "construct:class",
-    "construct:implicit-conversion",
+    "construct:file-scoped-namespace",
     "construct:invocation",
-    "construct:list",
     "construct:method",
-    "construct:parameter",
-    "construct:return",
+    "construct:namespace",
     "construct:string",
     "construct:using-directive",
+    "construct:using-statement",
     "construct:variable",
     "construct:visibility-modifiers",
-    "paradigm:functional",
     "paradigm:object-oriented",
-    "uses:Enumerable.Distinct",
-    "uses:List<T>",
-    "uses:linq"
+    "technique:inheritance"
   ]
 }

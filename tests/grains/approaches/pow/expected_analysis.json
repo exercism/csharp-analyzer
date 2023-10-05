@@ -9,11 +9,13 @@
     }
   ],
   "tags": [
+    "construct:cast",
     "construct:class",
     "construct:constructor",
     "construct:exception",
     "construct:floating-point-number",
     "construct:if",
+    "construct:implicit-conversion",
     "construct:integral-number",
     "construct:invocation",
     "construct:is-cast",
@@ -24,6 +26,7 @@
     "construct:return",
     "construct:subtract",
     "construct:throw",
+    "construct:using-directive",
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",

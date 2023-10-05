@@ -8,6 +8,7 @@
     "construct:enumeration",
     "construct:foreach",
     "construct:if",
+    "construct:implicit-conversion",
     "construct:integral-number",
     "construct:left-shift",
     "construct:logical-and",

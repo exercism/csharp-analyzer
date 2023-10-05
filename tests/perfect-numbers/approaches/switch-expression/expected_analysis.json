@@ -3,6 +3,7 @@
   "tags": [
     "construct:boolean",
     "construct:class",
+    "construct:enum",
     "construct:integral-number",
     "construct:invocation",
     "construct:lambda",
@@ -15,6 +16,7 @@
     "construct:switch-expression",
     "construct:ternary",
     "construct:tuple",
+    "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
     "paradigm:functional",

@@ -11,11 +11,13 @@
   "tags": [
     "construct:class",
     "construct:constructor",
+    "construct:implicit-conversion",
     "construct:invocation",
     "construct:method",
     "construct:parameter",
     "construct:return",
     "construct:string",
+    "construct:using-directive",
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",

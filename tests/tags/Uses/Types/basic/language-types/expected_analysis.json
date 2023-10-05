@@ -3,6 +3,7 @@
   "tags": [
     "construct:class",
     "construct:floating-point-number",
+    "construct:implicit-conversion",
     "construct:integral-number",
     "construct:method",
     "construct:number",

@@ -1,5 +1,7 @@
 ﻿namespace DefaultNamespace;
 
+using System;
+
 public interface IPerson
 {
     public int Height { get; set; }
@@ -30,5 +32,31 @@ public class Person : IPerson
         Name = "foo";
     }
 
-    public bool Uncool => !cool;
+    public bool Uncool => !Cool;
+
+    private class Nested
+    {
+    }
+}
+
+public struct Actress
+{
+    public string Name;
+}
+
+public record Movie(string Title, string Director);
+
+public enum Rating
+{
+    Great,
+    Okay
+}
+
+
+[Flags]
+public enum Genre
+{
+    Action,
+    Documentary,
+    Thriller
 }
