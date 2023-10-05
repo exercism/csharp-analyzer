@@ -13,14 +13,20 @@
     "construct:char",
     "construct:class",
     "construct:if",
+    "construct:implicit-conversion",
     "construct:invocation",
+    "construct:lambda",
+    "construct:linq",
     "construct:logical-and",
     "construct:method",
     "construct:parameter",
+    "construct:return",
     "construct:string",
+    "construct:using-directive",
+    "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
     "technique:boolean-logic",
-    "uses:linq"
+    "technique:higher-order-functions"
   ]
 }

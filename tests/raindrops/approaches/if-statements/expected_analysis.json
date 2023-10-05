@@ -4,15 +4,18 @@
     "construct:assignment",
     "construct:class",
     "construct:if",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:method",
     "construct:number",
     "construct:parameter",
+    "construct:return",
     "construct:string",
     "construct:ternary",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "paradigm:imperative",
-    "paradigm:object-oriented",
-    "uses:int"
+    "paradigm:object-oriented"
   ]
 }

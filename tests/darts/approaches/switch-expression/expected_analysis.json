@@ -11,17 +11,23 @@
   "tags": [
     "construct:add",
     "construct:class",
+    "construct:double",
     "construct:floating-point-number",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
+    "construct:lambda",
     "construct:method",
     "construct:multiply",
     "construct:number",
     "construct:parameter",
     "construct:pattern-matching",
+    "construct:return",
     "construct:switch-expression",
+    "construct:using-directive",
+    "construct:visibility-modifiers",
+    "paradigm:functional",
     "paradigm:object-oriented",
-    "uses:double",
-    "uses:int"
+    "technique:higher-order-functions"
   ]
 }

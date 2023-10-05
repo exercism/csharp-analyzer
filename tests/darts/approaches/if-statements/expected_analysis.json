@@ -3,16 +3,23 @@
   "tags": [
     "construct:add",
     "construct:class",
+    "construct:double",
     "construct:floating-point-number",
     "construct:if",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
+    "construct:lambda",
     "construct:method",
     "construct:multiply",
     "construct:number",
     "construct:parameter",
+    "construct:return",
+    "construct:using-directive",
+    "construct:variable",
+    "construct:visibility-modifiers",
+    "paradigm:functional",
     "paradigm:object-oriented",
-    "uses:double",
-    "uses:int"
+    "technique:higher-order-functions"
   ]
 }

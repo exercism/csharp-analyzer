@@ -7,7 +7,11 @@
     "construct:invocation",
     "construct:method",
     "construct:parameter",
+    "construct:return",
     "construct:string",
+    "construct:using-directive",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "uses:Array.Reverse"
   ]

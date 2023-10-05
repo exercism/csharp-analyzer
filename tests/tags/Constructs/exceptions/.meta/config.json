@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "Classes.csproj"
+      "Exceptions.csproj"
     ],
     "solution": [
-      "Classes.cs"
+      "Exceptions.cs"
     ],
     "test": [
-      "ClassesTests.cs"
+      "ExceptionsTests.cs"
     ]
   }
 }

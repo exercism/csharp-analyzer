@@ -3,15 +3,22 @@
   "tags": [
     "construct:class",
     "construct:constructor",
-    "construct:exception",
     "construct:for-loop",
     "construct:if",
+    "construct:indexer",
+    "construct:int",
     "construct:integral-number",
     "construct:method",
     "construct:number",
     "construct:parameter",
+    "construct:return",
     "construct:string",
+    "construct:throw",
+    "construct:using-directive",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
-    "uses:int"
+    "technique:exceptions",
+    "technique:looping"
   ]
 }

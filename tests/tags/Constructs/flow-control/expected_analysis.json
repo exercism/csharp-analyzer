@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.general.has_main_method",
+      "type": "essential",
+      "params": {}
+    }
+  ],
+  "tags": [
+    "construct:break",
+    "construct:class",
+    "construct:continue",
+    "construct:file-scoped-namespace",
+    "construct:for-loop",
+    "construct:if",
+    "construct:int",
+    "construct:integral-number",
+    "construct:method",
+    "construct:namespace",
+    "construct:number",
+    "construct:return",
+    "construct:ternary",
+    "construct:variable",
+    "construct:visibility-modifiers",
+    "paradigm:object-oriented",
+    "technique:looping"
+  ]
+}

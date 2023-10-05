@@ -5,7 +5,8 @@
     "construct:boolean",
     "construct:class",
     "construct:constructor",
-    "construct:exception",
+    "construct:decimal",
+    "construct:expression-bodied-member",
     "construct:field",
     "construct:floating-point-number",
     "construct:if",
@@ -13,12 +14,17 @@
     "construct:method",
     "construct:parameter",
     "construct:property",
+    "construct:read-only",
     "construct:string",
     "construct:ternary",
+    "construct:throw",
+    "construct:throw-expression",
+    "construct:using-directive",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "paradigm:imperative",
     "paradigm:object-oriented",
-    "technique:locks",
-    "uses:decimal",
-    "uses:expression-bodied-member"
+    "technique:exceptions",
+    "technique:locks"
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "comments": [],
+  "tags": [
+    "construct:class",
+    "construct:int",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:number",
+    "construct:using-directive",
+    "construct:variable",
+    "construct:visibility-modifiers",
+    "paradigm:object-oriented",
+    "paradigm:reflective"
+  ]
+}

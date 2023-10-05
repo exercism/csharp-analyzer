@@ -27,7 +27,9 @@
     "construct:method",
     "construct:method-overloading",
     "construct:parameter",
+    "construct:return",
     "construct:string",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented"
   ]
 }

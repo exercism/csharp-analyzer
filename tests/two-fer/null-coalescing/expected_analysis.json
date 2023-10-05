@@ -20,9 +20,14 @@
     "construct-string-interpolation",
     "construct:class",
     "construct:method",
+    "construct:null",
+    "construct:nullability",
     "construct:optional-parameter",
     "construct:parameter",
+    "construct:return",
     "construct:string",
+    "construct:using-directive",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented"
   ]
 }

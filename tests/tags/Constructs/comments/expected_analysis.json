@@ -1,0 +1,20 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.general.has_main_method",
+      "type": "essential",
+      "params": {}
+    }
+  ],
+  "tags": [
+    "construct:class",
+    "construct:comment",
+    "construct:int",
+    "construct:integral-number",
+    "construct:method",
+    "construct:number",
+    "construct:variable",
+    "construct:visibility-modifiers",
+    "paradigm:object-oriented"
+  ]
+}

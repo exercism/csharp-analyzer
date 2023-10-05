@@ -1,5 +1,5 @@
 using System;
-using System.Numerics; // for use with BigInteger
+using System.Numerics;
 
 public static class Grains
 {

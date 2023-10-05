@@ -6,17 +6,23 @@
     "construct:class",
     "construct:constructor",
     "construct:divide",
-    "construct:exception",
     "construct:if",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:method",
     "construct:multiply",
     "construct:number",
     "construct:parameter",
+    "construct:return",
+    "construct:throw",
+    "construct:using-directive",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "construct:while-loop",
     "paradigm:imperative",
     "paradigm:object-oriented",
-    "uses:int"
+    "technique:exceptions",
+    "technique:looping"
   ]
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
@@ -9,19 +10,19 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class TagAnalyzer : Analyzer
 {
-    public TagAnalyzer(Submission submission) : base(submission)
+    public TagAnalyzer(Submission submission) : base(submission, SyntaxWalkerDepth.Trivia)
     {
     }
 
     public override void VisitForStatement(ForStatementSyntax node)
     {
-        AddTags(Tags.ConstructForLoop);
+        AddTags(Tags.ConstructForLoop, Tags.TechniqueLooping);
         base.VisitForStatement(node);
     }
 
     public override void VisitForEachStatement(ForEachStatementSyntax node)
     {
-        AddTags(Tags.ConstructForeach, Tags.ConstructEnumeration);
+        AddTags(Tags.ConstructForeach, Tags.TechniqueEnumeration, Tags.TechniqueLooping);
         base.VisitForEachStatement(node);
     }
 
@@ -43,16 +44,46 @@ internal class TagAnalyzer : Analyzer
         base.VisitSwitchExpression(node);
     }
 
+    public override void VisitIndexerDeclaration(IndexerDeclarationSyntax node)
+    {
+        AddTags(Tags.ConstructIndexer);
+        base.VisitIndexerDeclaration(node);
+    }
+
     public override void VisitParameter(ParameterSyntax node)
     {
         if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ThisKeyword)))
             AddTags(Tags.ConstructExtensionMethod);
+        
+        if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ParamsKeyword)))
+            AddTags(Tags.ConstructVarargs);
         
         if (node.Default is not null)
             AddTags(Tags.ConstructOptionalParameter);
 
         AddTags(Tags.ConstructParameter);
         base.VisitParameter(node);
+    }
+
+    public override void VisitArgument(ArgumentSyntax node)
+    {
+        if (node.NameColon is not null)
+            AddTags(Tags.ConstructNamedArgument);
+
+        var symbol = GetSymbol(node.Expression);
+        
+        switch (symbol)
+        {
+            case IMethodSymbol:
+                AddTags(Tags.ConstructLambda, Tags.TechniqueHigherOrderFunctions, Tags.ParadigmFunctional);
+                break;
+            case ILocalSymbol {Type: INamedTypeSymbol namedTypeSymbol} when
+                IsFunctionalType(namedTypeSymbol):
+                AddTags(Tags.TechniqueHigherOrderFunctions, Tags.ParadigmFunctional);
+                break;
+        }
+
+        base.VisitArgument(node);
     }
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
@@ -65,7 +96,7 @@ internal class TagAnalyzer : Analyzer
             AddTags(Tags.ConstructGenericMethod);
         
         if (node.ExpressionBody is not null)
-            AddTags(Tags.UsesExpressionBodiedMember);
+            AddTags(Tags.ConstructExpressionBodiedMember);
 
         if (UsesRecursion(node))
             AddTags(Tags.TechniqueRecursion, Tags.ParadigmFunctional);
@@ -74,11 +105,47 @@ internal class TagAnalyzer : Analyzer
         base.VisitMethodDeclaration(node);
     }
 
+    public override void VisitSimpleBaseType(SimpleBaseTypeSyntax node)
+    {
+        switch (GetSymbolName(node.Type))
+        {
+            case "System.IDisposable":
+                AddTags(Tags.UsesIDisposable);
+                break;
+            case "System.IComparable":
+                AddTags(Tags.UsesIComparable, Tags.TechniqueCustomComparer);
+                break;
+        }
+
+        switch (GetConstructedFromSymbolName(node.Type))
+        {
+            case "System.IComparable<T>":
+                AddTags(Tags.UsesIComparable, Tags.TechniqueCustomComparer);
+                break;
+            case "System.IEquatable<T>":
+                AddTags(Tags.UsesIEquatable, Tags.TechniqueEqualityComparison);
+                break;
+        }
+        
+
+        base.VisitSimpleBaseType(node);
+    }
+
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
         if (node.TypeParameterList != null)
             AddTags(Tags.ConstructGenericType);
 
+        if (GetDeclaredSymbol(node) is INamedTypeSymbol namedTypeSymbol &&
+            DerivesFromException(namedTypeSymbol))
+            AddTags(Tags.TechniqueExceptions, Tags.ConstructUserDefinedException);
+
+        if (node.BaseList != null)
+            AddTags(Tags.TechniqueInheritance);
+        
+        if (node.Ancestors().OfType<ClassDeclarationSyntax>().Any())
+            AddTags(Tags.ConstructNestedType);
+        
         AddTags(Tags.ConstructClass, Tags.ParadigmObjectOriented);
         base.VisitClassDeclaration(node);
     }
@@ -103,28 +170,49 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitTupleExpression(TupleExpressionSyntax node)
     {
-        AddTags(Tags.ConstructTuple);
+        AddTags(Tags.ConstructTuple, Tags.UsesValueTuple);
         base.VisitTupleExpression(node);
     }
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        AddTags(Tags.ConstructInvocation);
+        AddTags(Tags.ConstructInvocation, Tags.ConstructMethod);
 
-        var symbol = SemanticModel.GetSymbolInfo(node).Symbol;
-        if (symbol is not null)
-        {
-            if (symbol.ContainingNamespace.ToDisplayString() == "System.Linq")
-                AddTags(Tags.UsesLinq, Tags.ParadigmFunctional);
-        }
+        if (GetSymbol(node) is not null && GetSymbol(node).ContainingNamespace.ToDisplayString() == "System.Linq")
+            AddTags(Tags.ConstructLinq, Tags.ParadigmFunctional);
+        
+        if (GetSymbolName(node) == "object.GetType()")
+            AddTags(Tags.ParadigmReflective);
+
+        if (GetConstructedFromSymbolName(node) ==
+            "System.Collections.Generic.IEnumerable<TSource>.AsParallel<TSource>()")
+            AddTags(Tags.UsesEnumerableAsParallel, Tags.TechniqueParallelism);
 
         base.VisitInvocationExpression(node);
+    }
+
+    public override void VisitTypeOfExpression(TypeOfExpressionSyntax node)
+    {
+        AddTags(Tags.ParadigmReflective);
+        base.VisitTypeOfExpression(node);
+    }
+
+    public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
+    {
+        AddTags(Tags.ConstructNamespace);
+        base.VisitNamespaceDeclaration(node);
+    }
+
+    public override void VisitFileScopedNamespaceDeclaration(FileScopedNamespaceDeclarationSyntax node)
+    {
+        AddTags(Tags.ConstructNamespace, Tags.ConstructFileScopedNamespace);
+        base.VisitFileScopedNamespaceDeclaration(node);
     }
 
     public override void VisitVariableDeclaration(VariableDeclarationSyntax node)
     {
         VisitTypeInfo(GetTypeInfo(node.Type));
-
+        AddTags(Tags.ConstructVariable);
         base.VisitVariableDeclaration(node);
     }
 
@@ -181,7 +269,7 @@ internal class TagAnalyzer : Analyzer
                 AddTags(Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting, Tags.ConstructRightShift, Tags.TechniqueCompoundAssignment);
                 break;
             case SyntaxKind.AsExpression:
-                AddTags(Tags.ConstructAsCast, Tags.TechniqueTypeConversion);
+                AddTags(Tags.TechniqueTypeConversion, Tags.ConstructAsCast);
                 break;
             case SyntaxKind.MultiplyExpression:
                 AddTags(Tags.ConstructMultiply);
@@ -236,7 +324,7 @@ internal class TagAnalyzer : Analyzer
         AddTags(Tags.ConstructProperty);
         
         if (node.ExpressionBody is not null)
-            AddTags(Tags.UsesExpressionBodiedMember);
+            AddTags(Tags.ConstructExpressionBodiedMember);
         
         VisitTypeInfo(GetTypeInfo(node.Type));
 
@@ -251,11 +339,13 @@ internal class TagAnalyzer : Analyzer
             AddTags(Tags.ConstructSetter);
 
         if (getAccessor is {Body: null} && setAccessor is {Body: null} or null)
-            AddTags(Tags.UsesAutoImplementedProperty);
+            AddTags(Tags.ConstructAutoImplementedProperty);
 
         base.VisitPropertyDeclaration(node);
     }
 
+    
+    
     public override void VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
     {
         AddTags(Tags.ConstructLocalFunction);
@@ -272,6 +362,9 @@ internal class TagAnalyzer : Analyzer
 
         switch (node.Kind())
         {
+            case SyntaxKind.NullLiteralExpression:
+                AddTags(Tags.ConstructNullability, Tags.ConstructNull);
+                break;
             case SyntaxKind.NumericLiteralExpression:
                 AddTags(Tags.ConstructNumber);
             
@@ -281,10 +374,10 @@ internal class TagAnalyzer : Analyzer
                     AddTags(Tags.ConstructBinaryNumber);
                 else if (node.Token.Text.Contains('.', StringComparison.OrdinalIgnoreCase) && 
                          node.Token.Text.Contains('e', StringComparison.OrdinalIgnoreCase))
-                    AddTags(Tags.ConstructScientificNumber);
+                    AddTags(Tags.ConstructScientificNotationNumber);
             
                 if (node.Token.Text.Contains('_'))
-                    AddTags(Tags.ConstructUnderscoreNumberNotation);
+                    AddTags(Tags.ConstructUnderscoredNumber);
                 break;
             case SyntaxKind.StringLiteralExpression:
                 var lineSpan = node.GetLocation().GetLineSpan();
@@ -313,31 +406,31 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitAwaitExpression(AwaitExpressionSyntax node)
     {
-        AddTags(Tags.ConstructAsyncAwait);
+        AddTags(Tags.ConstructAsyncAwait, Tags.TechniqueConcurrency);
         base.VisitAwaitExpression(node);
     }
 
     public override void VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
     {
-        AddTags(Tags.ConstructLambda, Tags.ParadigmFunctional);
+        AddTags(Tags.ConstructLambda, Tags.ParadigmFunctional, Tags.TechniqueHigherOrderFunctions);
         base.VisitSimpleLambdaExpression(node);
     }
 
     public override void VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
     {
-        AddTags(Tags.ConstructLambda, Tags.ParadigmFunctional);
+        AddTags(Tags.ConstructLambda, Tags.ParadigmFunctional, Tags.TechniqueHigherOrderFunctions);
         base.VisitParenthesizedLambdaExpression(node);
     }
 
     public override void VisitCastExpression(CastExpressionSyntax node)
     {
-        AddTags(Tags.ConstructCast, Tags.TechniqueTypeConversion);
+        AddTags(Tags.TechniqueTypeConversion, Tags.ConstructExplicitConversion);
         base.VisitCastExpression(node);
     }
 
     public override void VisitIsPatternExpression(IsPatternExpressionSyntax node)
     {
-        AddTags(Tags.ConstructIsCast, Tags.ConstructPatternMatching);
+        AddTags(Tags.TechniqueTypeConversion, Tags.ConstructIsCast, Tags.ConstructPatternMatching);
         base.VisitIsPatternExpression(node);
     }
 
@@ -352,20 +445,27 @@ internal class TagAnalyzer : Analyzer
     public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
     {
         if (node.ExpressionBody is not null)
-            AddTags(Tags.UsesExpressionBodiedMember);
+            AddTags(Tags.ConstructExpressionBodiedMember);
         
         base.VisitConstructorDeclaration(node);
     }
 
     public override void VisitQueryExpression(QueryExpressionSyntax node)
     {
-        AddTags(Tags.ConstructQueryExpression, Tags.UsesLinq, Tags.ParadigmFunctional, Tags.ParadigmDeclarative);
+        AddTags(Tags.ConstructQueryExpression, Tags.ConstructLinq, Tags.ParadigmFunctional, Tags.ParadigmDeclarative);
         base.VisitQueryExpression(node);
     }
 
     public override void VisitFieldDeclaration(FieldDeclarationSyntax node)
     {
         AddTags(Tags.ConstructField);
+        
+        if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ReadOnlyKeyword)))
+            AddTags(Tags.ConstructReadOnly);
+        
+        if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ConstKeyword)))
+            AddTags(Tags.ConstructConst);
+        
         base.VisitFieldDeclaration(node);
     }
 
@@ -375,48 +475,69 @@ internal class TagAnalyzer : Analyzer
         base.VisitAssignmentExpression(node);
     }
 
+    public override void VisitEnumDeclaration(EnumDeclarationSyntax node)
+    {
+        if (node.AttributeLists.Any(attributeList => attributeList.Attributes.Select(GetSymbolName).Contains("System.FlagsAttribute.FlagsAttribute()")))
+            AddTags(Tags.ConstructFlagsEnum);
+
+        AddTags(Tags.ConstructEnum);
+        base.VisitEnumDeclaration(node);
+    }
+
+    public override void VisitTrivia(SyntaxTrivia trivia)
+    {
+        if (trivia.IsKind(SyntaxKind.XmlComment))
+            AddTags(Tags.ConstructXmlComment, Tags.ConstructComment);
+        
+        if (trivia.IsKind(SyntaxKind.MultiLineCommentTrivia) ||
+            trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
+            AddTags(Tags.ConstructComment);
+            
+        base.VisitTrivia(trivia);
+    }
+
     private void VisitTypeSymbol(ITypeSymbol typeSymbol)
     {
         switch (typeSymbol?.SpecialType)
         {
             case SpecialType.System_Int16:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesShort);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructShort);
                 break;
             case SpecialType.System_Int32:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesInt);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructInt);
                 break;
             case SpecialType.System_Int64:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesLong);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructLong);
                 break;
             case SpecialType.System_Byte:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesByte);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructByte);
                 break;
             case SpecialType.System_UInt16:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUshort);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructUshort);
                 break;
             case SpecialType.System_UInt32:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUint);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructUint);
                 break;
             case SpecialType.System_UInt64:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesUlong);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructUlong);
                 break;
             case SpecialType.System_SByte:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesSbyte);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructSbyte);
                 break;
             case SpecialType.System_IntPtr:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesNint);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructNint);
                 break;
             case SpecialType.System_UIntPtr:
-                AddTags(Tags.ConstructIntegralNumber, Tags.UsesNuint);
+                AddTags(Tags.ConstructIntegralNumber, Tags.ConstructNuint);
                 break;
             case SpecialType.System_Single:
-                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesFloat);
+                AddTags(Tags.ConstructFloatingPointNumber, Tags.ConstructFloat);
                 break;
             case SpecialType.System_Double:
-                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesDouble);
+                AddTags(Tags.ConstructFloatingPointNumber, Tags.ConstructDouble);
                 break;
             case SpecialType.System_Decimal:
-                AddTags(Tags.ConstructFloatingPointNumber, Tags.UsesDecimal);
+                AddTags(Tags.ConstructFloatingPointNumber, Tags.ConstructDecimal);
                 break;
             case SpecialType.System_String:
                 AddTags(Tags.ConstructString);
@@ -458,16 +579,16 @@ internal class TagAnalyzer : Analyzer
                 AddTags(Tags.UsesIEnumerator);
                 break;
             case SpecialType.System_Collections_Generic_IReadOnlyList_T:
-                AddTags(Tags.UsesIReadOnlyList, Tags.TechniqueImmutability);
+                AddTags(Tags.UsesIReadOnlyList, Tags.TechniqueImmutability, Tags.TechniqueImmutableCollection);
                 break;
             case SpecialType.System_Collections_Generic_IReadOnlyCollection_T:
-                AddTags(Tags.UsesIReadOnlyCollection, Tags.TechniqueImmutability);
+                AddTags(Tags.UsesIReadOnlyCollection, Tags.TechniqueImmutability, Tags.TechniqueImmutableCollection);
                 break;
             case SpecialType.System_Nullable_T:
-                AddTags(Tags.ConstructNullable);
+                AddTags(Tags.ConstructNullable, Tags.ConstructNullability);
                 break;
             case SpecialType.System_DateTime:
-                AddTags(Tags.ConstructDateTime);
+                AddTags(Tags.ConstructDateTime, Tags.UsesDateTime);
                 break;
             case SpecialType.System_IDisposable:
                 AddTags(Tags.UsesIDisposable, Tags.TechniqueMemoryManagement);
@@ -523,6 +644,27 @@ internal class TagAnalyzer : Analyzer
                 case "System.ReadOnlyMemory<T>":
                     AddTags(Tags.UsesMemory, Tags.TechniquePerformance, Tags.TechniqueMemoryManagement, Tags.TechniqueImmutability);
                     break;
+                case "System.Tuple<T1>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
+                case "System.Tuple<T1, T2>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
+                case "System.Tuple<T1, T2, T3>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
+                case "System.Tuple<T1, T2, T3, T4>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
+                case "System.Tuple<T1, T2, T3, T4, T5>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
+                case "System.Tuple<T1, T2, T3, T4, T5, T6>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
+                case "System.Tuple<T1, T2, T3, T4, T5, T6, T7>":
+                    AddTags(Tags.ConstructTuple, Tags.UsesTuple);
+                    break;
             }
         }
         else
@@ -545,7 +687,16 @@ internal class TagAnalyzer : Analyzer
                     AddTags(Tags.UsesStringBuilder);
                     break;
                 case "System.Random":    
-                    AddTags(Tags.TechniqueRandomess, Tags.UsesRandom);
+                    AddTags(Tags.TechniqueRandomness, Tags.UsesRandom);
+                    break;
+                case "System.TimeZoneInfo":
+                    AddTags(Tags.ConstructDateTime, Tags.UsesTimeZoneInfo);
+                    break;
+                case "System.TimeOnly":
+                    AddTags(Tags.ConstructDateTime, Tags.UsesTimeOnly);
+                    break;
+                case "System.DateOnly":
+                    AddTags(Tags.ConstructDateTime, Tags.UsesDateOnly);
                     break;
             }
         }
@@ -555,6 +706,10 @@ internal class TagAnalyzer : Analyzer
     {
         if (typeInfo.ConvertedType != null)
             VisitTypeSymbol(typeInfo.ConvertedType);
+        
+        if (typeInfo.ConvertedType is not null && typeInfo.Type is not null &&
+            !typeInfo.ConvertedType.Equals(typeInfo.Type, SymbolEqualityComparer.Default))
+            AddTags(Tags.ConstructImplicitConversion);
     }
 
     public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
@@ -570,43 +725,148 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitWhileStatement(WhileStatementSyntax node)
     {
-        AddTags(Tags.ConstructWhileLoop);
+        AddTags(Tags.ConstructWhileLoop, Tags.TechniqueLooping);
         base.VisitWhileStatement(node);
     }
 
     public override void VisitDoStatement(DoStatementSyntax node)
     {
-        AddTags(Tags.ConstructDoLoop);
+        AddTags(Tags.ConstructDoLoop, Tags.TechniqueLooping);
         base.VisitDoStatement(node);
     }
 
     public override void VisitThrowExpression(ThrowExpressionSyntax node)
     {
-        AddTags(Tags.ConstructException);
+        AddTags(Tags.TechniqueExceptions, Tags.ConstructThrow, Tags.ConstructThrowExpression);
         base.VisitThrowExpression(node);
     }
 
     public override void VisitThrowStatement(ThrowStatementSyntax node)
     {
-        AddTags(Tags.ConstructException);
+        AddTags(Tags.TechniqueExceptions, Tags.ConstructThrow);
         base.VisitThrowStatement(node);
+    }
+
+    public override void VisitFinallyClause(FinallyClauseSyntax node)
+    {
+        AddTags(Tags.TechniqueExceptions, Tags.ConstructFinally);
+        base.VisitFinallyClause(node);
+    }
+
+    public override void VisitTryStatement(TryStatementSyntax node)
+    {
+        AddTags(Tags.TechniqueExceptions, Tags.ConstructTry);
+        base.VisitTryStatement(node);
+    }
+
+    public override void VisitCatchClause(CatchClauseSyntax node)
+    {
+        AddTags(Tags.TechniqueExceptions, Tags.ConstructCatch);
+        base.VisitCatchClause(node);
+    }
+
+    public override void VisitCatchFilterClause(CatchFilterClauseSyntax node)
+    {
+        AddTags(Tags.TechniqueExceptions, Tags.ConstructCatchFilter);
+        base.VisitCatchFilterClause(node);
     }
 
     public override void VisitYieldStatement(YieldStatementSyntax node)
     {
-        AddTags(Tags.TechniqueLaziness, Tags.UsesYield);
+        AddTags(Tags.TechniqueLaziness, Tags.ConstructYield);
         base.VisitYieldStatement(node);
     }
 
     public override void VisitElementAccessExpression(ElementAccessExpressionSyntax node)
     {
+        AddTags(Tags.ConstructIndexer);
         VisitTypeInfo(GetTypeInfo(node.Expression));
         base.VisitElementAccessExpression(node);
     }
 
+    public override void VisitAttribute(AttributeSyntax node)
+    {
+        AddTags(Tags.ConstructAttribute);
+        base.VisitAttribute(node);
+    }
+
+    public override void VisitConversionOperatorDeclaration(ConversionOperatorDeclarationSyntax node)
+    {
+        if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ImplicitKeyword)))
+            AddTags(Tags.ConstructImplicitConversion);
+        else if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.ExplicitKeyword)))
+            AddTags(Tags.ConstructExplicitConversion);
+        
+        AddTags(Tags.ConstructConversionOperator);
+        base.VisitConversionOperatorDeclaration(node);
+    }
+
+    public override void VisitOperatorDeclaration(OperatorDeclarationSyntax node)
+    {
+        AddTags(Tags.ConstructOperatorOverloading);
+        base.VisitOperatorDeclaration(node);
+    }
+
+    public override void VisitInitializerExpression(InitializerExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructInitializer);
+
+        if (node.IsKind(SyntaxKind.ObjectInitializerExpression))
+            AddTags(Tags.ConstructObjectInitializer);
+        else if (node.IsKind(SyntaxKind.CollectionInitializerExpression))
+            AddTags(Tags.ConstructCollectionInitializer);
+            
+        base.VisitInitializerExpression(node);
+    }
+
+    public override void VisitCheckedExpression(CheckedExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructOverflow, Tags.ConstructCheckedExpression);
+        base.VisitCheckedExpression(node);
+    }
+
+    public override void VisitCheckedStatement(CheckedStatementSyntax node)
+    {
+        AddTags(Tags.ConstructOverflow, Tags.ConstructChecked);
+        base.VisitCheckedStatement(node);
+    }
+
+    public override void VisitUsingStatement(UsingStatementSyntax node)
+    {
+        AddTags(Tags.ConstructUsingStatement);
+        base.VisitUsingStatement(node);
+    }
+
+    public override void VisitUsingDirective(UsingDirectiveSyntax node)
+    {
+        AddTags(Tags.ConstructUsingDirective);
+        base.VisitUsingDirective(node);
+    }
+
+    public override void VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
+    {
+        if (node.UsingKeyword.IsKind(SyntaxKind.UsingKeyword))
+            AddTags(Tags.ConstructUsingStatement);
+
+        base.VisitLocalDeclarationStatement(node);
+    }
+
+    public override void VisitUnsafeStatement(UnsafeStatementSyntax node)
+    {
+        AddTags(Tags.TechniqueUnsafe);
+        base.VisitUnsafeStatement(node);
+    }
+
+    public override void VisitPrefixUnaryExpression(PrefixUnaryExpressionSyntax node)
+    {
+        if (node.IsKind(SyntaxKind.AddressOfExpression))
+            AddTags(Tags.TechniquePointers);
+        base.VisitPrefixUnaryExpression(node);
+    }
+
     private bool UsesRecursion(SyntaxNode methodOrFunctionNode)
     {
-        var methodOrFunctionSymbol = SemanticModel.GetDeclaredSymbol(methodOrFunctionNode);
+        var methodOrFunctionSymbol = GetDeclaredSymbol(methodOrFunctionNode);
         if (methodOrFunctionSymbol is null)
             return false;
 
@@ -616,6 +876,33 @@ internal class TagAnalyzer : Analyzer
             .Any(invokedSymbol => methodOrFunctionSymbol.Equals(invokedSymbol, SymbolEqualityComparer.IncludeNullability));
     }
 
+    private bool DerivesFromException(INamedTypeSymbol symbol)
+    {
+        if (symbol.BaseType == null)
+            return false;
+
+        if (symbol.BaseType.ToDisplayString() == "System.Exception")
+            return true;
+
+        return DerivesFromException(symbol.BaseType);
+    }
+
+    private static bool IsFunctionalType(INamedTypeSymbol symbol) =>
+        FunctionalTypeNames.Contains(symbol.ConstructedFrom.ToDisplayString());
+
+    private static readonly HashSet<string> FunctionalTypeNames = new()
+    {
+        "System.Action<T>",
+        "System.Func<T>",
+        "System.Func<T, TResult>",
+        "System.Func<T1, T2, TResult>",
+        "System.Func<T1, T2, T3, TResult>",
+        "System.Func<T1, T2, T3, T4, TResult>",
+        "System.Func<T1, T2, T3, T4, T5, TResult>",
+        "System.Func<T1, T2, T3, T4, T5, T6, TResult>",
+        "System.Func<T1, T2, T3, T4, T5, T6, T7, TResult>",
+    };
+
     private static class Tags
     {
         // Paradigms
@@ -623,167 +910,213 @@ internal class TagAnalyzer : Analyzer
         public const string ParadigmFunctional = "paradigm:functional";
         public const string ParadigmImperative = "paradigm:imperative";
         public const string ParadigmObjectOriented = "paradigm:object-oriented";
+        public const string ParadigmReflective = "paradigm:reflective";
 
         // Techniques
-        public const string TechniqueRecursion = "technique:recursion";
-        public const string TechniqueCustomComparer = "technique:custom-comparer";
-        public const string TechniqueLocks = "technique:locks";
-        public const string TechniqueMutexes = "technique:mutexes";
-        public const string TechniqueAnswerArray = "technique:answer-array";
-        public const string TechniqueRegularExpression = "technique:regular-expression";
-        public const string TechniqueIteration = "technique:iteration";
-        public const string TechniqueMath = "technique:math";
-        public const string TechniqueMapToInteger = "technique:map-to-integer";
-        public const string TechniqueTypeConversion = "technique:type-conversion";
-        public const string TechniqueHigherOrderFunctions = "technique:higher-order-functions";
         public const string TechniqueBitManipulation = "technique:bit-manipulation";
         public const string TechniqueBitShifting = "technique:bit-shifting";
         public const string TechniqueBooleanLogic = "technique:boolean-logic";
-        public const string TechniqueLaziness = "technique:laziness";
-        public const string TechniqueParallelism = "technique:parallelism";
-        public const string TechniqueConcurrency = "technique:concurrency";
-        public const string TechniqueImmutability = "technique:immutability";
         public const string TechniqueCompoundAssignment = "technique:compound-assignment";
-        public const string TechniquePointers = "technique:pointers";
-        public const string TechniquePerformance = "technique:performance";
+        public const string TechniqueConcurrency = "technique:concurrency";
+        public const string TechniqueCustomComparer = "technique:custom-comparer";
+        public const string TechniqueEnumeration = "technique:enumeration";
+        public const string TechniqueEqualityComparison = "technique:equality-comparison";
+        public const string TechniqueExceptions = "technique:exceptions";
+        public const string TechniqueHigherOrderFunctions = "technique:higher-order-functions";
+        public const string TechniqueImmutability = "technique:immutability";
+        public const string TechniqueImmutableCollection = "technique:immutable-collection";
+        public const string TechniqueInheritance = "technique:inheritance";
+        public const string TechniqueLaziness = "technique:laziness";
+        public const string TechniqueLocks = "technique:locks";
+        public const string TechniqueLooping = "technique:looping";
         public const string TechniqueMemoryManagement = "technique:memory-management";
-        public const string TechniqueSorting = "technique:sorting";
+        public const string TechniqueMutexes = "technique:mutexes";
+        public const string TechniqueParallelism = "technique:parallelism";
+        public const string TechniquePerformance = "technique:performance";
+        public const string TechniquePointers = "technique:pointers";
+        public const string TechniqueRandomness = "technique:randomness";
+        public const string TechniqueRecursion = "technique:recursion";
+        public const string TechniqueRegularExpression = "technique:regular-expression";
         public const string TechniqueSortedCollection = "technique:sorted-collection";
-        public const string TechniqueRandomess = "technique:randomness";
+        public const string TechniqueSorting = "technique:sorting";
+        public const string TechniqueTypeConversion = "technique:type-conversion";
+        public const string TechniqueUnsafe = "technique:unsafe";
 
         // Constructs
-        public const string ConstructIf = "construct:if";
-        public const string ConstructTernary = "construct:ternary";
-        public const string ConstructGenericType = "construct:generic-type";
-        public const string ConstructGenericMethod = "construct:generic-method";
-        public const string ConstructInvocation = "construct:invocation";
-        public const string ConstructMethod = "construct:method";
+        public const string ConstructAdd = "construct:add";
+        public const string ConstructAsCast = "construct:as-cast";
+        public const string ConstructAssignment = "construct:assignment";
+        public const string ConstructAsyncAwait = "construct:async-await";
+        public const string ConstructAttribute = "construct:attribute";
+        public const string ConstructAutoImplementedProperty = "construct:auto-implemented-property";
+        public const string ConstructBitwiseAnd = "construct:bitwise-and";
+        public const string ConstructBitwiseNot = "construct:bitwise-not";
+        public const string ConstructBitwiseOr = "construct:bitwise-or";
+        public const string ConstructBitwiseXor = "construct:bitwise-xor";
+        public const string ConstructBreak = "construct:break";
+        public const string ConstructCatch = "construct:catch";
+        public const string ConstructCatchFilter = "construct:catch-filter";
+        public const string ConstructChecked = "construct:checked";
+        public const string ConstructCheckedExpression = "construct:checked-expression";
+        public const string ConstructCollectionInitializer = "construct:collection-initializer";
+        public const string ConstructConst = "construct:const";
+        public const string ConstructConstructor = "construct:constructor";
+        public const string ConstructContinue = "construct:continue";
+        public const string ConstructConversionOperator = "construct:conversion-operator";
+        public const string ConstructDivide = "construct:divide";
+        public const string ConstructDoLoop = "construct:do-loop";
+        public const string ConstructExplicitConversion = "construct:explicit-conversion";
+        public const string ConstructExpressionBodiedMember = "construct:expression-bodied-member";
         public const string ConstructExtensionMethod = "construct:extension-method";
-        public const string ConstructLocalFunction = "construct:local-function";
-        public const string ConstructParameter = "construct:parameter";
-        public const string ConstructOptionalParameter = "construct:optional-parameter";
-        public const string ConstructSwitchExpression = "construct:switch-expression";
-        public const string ConstructSwitch = "construct:switch";
+        public const string ConstructField = "construct:field";
+        public const string ConstructFileScopedNamespace = "construct:file-scoped-namespace";
+        public const string ConstructFinally = "construct:finally";
         public const string ConstructForeach = "construct:foreach";
         public const string ConstructForLoop = "construct:for-loop";
-        public const string ConstructWhileLoop = "construct:while-loop";
-        public const string ConstructDoLoop = "construct:do-loop";
-        public const string ConstructLogicalAnd = "construct:logical-and";
-        public const string ConstructLogicalOr = "construct:logical-or";
-        public const string ConstructLogicalNot = "construct:logical-not";
-        public const string ConstructLeftShift = "construct:left-shift";
-        public const string ConstructRightShift = "construct:right-shift";
-        public const string ConstructBitwiseAnd = "construct:bitwise-and";
-        public const string ConstructBitwiseOr = "construct:bitwise-or";
-        public const string ConstructBitwiseNot = "construct:bitwise-not";
-        public const string ConstructBitwiseXor = "construct:bitwise-xor";
-        public const string ConstructAsyncAwait = "construct:async-await";
-        public const string ConstructLambda = "construct:lambda";
-        public const string ConstructField = "construct:field";
-        public const string ConstructProperty = "construct:property";
+        public const string ConstructGenericMethod = "construct:generic-method";
+        public const string ConstructGenericType = "construct:generic-type";
         public const string ConstructGetter = "construct:getter";
-        public const string ConstructSetter = "construct:setter";
+        public const string ConstructIf = "construct:if";
+        public const string ConstructImplicitConversion = "construct:implicit-conversion";
+        public const string ConstructIndexer = "construct:indexer";
+        public const string ConstructInitializer = "construct:initializer";
+        public const string ConstructInvocation = "construct:invocation";
         public const string ConstructIsCast = "construct:is-cast";
-        public const string ConstructAsCast = "construct:as-cast";
-        public const string ConstructCast = "construct:cast";
-        public const string ConstructVisibilityModifiers = "construct:visibility-modifiers";
-        public const string ConstructPatternMatching = "construct:pattern-matching";
-        public const string ConstructBreak = "construct:break";
-        public const string ConstructContinue = "construct:continue";
-        public const string ConstructReturn = "construct:return";
-        public const string ConstructTypeInference = "construct:type-inference";
-        public const string ConstructQueryExpression = "construct:query-expression";
-        public const string ConstructAssignment = "construct:assignment";
-        public const string ConstructEnumeration = "construct:enumeration";
-        public const string ConstructException = "construct:exception";
-        public const string ConstructMultiply = "construct:multiply";
-        public const string ConstructDivide = "construct:divide";
-        public const string ConstructAdd = "construct:add";
-        public const string ConstructSubtract = "construct:subtract";
-        public const string ConstructMethodOverloading = "construct:method-overloading";
+        public const string ConstructLambda = "construct:lambda";
+        public const string ConstructLeftShift = "construct:left-shift";
+        public const string ConstructLinq = "construct:linq";
+        public const string ConstructLocalFunction = "construct:local-function";
         public const string ConstructLock = "construct:lock";
-        public const string ConstructConstructor = "construct:constructor";
-
+        public const string ConstructLogicalAnd = "construct:logical-and";
+        public const string ConstructLogicalNot = "construct:logical-not";
+        public const string ConstructLogicalOr = "construct:logical-or";
+        public const string ConstructMethod = "construct:method";
+        public const string ConstructMethodOverloading = "construct:method-overloading";
+        public const string ConstructMultiply = "construct:multiply";
+        public const string ConstructNamedArgument = "construct:named-argument";
+        public const string ConstructNamespace = "construct:namespace";
+        public const string ConstructNestedType = "construct:nested-type";
+        public const string ConstructObjectInitializer = "construct:object-initializer";
+        public const string ConstructOperatorOverloading = "construct:operator-overloading";
+        public const string ConstructOptionalParameter = "construct:optional-parameter";
+        public const string ConstructOverflow = "construct:overflow";
+        public const string ConstructParameter = "construct:parameter";
+        public const string ConstructPatternMatching = "construct:pattern-matching";
+        public const string ConstructProperty = "construct:property";
+        public const string ConstructQueryExpression = "construct:query-expression";
+        public const string ConstructReadOnly = "construct:read-only";
+        public const string ConstructReturn = "construct:return";
+        public const string ConstructRightShift = "construct:right-shift";
+        public const string ConstructSetter = "construct:setter";
+        public const string ConstructSubtract = "construct:subtract";
+        public const string ConstructSwitch = "construct:switch";
+        public const string ConstructSwitchExpression = "construct:switch-expression";
+        public const string ConstructTernary = "construct:ternary";
+        public const string ConstructThrow = "construct:throw";
+        public const string ConstructThrowExpression = "construct:throw-expression";
+        public const string ConstructTry = "construct:try";
+        public const string ConstructTypeInference = "construct:type-inference";
+        public const string ConstructUserDefinedException = "construct:user-defined-exception";
+        public const string ConstructUsingDirective = "construct:using-directive";
+        public const string ConstructUsingStatement = "construct:using-statement";
+        public const string ConstructVarargs = "construct:varargs";
+        public const string ConstructVariable = "construct:variable";
+        public const string ConstructVisibilityModifiers = "construct:visibility-modifiers";
+        public const string ConstructWhileLoop = "construct:while-loop";
+        public const string ConstructYield = "construct:yield";
+        
         // Constructs - types
-        public const string ConstructBoolean = "construct:boolean";
-        public const string ConstructString = "construct:string";
-        public const string ConstructChar = "construct:char";
-        public const string ConstructNumber = "construct:number";
-        public const string ConstructIntegralNumber = "construct:integral-number";
-        public const string ConstructFloatingPointNumber = "construct:floating-point-number";
-        public const string ConstructBigInteger = "construct:big-integer";
-        public const string ConstructList = "construct:list";
-        public const string ConstructSet = "construct:set";
         public const string ConstructArray = "construct:array";
-        public const string ConstructStack = "construct:stack";
-        public const string ConstructQueue = "construct:queue";
-        public const string ConstructDictionary = "construct:dictionary";
-        public const string ConstructStruct = "construct:struct";
-        public const string ConstructRecord = "construct:record";
-        public const string ConstructClass = "construct:class";
-        public const string ConstructInterface = "construct:interface";
-        public const string ConstructTuple = "construct:tuple";
-        public const string ConstructDateTime = "construct:date-time";
-        public const string ConstructNullable = "construct:nullable";
-        public const string ConstructEnum = "construct:enum";
-        public const string ConstructLinkedList = "construct:linked-list";
+        public const string ConstructBigInteger = "construct:big-integer";
         public const string ConstructBitArray = "construct:bit-array";
+        public const string ConstructBoolean = "construct:boolean";
+        public const string ConstructByte = "construct:byte";
+        public const string ConstructChar = "construct:char";
+        public const string ConstructClass = "construct:class";
+        public const string ConstructDateTime = "construct:date-time";
+        public const string ConstructDecimal = "construct:decimal";
+        public const string ConstructDictionary = "construct:dictionary";
+        public const string ConstructDouble = "construct:double";
+        public const string ConstructEnum = "construct:enum";
+        public const string ConstructFlagsEnum = "construct:flags-enum";
+        public const string ConstructFloat = "construct:float";
+        public const string ConstructFloatingPointNumber = "construct:floating-point-number";
+        public const string ConstructInt = "construct:int";
+        public const string ConstructIntegralNumber = "construct:integral-number";
+        public const string ConstructInterface = "construct:interface";
+        public const string ConstructLinkedList = "construct:linked-list";
+        public const string ConstructList = "construct:list";
+        public const string ConstructLong = "construct:long";
+        public const string ConstructNint = "construct:nint";
+        public const string ConstructNuint = "construct:nuint";
+        public const string ConstructNull = "construct:null";
+        public const string ConstructNullability = "construct:nullability";
+        public const string ConstructNullable = "construct:nullable";
+        public const string ConstructNumber = "construct:number";
+        public const string ConstructQueue = "construct:queue";
+        public const string ConstructRecord = "construct:record";
+        public const string ConstructSbyte = "construct:sbyte";
+        public const string ConstructSet = "construct:set";
+        public const string ConstructShort = "construct:short";
+        public const string ConstructStack = "construct:stack";
+        public const string ConstructString = "construct:string";
+        public const string ConstructStruct = "construct:struct";
+        public const string ConstructTuple = "construct:tuple";
+        public const string ConstructUint = "construct:uint";
+        public const string ConstructUlong = "construct:ulong";
+        public const string ConstructUshort = "construct:ushort";
 
         // Constructs - notation
-        public const string ConstructHexadecimalNumber = "construct:hexadecimal-number";
         public const string ConstructBinaryNumber = "construct:binary-number";
-        public const string ConstructScientificNumber = "construct:scientific-number";
-        public const string ConstructUnderscoreNumberNotation = "construct:underscore-number-notation";
+        public const string ConstructHexadecimalNumber = "construct:hexadecimal-number";
         public const string ConstructMultilineString = "construct-multiline-string";
+        public const string ConstructScientificNotationNumber = "construct:scientific-notation-number";
         public const string ConstructStringInterpolation = "construct-string-interpolation";
+        public const string ConstructUnderscoredNumber = "construct:underscored-number";
         public const string ConstructVerbatimString = "construct-verbatim-string";
+        
+        // Constructs - trivia
+        public const string ConstructComment = "construct:comment";
+        public const string ConstructXmlComment = "construct:xml-comment";
 
-        // Uses
-        public const string UsesLinq = "uses:linq";
-        public const string UsesExpressionBodiedMember = "uses:expression-bodied-member";
-        public const string UsesAutoImplementedProperty = "uses:auto-implemented-property";
-        public const string UsesYield = "uses:yield";
-
-        // Uses - types
-        public const string UsesDecimal = "uses:decimal";
-        public const string UsesDouble = "uses:double";
-        public const string UsesFloat = "uses:float";
-        public const string UsesSbyte = "uses:sbyte";
-        public const string UsesByte = "uses:byte";
-        public const string UsesShort = "uses:short";
-        public const string UsesUshort = "uses:ushort";
-        public const string UsesInt = "uses:int";
-        public const string UsesUint = "uses:uint";
-        public const string UsesLong = "uses:long";
-        public const string UsesUlong = "uses:ulong";
-        public const string UsesNint = "uses:nint";
-        public const string UsesNuint = "uses:nuint";
-        public const string UsesSpan = "uses:Span<T>";
-        public const string UsesMemory = "uses:Memort<T>";
-        public const string UsesMutex = "uses:Mutex";
+        // Uses - C#-specific types
+        public const string UsesDateOnly = "uses:DateOnly";
+        public const string UsesDateTime = "uses:DateTime";
         public const string UsesDelegate = "uses:delegate";
-        public const string UsesRegex = "uses:Regex";
-        public const string UsesStringBuilder = "uses:StringBuilder";
+        public const string UsesMemory = "uses:Memory<T>";
+        public const string UsesMutex = "uses:Mutex";
         public const string UsesRandom = "uses:Random";
+        public const string UsesRegex = "uses:Regex";
+        public const string UsesSpan = "uses:Span<T>";
+        public const string UsesStringBuilder = "uses:StringBuilder";
+        public const string UsesTimeOnly = "uses:TimeOnly";
+        public const string UsesTimeZoneInfo = "uses:TimeZoneInfo";
         
         // Uses - collections
-        public const string UsesList = "uses:List<T>";
-        public const string UsesSortedList = "uses:SortedList<T>";
         public const string UsesDictionary = "uses:Dictionary<TKey,TValue>";
-        public const string UsesSortedDictionary = "uses:SortedDictionary<TKey,TValue>";
         public const string UsesHashSet = "uses:HashSet<T>";
+        public const string UsesLinkedList = "uses:LinkedList<T>";
+        public const string UsesList = "uses:List<T>";
+        public const string UsesQueue = "uses:Queue<T>";
+        public const string UsesSortedDictionary = "uses:SortedDictionary<TKey,TValue>";
+        public const string UsesSortedList = "uses:SortedList<T>";
         public const string UsesSortedSet = "uses:SortedSet<T>";
         public const string UsesStack = "uses:Stack<T>";
-        public const string UsesQueue = "uses:Queue<T>";
-        public const string UsesLinkedList = "uses:LinkedList<T>";
+        public const string UsesTuple = "uses:Tuple";
+        public const string UsesValueTuple = "uses:ValueTuple";
         
         // Uses - interfaces
-        public const string UsesIReadOnlyList = "uses:IReadOnlyList<T>";
-        public const string UsesIReadOnlyCollection = "uses:IReadOnlyCollection<T>";
-        public const string UsesIList = "uses:IList<T>";
         public const string UsesICollection = "uses:ICollection<T>";
+        public const string UsesIComparable = "uses:IComparable";
         public const string UsesIDisposable = "uses:IDisposable";
         public const string UsesIEnumerable = "uses:IEnumerable<T>";
         public const string UsesIEnumerator = "uses:IEnumerator<T>";
+        public const string UsesIEquatable = "uses:IEquatable<T>";
+        public const string UsesIList = "uses:IList<T>";
+        public const string UsesIReadOnlyCollection = "uses:IReadOnlyCollection<T>";
+        public const string UsesIReadOnlyList = "uses:IReadOnlyList<T>";
+        
+        // Uses - methods
+        public const string UsesEnumerableAsParallel = "uses:Enumerable.AsParallel";
     }
 }

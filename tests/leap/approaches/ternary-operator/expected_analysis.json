@@ -10,12 +10,14 @@
   ],
   "tags": [
     "construct:class",
+    "construct:int",
     "construct:integral-number",
     "construct:method",
     "construct:number",
     "construct:parameter",
+    "construct:return",
     "construct:ternary",
-    "paradigm:object-oriented",
-    "uses:int"
+    "construct:visibility-modifiers",
+    "paradigm:object-oriented"
   ]
 }

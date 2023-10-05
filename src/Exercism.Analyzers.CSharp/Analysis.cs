@@ -14,12 +14,12 @@ internal record Analysis(List<Comment> Comments, List<string> Tags)
 
 internal abstract class Analyzer : CSharpSyntaxWalker
 {
-    protected Submission Submission;
-    protected Compilation Compilation => Submission.Compilation;
-    protected SemanticModel SemanticModel;
-    protected Analysis Analysis;
+    private readonly Submission _submission;
+    private SemanticModel _semanticModel;
+    private Analysis _analysis;
 
-    protected Analyzer(Submission submission) => Submission = submission;
+    protected Analyzer(Submission submission, SyntaxWalkerDepth syntaxWalkerDepth = SyntaxWalkerDepth.Token) : base(syntaxWalkerDepth) => 
+        _submission = submission;
 
     public static Analysis Analyze(Submission submission)
     {
@@ -34,21 +34,21 @@ internal abstract class Analyzer : CSharpSyntaxWalker
         return analysis;
     }
 
-    protected void AddComment(Comment comment) => Analysis.Comments.Add(comment);
+    protected void AddComment(Comment comment) => _analysis.Comments.Add(comment);
 
     protected void AddTags(params string[] tags)
     {
         foreach (var tag in tags)
-            Analysis.Tags.Add(tag);
+            _analysis.Tags.Add(tag);
     }
 
     private void Analyze(Analysis analysis)
     {
-        Analysis = analysis;
+        _analysis = analysis;
 
-        foreach (var syntaxTree in Compilation.SyntaxTrees)
+        foreach (var syntaxTree in _submission.Compilation.SyntaxTrees)
         {
-            SemanticModel = Compilation.GetSemanticModel(syntaxTree);
+            _semanticModel = _submission.Compilation.GetSemanticModel(syntaxTree);
             Visit(syntaxTree.GetRoot());
         }
     }
@@ -77,9 +77,6 @@ internal abstract class Analyzer : CSharpSyntaxWalker
                 case "pangram":
                     yield return new PangramAnalyzer(submission);
                     break;
-                case "parallel-letter-frequency":
-                    yield return new ParallelLetterFrequencyAnalyzer(submission);
-                    break;
                 case "protein-translation":
                     yield return new ProteinTranslationAnalyzer(submission);
                     break;
@@ -105,14 +102,14 @@ internal abstract class Analyzer : CSharpSyntaxWalker
         }
     }
 
-    protected SymbolInfo GetSymbolInfo(SyntaxNode node) => SemanticModel.GetSymbolInfo(node);
+    protected SymbolInfo GetSymbolInfo(SyntaxNode node) => _semanticModel.GetSymbolInfo(node);
     protected ISymbol GetSymbol(SyntaxNode node) => GetSymbolInfo(node).Symbol;
     protected string GetSymbolName(SyntaxNode node) => GetSymbol(node)?.ToDisplayString();
     
-    protected ISymbol GetDeclaredSymbol(SyntaxNode node) => SemanticModel.GetDeclaredSymbol(node);
+    protected ISymbol GetDeclaredSymbol(SyntaxNode node) => _semanticModel.GetDeclaredSymbol(node);
     protected string GetDeclaredSymbolName(SyntaxNode node) => GetDeclaredSymbol(node)?.ToDisplayString();
 
-    protected TypeInfo GetTypeInfo(SyntaxNode node) => SemanticModel.GetTypeInfo(node);
+    protected TypeInfo GetTypeInfo(SyntaxNode node) => _semanticModel.GetTypeInfo(node);
 
     protected IMethodSymbol GetConstructedFromSymbol(SyntaxNode node) =>
         GetSymbol(node) is IMethodSymbol methodSymbol ? methodSymbol.ConstructedFrom : null;

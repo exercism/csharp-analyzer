@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "FrameworkTypes.csproj"
+      "Types.csproj"
     ],
     "solution": [
-      "FrameworkTypes.cs"
+      "Types.cs"
     ],
     "test": [
-      "FrameworkTypesTests.cs"
+      "TypesTests.cs"
     ]
   }
 }

@@ -2,18 +2,24 @@
   "comments": [],
   "tags": [
     "construct:big-integer",
-    "construct:cast",
     "construct:class",
+    "construct:explicit-conversion",
+    "construct:expression-bodied-member",
+    "construct:implicit-conversion",
     "construct:integral-number",
     "construct:invocation",
+    "construct:lambda",
+    "construct:long",
     "construct:method",
     "construct:number",
     "construct:parameter",
+    "construct:using-directive",
+    "construct:visibility-modifiers",
+    "paradigm:functional",
     "paradigm:object-oriented",
+    "technique:higher-order-functions",
     "technique:randomness",
     "technique:type-conversion",
-    "uses:Random",
-    "uses:expression-bodied-member",
-    "uses:long"
+    "uses:Random"
   ]
 }

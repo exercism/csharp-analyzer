@@ -4,16 +4,19 @@
     "construct:add",
     "construct:class",
     "construct:divide",
+    "construct:expression-bodied-member",
+    "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:method",
     "construct:multiply",
     "construct:number",
     "construct:parameter",
+    "construct:return",
     "construct:subtract",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
-    "technique:math",
-    "uses:expression-bodied-member",
-    "uses:int"
+    "technique:math"
   ]
 }
