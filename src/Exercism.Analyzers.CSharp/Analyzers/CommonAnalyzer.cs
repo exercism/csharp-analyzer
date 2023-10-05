@@ -27,8 +27,8 @@ internal class CommonAnalyzer : Analyzer
                 ReturnStatementSyntax { Expression: IdentifierNameSyntax identifierName }
             ])
         {
-            var declaredSymbol = ModelExtensions.GetDeclaredSymbol(SemanticModel, localDeclarationStatement.Declaration.Variables[0]);
-            var returnedSymbolInfo = ModelExtensions.GetSymbolInfo(SemanticModel, identifierName);
+            var declaredSymbol = GetDeclaredSymbol(localDeclarationStatement.Declaration.Variables[0]);
+            var returnedSymbolInfo = GetSymbolInfo(identifierName);
             if (declaredSymbol!.Equals(returnedSymbolInfo.Symbol, SymbolEqualityComparer.Default))
                 AddComment(Comments.DoNotAssignAndReturn);
         }

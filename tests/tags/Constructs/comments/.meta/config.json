@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Comments.csproj"
+    ],
+    "solution": [
+      "Comments.cs"
+    ],
+    "test": [
+      "CommentsTests.cs"
+    ]
+  }
+}

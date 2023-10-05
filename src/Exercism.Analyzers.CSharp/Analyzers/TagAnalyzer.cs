@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers;
 
 internal class TagAnalyzer : Analyzer
 {
-    public TagAnalyzer(Submission submission) : base(submission)
+    public TagAnalyzer(Submission submission) : base(submission, SyntaxWalkerDepth.Trivia)
     {
     }
 
@@ -109,14 +109,10 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
-        AddTags(Tags.ConstructInvocation);
+        AddTags(Tags.ConstructInvocation, Tags.ConstructMethod);
 
-        var symbol = SemanticModel.GetSymbolInfo(node).Symbol;
-        if (symbol is not null)
-        {
-            if (symbol.ContainingNamespace.ToDisplayString() == "System.Linq")
-                AddTags(Tags.UsesLinq, Tags.ParadigmFunctional);
-        }
+        if (GetSymbol(node) is not null && GetSymbol(node).ContainingNamespace.ToDisplayString() == "System.Linq")
+            AddTags(Tags.UsesLinq, Tags.ParadigmFunctional);
 
         base.VisitInvocationExpression(node);
     }
@@ -425,14 +421,18 @@ internal class TagAnalyzer : Analyzer
     public override void VisitTrivia(SyntaxTrivia trivia)
     {
         if (trivia.IsKind(SyntaxKind.XmlComment))
-            AddTags(Tags.ConstructXmlComment);
+            AddTags(Tags.ConstructXmlComment, Tags.ConstructComment);
+        
+        if (trivia.IsKind(SyntaxKind.MultiLineCommentTrivia) ||
+            trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
+            AddTags(Tags.ConstructComment);
             
         base.VisitTrivia(trivia);
     }
 
     private bool UsesRecursion(SyntaxNode methodOrFunctionNode)
     {
-        var methodOrFunctionSymbol = SemanticModel.GetDeclaredSymbol(methodOrFunctionNode);
+        var methodOrFunctionSymbol = GetDeclaredSymbol(methodOrFunctionNode);
         if (methodOrFunctionSymbol is null)
             return false;
 
@@ -748,6 +748,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructVerbatimString = "construct-verbatim-string";
         
         // Constructs - trivia
+        public const string ConstructComment = "construct:comment";
         public const string ConstructXmlComment = "construct:xml-comment";
 
         // Uses
