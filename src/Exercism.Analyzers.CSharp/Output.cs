@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 
@@ -23,7 +25,7 @@ internal static class Output
         jsonWriter.WriteTags(analysis.Tags);
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
-        fileStream.WriteByte((byte)'\n');
+        fileStream.Write(Encoding.UTF8.GetBytes(Environment.NewLine));
     }
 
     private static string GetAnalysisFilePath(Options options) =>
