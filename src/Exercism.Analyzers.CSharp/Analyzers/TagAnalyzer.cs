@@ -401,53 +401,6 @@ internal class TagAnalyzer : Analyzer
         base.VisitAssignmentExpression(node);
     }
 
-    public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
-    {
-        if (GetSymbol(node.Type) is ITypeSymbol typeSymbol)
-            VisitTypeSymbol(typeSymbol);
-        else
-            VisitTypeInfo(GetTypeInfo(node.Type));
-
-        AddTags(Tags.ConstructConstructor);
-        base.VisitObjectCreationExpression(node);
-    }
-
-    public override void VisitWhileStatement(WhileStatementSyntax node)
-    {
-        AddTags(Tags.ConstructWhileLoop);
-        base.VisitWhileStatement(node);
-    }
-
-    public override void VisitDoStatement(DoStatementSyntax node)
-    {
-        AddTags(Tags.ConstructDoLoop);
-        base.VisitDoStatement(node);
-    }
-
-    public override void VisitThrowExpression(ThrowExpressionSyntax node)
-    {
-        AddTags(Tags.ConstructException);
-        base.VisitThrowExpression(node);
-    }
-
-    public override void VisitThrowStatement(ThrowStatementSyntax node)
-    {
-        AddTags(Tags.ConstructException);
-        base.VisitThrowStatement(node);
-    }
-
-    public override void VisitYieldStatement(YieldStatementSyntax node)
-    {
-        AddTags(Tags.TechniqueLaziness, Tags.UsesYield);
-        base.VisitYieldStatement(node);
-    }
-
-    public override void VisitElementAccessExpression(ElementAccessExpressionSyntax node)
-    {
-        VisitTypeInfo(GetTypeInfo(node.Expression));
-        base.VisitElementAccessExpression(node);
-    }
-
     public override void VisitTrivia(SyntaxTrivia trivia)
     {
         if (trivia.IsKind(SyntaxKind.XmlComment))
@@ -458,18 +411,6 @@ internal class TagAnalyzer : Analyzer
             AddTags(Tags.ConstructComment);
             
         base.VisitTrivia(trivia);
-    }
-
-    private bool UsesRecursion(SyntaxNode methodOrFunctionNode)
-    {
-        var methodOrFunctionSymbol = GetDeclaredSymbol(methodOrFunctionNode);
-        if (methodOrFunctionSymbol is null)
-            return false;
-
-        return methodOrFunctionNode.DescendantNodes()
-            .OfType<InvocationExpressionSyntax>()
-            .Select(invocationExpression => GetSymbolInfo(invocationExpression.Expression).Symbol)
-            .Any(invokedSymbol => methodOrFunctionSymbol.Equals(invokedSymbol, SymbolEqualityComparer.IncludeNullability));
     }
 
     private void VisitTypeSymbol(ITypeSymbol typeSymbol)
@@ -918,9 +859,6 @@ internal class TagAnalyzer : Analyzer
         // Constructs - trivia
         public const string ConstructComment = "construct:comment";
         public const string ConstructXmlComment = "construct:xml-comment";
-        public const string ConstructMultilineString = "construct:multiline-string";
-        public const string ConstructStringInterpolation = "construct:string-interpolation";
-        public const string ConstructVerbatimString = "construct:verbatim-string";
 
         // Uses
         public const string UsesLinq = "uses:linq";
