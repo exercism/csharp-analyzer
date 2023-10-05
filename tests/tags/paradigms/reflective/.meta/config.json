@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "Reflective.csproj"
+    ],
+    "solution": [
+      "Reflective.cs"
+    ],
+    "test": [
+      "ReflectiveTests.cs"
+    ]
+  }
+}

@@ -16,13 +16,13 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitForStatement(ForStatementSyntax node)
     {
-        AddTags(Tags.ConstructForLoop);
+        AddTags(Tags.ConstructForLoop, Tags.TechniqueLooping);
         base.VisitForStatement(node);
     }
 
     public override void VisitForEachStatement(ForEachStatementSyntax node)
     {
-        AddTags(Tags.ConstructForeach, Tags.ConstructEnumeration);
+        AddTags(Tags.ConstructForeach, Tags.TechniqueEnumeration, Tags.TechniqueLooping);
         base.VisitForEachStatement(node);
     }
 
@@ -138,7 +138,7 @@ internal class TagAnalyzer : Analyzer
 
         if (GetDeclaredSymbol(node) is INamedTypeSymbol namedTypeSymbol &&
             DerivesFromException(namedTypeSymbol))
-            AddTags(Tags.ConstructException, Tags.ConstructUserDefinedException);
+            AddTags(Tags.TechniqueExceptions, Tags.ConstructUserDefinedException);
 
         if (node.BaseList != null)
             AddTags(Tags.TechniqueInheritance);
@@ -180,12 +180,21 @@ internal class TagAnalyzer : Analyzer
 
         if (GetSymbol(node) is not null && GetSymbol(node).ContainingNamespace.ToDisplayString() == "System.Linq")
             AddTags(Tags.ConstructLinq, Tags.ParadigmFunctional);
+        
+        if (GetSymbolName(node) == "object.GetType()")
+            AddTags(Tags.ParadigmReflective);
 
         if (GetConstructedFromSymbolName(node) ==
             "System.Collections.Generic.IEnumerable<TSource>.AsParallel<TSource>()")
             AddTags(Tags.UsesEnumerableAsParallel, Tags.TechniqueParallelism);
 
         base.VisitInvocationExpression(node);
+    }
+
+    public override void VisitTypeOfExpression(TypeOfExpressionSyntax node)
+    {
+        AddTags(Tags.ParadigmReflective);
+        base.VisitTypeOfExpression(node);
     }
 
     public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
@@ -716,49 +725,49 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitWhileStatement(WhileStatementSyntax node)
     {
-        AddTags(Tags.ConstructWhileLoop);
+        AddTags(Tags.ConstructWhileLoop, Tags.TechniqueLooping);
         base.VisitWhileStatement(node);
     }
 
     public override void VisitDoStatement(DoStatementSyntax node)
     {
-        AddTags(Tags.ConstructDoLoop);
+        AddTags(Tags.ConstructDoLoop, Tags.TechniqueLooping);
         base.VisitDoStatement(node);
     }
 
     public override void VisitThrowExpression(ThrowExpressionSyntax node)
     {
-        AddTags(Tags.ConstructException, Tags.ConstructThrow, Tags.ConstructThrowExpression);
+        AddTags(Tags.TechniqueExceptions, Tags.ConstructThrow, Tags.ConstructThrowExpression);
         base.VisitThrowExpression(node);
     }
 
     public override void VisitThrowStatement(ThrowStatementSyntax node)
     {
-        AddTags(Tags.ConstructException, Tags.ConstructThrow);
+        AddTags(Tags.TechniqueExceptions, Tags.ConstructThrow);
         base.VisitThrowStatement(node);
     }
 
     public override void VisitFinallyClause(FinallyClauseSyntax node)
     {
-        AddTags(Tags.ConstructException, Tags.ConstructFinally);
+        AddTags(Tags.TechniqueExceptions, Tags.ConstructFinally);
         base.VisitFinallyClause(node);
     }
 
     public override void VisitTryStatement(TryStatementSyntax node)
     {
-        AddTags(Tags.ConstructException, Tags.ConstructTry);
+        AddTags(Tags.TechniqueExceptions, Tags.ConstructTry);
         base.VisitTryStatement(node);
     }
 
     public override void VisitCatchClause(CatchClauseSyntax node)
     {
-        AddTags(Tags.ConstructException, Tags.ConstructCatch);
+        AddTags(Tags.TechniqueExceptions, Tags.ConstructCatch);
         base.VisitCatchClause(node);
     }
 
     public override void VisitCatchFilterClause(CatchFilterClauseSyntax node)
     {
-        AddTags(Tags.ConstructException, Tags.ConstructCatchFilter);
+        AddTags(Tags.TechniqueExceptions, Tags.ConstructCatchFilter);
         base.VisitCatchFilterClause(node);
     }
 
@@ -901,168 +910,170 @@ internal class TagAnalyzer : Analyzer
         public const string ParadigmFunctional = "paradigm:functional";
         public const string ParadigmImperative = "paradigm:imperative";
         public const string ParadigmObjectOriented = "paradigm:object-oriented";
+        public const string ParadigmReflective = "paradigm:reflective";
 
         // Techniques
-        public const string TechniqueRecursion = "technique:recursion";
-        public const string TechniqueCustomComparer = "technique:custom-comparer";
-        public const string TechniqueEqualityComparison = "technique:equality-comparison";
-        public const string TechniqueLocks = "technique:locks";
-        public const string TechniqueMutexes = "technique:mutexes";
-        public const string TechniqueRegularExpression = "technique:regular-expression";
-        public const string TechniqueTypeConversion = "technique:type-conversion";
-        public const string TechniqueHigherOrderFunctions = "technique:higher-order-functions";
         public const string TechniqueBitManipulation = "technique:bit-manipulation";
         public const string TechniqueBitShifting = "technique:bit-shifting";
         public const string TechniqueBooleanLogic = "technique:boolean-logic";
-        public const string TechniqueLaziness = "technique:laziness";
-        public const string TechniqueParallelism = "technique:parallelism";
-        public const string TechniqueConcurrency = "technique:concurrency";
-        public const string TechniqueImmutability = "technique:immutability";
         public const string TechniqueCompoundAssignment = "technique:compound-assignment";
-        public const string TechniquePointers = "technique:pointers";
-        public const string TechniquePerformance = "technique:performance";
-        public const string TechniqueMemoryManagement = "technique:memory-management";
-        public const string TechniqueSorting = "technique:sorting";
+        public const string TechniqueConcurrency = "technique:concurrency";
+        public const string TechniqueCustomComparer = "technique:custom-comparer";
+        public const string TechniqueEnumeration = "technique:enumeration";
+        public const string TechniqueEqualityComparison = "technique:equality-comparison";
+        public const string TechniqueExceptions = "technique:exceptions";
+        public const string TechniqueHigherOrderFunctions = "technique:higher-order-functions";
+        public const string TechniqueImmutability = "technique:immutability";
         public const string TechniqueImmutableCollection = "technique:immutable-collection";
-        public const string TechniqueSortedCollection = "technique:sorted-collection";
-        public const string TechniqueRandomness = "technique:randomness";
         public const string TechniqueInheritance = "technique:inheritance";
+        public const string TechniqueLaziness = "technique:laziness";
+        public const string TechniqueLocks = "technique:locks";
+        public const string TechniqueLooping = "technique:looping";
+        public const string TechniqueMemoryManagement = "technique:memory-management";
+        public const string TechniqueMutexes = "technique:mutexes";
+        public const string TechniqueParallelism = "technique:parallelism";
+        public const string TechniquePerformance = "technique:performance";
+        public const string TechniquePointers = "technique:pointers";
+        public const string TechniqueRandomness = "technique:randomness";
+        public const string TechniqueRecursion = "technique:recursion";
+        public const string TechniqueRegularExpression = "technique:regular-expression";
+        public const string TechniqueSortedCollection = "technique:sorted-collection";
+        public const string TechniqueSorting = "technique:sorting";
+        public const string TechniqueTypeConversion = "technique:type-conversion";
         public const string TechniqueUnsafe = "technique:unsafe";
 
         // Constructs
-        public const string ConstructIf = "construct:if";
-        public const string ConstructTernary = "construct:ternary";
-        public const string ConstructGenericType = "construct:generic-type";
-        public const string ConstructGenericMethod = "construct:generic-method";
-        public const string ConstructInvocation = "construct:invocation";
-        public const string ConstructMethod = "construct:method";
-        public const string ConstructExtensionMethod = "construct:extension-method";
-        public const string ConstructLocalFunction = "construct:local-function";
-        public const string ConstructParameter = "construct:parameter";
-        public const string ConstructOptionalParameter = "construct:optional-parameter";
-        public const string ConstructSwitchExpression = "construct:switch-expression";
-        public const string ConstructSwitch = "construct:switch";
-        public const string ConstructForeach = "construct:foreach";
-        public const string ConstructForLoop = "construct:for-loop";
-        public const string ConstructWhileLoop = "construct:while-loop";
-        public const string ConstructDoLoop = "construct:do-loop";
-        public const string ConstructLogicalAnd = "construct:logical-and";
-        public const string ConstructLogicalOr = "construct:logical-or";
-        public const string ConstructLogicalNot = "construct:logical-not";
-        public const string ConstructLeftShift = "construct:left-shift";
-        public const string ConstructRightShift = "construct:right-shift";
-        public const string ConstructBitwiseAnd = "construct:bitwise-and";
-        public const string ConstructBitwiseOr = "construct:bitwise-or";
-        public const string ConstructBitwiseNot = "construct:bitwise-not";
-        public const string ConstructBitwiseXor = "construct:bitwise-xor";
-        public const string ConstructAsyncAwait = "construct:async-await";
-        public const string ConstructLambda = "construct:lambda";
-        public const string ConstructField = "construct:field";
-        public const string ConstructProperty = "construct:property";
-        public const string ConstructGetter = "construct:getter";
-        public const string ConstructSetter = "construct:setter";
-        public const string ConstructIsCast = "construct:is-cast";
-        public const string ConstructAsCast = "construct:as-cast";
-        public const string ConstructImplicitConversion = "construct:implicit-conversion";
-        public const string ConstructExplicitConversion = "construct:explicit-conversion";
-        public const string ConstructCast = "construct:cast";
-        public const string ConstructVisibilityModifiers = "construct:visibility-modifiers";
-        public const string ConstructPatternMatching = "construct:pattern-matching";
-        public const string ConstructBreak = "construct:break";
-        public const string ConstructContinue = "construct:continue";
-        public const string ConstructReturn = "construct:return";
-        public const string ConstructTypeInference = "construct:type-inference";
-        public const string ConstructQueryExpression = "construct:query-expression";
-        public const string ConstructAssignment = "construct:assignment";
-        public const string ConstructEnumeration = "construct:enumeration";
-        public const string ConstructException = "construct:exception";
-        public const string ConstructUserDefinedException = "construct:user-defined-exception";
-        public const string ConstructMultiply = "construct:multiply";
-        public const string ConstructDivide = "construct:divide";
         public const string ConstructAdd = "construct:add";
-        public const string ConstructSubtract = "construct:subtract";
-        public const string ConstructMethodOverloading = "construct:method-overloading";
-        public const string ConstructLock = "construct:lock";
-        public const string ConstructConstructor = "construct:constructor";
-        public const string ConstructVarargs = "construct:varargs";
-        public const string ConstructTry = "construct:try";
-        public const string ConstructThrow = "construct:throw";
-        public const string ConstructThrowExpression = "construct:throw-expression";
+        public const string ConstructAsCast = "construct:as-cast";
+        public const string ConstructAssignment = "construct:assignment";
+        public const string ConstructAsyncAwait = "construct:async-await";
+        public const string ConstructAttribute = "construct:attribute";
+        public const string ConstructAutoImplementedProperty = "construct:auto-implemented-property";
+        public const string ConstructBitwiseAnd = "construct:bitwise-and";
+        public const string ConstructBitwiseNot = "construct:bitwise-not";
+        public const string ConstructBitwiseOr = "construct:bitwise-or";
+        public const string ConstructBitwiseXor = "construct:bitwise-xor";
+        public const string ConstructBreak = "construct:break";
+        public const string ConstructCast = "construct:cast";
         public const string ConstructCatch = "construct:catch";
         public const string ConstructCatchFilter = "construct:catch-filter";
-        public const string ConstructFinally = "construct:finally";
-        public const string ConstructNamespace = "construct:namespace";
-        public const string ConstructFileScopedNamespace = "construct:file-scoped-namespace";
-        public const string ConstructNamedArgument = "construct:named-argument";
-        public const string ConstructVariable = "construct:variable";
-        public const string ConstructAttribute = "construct:attribute";
-        public const string ConstructReadOnly = "construct:read-only";
-        public const string ConstructConst = "construct:const";
-        public const string ConstructIndexer = "construct:indexer";
-        public const string ConstructNestedType = "construct:nested-type";
-        public const string ConstructConversionOperator = "construct:conversion-operator";
-        public const string ConstructOperatorOverloading = "construct:operator-overloading";
-        public const string ConstructInitializer = "construct:initializer";
-        public const string ConstructObjectInitializer = "construct:object-initializer";
-        public const string ConstructCollectionInitializer = "construct:collection-initializer";
-        public const string ConstructOverflow = "construct:overflow";
-        public const string ConstructCheckedExpression = "construct:checked-expression";
         public const string ConstructChecked = "construct:checked";
-        public const string ConstructUsingStatement = "construct:using-statement";
-        public const string ConstructUsingDirective = "construct:using-directive";
-        public const string ConstructLinq = "construct:linq";
+        public const string ConstructCheckedExpression = "construct:checked-expression";
+        public const string ConstructCollectionInitializer = "construct:collection-initializer";
+        public const string ConstructConst = "construct:const";
+        public const string ConstructConstructor = "construct:constructor";
+        public const string ConstructContinue = "construct:continue";
+        public const string ConstructConversionOperator = "construct:conversion-operator";
+        public const string ConstructDivide = "construct:divide";
+        public const string ConstructDoLoop = "construct:do-loop";
+        public const string ConstructExplicitConversion = "construct:explicit-conversion";
         public const string ConstructExpressionBodiedMember = "construct:expression-bodied-member";
-        public const string ConstructAutoImplementedProperty = "construct:auto-implemented-property";
+        public const string ConstructExtensionMethod = "construct:extension-method";
+        public const string ConstructField = "construct:field";
+        public const string ConstructFileScopedNamespace = "construct:file-scoped-namespace";
+        public const string ConstructFinally = "construct:finally";
+        public const string ConstructForeach = "construct:foreach";
+        public const string ConstructForLoop = "construct:for-loop";
+        public const string ConstructGenericMethod = "construct:generic-method";
+        public const string ConstructGenericType = "construct:generic-type";
+        public const string ConstructGetter = "construct:getter";
+        public const string ConstructIf = "construct:if";
+        public const string ConstructImplicitConversion = "construct:implicit-conversion";
+        public const string ConstructIndexer = "construct:indexer";
+        public const string ConstructInitializer = "construct:initializer";
+        public const string ConstructInvocation = "construct:invocation";
+        public const string ConstructIsCast = "construct:is-cast";
+        public const string ConstructLambda = "construct:lambda";
+        public const string ConstructLeftShift = "construct:left-shift";
+        public const string ConstructLinq = "construct:linq";
+        public const string ConstructLocalFunction = "construct:local-function";
+        public const string ConstructLock = "construct:lock";
+        public const string ConstructLogicalAnd = "construct:logical-and";
+        public const string ConstructLogicalNot = "construct:logical-not";
+        public const string ConstructLogicalOr = "construct:logical-or";
+        public const string ConstructMethod = "construct:method";
+        public const string ConstructMethodOverloading = "construct:method-overloading";
+        public const string ConstructMultiply = "construct:multiply";
+        public const string ConstructNamedArgument = "construct:named-argument";
+        public const string ConstructNamespace = "construct:namespace";
+        public const string ConstructNestedType = "construct:nested-type";
+        public const string ConstructObjectInitializer = "construct:object-initializer";
+        public const string ConstructOperatorOverloading = "construct:operator-overloading";
+        public const string ConstructOptionalParameter = "construct:optional-parameter";
+        public const string ConstructOverflow = "construct:overflow";
+        public const string ConstructParameter = "construct:parameter";
+        public const string ConstructPatternMatching = "construct:pattern-matching";
+        public const string ConstructProperty = "construct:property";
+        public const string ConstructQueryExpression = "construct:query-expression";
+        public const string ConstructReadOnly = "construct:read-only";
+        public const string ConstructReturn = "construct:return";
+        public const string ConstructRightShift = "construct:right-shift";
+        public const string ConstructSetter = "construct:setter";
+        public const string ConstructSubtract = "construct:subtract";
+        public const string ConstructSwitch = "construct:switch";
+        public const string ConstructSwitchExpression = "construct:switch-expression";
+        public const string ConstructTernary = "construct:ternary";
+        public const string ConstructThrow = "construct:throw";
+        public const string ConstructThrowExpression = "construct:throw-expression";
+        public const string ConstructTry = "construct:try";
+        public const string ConstructTypeInference = "construct:type-inference";
+        public const string ConstructUserDefinedException = "construct:user-defined-exception";
+        public const string ConstructUsingDirective = "construct:using-directive";
+        public const string ConstructUsingStatement = "construct:using-statement";
+        public const string ConstructVarargs = "construct:varargs";
+        public const string ConstructVariable = "construct:variable";
+        public const string ConstructVisibilityModifiers = "construct:visibility-modifiers";
+        public const string ConstructWhileLoop = "construct:while-loop";
         public const string ConstructYield = "construct:yield";
         
         // Constructs - types
-        public const string ConstructBoolean = "construct:boolean";
-        public const string ConstructString = "construct:string";
-        public const string ConstructChar = "construct:char";
-        public const string ConstructNumber = "construct:number";
-        public const string ConstructIntegralNumber = "construct:integral-number";
-        public const string ConstructFloatingPointNumber = "construct:floating-point-number";
-        public const string ConstructBigInteger = "construct:big-integer";
-        public const string ConstructList = "construct:list";
-        public const string ConstructSet = "construct:set";
         public const string ConstructArray = "construct:array";
-        public const string ConstructStack = "construct:stack";
-        public const string ConstructQueue = "construct:queue";
-        public const string ConstructDictionary = "construct:dictionary";
-        public const string ConstructStruct = "construct:struct";
-        public const string ConstructRecord = "construct:record";
+        public const string ConstructBigInteger = "construct:big-integer";
+        public const string ConstructBitArray = "construct:bit-array";
+        public const string ConstructBoolean = "construct:boolean";
+        public const string ConstructByte = "construct:byte";
+        public const string ConstructChar = "construct:char";
         public const string ConstructClass = "construct:class";
-        public const string ConstructInterface = "construct:interface";
-        public const string ConstructTuple = "construct:tuple";
         public const string ConstructDateTime = "construct:date-time";
+        public const string ConstructDecimal = "construct:decimal";
+        public const string ConstructDictionary = "construct:dictionary";
+        public const string ConstructDouble = "construct:double";
+        public const string ConstructEnum = "construct:enum";
+        public const string ConstructFlagsEnum = "construct:flags-enum";
+        public const string ConstructFloat = "construct:float";
+        public const string ConstructFloatingPointNumber = "construct:floating-point-number";
+        public const string ConstructInt = "construct:int";
+        public const string ConstructIntegralNumber = "construct:integral-number";
+        public const string ConstructInterface = "construct:interface";
+        public const string ConstructLinkedList = "construct:linked-list";
+        public const string ConstructList = "construct:list";
+        public const string ConstructLong = "construct:long";
+        public const string ConstructNint = "construct:nint";
+        public const string ConstructNuint = "construct:nuint";
         public const string ConstructNull = "construct:null";
         public const string ConstructNullability = "construct:nullability";
         public const string ConstructNullable = "construct:nullable";
-        public const string ConstructEnum = "construct:enum";
-        public const string ConstructFlagsEnum = "construct:flags-enum";
-        public const string ConstructLinkedList = "construct:linked-list";
-        public const string ConstructBitArray = "construct:bit-array";
-        public const string ConstructDecimal = "construct:decimal";
-        public const string ConstructDouble = "construct:double";
-        public const string ConstructFloat = "construct:float";
+        public const string ConstructNumber = "construct:number";
+        public const string ConstructQueue = "construct:queue";
+        public const string ConstructRecord = "construct:record";
         public const string ConstructSbyte = "construct:sbyte";
-        public const string ConstructByte = "construct:byte";
+        public const string ConstructSet = "construct:set";
         public const string ConstructShort = "construct:short";
-        public const string ConstructUshort = "construct:ushort";
-        public const string ConstructInt = "construct:int";
+        public const string ConstructStack = "construct:stack";
+        public const string ConstructString = "construct:string";
+        public const string ConstructStruct = "construct:struct";
+        public const string ConstructTuple = "construct:tuple";
         public const string ConstructUint = "construct:uint";
-        public const string ConstructLong = "construct:long";
         public const string ConstructUlong = "construct:ulong";
-        public const string ConstructNint = "construct:nint";
-        public const string ConstructNuint = "construct:nuint";
+        public const string ConstructUshort = "construct:ushort";
 
         // Constructs - notation
-        public const string ConstructHexadecimalNumber = "construct:hexadecimal-number";
         public const string ConstructBinaryNumber = "construct:binary-number";
-        public const string ConstructScientificNotationNumber = "construct:scientific-notation-number";
-        public const string ConstructUnderscoredNumber = "construct:underscored-number";
+        public const string ConstructHexadecimalNumber = "construct:hexadecimal-number";
         public const string ConstructMultilineString = "construct-multiline-string";
+        public const string ConstructScientificNotationNumber = "construct:scientific-notation-number";
         public const string ConstructStringInterpolation = "construct-string-interpolation";
+        public const string ConstructUnderscoredNumber = "construct:underscored-number";
         public const string ConstructVerbatimString = "construct-verbatim-string";
         
         // Constructs - trivia
@@ -1070,41 +1081,41 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructXmlComment = "construct:xml-comment";
 
         // Uses - C#-specific types
-        public const string UsesSpan = "uses:Span<T>";
+        public const string UsesDateOnly = "uses:DateOnly";
+        public const string UsesDateTime = "uses:DateTime";
+        public const string UsesDelegate = "uses:delegate";
         public const string UsesMemory = "uses:Memory<T>";
         public const string UsesMutex = "uses:Mutex";
-        public const string UsesDelegate = "uses:delegate";
-        public const string UsesRegex = "uses:Regex";
-        public const string UsesStringBuilder = "uses:StringBuilder";
         public const string UsesRandom = "uses:Random";
-        public const string UsesTimeZoneInfo = "uses:TimeZoneInfo";
-        public const string UsesDateTime = "uses:DateTime";
-        public const string UsesDateOnly = "uses:DateOnly";
+        public const string UsesRegex = "uses:Regex";
+        public const string UsesSpan = "uses:Span<T>";
+        public const string UsesStringBuilder = "uses:StringBuilder";
         public const string UsesTimeOnly = "uses:TimeOnly";
+        public const string UsesTimeZoneInfo = "uses:TimeZoneInfo";
         
         // Uses - collections
-        public const string UsesList = "uses:List<T>";
-        public const string UsesSortedList = "uses:SortedList<T>";
         public const string UsesDictionary = "uses:Dictionary<TKey,TValue>";
-        public const string UsesSortedDictionary = "uses:SortedDictionary<TKey,TValue>";
         public const string UsesHashSet = "uses:HashSet<T>";
+        public const string UsesLinkedList = "uses:LinkedList<T>";
+        public const string UsesList = "uses:List<T>";
+        public const string UsesQueue = "uses:Queue<T>";
+        public const string UsesSortedDictionary = "uses:SortedDictionary<TKey,TValue>";
+        public const string UsesSortedList = "uses:SortedList<T>";
         public const string UsesSortedSet = "uses:SortedSet<T>";
         public const string UsesStack = "uses:Stack<T>";
-        public const string UsesQueue = "uses:Queue<T>";
-        public const string UsesLinkedList = "uses:LinkedList<T>";
-        public const string UsesValueTuple = "uses:ValueTuple";
         public const string UsesTuple = "uses:Tuple";
+        public const string UsesValueTuple = "uses:ValueTuple";
         
         // Uses - interfaces
-        public const string UsesIReadOnlyList = "uses:IReadOnlyList<T>";
-        public const string UsesIReadOnlyCollection = "uses:IReadOnlyCollection<T>";
-        public const string UsesIList = "uses:IList<T>";
         public const string UsesICollection = "uses:ICollection<T>";
-        public const string UsesIDisposable = "uses:IDisposable";
         public const string UsesIComparable = "uses:IComparable";
+        public const string UsesIDisposable = "uses:IDisposable";
         public const string UsesIEnumerable = "uses:IEnumerable<T>";
         public const string UsesIEnumerator = "uses:IEnumerator<T>";
         public const string UsesIEquatable = "uses:IEquatable<T>";
+        public const string UsesIList = "uses:IList<T>";
+        public const string UsesIReadOnlyCollection = "uses:IReadOnlyCollection<T>";
+        public const string UsesIReadOnlyList = "uses:IReadOnlyList<T>";
         
         // Uses - methods
         public const string UsesEnumerableAsParallel = "uses:Enumerable.AsParallel";
