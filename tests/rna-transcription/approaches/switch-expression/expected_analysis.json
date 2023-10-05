@@ -8,6 +8,7 @@
     "construct:parameter",
     "construct:pattern-matching",
     "construct:switch-expression",
+    "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
     "uses:expression-bodied-member",

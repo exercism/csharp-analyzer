@@ -10,12 +10,16 @@
     "construct:number",
     "construct:parameter",
     "construct:pattern-matching",
+    "construct:return",
     "construct:subtract",
     "construct:switch-expression",
     "construct:ternary",
     "construct:tuple",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
+    "uses:ValueTuple",
     "uses:int",
     "uses:linq"
   ]

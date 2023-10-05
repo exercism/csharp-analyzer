@@ -9,6 +9,7 @@
     "construct:number",
     "construct:parameter",
     "construct:subtract",
+    "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
     "technique:math",

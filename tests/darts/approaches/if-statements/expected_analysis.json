@@ -11,6 +11,9 @@
     "construct:multiply",
     "construct:number",
     "construct:parameter",
+    "construct:return",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "uses:double",
     "uses:int"

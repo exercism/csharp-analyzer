@@ -11,6 +11,7 @@
     "construct:invocation",
     "construct:method",
     "construct:string",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented"
   ]
 }

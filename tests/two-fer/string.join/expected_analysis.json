@@ -18,10 +18,15 @@
     "construct:class",
     "construct:invocation",
     "construct:method",
+    "construct:null",
+    "construct:nullability",
     "construct:optional-parameter",
     "construct:parameter",
+    "construct:return",
     "construct:string",
     "construct:ternary",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented"
   ]
 }

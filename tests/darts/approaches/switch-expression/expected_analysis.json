@@ -19,7 +19,9 @@
     "construct:number",
     "construct:parameter",
     "construct:pattern-matching",
+    "construct:return",
     "construct:switch-expression",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "uses:double",
     "uses:int"

@@ -12,7 +12,9 @@
     "construct:invocation",
     "construct:method",
     "construct:parameter",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
+    "uses:DateTime",
     "uses:DateTime.IsLeapYear",
     "uses:expression-bodied-member"
   ]

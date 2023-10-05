@@ -13,6 +13,7 @@
     "construct:number",
     "construct:parameter",
     "construct:subtract",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "technique:math",
     "technique:type-conversion",

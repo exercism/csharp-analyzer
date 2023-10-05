@@ -9,6 +9,8 @@
     "construct:parameter",
     "construct:string",
     "construct:ternary",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "technique:regular-expression",
     "uses:Regex",

@@ -16,9 +16,12 @@
     "construct:number",
     "construct:parameter",
     "construct:pattern-matching",
+    "construct:return",
     "construct:switch-expression",
     "construct:tuple",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
+    "uses:ValueTuple",
     "uses:int"
   ]
 }

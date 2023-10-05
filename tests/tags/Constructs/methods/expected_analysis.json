@@ -4,19 +4,26 @@
       "comment": "csharp.general.use_expression_bodied_member",
       "type": "informative",
       "params": {
-        "name": "Returning"
+        "name": "Parameters"
       }
     }
   ],
   "tags": [
+    "construct:add",
     "construct:class",
+    "construct:file-scoped-namespace",
     "construct:integral-number",
     "construct:invocation",
     "construct:local-function",
     "construct:method",
+    "construct:named-argument",
+    "construct:namespace",
     "construct:number",
     "construct:optional-parameter",
     "construct:parameter",
+    "construct:return",
+    "construct:varargs",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "uses:int"
   ]

@@ -19,7 +19,10 @@
     "construct:invocation",
     "construct:method",
     "construct:parameter",
+    "construct:return",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
+    "uses:DateTime",
     "uses:DateTime.IsLeapYear"
   ]
 }

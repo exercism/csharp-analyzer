@@ -16,12 +16,16 @@
     "construct:method",
     "construct:number",
     "construct:parameter",
+    "construct:return",
     "construct:string",
     "construct:ternary",
     "construct:tuple",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
     "uses:Enumerable.Aggregate",
+    "uses:ValueTuple",
     "uses:int",
     "uses:linq"
   ]

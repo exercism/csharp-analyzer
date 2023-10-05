@@ -14,6 +14,8 @@
     "construct:method",
     "construct:number",
     "construct:parameter",
+    "construct:return",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "uses:int"
   ]

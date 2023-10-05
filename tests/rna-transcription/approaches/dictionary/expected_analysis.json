@@ -10,6 +10,8 @@
     "construct:lambda",
     "construct:method",
     "construct:parameter",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",

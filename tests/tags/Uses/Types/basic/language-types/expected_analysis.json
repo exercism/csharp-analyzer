@@ -2,14 +2,13 @@
   "comments": [],
   "tags": [
     "construct:class",
-    "construct:constructor",
-    "construct:date-time",
     "construct:floating-point-number",
     "construct:integral-number",
     "construct:method",
     "construct:number",
     "construct:string",
-    "construct:tuple",
+    "construct:variable",
+    "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "uses:byte",
     "uses:decimal",
@@ -22,6 +21,7 @@
     "uses:sbyte",
     "uses:short",
     "uses:uint",
+    "uses:ulong",
     "uses:ushort"
   ]
 }
