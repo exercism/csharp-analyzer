@@ -3,7 +3,6 @@
   "tags": [
     "construct:class",
     "construct:constructor",
-    "construct:exception",
     "construct:for-loop",
     "construct:if",
     "construct:indexer",
@@ -18,6 +17,8 @@
     "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
-    "paradigm:object-oriented"
+    "paradigm:object-oriented",
+    "technique:exceptions",
+    "technique:looping"
   ]
 }

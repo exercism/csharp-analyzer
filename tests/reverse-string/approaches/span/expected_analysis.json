@@ -22,6 +22,7 @@
     "paradigm:imperative",
     "paradigm:object-oriented",
     "technique:higher-order-functions",
+    "technique:looping",
     "technique:memory-management",
     "technique:performance",
     "uses:Span<T>"

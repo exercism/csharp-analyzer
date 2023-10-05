@@ -5,7 +5,6 @@
     "construct:catch-filter",
     "construct:class",
     "construct:constructor",
-    "construct:exception",
     "construct:finally",
     "construct:invocation",
     "construct:method",
@@ -16,6 +15,7 @@
     "construct:using-directive",
     "construct:visibility-modifiers",
     "paradigm:object-oriented",
+    "technique:exceptions",
     "technique:inheritance"
   ]
 }

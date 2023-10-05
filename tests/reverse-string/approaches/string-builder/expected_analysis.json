@@ -18,6 +18,7 @@
     "construct:variable",
     "construct:visibility-modifiers",
     "paradigm:object-oriented",
+    "technique:looping",
     "uses:StringBuilder"
   ]
 }

@@ -2,7 +2,6 @@
   "comments": [],
   "tags": [
     "construct:big-integer",
-    "construct:cast",
     "construct:class",
     "construct:explicit-conversion",
     "construct:expression-bodied-member",

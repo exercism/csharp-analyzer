@@ -1,32 +1,16 @@
 {
-  "comments": [
-    {
-      "comment": "csharp.general.use_expression_bodied_member",
-      "type": "informative",
-      "params": {
-        "name": "NonRecursiveMethod"
-      }
-    }
-  ],
+  "comments": [],
   "tags": [
-    "construct:add",
     "construct:class",
-    "construct:if",
     "construct:int",
     "construct:integral-number",
     "construct:invocation",
-    "construct:lambda",
-    "construct:local-function",
     "construct:method",
-    "construct:multiply",
     "construct:number",
-    "construct:parameter",
-    "construct:return",
-    "construct:subtract",
+    "construct:using-directive",
+    "construct:variable",
     "construct:visibility-modifiers",
-    "paradigm:functional",
     "paradigm:object-oriented",
-    "technique:higher-order-functions",
-    "technique:recursion"
+    "paradigm:reflective"
   ]
 }

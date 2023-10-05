@@ -2,7 +2,6 @@
   "comments": [],
   "tags": [
     "construct:boolean",
-    "construct:cast",
     "construct:char",
     "construct:class",
     "construct:dictionary",
@@ -39,6 +38,7 @@
     "paradigm:object-oriented",
     "technique:boolean-logic",
     "technique:higher-order-functions",
+    "technique:type-conversion",
     "uses:Dictionary<TKey,TValue>",
     "uses:ValueTuple"
   ]

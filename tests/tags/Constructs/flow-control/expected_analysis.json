@@ -22,6 +22,7 @@
     "construct:ternary",
     "construct:variable",
     "construct:visibility-modifiers",
-    "paradigm:object-oriented"
+    "paradigm:object-oriented",
+    "technique:looping"
   ]
 }

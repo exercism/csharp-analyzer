@@ -7,7 +7,6 @@
     "construct:class",
     "construct:constructor",
     "construct:double",
-    "construct:exception",
     "construct:field",
     "construct:floating-point-number",
     "construct:getter",
@@ -32,6 +31,7 @@
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:exceptions",
     "technique:higher-order-functions"
   ]
 }

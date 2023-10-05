@@ -4,7 +4,6 @@
     "construct:boolean",
     "construct:class",
     "construct:constructor",
-    "construct:exception",
     "construct:for-loop",
     "construct:if",
     "construct:int",
@@ -24,6 +23,8 @@
     "construct:yield",
     "paradigm:object-oriented",
     "technique:boolean-logic",
-    "technique:laziness"
+    "technique:exceptions",
+    "technique:laziness",
+    "technique:looping"
   ]
 }

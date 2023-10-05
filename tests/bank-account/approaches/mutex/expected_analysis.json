@@ -6,7 +6,6 @@
     "construct:class",
     "construct:constructor",
     "construct:decimal",
-    "construct:exception",
     "construct:expression-bodied-member",
     "construct:field",
     "construct:finally",
@@ -27,6 +26,7 @@
     "construct:visibility-modifiers",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:exceptions",
     "technique:mutexes",
     "uses:Mutex"
   ]

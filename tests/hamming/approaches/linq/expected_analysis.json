@@ -3,7 +3,6 @@
   "tags": [
     "construct:class",
     "construct:constructor",
-    "construct:exception",
     "construct:if",
     "construct:implicit-conversion",
     "construct:invocation",
@@ -18,6 +17,7 @@
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
+    "technique:exceptions",
     "technique:higher-order-functions"
   ]
 }

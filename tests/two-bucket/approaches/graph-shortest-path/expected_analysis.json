@@ -9,8 +9,6 @@
     "construct:continue",
     "construct:dictionary",
     "construct:enum",
-    "construct:enumeration",
-    "construct:exception",
     "construct:field",
     "construct:foreach",
     "construct:if",
@@ -43,8 +41,11 @@
     "paradigm:imperative",
     "paradigm:object-oriented",
     "technique:boolean-logic",
+    "technique:enumeration",
+    "technique:exceptions",
     "technique:higher-order-functions",
     "technique:laziness",
+    "technique:looping",
     "uses:Dictionary<TKey,TValue>"
   ]
 }

@@ -5,7 +5,6 @@
     "construct-verbatim-string",
     "construct:class",
     "construct:constructor",
-    "construct:exception",
     "construct:if",
     "construct:indexer",
     "construct:int",
@@ -21,6 +20,7 @@
     "construct:variable",
     "construct:visibility-modifiers",
     "paradigm:object-oriented",
+    "technique:exceptions",
     "technique:regular-expression",
     "uses:Regex"
   ]

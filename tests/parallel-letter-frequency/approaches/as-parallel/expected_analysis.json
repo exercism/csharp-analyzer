@@ -15,7 +15,6 @@
     "construct:class",
     "construct:constructor",
     "construct:dictionary",
-    "construct:enumeration",
     "construct:foreach",
     "construct:if",
     "construct:implicit-conversion",
@@ -32,7 +31,9 @@
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:enumeration",
     "technique:higher-order-functions",
+    "technique:looping",
     "technique:parallelism",
     "uses:Dictionary<TKey,TValue>",
     "uses:Enumerable.AsParallel"

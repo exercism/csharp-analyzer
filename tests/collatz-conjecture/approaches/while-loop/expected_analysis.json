@@ -6,7 +6,6 @@
     "construct:class",
     "construct:constructor",
     "construct:divide",
-    "construct:exception",
     "construct:if",
     "construct:int",
     "construct:integral-number",
@@ -22,6 +21,8 @@
     "construct:visibility-modifiers",
     "construct:while-loop",
     "paradigm:imperative",
-    "paradigm:object-oriented"
+    "paradigm:object-oriented",
+    "technique:exceptions",
+    "technique:looping"
   ]
 }

@@ -11,10 +11,8 @@
   "tags": [
     "construct:big-integer",
     "construct:boolean",
-    "construct:cast",
     "construct:class",
     "construct:constructor",
-    "construct:exception",
     "construct:explicit-conversion",
     "construct:implicit-conversion",
     "construct:int",
@@ -35,6 +33,7 @@
     "technique:bit-manipulation",
     "technique:bit-shifting",
     "technique:boolean-logic",
+    "technique:exceptions",
     "technique:type-conversion"
   ]
 }

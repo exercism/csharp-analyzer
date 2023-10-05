@@ -19,7 +19,6 @@
     "construct:class",
     "construct:constructor",
     "construct:double",
-    "construct:exception",
     "construct:field",
     "construct:floating-point-number",
     "construct:getter",
@@ -41,6 +40,7 @@
     "construct:variable",
     "construct:visibility-modifiers",
     "paradigm:imperative",
-    "paradigm:object-oriented"
+    "paradigm:object-oriented",
+    "technique:exceptions"
   ]
 }

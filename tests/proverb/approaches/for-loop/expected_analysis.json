@@ -24,6 +24,7 @@
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
-    "technique:higher-order-functions"
+    "technique:higher-order-functions",
+    "technique:looping"
   ]
 }

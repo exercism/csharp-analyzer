@@ -30,6 +30,7 @@
     "paradigm:object-oriented",
     "technique:higher-order-functions",
     "technique:laziness",
+    "technique:looping",
     "uses:Dictionary<TKey,TValue>"
   ]
 }

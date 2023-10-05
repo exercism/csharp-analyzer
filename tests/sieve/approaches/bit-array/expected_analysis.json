@@ -8,7 +8,6 @@
     "construct:class",
     "construct:constructor",
     "construct:continue",
-    "construct:exception",
     "construct:for-loop",
     "construct:if",
     "construct:indexer",
@@ -29,7 +28,9 @@
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:exceptions",
     "technique:higher-order-functions",
-    "technique:laziness"
+    "technique:laziness",
+    "technique:looping"
   ]
 }

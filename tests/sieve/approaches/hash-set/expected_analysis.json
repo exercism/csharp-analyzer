@@ -5,7 +5,6 @@
     "construct:class",
     "construct:constructor",
     "construct:continue",
-    "construct:exception",
     "construct:for-loop",
     "construct:if",
     "construct:int",
@@ -24,7 +23,9 @@
     "construct:yield",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:exceptions",
     "technique:laziness",
+    "technique:looping",
     "uses:HashSet<T>"
   ]
 }

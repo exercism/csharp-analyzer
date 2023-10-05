@@ -18,6 +18,7 @@
     "construct:visibility-modifiers",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:looping",
     "technique:math"
   ]
 }

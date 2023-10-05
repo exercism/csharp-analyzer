@@ -6,7 +6,6 @@
     "construct:class",
     "construct:constructor",
     "construct:divide",
-    "construct:exception",
     "construct:if",
     "construct:int",
     "construct:integral-number",
@@ -26,7 +25,9 @@
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:exceptions",
     "technique:laziness",
+    "technique:looping",
     "uses:Enumerable.Count"
   ]
 }

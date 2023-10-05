@@ -6,7 +6,6 @@
     "construct:class",
     "construct:constructor",
     "construct:dictionary",
-    "construct:enumeration",
     "construct:field",
     "construct:foreach",
     "construct:indexer",
@@ -31,7 +30,9 @@
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:enumeration",
     "technique:higher-order-functions",
+    "technique:looping",
     "uses:Dictionary<TKey,TValue>",
     "uses:List<T>",
     "uses:String.Substring"

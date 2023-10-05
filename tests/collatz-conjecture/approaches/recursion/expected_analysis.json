@@ -5,7 +5,6 @@
     "construct:class",
     "construct:constructor",
     "construct:divide",
-    "construct:exception",
     "construct:if",
     "construct:int",
     "construct:integral-number",
@@ -22,6 +21,7 @@
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
+    "technique:exceptions",
     "technique:higher-order-functions",
     "technique:recursion"
   ]

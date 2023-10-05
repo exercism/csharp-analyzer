@@ -9,11 +9,9 @@
     }
   ],
   "tags": [
-    "construct:cast",
     "construct:class",
     "construct:constructor",
     "construct:double",
-    "construct:exception",
     "construct:floating-point-number",
     "construct:if",
     "construct:implicit-conversion",
@@ -34,7 +32,9 @@
     "construct:visibility-modifiers",
     "paradigm:functional",
     "paradigm:object-oriented",
+    "technique:exceptions",
     "technique:higher-order-functions",
+    "technique:type-conversion",
     "uses:Math.Pow"
   ]
 }

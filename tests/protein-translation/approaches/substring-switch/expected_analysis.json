@@ -5,7 +5,6 @@
     "construct:break",
     "construct:class",
     "construct:constructor",
-    "construct:exception",
     "construct:expression-bodied-member",
     "construct:int",
     "construct:integral-number",
@@ -30,7 +29,9 @@
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:exceptions",
     "technique:higher-order-functions",
+    "technique:looping",
     "uses:List<T>",
     "uses:String.Substring"
   ]

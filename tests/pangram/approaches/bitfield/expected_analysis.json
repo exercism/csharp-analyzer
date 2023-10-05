@@ -4,7 +4,6 @@
     "construct:assignment",
     "construct:boolean",
     "construct:class",
-    "construct:enumeration",
     "construct:foreach",
     "construct:if",
     "construct:implicit-conversion",
@@ -23,6 +22,8 @@
     "paradigm:object-oriented",
     "technique:bit-manipulation",
     "technique:bit-shifting",
-    "technique:boolean-logic"
+    "technique:boolean-logic",
+    "technique:enumeration",
+    "technique:looping"
   ]
 }

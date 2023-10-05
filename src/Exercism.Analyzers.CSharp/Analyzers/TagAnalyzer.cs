@@ -269,7 +269,7 @@ internal class TagAnalyzer : Analyzer
                 AddTags(Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting, Tags.ConstructRightShift, Tags.TechniqueCompoundAssignment);
                 break;
             case SyntaxKind.AsExpression:
-                AddTags(Tags.ConstructCast, Tags.ConstructAsCast, Tags.TechniqueTypeConversion);
+                AddTags(Tags.TechniqueTypeConversion, Tags.ConstructAsCast);
                 break;
             case SyntaxKind.MultiplyExpression:
                 AddTags(Tags.ConstructMultiply);
@@ -424,13 +424,13 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitCastExpression(CastExpressionSyntax node)
     {
-        AddTags(Tags.ConstructCast, Tags.ConstructExplicitConversion, Tags.TechniqueTypeConversion);
+        AddTags(Tags.TechniqueTypeConversion, Tags.ConstructExplicitConversion);
         base.VisitCastExpression(node);
     }
 
     public override void VisitIsPatternExpression(IsPatternExpressionSyntax node)
     {
-        AddTags(Tags.ConstructCast, Tags.ConstructIsCast, Tags.ConstructPatternMatching);
+        AddTags(Tags.TechniqueTypeConversion, Tags.ConstructIsCast, Tags.ConstructPatternMatching);
         base.VisitIsPatternExpression(node);
     }
 
@@ -954,7 +954,6 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructBitwiseOr = "construct:bitwise-or";
         public const string ConstructBitwiseXor = "construct:bitwise-xor";
         public const string ConstructBreak = "construct:break";
-        public const string ConstructCast = "construct:cast";
         public const string ConstructCatch = "construct:catch";
         public const string ConstructCatchFilter = "construct:catch-filter";
         public const string ConstructChecked = "construct:checked";

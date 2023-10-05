@@ -3,7 +3,6 @@
   "tags": [
     "construct:add",
     "construct:boolean",
-    "construct:cast",
     "construct:char",
     "construct:class",
     "construct:expression-bodied-member",
@@ -36,6 +35,7 @@
     "paradigm:functional",
     "paradigm:object-oriented",
     "technique:boolean-logic",
-    "technique:higher-order-functions"
+    "technique:higher-order-functions",
+    "technique:type-conversion"
   ]
 }
