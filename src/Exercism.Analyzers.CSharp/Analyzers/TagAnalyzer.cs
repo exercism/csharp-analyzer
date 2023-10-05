@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
@@ -69,6 +70,19 @@ internal class TagAnalyzer : Analyzer
         if (node.NameColon is not null)
             AddTags(Tags.ConstructNamedArgument);
 
+        var symbol = GetSymbol(node.Expression);
+        
+        switch (symbol)
+        {
+            case IMethodSymbol:
+                AddTags(Tags.ConstructLambda, Tags.TechniqueHigherOrderFunctions, Tags.ParadigmFunctional);
+                break;
+            case ILocalSymbol {Type: INamedTypeSymbol namedTypeSymbol} when
+                IsFunctionalType(namedTypeSymbol):
+                AddTags(Tags.TechniqueHigherOrderFunctions, Tags.ParadigmFunctional);
+                break;
+        }
+
         base.VisitArgument(node);
     }
 
@@ -89,6 +103,32 @@ internal class TagAnalyzer : Analyzer
 
         AddTags(Tags.ConstructMethod);
         base.VisitMethodDeclaration(node);
+    }
+
+    public override void VisitSimpleBaseType(SimpleBaseTypeSyntax node)
+    {
+        switch (GetSymbolName(node.Type))
+        {
+            case "System.IDisposable":
+                AddTags(Tags.UsesIDisposable);
+                break;
+            case "System.IComparable":
+                AddTags(Tags.UsesIComparable, Tags.TechniqueCustomComparer);
+                break;
+        }
+
+        switch (GetConstructedFromSymbolName(node.Type))
+        {
+            case "System.IComparable<T>":
+                AddTags(Tags.UsesIComparable, Tags.TechniqueCustomComparer);
+                break;
+            case "System.IEquatable<T>":
+                AddTags(Tags.UsesIEquatable, Tags.TechniqueEqualityComparison);
+                break;
+        }
+        
+
+        base.VisitSimpleBaseType(node);
     }
 
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
@@ -141,6 +181,10 @@ internal class TagAnalyzer : Analyzer
         if (GetSymbol(node) is not null && GetSymbol(node).ContainingNamespace.ToDisplayString() == "System.Linq")
             AddTags(Tags.UsesLinq, Tags.ParadigmFunctional);
 
+        if (GetConstructedFromSymbolName(node) ==
+            "System.Collections.Generic.IEnumerable<TSource>.AsParallel<TSource>()")
+            AddTags(Tags.UsesEnumerableAsParallel, Tags.TechniqueParallelism);
+
         base.VisitInvocationExpression(node);
     }
 
@@ -161,11 +205,6 @@ internal class TagAnalyzer : Analyzer
         VisitTypeInfo(GetTypeInfo(node.Type));
         AddTags(Tags.ConstructVariable);
         base.VisitVariableDeclaration(node);
-    }
-
-    public override void VisitDeclarationExpression(DeclarationExpressionSyntax node)
-    {
-        base.VisitDeclarationExpression(node);
     }
 
     public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
@@ -358,19 +397,19 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitAwaitExpression(AwaitExpressionSyntax node)
     {
-        AddTags(Tags.ConstructAsyncAwait);
+        AddTags(Tags.ConstructAsyncAwait, Tags.TechniqueConcurrency);
         base.VisitAwaitExpression(node);
     }
 
     public override void VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
     {
-        AddTags(Tags.ConstructLambda, Tags.ParadigmFunctional);
+        AddTags(Tags.ConstructLambda, Tags.ParadigmFunctional, Tags.TechniqueHigherOrderFunctions);
         base.VisitSimpleLambdaExpression(node);
     }
 
     public override void VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
     {
-        AddTags(Tags.ConstructLambda, Tags.ParadigmFunctional);
+        AddTags(Tags.ConstructLambda, Tags.ParadigmFunctional, Tags.TechniqueHigherOrderFunctions);
         base.VisitParenthesizedLambdaExpression(node);
     }
 
@@ -639,7 +678,7 @@ internal class TagAnalyzer : Analyzer
                     AddTags(Tags.UsesStringBuilder);
                     break;
                 case "System.Random":    
-                    AddTags(Tags.TechniqueRandomess, Tags.UsesRandom);
+                    AddTags(Tags.TechniqueRandomness, Tags.UsesRandom);
                     break;
                 case "System.TimeZoneInfo":
                     AddTags(Tags.ConstructDateTime, Tags.UsesTimeZoneInfo);
@@ -803,6 +842,19 @@ internal class TagAnalyzer : Analyzer
         base.VisitLocalDeclarationStatement(node);
     }
 
+    public override void VisitUnsafeStatement(UnsafeStatementSyntax node)
+    {
+        AddTags(Tags.TechniqueUnsafe);
+        base.VisitUnsafeStatement(node);
+    }
+
+    public override void VisitPrefixUnaryExpression(PrefixUnaryExpressionSyntax node)
+    {
+        if (node.IsKind(SyntaxKind.AddressOfExpression))
+            AddTags(Tags.TechniquePointers);
+        base.VisitPrefixUnaryExpression(node);
+    }
+
     private bool UsesRecursion(SyntaxNode methodOrFunctionNode)
     {
         var methodOrFunctionSymbol = GetDeclaredSymbol(methodOrFunctionNode);
@@ -826,6 +878,22 @@ internal class TagAnalyzer : Analyzer
         return DerivesFromException(symbol.BaseType);
     }
 
+    private static bool IsFunctionalType(INamedTypeSymbol symbol) =>
+        FunctionalTypeNames.Contains(symbol.ConstructedFrom.ToDisplayString());
+
+    private static readonly HashSet<string> FunctionalTypeNames = new()
+    {
+        "System.Action<T>",
+        "System.Func<T>",
+        "System.Func<T, TResult>",
+        "System.Func<T1, T2, TResult>",
+        "System.Func<T1, T2, T3, TResult>",
+        "System.Func<T1, T2, T3, T4, TResult>",
+        "System.Func<T1, T2, T3, T4, T5, TResult>",
+        "System.Func<T1, T2, T3, T4, T5, T6, TResult>",
+        "System.Func<T1, T2, T3, T4, T5, T6, T7, TResult>",
+    };
+
     private static class Tags
     {
         // Paradigms
@@ -837,13 +905,10 @@ internal class TagAnalyzer : Analyzer
         // Techniques
         public const string TechniqueRecursion = "technique:recursion";
         public const string TechniqueCustomComparer = "technique:custom-comparer";
+        public const string TechniqueEqualityComparison = "technique:equality-comparison";
         public const string TechniqueLocks = "technique:locks";
         public const string TechniqueMutexes = "technique:mutexes";
-        public const string TechniqueAnswerArray = "technique:answer-array";
         public const string TechniqueRegularExpression = "technique:regular-expression";
-        public const string TechniqueIteration = "technique:iteration";
-        public const string TechniqueMath = "technique:math";
-        public const string TechniqueMapToInteger = "technique:map-to-integer";
         public const string TechniqueTypeConversion = "technique:type-conversion";
         public const string TechniqueHigherOrderFunctions = "technique:higher-order-functions";
         public const string TechniqueBitManipulation = "technique:bit-manipulation";
@@ -860,8 +925,9 @@ internal class TagAnalyzer : Analyzer
         public const string TechniqueSorting = "technique:sorting";
         public const string TechniqueImmutableCollection = "technique:immutable-collection";
         public const string TechniqueSortedCollection = "technique:sorted-collection";
-        public const string TechniqueRandomess = "technique:randomness";
+        public const string TechniqueRandomness = "technique:randomness";
         public const string TechniqueInheritance = "technique:inheritance";
+        public const string TechniqueUnsafe = "technique:unsafe";
 
         // Constructs
         public const string ConstructIf = "construct:if";
@@ -1037,7 +1103,12 @@ internal class TagAnalyzer : Analyzer
         public const string UsesIList = "uses:IList<T>";
         public const string UsesICollection = "uses:ICollection<T>";
         public const string UsesIDisposable = "uses:IDisposable";
+        public const string UsesIComparable = "uses:IComparable";
         public const string UsesIEnumerable = "uses:IEnumerable<T>";
         public const string UsesIEnumerator = "uses:IEnumerator<T>";
+        public const string UsesIEquatable = "uses:IEquatable<T>";
+        
+        // Uses - methods
+        public const string UsesEnumerableAsParallel = "uses:Enumerable.AsParallel";
     }
 }

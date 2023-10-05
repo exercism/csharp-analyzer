@@ -77,9 +77,6 @@ internal abstract class Analyzer : CSharpSyntaxWalker
                 case "pangram":
                     yield return new PangramAnalyzer(submission);
                     break;
-                case "parallel-letter-frequency":
-                    yield return new ParallelLetterFrequencyAnalyzer(submission);
-                    break;
                 case "protein-translation":
                     yield return new ProteinTranslationAnalyzer(submission);
                     break;
