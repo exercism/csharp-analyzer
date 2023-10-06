@@ -29,35 +29,39 @@ internal static class Loader
 
     private static class SubmissionFiles
     {
-        public static IEnumerable<Task<SyntaxTree>> Parse(Options options)
+        public static IEnumerable<Task<SyntaxTree>> Parse(Options options) =>
+            SolutionFiles(options).Select(async sourceFile =>
+            {
+                var source = await File.ReadAllTextAsync(sourceFile);
+                return CSharpSyntaxTree.ParseText(SourceText.From(source));
+            });
+
+        private static IEnumerable<string> SolutionFiles(Options options)
         {
             var nonSubmissionFiles = NonSubmissionFiles(options);
 
             return Directory.EnumerateFiles(options.InputDirectory, "*.cs")
-                .Where(sourceFile => !nonSubmissionFiles.Contains(sourceFile))
-                .Select(async sourceFile =>
-                {
-                    var source = await File.ReadAllTextAsync(sourceFile);
-                    return CSharpSyntaxTree.ParseText(SourceText.From(source));
-                });
+                .Where(sourceFile => !nonSubmissionFiles.Contains(sourceFile));
         }
 
         private static HashSet<string> NonSubmissionFiles(Options options)
         {
             var filesConfig = ParseConfigFiles(options);
-            var nonSubmissionFiles = new HashSet<string>();
-            nonSubmissionFiles.UnionWith(filesConfig?["test"]?.Deserialize<IEnumerable<string>>() ?? Enumerable.Empty<string>());
-            nonSubmissionFiles.UnionWith(filesConfig?["invalidator"]?.Deserialize<IEnumerable<string>>() ?? Enumerable.Empty<string>());
-            nonSubmissionFiles.UnionWith(filesConfig?["editor"]?.Deserialize<IEnumerable<string>>() ?? Enumerable.Empty<string>());
-            return nonSubmissionFiles;
+            var nonSubmissionFileKeys = new[] {"test", "invalidator", "editor", "example", "example"};
+
+            return nonSubmissionFileKeys
+                .Where(filesConfig.ContainsKey)
+                .SelectMany(key => filesConfig[key].Deserialize<IEnumerable<string>>())
+                .Select(relativePath => Path.Combine(options.InputDirectory, relativePath))
+                .ToHashSet();
         }
 
-        private static JsonNode ParseConfigFiles(Options options)
+        private static JsonObject ParseConfigFiles(Options options)
         {
             var configJsonFilePath = Path.Combine(options.InputDirectory, ".meta", "config.json");
             using var configJsonFile = new FileStream(configJsonFilePath, FileMode.Open);
             var configJson = JsonNode.Parse(configJsonFile);
-            return configJson["files"];
+            return configJson!["files"]!.AsObject();
         }
     }
 
