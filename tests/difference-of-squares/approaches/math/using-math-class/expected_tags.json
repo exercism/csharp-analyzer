@@ -1,0 +1,28 @@
+{
+  "tags": [
+    "construct:add",
+    "construct:class",
+    "construct:divide",
+    "construct:double",
+    "construct:explicit-conversion",
+    "construct:expression-bodied-member",
+    "construct:floating-point-number",
+    "construct:implicit-conversion",
+    "construct:int",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:lambda",
+    "construct:method",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "construct:subtract",
+    "construct:using-directive",
+    "construct:visibility-modifiers",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "technique:higher-order-functions",
+    "technique:math",
+    "technique:type-conversion"
+  ]
+}

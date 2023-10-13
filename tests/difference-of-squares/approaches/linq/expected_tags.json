@@ -1,0 +1,22 @@
+{
+  "tags": [
+    "construct:class",
+    "construct:expression-bodied-member",
+    "construct:int",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:lambda",
+    "construct:linq",
+    "construct:method",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "construct:subtract",
+    "construct:using-directive",
+    "construct:visibility-modifiers",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "technique:higher-order-functions",
+    "technique:math"
+  ]
+}

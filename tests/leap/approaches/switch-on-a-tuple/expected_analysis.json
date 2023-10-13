@@ -7,24 +7,5 @@
         "name": "IsLeapYear"
       }
     }
-  ],
-  "tags": [
-    "construct:boolean",
-    "construct:class",
-    "construct:int",
-    "construct:integral-number",
-    "construct:lambda",
-    "construct:method",
-    "construct:number",
-    "construct:parameter",
-    "construct:pattern-matching",
-    "construct:return",
-    "construct:switch-expression",
-    "construct:tuple",
-    "construct:visibility-modifiers",
-    "paradigm:functional",
-    "paradigm:object-oriented",
-    "technique:higher-order-functions",
-    "uses:ValueTuple"
   ]
 }

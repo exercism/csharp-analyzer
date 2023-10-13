@@ -1,34 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct:boolean",
-    "construct:class",
-    "construct:constructor",
-    "construct:enum",
-    "construct:expression-bodied-member",
-    "construct:implicit-conversion",
-    "construct:int",
-    "construct:integral-number",
-    "construct:invocation",
-    "construct:lambda",
-    "construct:linq",
-    "construct:logical-and",
-    "construct:method",
-    "construct:multiply",
-    "construct:number",
-    "construct:parameter",
-    "construct:pattern-matching",
-    "construct:string",
-    "construct:switch-expression",
-    "construct:ternary",
-    "construct:throw",
-    "construct:throw-expression",
-    "construct:using-directive",
-    "construct:visibility-modifiers",
-    "paradigm:functional",
-    "paradigm:object-oriented",
-    "technique:boolean-logic",
-    "technique:exceptions",
-    "technique:higher-order-functions"
-  ]
+  "comments": []
 }

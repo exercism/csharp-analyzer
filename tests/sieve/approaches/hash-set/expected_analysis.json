@@ -1,31 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct:assignment",
-    "construct:class",
-    "construct:constructor",
-    "construct:continue",
-    "construct:for-loop",
-    "construct:if",
-    "construct:int",
-    "construct:integral-number",
-    "construct:invocation",
-    "construct:method",
-    "construct:multiply",
-    "construct:number",
-    "construct:parameter",
-    "construct:return",
-    "construct:set",
-    "construct:throw",
-    "construct:using-directive",
-    "construct:variable",
-    "construct:visibility-modifiers",
-    "construct:yield",
-    "paradigm:imperative",
-    "paradigm:object-oriented",
-    "technique:exceptions",
-    "technique:laziness",
-    "technique:looping",
-    "uses:HashSet<T>"
-  ]
+  "comments": []
 }

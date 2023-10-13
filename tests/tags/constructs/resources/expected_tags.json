@@ -1,0 +1,17 @@
+{
+  "tags": [
+    "construct:class",
+    "construct:file-scoped-namespace",
+    "construct:invocation",
+    "construct:method",
+    "construct:namespace",
+    "construct:string",
+    "construct:using-directive",
+    "construct:using-statement",
+    "construct:variable",
+    "construct:visibility-modifiers",
+    "paradigm:object-oriented",
+    "technique:inheritance",
+    "uses:IDisposable"
+  ]
+}

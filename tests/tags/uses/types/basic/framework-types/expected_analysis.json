@@ -1,34 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct:byte",
-    "construct:class",
-    "construct:constructor",
-    "construct:date-time",
-    "construct:decimal",
-    "construct:double",
-    "construct:float",
-    "construct:floating-point-number",
-    "construct:implicit-conversion",
-    "construct:int",
-    "construct:integral-number",
-    "construct:long",
-    "construct:method",
-    "construct:nint",
-    "construct:nuint",
-    "construct:number",
-    "construct:sbyte",
-    "construct:short",
-    "construct:string",
-    "construct:tuple",
-    "construct:uint",
-    "construct:ushort",
-    "construct:using-directive",
-    "construct:variable",
-    "construct:visibility-modifiers",
-    "paradigm:object-oriented",
-    "uses:DateTime",
-    "uses:Tuple",
-    "uses:ValueTuple"
-  ]
+  "comments": []
 }

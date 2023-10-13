@@ -1,33 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct:add",
-    "construct:assignment",
-    "construct:class",
-    "construct:constructor",
-    "construct:divide",
-    "construct:if",
-    "construct:int",
-    "construct:integral-number",
-    "construct:invocation",
-    "construct:linq",
-    "construct:method",
-    "construct:multiply",
-    "construct:number",
-    "construct:parameter",
-    "construct:return",
-    "construct:throw",
-    "construct:using-directive",
-    "construct:variable",
-    "construct:visibility-modifiers",
-    "construct:while-loop",
-    "construct:yield",
-    "paradigm:functional",
-    "paradigm:imperative",
-    "paradigm:object-oriented",
-    "technique:exceptions",
-    "technique:laziness",
-    "technique:looping",
-    "uses:Enumerable.Count"
-  ]
+  "comments": []
 }

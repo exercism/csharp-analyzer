@@ -1,0 +1,15 @@
+{
+  "tags": [
+    "construct:class",
+    "construct:date-time",
+    "construct:expression-bodied-member",
+    "construct:invocation",
+    "construct:method",
+    "construct:parameter",
+    "construct:using-directive",
+    "construct:visibility-modifiers",
+    "paradigm:object-oriented",
+    "uses:DateTime",
+    "uses:DateTime.IsLeapYear"
+  ]
+}

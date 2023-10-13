@@ -1,0 +1,23 @@
+{
+  "tags": [
+    "construct:assignment",
+    "construct:class",
+    "construct:expression-bodied-member",
+    "construct:for-loop",
+    "construct:int",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "construct:return",
+    "construct:subtract",
+    "construct:variable",
+    "construct:visibility-modifiers",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "technique:looping",
+    "technique:math"
+  ]
+}

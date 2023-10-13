@@ -1,0 +1,13 @@
+{
+  "tags": [
+    "construct:class",
+    "construct:comment",
+    "construct:int",
+    "construct:integral-number",
+    "construct:method",
+    "construct:number",
+    "construct:variable",
+    "construct:visibility-modifiers",
+    "paradigm:object-oriented"
+  ]
+}

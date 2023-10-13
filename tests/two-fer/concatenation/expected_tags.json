@@ -1,0 +1,14 @@
+{
+  "tags": [
+    "construct:add",
+    "construct:class",
+    "construct:method",
+    "construct:optional-parameter",
+    "construct:parameter",
+    "construct:return",
+    "construct:string",
+    "construct:using-directive",
+    "construct:visibility-modifiers",
+    "paradigm:object-oriented"
+  ]
+}

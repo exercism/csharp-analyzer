@@ -1,21 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct-verbatim-string",
-    "construct:class",
-    "construct:const",
-    "construct:expression-bodied-member",
-    "construct:field",
-    "construct:invocation",
-    "construct:method",
-    "construct:parameter",
-    "construct:string",
-    "construct:ternary",
-    "construct:using-directive",
-    "construct:variable",
-    "construct:visibility-modifiers",
-    "paradigm:object-oriented",
-    "technique:regular-expression",
-    "uses:Regex"
-  ]
+  "comments": []
 }
