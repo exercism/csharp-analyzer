@@ -23,7 +23,8 @@ obj/
 # Plugin files
 .ionide/
 
-# Generated analysis files
-tests/**/analysis.json
-
 launchSettings.json
+
+# Generated analysis files
+/tests/**/*/analysis.json
+/tests/**/*/tags.json
