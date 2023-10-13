@@ -14,22 +14,5 @@
         "name": "Add"
       }
     }
-  ],
-  "tags": [
-    "construct:class",
-    "construct:date-time",
-    "construct:double",
-    "construct:floating-point-number",
-    "construct:implicit-conversion",
-    "construct:invocation",
-    "construct:method",
-    "construct:number",
-    "construct:parameter",
-    "construct:return",
-    "construct:using-directive",
-    "construct:visibility-modifiers",
-    "paradigm:object-oriented",
-    "uses:DateTime",
-    "uses:DateTime.AddSeconds"
   ]
 }

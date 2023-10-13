@@ -1,0 +1,20 @@
+{
+  "tags": [
+    "construct:class",
+    "construct:decimal",
+    "construct:double",
+    "construct:float",
+    "construct:floating-point-number",
+    "construct:int",
+    "construct:integral-number",
+    "construct:long",
+    "construct:method",
+    "construct:number",
+    "construct:string",
+    "construct:uint",
+    "construct:ulong",
+    "construct:variable",
+    "construct:visibility-modifiers",
+    "paradigm:object-oriented"
+  ]
+}

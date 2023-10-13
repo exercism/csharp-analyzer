@@ -1,29 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct:assignment",
-    "construct:boolean",
-    "construct:class",
-    "construct:foreach",
-    "construct:if",
-    "construct:implicit-conversion",
-    "construct:int",
-    "construct:integral-number",
-    "construct:left-shift",
-    "construct:logical-and",
-    "construct:method",
-    "construct:number",
-    "construct:parameter",
-    "construct:return",
-    "construct:subtract",
-    "construct:variable",
-    "construct:visibility-modifiers",
-    "paradigm:imperative",
-    "paradigm:object-oriented",
-    "technique:bit-manipulation",
-    "technique:bit-shifting",
-    "technique:boolean-logic",
-    "technique:enumeration",
-    "technique:looping"
-  ]
+  "comments": []
 }

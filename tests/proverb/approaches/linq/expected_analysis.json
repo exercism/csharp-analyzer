@@ -1,24 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct-string-interpolation",
-    "construct:array",
-    "construct:class",
-    "construct:if",
-    "construct:implicit-conversion",
-    "construct:int",
-    "construct:integral-number",
-    "construct:invocation",
-    "construct:lambda",
-    "construct:linq",
-    "construct:method",
-    "construct:number",
-    "construct:parameter",
-    "construct:return",
-    "construct:using-directive",
-    "construct:visibility-modifiers",
-    "paradigm:functional",
-    "paradigm:object-oriented",
-    "technique:higher-order-functions"
-  ]
+  "comments": []
 }

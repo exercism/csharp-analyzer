@@ -1,0 +1,27 @@
+{
+  "tags": [
+    "construct:add",
+    "construct:assignment",
+    "construct:class",
+    "construct:constructor",
+    "construct:divide",
+    "construct:if",
+    "construct:int",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:method",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "construct:return",
+    "construct:throw",
+    "construct:using-directive",
+    "construct:variable",
+    "construct:visibility-modifiers",
+    "construct:while-loop",
+    "paradigm:imperative",
+    "paradigm:object-oriented",
+    "technique:exceptions",
+    "technique:looping"
+  ]
+}

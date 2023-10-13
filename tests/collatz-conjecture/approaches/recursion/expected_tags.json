@@ -1,0 +1,27 @@
+{
+  "tags": [
+    "construct:add",
+    "construct:class",
+    "construct:constructor",
+    "construct:divide",
+    "construct:if",
+    "construct:int",
+    "construct:integral-number",
+    "construct:invocation",
+    "construct:lambda",
+    "construct:method",
+    "construct:method-overloading",
+    "construct:multiply",
+    "construct:number",
+    "construct:parameter",
+    "construct:return",
+    "construct:throw",
+    "construct:using-directive",
+    "construct:visibility-modifiers",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "technique:exceptions",
+    "technique:higher-order-functions",
+    "technique:recursion"
+  ]
+}

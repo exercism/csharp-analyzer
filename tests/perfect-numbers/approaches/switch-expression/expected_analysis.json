@@ -1,29 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct:boolean",
-    "construct:class",
-    "construct:enum",
-    "construct:int",
-    "construct:integral-number",
-    "construct:invocation",
-    "construct:lambda",
-    "construct:linq",
-    "construct:method",
-    "construct:number",
-    "construct:parameter",
-    "construct:pattern-matching",
-    "construct:return",
-    "construct:subtract",
-    "construct:switch-expression",
-    "construct:ternary",
-    "construct:tuple",
-    "construct:using-directive",
-    "construct:variable",
-    "construct:visibility-modifiers",
-    "paradigm:functional",
-    "paradigm:object-oriented",
-    "technique:higher-order-functions",
-    "uses:ValueTuple"
-  ]
+  "comments": []
 }

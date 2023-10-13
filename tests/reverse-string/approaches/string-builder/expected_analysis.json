@@ -1,24 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct:class",
-    "construct:constructor",
-    "construct:for-loop",
-    "construct:indexer",
-    "construct:int",
-    "construct:integral-number",
-    "construct:invocation",
-    "construct:method",
-    "construct:number",
-    "construct:parameter",
-    "construct:return",
-    "construct:string",
-    "construct:subtract",
-    "construct:using-directive",
-    "construct:variable",
-    "construct:visibility-modifiers",
-    "paradigm:object-oriented",
-    "technique:looping",
-    "uses:StringBuilder"
-  ]
+  "comments": []
 }

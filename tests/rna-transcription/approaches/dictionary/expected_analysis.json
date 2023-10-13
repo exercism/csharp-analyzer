@@ -1,29 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct:assignment",
-    "construct:char",
-    "construct:class",
-    "construct:dictionary",
-    "construct:expression-bodied-member",
-    "construct:field",
-    "construct:implicit-conversion",
-    "construct:indexer",
-    "construct:initializer",
-    "construct:invocation",
-    "construct:lambda",
-    "construct:linq",
-    "construct:method",
-    "construct:object-initializer",
-    "construct:parameter",
-    "construct:read-only",
-    "construct:using-directive",
-    "construct:variable",
-    "construct:visibility-modifiers",
-    "paradigm:functional",
-    "paradigm:imperative",
-    "paradigm:object-oriented",
-    "technique:higher-order-functions",
-    "uses:Dictionary<TKey,TValue>"
-  ]
+  "comments": []
 }

@@ -1,0 +1,20 @@
+{
+  "tags": [
+    "construct:char",
+    "construct:class",
+    "construct:expression-bodied-member",
+    "construct:implicit-conversion",
+    "construct:invocation",
+    "construct:lambda",
+    "construct:linq",
+    "construct:method",
+    "construct:parameter",
+    "construct:pattern-matching",
+    "construct:switch-expression",
+    "construct:using-directive",
+    "construct:visibility-modifiers",
+    "paradigm:functional",
+    "paradigm:object-oriented",
+    "technique:higher-order-functions"
+  ]
+}

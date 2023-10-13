@@ -19,17 +19,5 @@
         "name": "Speak"
       }
     }
-  ],
-  "tags": [
-    "construct-string-interpolation",
-    "construct:class",
-    "construct:invocation",
-    "construct:method",
-    "construct:method-overloading",
-    "construct:parameter",
-    "construct:return",
-    "construct:string",
-    "construct:visibility-modifiers",
-    "paradigm:object-oriented"
   ]
 }

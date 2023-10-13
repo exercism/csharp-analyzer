@@ -7,33 +7,5 @@
         "name": "Total"
       }
     }
-  ],
-  "tags": [
-    "construct:big-integer",
-    "construct:boolean",
-    "construct:class",
-    "construct:constructor",
-    "construct:explicit-conversion",
-    "construct:implicit-conversion",
-    "construct:int",
-    "construct:integral-number",
-    "construct:left-shift",
-    "construct:logical-and",
-    "construct:method",
-    "construct:number",
-    "construct:parameter",
-    "construct:return",
-    "construct:string",
-    "construct:subtract",
-    "construct:switch",
-    "construct:throw",
-    "construct:using-directive",
-    "construct:visibility-modifiers",
-    "paradigm:object-oriented",
-    "technique:bit-manipulation",
-    "technique:bit-shifting",
-    "technique:boolean-logic",
-    "technique:exceptions",
-    "technique:type-conversion"
   ]
 }

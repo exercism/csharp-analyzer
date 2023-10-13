@@ -1,0 +1,27 @@
+{
+  "tags": [
+    "construct:byte",
+    "construct:class",
+    "construct:decimal",
+    "construct:double",
+    "construct:float",
+    "construct:floating-point-number",
+    "construct:implicit-conversion",
+    "construct:int",
+    "construct:integral-number",
+    "construct:long",
+    "construct:method",
+    "construct:nint",
+    "construct:nuint",
+    "construct:number",
+    "construct:sbyte",
+    "construct:short",
+    "construct:string",
+    "construct:uint",
+    "construct:ulong",
+    "construct:ushort",
+    "construct:variable",
+    "construct:visibility-modifiers",
+    "paradigm:object-oriented"
+  ]
+}

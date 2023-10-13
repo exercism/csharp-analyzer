@@ -1,0 +1,20 @@
+{
+  "tags": [
+    "construct:catch",
+    "construct:catch-filter",
+    "construct:class",
+    "construct:constructor",
+    "construct:finally",
+    "construct:invocation",
+    "construct:method",
+    "construct:string",
+    "construct:throw",
+    "construct:try",
+    "construct:user-defined-exception",
+    "construct:using-directive",
+    "construct:visibility-modifiers",
+    "paradigm:object-oriented",
+    "technique:exceptions",
+    "technique:inheritance"
+  ]
+}

@@ -12,25 +12,5 @@
         "name": "AssignInLambda"
       }
     }
-  ],
-  "tags": [
-    "construct:boolean",
-    "construct:class",
-    "construct:if",
-    "construct:int",
-    "construct:integral-number",
-    "construct:invocation",
-    "construct:lambda",
-    "construct:linq",
-    "construct:method",
-    "construct:number",
-    "construct:parameter",
-    "construct:return",
-    "construct:using-directive",
-    "construct:variable",
-    "construct:visibility-modifiers",
-    "paradigm:functional",
-    "paradigm:object-oriented",
-    "technique:higher-order-functions"
   ]
 }

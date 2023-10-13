@@ -1,33 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct:assignment",
-    "construct:boolean",
-    "construct:class",
-    "construct:constructor",
-    "construct:decimal",
-    "construct:expression-bodied-member",
-    "construct:field",
-    "construct:finally",
-    "construct:floating-point-number",
-    "construct:if",
-    "construct:invocation",
-    "construct:method",
-    "construct:parameter",
-    "construct:property",
-    "construct:read-only",
-    "construct:string",
-    "construct:ternary",
-    "construct:throw",
-    "construct:throw-expression",
-    "construct:try",
-    "construct:using-directive",
-    "construct:variable",
-    "construct:visibility-modifiers",
-    "paradigm:imperative",
-    "paradigm:object-oriented",
-    "technique:exceptions",
-    "technique:mutexes",
-    "uses:Mutex"
-  ]
+  "comments": []
 }

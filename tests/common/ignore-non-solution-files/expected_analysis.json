@@ -1,14 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct:class",
-    "construct:comment",
-    "construct:integral-number",
-    "construct:method",
-    "construct:sbyte",
-    "construct:short",
-    "construct:variable",
-    "construct:visibility-modifiers",
-    "paradigm:object-oriented"
-  ]
+  "comments": []
 }

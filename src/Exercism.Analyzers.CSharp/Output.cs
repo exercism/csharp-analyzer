@@ -18,11 +18,16 @@ internal static class Output
 
     public static void WriteToFile(Options options, Analysis analysis)
     {
+        WriteAnalysisJsonFile(options, analysis);
+        WriteTagsJsonFile(options, analysis);
+    }
+
+    private static void WriteAnalysisJsonFile(Options options, Analysis analysis)
+    {
         using var fileStream = File.Create(GetAnalysisFilePath(options));
         var jsonWriter = new Utf8JsonWriter(fileStream, JsonWriterOptions);
         jsonWriter.WriteStartObject();
         jsonWriter.WriteComments(analysis.Comments);
-        jsonWriter.WriteTags(analysis.Tags);
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
         fileStream.Write(Encoding.UTF8.GetBytes(Environment.NewLine));
@@ -70,10 +75,25 @@ internal static class Output
 
     private static void WriteCommentParameter(this Utf8JsonWriter jsonTextWriter, CommentParameter parameter) =>
         jsonTextWriter.WriteString(parameter.Key, parameter.Value);
+    
+    private static void WriteTagsJsonFile(Options options, Analysis analysis)
+    {
+        using var fileStream = File.Create(GetTagsFilePath(options));
+        var jsonWriter = new Utf8JsonWriter(fileStream, JsonWriterOptions);
+        jsonWriter.WriteStartObject();
+        jsonWriter.WriteTags(analysis.Tags);
+        jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
+        fileStream.Write(Encoding.UTF8.GetBytes(Environment.NewLine));
+    }
+
+    private static string GetTagsFilePath(Options options) =>
+        Path.GetFullPath(Path.Combine(options.OutputDirectory, "tags.json"));
 
     private static void WriteTags(this Utf8JsonWriter jsonTextWriter, List<string> tags)
     {
-        jsonTextWriter.WriteStartArray("tags");
+        jsonTextWriter.WritePropertyName("tags");
+        jsonTextWriter.WriteStartArray();
 
         foreach (var tag in tags.ToSortedSet())
             jsonTextWriter.WriteStringValue(tag);

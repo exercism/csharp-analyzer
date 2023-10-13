@@ -1,36 +1,3 @@
 {
-  "comments": [],
-  "tags": [
-    "construct:add",
-    "construct:assignment",
-    "construct:bit-array",
-    "construct:boolean",
-    "construct:class",
-    "construct:constructor",
-    "construct:continue",
-    "construct:for-loop",
-    "construct:if",
-    "construct:indexer",
-    "construct:int",
-    "construct:integral-number",
-    "construct:invocation",
-    "construct:lambda",
-    "construct:method",
-    "construct:multiply",
-    "construct:number",
-    "construct:parameter",
-    "construct:return",
-    "construct:throw",
-    "construct:using-directive",
-    "construct:variable",
-    "construct:visibility-modifiers",
-    "construct:yield",
-    "paradigm:functional",
-    "paradigm:imperative",
-    "paradigm:object-oriented",
-    "technique:exceptions",
-    "technique:higher-order-functions",
-    "technique:laziness",
-    "technique:looping"
-  ]
+  "comments": []
 }
