@@ -23,12 +23,14 @@ for test_dir in $(find tests -name expected_analysis.json | rev | cut -d '/' -f 
 
     bin/run.sh "${test_slug}" "${test_dir_path}" "${test_dir_path}"
 
-    echo "${test_dir_name}: comparing analysis.json to expected_analysis.json"
-    diff "${results_file_path}" "${expected_results_file_path}"
+    for file in analysis.json tags.json; do
+        expected_file="expected_${file}"
+        echo "${test_dir_name}: comparing ${file} to ${expected_file}"
 
-    if [ $? -ne 0 ]; then
-        exit_code=1
-    fi
+        if ! diff "${test_dir_path}/${file}" "${test_dir_path}/${expected_file}"; then
+            exit_code=1
+        fi
+    done
 done
 
 exit ${exit_code}
