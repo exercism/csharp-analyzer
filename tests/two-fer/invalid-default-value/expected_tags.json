@@ -1,12 +1,12 @@
 {
   "tags": [
-    "construct-string-interpolation",
     "construct:class",
     "construct:expression-bodied-member",
     "construct:method",
     "construct:optional-parameter",
     "construct:parameter",
     "construct:string",
+    "construct:string-interpolation",
     "construct:using-directive",
     "construct:visibility-modifiers",
     "paradigm:object-oriented"

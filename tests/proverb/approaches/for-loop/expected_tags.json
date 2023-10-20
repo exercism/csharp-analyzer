@@ -1,6 +1,5 @@
 {
   "tags": [
-    "construct-string-interpolation",
     "construct:add",
     "construct:array",
     "construct:assignment",
@@ -16,6 +15,7 @@
     "construct:number",
     "construct:parameter",
     "construct:return",
+    "construct:string-interpolation",
     "construct:subtract",
     "construct:using-directive",
     "construct:variable",

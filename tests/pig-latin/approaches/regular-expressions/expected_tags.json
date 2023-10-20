@@ -1,6 +1,5 @@
 {
   "tags": [
-    "construct-verbatim-string",
     "construct:class",
     "construct:const",
     "construct:expression-bodied-member",
@@ -12,6 +11,7 @@
     "construct:ternary",
     "construct:using-directive",
     "construct:variable",
+    "construct:verbatim-string",
     "construct:visibility-modifiers",
     "paradigm:object-oriented",
     "technique:regular-expression",
