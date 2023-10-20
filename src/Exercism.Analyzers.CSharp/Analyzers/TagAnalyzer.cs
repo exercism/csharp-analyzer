@@ -1070,11 +1070,11 @@ internal class TagAnalyzer : Analyzer
         // Constructs - notation
         public const string ConstructBinaryNumber = "construct:binary-number";
         public const string ConstructHexadecimalNumber = "construct:hexadecimal-number";
-        public const string ConstructMultilineString = "construct-multiline-string";
+        public const string ConstructMultilineString = "construct:multiline-string";
         public const string ConstructScientificNotationNumber = "construct:scientific-notation-number";
-        public const string ConstructStringInterpolation = "construct-string-interpolation";
+        public const string ConstructStringInterpolation = "construct:string-interpolation";
         public const string ConstructUnderscoredNumber = "construct:underscored-number";
-        public const string ConstructVerbatimString = "construct-verbatim-string";
+        public const string ConstructVerbatimString = "construct:verbatim-string";
         
         // Constructs - trivia
         public const string ConstructComment = "construct:comment";

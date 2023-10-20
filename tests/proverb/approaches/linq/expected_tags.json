@@ -1,6 +1,5 @@
 {
   "tags": [
-    "construct-string-interpolation",
     "construct:array",
     "construct:class",
     "construct:if",
@@ -14,6 +13,7 @@
     "construct:number",
     "construct:parameter",
     "construct:return",
+    "construct:string-interpolation",
     "construct:using-directive",
     "construct:visibility-modifiers",
     "paradigm:functional",
