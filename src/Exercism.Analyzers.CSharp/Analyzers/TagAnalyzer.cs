@@ -274,14 +274,32 @@ internal class TagAnalyzer : Analyzer
             case SyntaxKind.MultiplyExpression:
                 AddTags(Tags.ConstructMultiply);
                 break;
+            case SyntaxKind.MultiplyAssignmentExpression:
+                AddTags(Tags.ConstructMultiply, Tags.TechniqueCompoundAssignment);
+                break;
             case SyntaxKind.DivideExpression:
                 AddTags(Tags.ConstructDivide);
+                break;
+            case SyntaxKind.DivideAssignmentExpression:
+                AddTags(Tags.ConstructDivide, Tags.TechniqueCompoundAssignment);
                 break;
             case SyntaxKind.AddExpression:
                 AddTags(Tags.ConstructAdd);
                 break;
+            case SyntaxKind.AddAssignmentExpression:
+                AddTags(Tags.ConstructAdd, Tags.TechniqueCompoundAssignment);
+                break;
             case SyntaxKind.SubtractExpression:
                 AddTags(Tags.ConstructSubtract);
+                break;
+            case SyntaxKind.SubtractAssignmentExpression:
+                AddTags(Tags.ConstructSubtract, Tags.TechniqueCompoundAssignment);
+                break;
+            case SyntaxKind.ModuloExpression:
+                AddTags(Tags.ConstructModulo);
+                break;
+            case SyntaxKind.ModuloAssignmentExpression:
+                AddTags(Tags.ConstructModulo, Tags.TechniqueCompoundAssignment);
                 break;
         }
         
@@ -1025,6 +1043,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructVisibilityModifiers = "construct:visibility-modifiers";
         public const string ConstructWhileLoop = "construct:while-loop";
         public const string ConstructYield = "construct:yield";
+        public const string ConstructModulo = "construct:modulo";
         
         // Constructs - types
         public const string ConstructArray = "construct:array";
