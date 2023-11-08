@@ -1,5 +1,7 @@
 {
   "tags": [
+    "construct:add",
+    "construct:add-assignment",
     "construct:assignment",
     "construct:break",
     "construct:class",
@@ -28,6 +30,7 @@
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:compound-assignment",
     "technique:exceptions",
     "technique:higher-order-functions",
     "technique:looping",

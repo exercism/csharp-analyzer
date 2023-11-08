@@ -1,6 +1,7 @@
 {
   "tags": [
     "construct:add",
+    "construct:add-assignment",
     "construct:assignment",
     "construct:class",
     "construct:constructor",
@@ -10,6 +11,7 @@
     "construct:field",
     "construct:for-loop",
     "construct:indexer",
+    "construct:inequality",
     "construct:int",
     "construct:integral-number",
     "construct:invocation",
@@ -27,6 +29,7 @@
     "paradigm:functional",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:compound-assignment",
     "technique:higher-order-functions",
     "technique:laziness",
     "technique:looping",

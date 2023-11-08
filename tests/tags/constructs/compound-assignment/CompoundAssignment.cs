@@ -12,5 +12,11 @@ public static class Program
         i %= 5;
         i <<= 6;
         i >>= 7;
+        i |= 8;
+        i &= 9;
+        i ^= 10;
+
+        string j = null;
+        j ??= "a";
     }
 }

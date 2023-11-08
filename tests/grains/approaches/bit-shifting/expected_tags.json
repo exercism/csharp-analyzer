@@ -25,6 +25,7 @@
     "technique:bit-shifting",
     "technique:boolean-logic",
     "technique:exceptions",
+    "technique:short-circuiting",
     "technique:type-conversion"
   ]
 }

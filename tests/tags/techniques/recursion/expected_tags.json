@@ -2,6 +2,7 @@
   "tags": [
     "construct:add",
     "construct:class",
+    "construct:equality",
     "construct:if",
     "construct:int",
     "construct:integral-number",

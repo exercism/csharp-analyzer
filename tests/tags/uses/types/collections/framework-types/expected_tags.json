@@ -1,8 +1,10 @@
 {
   "tags": [
+    "construct:array",
     "construct:class",
     "construct:constructor",
     "construct:dictionary",
+    "construct:implicit-array-creation",
     "construct:initializer",
     "construct:int",
     "construct:integral-number",

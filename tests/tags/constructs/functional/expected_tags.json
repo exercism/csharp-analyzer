@@ -1,9 +1,13 @@
 {
   "tags": [
     "construct:add",
+    "construct:array",
     "construct:class",
+    "construct:equality",
     "construct:expression-bodied-member",
+    "construct:implicit-array-creation",
     "construct:implicit-conversion",
+    "construct:inequality",
     "construct:initializer",
     "construct:int",
     "construct:integral-number",
@@ -15,10 +19,12 @@
     "construct:modulo",
     "construct:number",
     "construct:parameter",
+    "construct:query-expression",
     "construct:return",
     "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",
+    "paradigm:declarative",
     "paradigm:functional",
     "paradigm:object-oriented",
     "technique:higher-order-functions"

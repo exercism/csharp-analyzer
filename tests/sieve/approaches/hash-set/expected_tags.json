@@ -1,5 +1,7 @@
 {
   "tags": [
+    "construct:add",
+    "construct:add-assignment",
     "construct:assignment",
     "construct:class",
     "construct:constructor",
@@ -11,8 +13,10 @@
     "construct:invocation",
     "construct:method",
     "construct:multiply",
+    "construct:nameof",
     "construct:number",
     "construct:parameter",
+    "construct:postfix-increment",
     "construct:return",
     "construct:set",
     "construct:throw",
@@ -22,6 +26,7 @@
     "construct:yield",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:compound-assignment",
     "technique:exceptions",
     "technique:laziness",
     "technique:looping",

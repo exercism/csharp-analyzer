@@ -3,6 +3,7 @@
     "construct:boolean",
     "construct:class",
     "construct:enum",
+    "construct:equality",
     "construct:int",
     "construct:integral-number",
     "construct:invocation",

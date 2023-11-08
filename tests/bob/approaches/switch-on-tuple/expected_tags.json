@@ -3,6 +3,7 @@
     "construct:boolean",
     "construct:char",
     "construct:class",
+    "construct:equality",
     "construct:expression-bodied-member",
     "construct:if",
     "construct:implicit-conversion",
@@ -23,6 +24,7 @@
     "paradigm:object-oriented",
     "technique:boolean-logic",
     "technique:higher-order-functions",
+    "technique:short-circuiting",
     "uses:ValueTuple"
   ]
 }

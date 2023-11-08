@@ -2,6 +2,8 @@
   "tags": [
     "construct:boolean",
     "construct:class",
+    "construct:equality",
+    "construct:inequality",
     "construct:int",
     "construct:integral-number",
     "construct:logical-and",
@@ -13,6 +15,7 @@
     "construct:return",
     "construct:visibility-modifiers",
     "paradigm:object-oriented",
-    "technique:boolean-logic"
+    "technique:boolean-logic",
+    "technique:short-circuiting"
   ]
 }

@@ -4,13 +4,13 @@
       ".meta/Example.cs"
     ],
     "invalidator": [
-      "CustomTypes.csproj"
+      "Events.csproj"
     ],
     "solution": [
-      "CustomTypes.cs"
+      "Events.cs"
     ],
     "test": [
-      "CustomTypesTests.cs"
+      "EventsTests.cs"
     ]
   }
 }

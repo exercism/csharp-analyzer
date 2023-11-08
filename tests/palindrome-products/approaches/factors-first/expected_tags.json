@@ -5,6 +5,7 @@
     "construct:break",
     "construct:class",
     "construct:constructor",
+    "construct:equality",
     "construct:expression-bodied-member",
     "construct:for-loop",
     "construct:if",
@@ -20,6 +21,8 @@
     "construct:multiply",
     "construct:number",
     "construct:parameter",
+    "construct:prefix-decrement",
+    "construct:prefix-increment",
     "construct:return",
     "construct:string",
     "construct:throw",
@@ -36,6 +39,7 @@
     "technique:higher-order-functions",
     "technique:laziness",
     "technique:looping",
+    "technique:short-circuiting",
     "uses:List<T>",
     "uses:ValueTuple"
   ]

@@ -2,6 +2,7 @@
   "tags": [
     "construct:array",
     "construct:class",
+    "construct:equality",
     "construct:if",
     "construct:implicit-conversion",
     "construct:int",

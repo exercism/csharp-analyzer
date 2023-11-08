@@ -1,6 +1,8 @@
 {
   "tags": [
+    "construct:array",
     "construct:class",
+    "construct:implicit-array-creation",
     "construct:initializer",
     "construct:invocation",
     "construct:method",

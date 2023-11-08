@@ -12,6 +12,7 @@
     "construct:is-cast",
     "construct:lambda",
     "construct:method",
+    "construct:nameof",
     "construct:number",
     "construct:parameter",
     "construct:pattern-matching",

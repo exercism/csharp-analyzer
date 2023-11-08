@@ -1,6 +1,7 @@
 {
   "tags": [
     "construct:class",
+    "construct:equality",
     "construct:int",
     "construct:integral-number",
     "construct:method",

@@ -1,5 +1,7 @@
 {
   "tags": [
+    "construct:add",
+    "construct:add-assignment",
     "construct:assignment",
     "construct:class",
     "construct:expression-bodied-member",
@@ -11,12 +13,14 @@
     "construct:multiply",
     "construct:number",
     "construct:parameter",
+    "construct:postfix-increment",
     "construct:return",
     "construct:subtract",
     "construct:variable",
     "construct:visibility-modifiers",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:compound-assignment",
     "technique:looping",
     "technique:math"
   ]

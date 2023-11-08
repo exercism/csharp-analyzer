@@ -1,8 +1,11 @@
 {
   "tags": [
     "construct:assignment",
+    "construct:bitwise-or",
+    "construct:bitwise-or-assignment",
     "construct:boolean",
     "construct:class",
+    "construct:equality",
     "construct:foreach",
     "construct:if",
     "construct:implicit-conversion",
@@ -22,7 +25,9 @@
     "technique:bit-manipulation",
     "technique:bit-shifting",
     "technique:boolean-logic",
+    "technique:compound-assignment",
     "technique:enumeration",
-    "technique:looping"
+    "technique:looping",
+    "technique:short-circuiting"
   ]
 }

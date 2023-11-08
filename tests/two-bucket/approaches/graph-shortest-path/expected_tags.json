@@ -8,10 +8,12 @@
     "construct:continue",
     "construct:dictionary",
     "construct:enum",
+    "construct:equality",
     "construct:field",
     "construct:foreach",
     "construct:if",
     "construct:implicit-conversion",
+    "construct:implicit-object-creation",
     "construct:indexer",
     "construct:initializer",
     "construct:int",
@@ -21,6 +23,7 @@
     "construct:logical-and",
     "construct:method",
     "construct:named-argument",
+    "construct:nameof",
     "construct:number",
     "construct:object-initializer",
     "construct:parameter",
@@ -45,6 +48,7 @@
     "technique:higher-order-functions",
     "technique:laziness",
     "technique:looping",
+    "technique:short-circuiting",
     "uses:Dictionary<TKey,TValue>"
   ]
 }

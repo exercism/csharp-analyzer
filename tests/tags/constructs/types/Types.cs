@@ -7,6 +7,28 @@ public interface IPerson
     public int Height { get; set; }
 }
 
+interface ILogger
+{
+    void Foo(string message);
+    void Bar(string message) => Console.WriteLine(message);
+}
+
+public abstract class Animal
+{
+    public abstract void Run();
+    
+    public virtual void Speak()
+    {
+    }
+}
+
+public class Cow : Animal
+{
+    public override void Run()
+    {
+    }
+}
+
 public class Person : IPerson
 {
     private int _height;
@@ -44,7 +66,13 @@ public struct Actress
     public string Name;
 }
 
-public record Movie(string Title, string Director);
+public record Movie(string Title, string Director)
+{
+    public Movie Sample()
+    {
+        return new Movie("Jurassic Park", "Steven Spielberg") with {Title = "Saving Private Ryan"};
+    }
+} 
 
 public enum Rating
 {
