@@ -11,6 +11,7 @@
     "construct:lambda",
     "construct:linq",
     "construct:method",
+    "construct:modulo",
     "construct:number",
     "construct:parameter",
     "construct:read-only",

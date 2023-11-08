@@ -10,6 +10,7 @@
     "construct:integral-number",
     "construct:invocation",
     "construct:method",
+    "construct:modulo",
     "construct:multiply",
     "construct:number",
     "construct:parameter",

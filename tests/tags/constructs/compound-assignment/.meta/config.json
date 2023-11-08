@@ -1,0 +1,16 @@
+{
+  "files": {
+    "example": [
+      ".meta/Example.cs"
+    ],
+    "invalidator": [
+      "CompoundAssignment.csproj"
+    ],
+    "solution": [
+      "CompoundAssignment.cs"
+    ],
+    "test": [
+      "CompoundAssignmentTests.cs"
+    ]
+  }
+}

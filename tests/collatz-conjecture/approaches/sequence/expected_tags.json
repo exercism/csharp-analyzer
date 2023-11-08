@@ -11,6 +11,7 @@
     "construct:invocation",
     "construct:linq",
     "construct:method",
+    "construct:modulo",
     "construct:multiply",
     "construct:number",
     "construct:parameter",

@@ -11,6 +11,7 @@
     "construct:lambda",
     "construct:method",
     "construct:method-overloading",
+    "construct:modulo",
     "construct:multiply",
     "construct:number",
     "construct:parameter",

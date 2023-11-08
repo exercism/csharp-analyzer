@@ -12,6 +12,7 @@
     "construct:linq",
     "construct:local-function",
     "construct:method",
+    "construct:modulo",
     "construct:number",
     "construct:parameter",
     "construct:return",
