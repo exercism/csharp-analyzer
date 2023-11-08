@@ -4,6 +4,7 @@
     "construct:constructor",
     "construct:if",
     "construct:implicit-conversion",
+    "construct:inequality",
     "construct:invocation",
     "construct:lambda",
     "construct:linq",

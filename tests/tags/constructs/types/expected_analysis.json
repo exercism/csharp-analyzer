@@ -1,0 +1,16 @@
+{
+  "comments": [
+    {
+      "comment": "csharp.general.do_not_write_to_console",
+      "type": "actionable",
+      "params": {}
+    },
+    {
+      "comment": "csharp.general.use_expression_bodied_member",
+      "type": "informative",
+      "params": {
+        "name": "Sample"
+      }
+    }
+  ]
+}

@@ -13,6 +13,7 @@
     "construct:lambda",
     "construct:linq",
     "construct:method",
+    "construct:nameof",
     "construct:number",
     "construct:parameter",
     "construct:pattern-matching",

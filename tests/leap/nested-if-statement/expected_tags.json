@@ -2,10 +2,13 @@
   "tags": [
     "construct:boolean",
     "construct:class",
+    "construct:equality",
     "construct:if",
+    "construct:inequality",
     "construct:int",
     "construct:integral-number",
     "construct:method",
+    "construct:modulo",
     "construct:number",
     "construct:parameter",
     "construct:return",

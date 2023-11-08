@@ -12,6 +12,7 @@
     "construct:method",
     "construct:number",
     "construct:parameter",
+    "construct:postfix-increment",
     "construct:return",
     "construct:string",
     "construct:subtract",
@@ -24,6 +25,7 @@
     "technique:boolean-logic",
     "technique:exceptions",
     "technique:laziness",
-    "technique:looping"
+    "technique:looping",
+    "technique:short-circuiting"
   ]
 }

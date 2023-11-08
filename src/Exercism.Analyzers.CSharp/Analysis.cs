@@ -110,6 +110,7 @@ internal abstract class Analyzer : CSharpSyntaxWalker
     protected string GetDeclaredSymbolName(SyntaxNode node) => GetDeclaredSymbol(node)?.ToDisplayString();
 
     protected TypeInfo GetTypeInfo(SyntaxNode node) => _semanticModel.GetTypeInfo(node);
+    protected IOperation GetOperation(SyntaxNode node) => _semanticModel.GetOperation(node);
 
     protected IMethodSymbol GetConstructedFromSymbol(SyntaxNode node) =>
         GetSymbol(node) is IMethodSymbol methodSymbol ? methodSymbol.ConstructedFrom : null;

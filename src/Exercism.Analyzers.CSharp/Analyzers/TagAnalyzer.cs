@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
@@ -101,6 +102,18 @@ internal class TagAnalyzer : Analyzer
         if (UsesRecursion(node))
             AddTags(Tags.TechniqueRecursion, Tags.ParadigmFunctional);
 
+        if (node.Parent is InterfaceDeclarationSyntax && (node.ExpressionBody is not null || node.Body is not null))
+            AddTags(Tags.ConstructDefaultInterfaceImplementation);
+        
+        if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.AbstractKeyword)))
+            AddTags(Tags.ConstructAbstractMethod);
+
+        if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.VirtualKeyword)))
+            AddTags(Tags.ConstructVirtualMethod);
+        
+        if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.OverrideKeyword)))
+            AddTags(Tags.ConstructMethodOverride);
+        
         AddTags(Tags.ConstructMethod);
         base.VisitMethodDeclaration(node);
     }
@@ -136,9 +149,16 @@ internal class TagAnalyzer : Analyzer
         if (node.TypeParameterList != null)
             AddTags(Tags.ConstructGenericType);
 
-        if (GetDeclaredSymbol(node) is INamedTypeSymbol namedTypeSymbol &&
-            DerivesFromException(namedTypeSymbol))
-            AddTags(Tags.TechniqueExceptions, Tags.ConstructUserDefinedException);
+        if (GetDeclaredSymbol(node) is INamedTypeSymbol namedTypeSymbol)
+        {
+            if (DerivesFromException(namedTypeSymbol))
+                AddTags(Tags.TechniqueExceptions, Tags.ConstructUserDefinedException);
+            else if (DerivesFromEventArgs(namedTypeSymbol))
+                AddTags(Tags.ConstructEvent, Tags.ConstructUserDefinedEvent);
+        }
+        
+        if (node.Modifiers.Any(modifier => modifier.IsKind(SyntaxKind.AbstractKeyword)))
+            AddTags(Tags.ConstructAbstractClass);
 
         if (node.BaseList != null)
             AddTags(Tags.TechniqueInheritance);
@@ -188,6 +208,9 @@ internal class TagAnalyzer : Analyzer
             "System.Collections.Generic.IEnumerable<TSource>.AsParallel<TSource>()")
             AddTags(Tags.UsesEnumerableAsParallel, Tags.TechniqueParallelism);
 
+        if (GetOperation(node) is INameOfOperation)
+            AddTags(Tags.ConstructNameof);
+        
         base.VisitInvocationExpression(node);
     }
 
@@ -228,45 +251,75 @@ internal class TagAnalyzer : Analyzer
         base.VisitConditionalExpression(node);
     }
 
+    public override void VisitConditionalAccessExpression(ConditionalAccessExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructConditionalAccess, Tags.ConstructNullability);
+        base.VisitConditionalAccessExpression(node);
+    }
+
+    public override void VisitPostfixUnaryExpression(PostfixUnaryExpressionSyntax node)
+    {
+        switch (node.Kind())
+        {
+            case SyntaxKind.PostIncrementExpression:
+                AddTags(Tags.ConstructPostfixIncrement);
+                break;
+            case SyntaxKind.PostDecrementExpression:
+                AddTags(Tags.ConstructPostfixDecrement);
+                break;
+            case SyntaxKind.SuppressNullableWarningExpression:
+                AddTags(Tags.ConstructNullSuppression, Tags.ConstructNullability);
+                break;
+        }
+
+        base.VisitPostfixUnaryExpression(node);
+    }
+
     public override void VisitBinaryExpression(BinaryExpressionSyntax node)
     {
         switch (node.Kind())
         {
+            case SyntaxKind.EqualsExpression:
+                AddTags(Tags.ConstructEquality);
+                break;
+            case SyntaxKind.NotEqualsExpression:
+                AddTags(Tags.ConstructInequality);
+                break;
             case SyntaxKind.LogicalAndExpression:
-                AddTags(Tags.ConstructBoolean, Tags.ConstructLogicalAnd, Tags.TechniqueBooleanLogic);
+                AddTags(Tags.ConstructBoolean, Tags.ConstructLogicalAnd, Tags.TechniqueBooleanLogic, Tags.TechniqueShortCircuiting);
                 break;
             case SyntaxKind.LogicalOrExpression:
-                AddTags(Tags.ConstructBoolean, Tags.ConstructLogicalOr, Tags.TechniqueBooleanLogic);
+                AddTags(Tags.ConstructBoolean, Tags.ConstructLogicalOr, Tags.TechniqueBooleanLogic, Tags.TechniqueShortCircuiting);
                 break;
             case SyntaxKind.LogicalNotExpression:
                 AddTags(Tags.ConstructBoolean, Tags.ConstructLogicalNot, Tags.TechniqueBooleanLogic);
                 break;
             case SyntaxKind.BitwiseAndExpression:
-                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseAnd);
+                if (GetSymbol(node) is IMethodSymbol {ReturnType.SpecialType: SpecialType.System_Boolean})
+                    AddTags(Tags.ConstructBoolean, Tags.ConstructLogicalAnd, Tags.TechniqueBooleanLogic);
+                else
+                    AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseAnd);
                 break;
             case SyntaxKind.BitwiseOrExpression:
-                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseOr);
+                if (GetSymbol(node) is IMethodSymbol {ReturnType.SpecialType: SpecialType.System_Boolean})
+                    AddTags(Tags.ConstructBoolean, Tags.ConstructLogicalOr, Tags.TechniqueBooleanLogic);
+                else
+                    AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseOr);
                 break;
             case SyntaxKind.BitwiseNotExpression:
                 AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseNot);
                 break;
             case SyntaxKind.ExclusiveOrExpression:
-                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseXor);
-                break;
-            case SyntaxKind.ExclusiveOrAssignmentExpression:
-                AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseXor, Tags.TechniqueCompoundAssignment);
+                if (GetSymbol(node) is IMethodSymbol {ReturnType.SpecialType: SpecialType.System_Boolean})
+                    AddTags(Tags.ConstructBoolean, Tags.ConstructLogicalXor, Tags.TechniqueBooleanLogic);
+                else
+                    AddTags(Tags.TechniqueBitManipulation, Tags.ConstructBitwiseXor);
                 break;
             case SyntaxKind.LeftShiftExpression:
                 AddTags(Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting, Tags.ConstructLeftShift);
                 break;
-            case SyntaxKind.LeftShiftAssignmentExpression:
-                AddTags(Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting, Tags.ConstructLeftShift, Tags.TechniqueCompoundAssignment);
-                break;
             case SyntaxKind.RightShiftExpression:
                 AddTags(Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting, Tags.ConstructRightShift);
-                break;
-            case SyntaxKind.RightShiftAssignmentExpression:
-                AddTags(Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting, Tags.ConstructRightShift, Tags.TechniqueCompoundAssignment);
                 break;
             case SyntaxKind.AsExpression:
                 AddTags(Tags.TechniqueTypeConversion, Tags.ConstructAsCast);
@@ -282,6 +335,12 @@ internal class TagAnalyzer : Analyzer
                 break;
             case SyntaxKind.SubtractExpression:
                 AddTags(Tags.ConstructSubtract);
+                break;
+            case SyntaxKind.ModuloExpression:
+                AddTags(Tags.ConstructModulo);
+                break;
+            case SyntaxKind.CoalesceExpression:
+                AddTags(Tags.ConstructNullCoalesce, Tags.ConstructNullability, Tags.TechniqueShortCircuiting);
                 break;
         }
         
@@ -354,6 +413,12 @@ internal class TagAnalyzer : Analyzer
             AddTags(Tags.TechniqueRecursion, Tags.ParadigmFunctional);
         
         base.VisitLocalFunctionStatement(node);
+    }
+
+    public override void VisitWithExpression(WithExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructWith, Tags.ParadigmFunctional);
+        base.VisitWithExpression(node);
     }
 
     public override void VisitLiteralExpression(LiteralExpressionSyntax node)
@@ -471,8 +536,66 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitAssignmentExpression(AssignmentExpressionSyntax node)
     {
+        switch (node.Kind())
+        {   
+            case SyntaxKind.AndAssignmentExpression:
+                AddTags(Tags.ConstructBitwiseAnd, Tags.ConstructBitwiseAndAssignment, Tags.TechniqueCompoundAssignment, Tags.TechniqueBitManipulation);
+                break;
+            case SyntaxKind.OrAssignmentExpression:
+                AddTags(Tags.ConstructBitwiseOr, Tags.ConstructBitwiseOrAssignment, Tags.TechniqueCompoundAssignment, Tags.TechniqueBitManipulation);
+                break;
+            case SyntaxKind.ExclusiveOrAssignmentExpression:
+                AddTags(Tags.ConstructBitwiseXor, Tags.ConstructBitwiseXorAssignment, Tags.TechniqueCompoundAssignment, Tags.TechniqueBitManipulation);
+                break;
+            case SyntaxKind.LeftShiftAssignmentExpression:
+                AddTags(Tags.ConstructLeftShift, Tags.ConstructLeftShiftAssignment, Tags.TechniqueCompoundAssignment, Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting);
+                break;
+            case SyntaxKind.RightShiftAssignmentExpression:
+                AddTags(Tags.ConstructRightShift, Tags.ConstructRightShiftAssignment, Tags.TechniqueCompoundAssignment, Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting);
+                break;
+            case SyntaxKind.UnsignedRightShiftAssignmentExpression:
+                AddTags(Tags.ConstructUnsignedRightShift, Tags.ConstructUnsignedRightShiftAssignment, Tags.TechniqueCompoundAssignment, Tags.TechniqueBitManipulation, Tags.TechniqueBitShifting);
+                break;
+            case SyntaxKind.MultiplyAssignmentExpression:
+                AddTags(Tags.ConstructMultiply, Tags.ConstructMultiplyAssignment, Tags.TechniqueCompoundAssignment);
+                break;
+            case SyntaxKind.DivideAssignmentExpression:
+                AddTags(Tags.ConstructDivide, Tags.ConstructDivideAssignment, Tags.TechniqueCompoundAssignment);
+                break;
+            case SyntaxKind.AddAssignmentExpression:
+                if (GetSymbol(node.Left) is IEventSymbol)
+                    AddTags(Tags.ConstructEventSubscription);
+                else
+                    AddTags(Tags.ConstructAdd, Tags.ConstructAddAssignment, Tags.TechniqueCompoundAssignment);
+                break;
+            case SyntaxKind.SubtractAssignmentExpression:
+                if (GetSymbol(node.Left) is IEventSymbol)
+                    AddTags(Tags.ConstructEventUnsubscription);
+                else
+                    AddTags(Tags.ConstructSubtract, Tags.ConstructSubtractAssignment, Tags.TechniqueCompoundAssignment);
+                break;
+            case SyntaxKind.ModuloAssignmentExpression:
+                AddTags(Tags.ConstructModulo, Tags.ConstructModuloAssignment, Tags.TechniqueCompoundAssignment);
+                break;
+            case SyntaxKind.CoalesceAssignmentExpression:
+                AddTags(Tags.ConstructNullCoalesce, Tags.ConstructNullCoalesceAssignment, Tags.ConstructNullability, Tags.TechniqueShortCircuiting);
+                break;
+        }
+        
         AddTags(Tags.ConstructAssignment, Tags.ParadigmImperative);
         base.VisitAssignmentExpression(node);
+    }
+
+    public override void VisitEventDeclaration(EventDeclarationSyntax node)
+    {
+        AddTags(Tags.ConstructEvent);
+        base.VisitEventDeclaration(node);
+    }
+
+    public override void VisitEventFieldDeclaration(EventFieldDeclarationSyntax node)
+    {
+        AddTags(Tags.ConstructEvent);
+        base.VisitEventFieldDeclaration(node);
     }
 
     public override void VisitEnumDeclaration(EnumDeclarationSyntax node)
@@ -698,8 +821,17 @@ internal class TagAnalyzer : Analyzer
                 case "System.DateOnly":
                     AddTags(Tags.ConstructDateTime, Tags.UsesDateOnly);
                     break;
+                case "System.EventHandler":
+                    AddTags(Tags.ConstructEvent, Tags.ConstructEventHandler);
+                    break;
             }
         }
+    }
+
+    public override void VisitDelegateDeclaration(DelegateDeclarationSyntax node)
+    {
+        AddTags(Tags.ConstructDelegate);
+        base.VisitDelegateDeclaration(node);
     }
 
     private void VisitTypeInfo(TypeInfo typeInfo)
@@ -859,9 +991,59 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitPrefixUnaryExpression(PrefixUnaryExpressionSyntax node)
     {
-        if (node.IsKind(SyntaxKind.AddressOfExpression))
-            AddTags(Tags.TechniquePointers);
+        switch (node.Kind())
+        {
+            case SyntaxKind.AddressOfExpression:
+                AddTags(Tags.TechniquePointers);
+                break;
+            case SyntaxKind.PreIncrementExpression:
+                AddTags(Tags.ConstructPrefixIncrement);
+                break;
+            case SyntaxKind.PreDecrementExpression:
+                AddTags(Tags.ConstructPrefixDecrement);
+                break;
+            case SyntaxKind.LogicalNotExpression:
+                AddTags(Tags.ConstructLogicalNot);
+                break;
+            case SyntaxKind.UnaryPlusExpression:
+                AddTags(Tags.ConstructUnaryPlus);
+                break;
+            case SyntaxKind.UnaryMinusExpression:
+                AddTags(Tags.ConstructUnaryMinus);
+                break;
+        }
+
         base.VisitPrefixUnaryExpression(node);
+    }
+
+    public override void VisitImplicitObjectCreationExpression(ImplicitObjectCreationExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructImplicitObjectCreation);
+        base.VisitImplicitObjectCreationExpression(node);
+    }
+
+    public override void VisitImplicitArrayCreationExpression(ImplicitArrayCreationExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructImplicitArrayCreation, Tags.ConstructArray);
+        base.VisitImplicitArrayCreationExpression(node);
+    }
+
+    public override void VisitImplicitStackAllocArrayCreationExpression(ImplicitStackAllocArrayCreationExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructImplicitStackAllocCreation, Tags.UsesStack);
+        base.VisitImplicitStackAllocArrayCreationExpression(node);
+    }
+
+    public override void VisitStackAllocArrayCreationExpression(StackAllocArrayCreationExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructStackAllocCreation, Tags.UsesStack);
+        base.VisitStackAllocArrayCreationExpression(node);
+    }
+
+    public override void VisitDefaultExpression(DefaultExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructDefault);
+        base.VisitDefaultExpression(node);
     }
 
     private bool UsesRecursion(SyntaxNode methodOrFunctionNode)
@@ -876,15 +1058,18 @@ internal class TagAnalyzer : Analyzer
             .Any(invokedSymbol => methodOrFunctionSymbol.Equals(invokedSymbol, SymbolEqualityComparer.IncludeNullability));
     }
 
-    private bool DerivesFromException(INamedTypeSymbol symbol)
+    private bool DerivesFromException(INamedTypeSymbol symbol) => DerivesFrom(symbol, "System.Exception");
+    private bool DerivesFromEventArgs(INamedTypeSymbol symbol) => DerivesFrom(symbol, "System.EventArgs");
+    
+    private bool DerivesFrom(INamedTypeSymbol symbol, string baseType)
     {
         if (symbol.BaseType == null)
             return false;
 
-        if (symbol.BaseType.ToDisplayString() == "System.Exception")
+        if (symbol.BaseType.ToDisplayString() == baseType)
             return true;
 
-        return DerivesFromException(symbol.BaseType);
+        return DerivesFrom(symbol.BaseType, "baseType");
     }
 
     private static bool IsFunctionalType(INamedTypeSymbol symbol) =>
@@ -938,34 +1123,51 @@ internal class TagAnalyzer : Analyzer
         public const string TechniqueRandomness = "technique:randomness";
         public const string TechniqueRecursion = "technique:recursion";
         public const string TechniqueRegularExpression = "technique:regular-expression";
+        public const string TechniqueShortCircuiting = "technique:short-circuiting";
         public const string TechniqueSortedCollection = "technique:sorted-collection";
         public const string TechniqueSorting = "technique:sorting";
         public const string TechniqueTypeConversion = "technique:type-conversion";
         public const string TechniqueUnsafe = "technique:unsafe";
 
         // Constructs
+        public const string ConstructAbstractClass = "construct:abstract-class";
+        public const string ConstructAbstractMethod = "construct:abstract-method";
         public const string ConstructAdd = "construct:add";
+        public const string ConstructAddAssignment = "construct:add-assignment";
         public const string ConstructAsCast = "construct:as-cast";
         public const string ConstructAssignment = "construct:assignment";
         public const string ConstructAsyncAwait = "construct:async-await";
         public const string ConstructAttribute = "construct:attribute";
         public const string ConstructAutoImplementedProperty = "construct:auto-implemented-property";
         public const string ConstructBitwiseAnd = "construct:bitwise-and";
+        public const string ConstructBitwiseAndAssignment = "construct:bitwise-and-assignment";
         public const string ConstructBitwiseNot = "construct:bitwise-not";
         public const string ConstructBitwiseOr = "construct:bitwise-or";
+        public const string ConstructBitwiseOrAssignment = "construct:bitwise-or-assignment";
         public const string ConstructBitwiseXor = "construct:bitwise-xor";
+        public const string ConstructBitwiseXorAssignment = "construct:bitwise-xor-assignment";
         public const string ConstructBreak = "construct:break";
         public const string ConstructCatch = "construct:catch";
         public const string ConstructCatchFilter = "construct:catch-filter";
         public const string ConstructChecked = "construct:checked";
         public const string ConstructCheckedExpression = "construct:checked-expression";
         public const string ConstructCollectionInitializer = "construct:collection-initializer";
+        public const string ConstructConditionalAccess = "construct:conditional-access";
         public const string ConstructConst = "construct:const";
         public const string ConstructConstructor = "construct:constructor";
         public const string ConstructContinue = "construct:continue";
         public const string ConstructConversionOperator = "construct:conversion-operator";
+        public const string ConstructDefault = "construct:default";
+        public const string ConstructDefaultInterfaceImplementation = "construct:default-interface-implementation";
+        public const string ConstructDelegate = "construct:delegate";
         public const string ConstructDivide = "construct:divide";
+        public const string ConstructDivideAssignment = "construct:divide-assignment";
         public const string ConstructDoLoop = "construct:do-loop";
+        public const string ConstructEquality = "construct:equality";
+        public const string ConstructEvent = "construct:event";
+        public const string ConstructEventHandler = "construct:event-handler";
+        public const string ConstructEventSubscription = "construct:event-subscription";
+        public const string ConstructEventUnsubscription = "construct:event-unsubscription";
         public const string ConstructExplicitConversion = "construct:explicit-conversion";
         public const string ConstructExpressionBodiedMember = "construct:expression-bodied-member";
         public const string ConstructExtensionMethod = "construct:extension-method";
@@ -978,51 +1180,79 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructGenericType = "construct:generic-type";
         public const string ConstructGetter = "construct:getter";
         public const string ConstructIf = "construct:if";
+        public const string ConstructImplicitArrayCreation = "construct:implicit-array-creation";
         public const string ConstructImplicitConversion = "construct:implicit-conversion";
+        public const string ConstructImplicitObjectCreation = "construct:implicit-object-creation";
+        public const string ConstructImplicitStackAllocCreation = "construct:implicit-stack-alloc";
         public const string ConstructIndexer = "construct:indexer";
+        public const string ConstructInequality = "construct:inequality";
         public const string ConstructInitializer = "construct:initializer";
         public const string ConstructInvocation = "construct:invocation";
         public const string ConstructIsCast = "construct:is-cast";
         public const string ConstructLambda = "construct:lambda";
         public const string ConstructLeftShift = "construct:left-shift";
+        public const string ConstructLeftShiftAssignment = "construct:left-shift-assignment";
         public const string ConstructLinq = "construct:linq";
         public const string ConstructLocalFunction = "construct:local-function";
         public const string ConstructLock = "construct:lock";
         public const string ConstructLogicalAnd = "construct:logical-and";
         public const string ConstructLogicalNot = "construct:logical-not";
         public const string ConstructLogicalOr = "construct:logical-or";
+        public const string ConstructLogicalXor = "construct:logical-xor";
         public const string ConstructMethod = "construct:method";
         public const string ConstructMethodOverloading = "construct:method-overloading";
+        public const string ConstructMethodOverride = "construct:method-override";
+        public const string ConstructModulo = "construct:modulo";
+        public const string ConstructModuloAssignment = "construct:modulo-assignment";
         public const string ConstructMultiply = "construct:multiply";
+        public const string ConstructMultiplyAssignment = "construct:multiply-assignment";
         public const string ConstructNamedArgument = "construct:named-argument";
+        public const string ConstructNameof = "construct:nameof";
         public const string ConstructNamespace = "construct:namespace";
         public const string ConstructNestedType = "construct:nested-type";
+        public const string ConstructNullCoalesce = "construct:null-coalesce";
+        public const string ConstructNullCoalesceAssignment = "construct:null-coalesce-assignment";
+        public const string ConstructNullSuppression = "construct:null-suppression";
         public const string ConstructObjectInitializer = "construct:object-initializer";
         public const string ConstructOperatorOverloading = "construct:operator-overloading";
         public const string ConstructOptionalParameter = "construct:optional-parameter";
         public const string ConstructOverflow = "construct:overflow";
         public const string ConstructParameter = "construct:parameter";
         public const string ConstructPatternMatching = "construct:pattern-matching";
+        public const string ConstructPostfixDecrement = "construct:postfix-decrement";
+        public const string ConstructPostfixIncrement = "construct:postfix-increment";
+        public const string ConstructPrefixDecrement = "construct:prefix-decrement";
+        public const string ConstructPrefixIncrement = "construct:prefix-increment";
         public const string ConstructProperty = "construct:property";
         public const string ConstructQueryExpression = "construct:query-expression";
         public const string ConstructReadOnly = "construct:read-only";
         public const string ConstructReturn = "construct:return";
         public const string ConstructRightShift = "construct:right-shift";
+        public const string ConstructRightShiftAssignment = "construct:right-shift-assignment";
         public const string ConstructSetter = "construct:setter";
         public const string ConstructSubtract = "construct:subtract";
+        public const string ConstructSubtractAssignment = "construct:subtract-assignment";
+        public const string ConstructStackAllocCreation = "construct:stack-alloc-creation";
         public const string ConstructSwitch = "construct:switch";
-        public const string ConstructSwitchExpression = "construct:switch-expression";
+        public const string ConstructSwitchExpression = "construct:switch-expression";        
         public const string ConstructTernary = "construct:ternary";
         public const string ConstructThrow = "construct:throw";
         public const string ConstructThrowExpression = "construct:throw-expression";
         public const string ConstructTry = "construct:try";
         public const string ConstructTypeInference = "construct:type-inference";
+        public const string ConstructUnaryPlus = "construct:unary-plus";
+        public const string ConstructUnaryMinus = "construct:unary-minus";
+        public const string ConstructUnsignedRightShift = "construct:unsigned-right-shift";
+        public const string ConstructUnsignedRightShiftAssignment = "construct:unsigned-right-shift-assignment";
+        public const string ConstructUserDefinedEvent = "construct:user-defined-event";
         public const string ConstructUserDefinedException = "construct:user-defined-exception";
         public const string ConstructUsingDirective = "construct:using-directive";
         public const string ConstructUsingStatement = "construct:using-statement";
         public const string ConstructVarargs = "construct:varargs";
         public const string ConstructVariable = "construct:variable";
+        public const string ConstructVirtualMethod = "construct:virtual-method";
         public const string ConstructVisibilityModifiers = "construct:visibility-modifiers";
+        public const string ConstructWith = "construct:with";
         public const string ConstructWhileLoop = "construct:while-loop";
         public const string ConstructYield = "construct:yield";
         
@@ -1038,7 +1268,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructDecimal = "construct:decimal";
         public const string ConstructDictionary = "construct:dictionary";
         public const string ConstructDouble = "construct:double";
-        public const string ConstructEnum = "construct:enum";
+        public const string ConstructEnum = "construct:enum";        
         public const string ConstructFlagsEnum = "construct:flags-enum";
         public const string ConstructFloat = "construct:float";
         public const string ConstructFloatingPointNumber = "construct:floating-point-number";

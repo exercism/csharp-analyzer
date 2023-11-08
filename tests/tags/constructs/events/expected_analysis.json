@@ -1,11 +1,6 @@
 {
   "comments": [
     {
-      "comment": "csharp.general.has_main_method",
-      "type": "essential",
-      "params": {}
-    },
-    {
       "comment": "csharp.general.do_not_write_to_console",
       "type": "actionable",
       "params": {}

@@ -4,6 +4,7 @@
     "construct:constructor",
     "construct:date-time",
     "construct:double",
+    "construct:equality",
     "construct:expression-bodied-member",
     "construct:floating-point-number",
     "construct:int",

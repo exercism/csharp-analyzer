@@ -15,6 +15,7 @@
     "paradigm:object-oriented",
     "technique:boolean-logic",
     "technique:regular-expression",
+    "technique:short-circuiting",
     "uses:Regex"
   ]
 }

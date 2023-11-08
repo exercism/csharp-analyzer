@@ -4,9 +4,11 @@
     "construct:boolean",
     "construct:char",
     "construct:class",
+    "construct:equality",
     "construct:expression-bodied-member",
     "construct:field",
     "construct:implicit-conversion",
+    "construct:implicit-object-creation",
     "construct:indexer",
     "construct:int",
     "construct:integral-number",
@@ -35,6 +37,7 @@
     "paradigm:object-oriented",
     "technique:boolean-logic",
     "technique:higher-order-functions",
+    "technique:short-circuiting",
     "technique:type-conversion"
   ]
 }

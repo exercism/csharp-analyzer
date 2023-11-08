@@ -11,7 +11,9 @@
     "construct:method",
     "construct:number",
     "construct:parameter",
+    "construct:postfix-increment",
     "construct:return",
+    "construct:stack-alloc-creation",
     "construct:string",
     "construct:subtract",
     "construct:using-directive",
@@ -24,6 +26,7 @@
     "technique:looping",
     "technique:memory-management",
     "technique:performance",
-    "uses:Span<T>"
+    "uses:Span<T>",
+    "uses:Stack<T>"
   ]
 }

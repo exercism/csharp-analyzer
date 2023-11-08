@@ -4,6 +4,7 @@
     "construct:boolean",
     "construct:char",
     "construct:class",
+    "construct:equality",
     "construct:field",
     "construct:if",
     "construct:implicit-conversion",
@@ -28,6 +29,7 @@
     "paradigm:functional",
     "paradigm:object-oriented",
     "technique:boolean-logic",
-    "technique:higher-order-functions"
+    "technique:higher-order-functions",
+    "technique:short-circuiting"
   ]
 }

@@ -5,6 +5,7 @@
     "construct:explicit-conversion",
     "construct:expression-bodied-member",
     "construct:implicit-conversion",
+    "construct:implicit-object-creation",
     "construct:integral-number",
     "construct:invocation",
     "construct:lambda",

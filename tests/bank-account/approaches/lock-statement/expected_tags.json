@@ -1,5 +1,7 @@
 {
   "tags": [
+    "construct:add",
+    "construct:add-assignment",
     "construct:assignment",
     "construct:boolean",
     "construct:class",
@@ -9,7 +11,9 @@
     "construct:field",
     "construct:floating-point-number",
     "construct:if",
+    "construct:implicit-object-creation",
     "construct:lock",
+    "construct:logical-not",
     "construct:method",
     "construct:parameter",
     "construct:property",
@@ -23,6 +27,7 @@
     "construct:visibility-modifiers",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:compound-assignment",
     "technique:exceptions",
     "technique:locks"
   ]

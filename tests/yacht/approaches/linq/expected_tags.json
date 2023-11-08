@@ -4,6 +4,7 @@
     "construct:class",
     "construct:constructor",
     "construct:enum",
+    "construct:equality",
     "construct:expression-bodied-member",
     "construct:implicit-conversion",
     "construct:int",
@@ -12,8 +13,10 @@
     "construct:lambda",
     "construct:linq",
     "construct:logical-and",
+    "construct:logical-not",
     "construct:method",
     "construct:multiply",
+    "construct:nameof",
     "construct:number",
     "construct:parameter",
     "construct:pattern-matching",
@@ -28,6 +31,7 @@
     "paradigm:object-oriented",
     "technique:boolean-logic",
     "technique:exceptions",
-    "technique:higher-order-functions"
+    "technique:higher-order-functions",
+    "technique:short-circuiting"
   ]
 }

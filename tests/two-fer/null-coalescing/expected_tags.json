@@ -3,6 +3,7 @@
     "construct:class",
     "construct:method",
     "construct:null",
+    "construct:null-coalesce",
     "construct:nullability",
     "construct:optional-parameter",
     "construct:parameter",
@@ -11,6 +12,7 @@
     "construct:string-interpolation",
     "construct:using-directive",
     "construct:visibility-modifiers",
-    "paradigm:object-oriented"
+    "paradigm:object-oriented",
+    "technique:short-circuiting"
   ]
 }

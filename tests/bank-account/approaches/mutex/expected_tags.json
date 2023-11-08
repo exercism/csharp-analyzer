@@ -1,5 +1,7 @@
 {
   "tags": [
+    "construct:add",
+    "construct:add-assignment",
     "construct:assignment",
     "construct:boolean",
     "construct:class",
@@ -10,7 +12,9 @@
     "construct:finally",
     "construct:floating-point-number",
     "construct:if",
+    "construct:implicit-object-creation",
     "construct:invocation",
+    "construct:logical-not",
     "construct:method",
     "construct:parameter",
     "construct:property",
@@ -25,6 +29,7 @@
     "construct:visibility-modifiers",
     "paradigm:imperative",
     "paradigm:object-oriented",
+    "technique:compound-assignment",
     "technique:exceptions",
     "technique:mutexes",
     "uses:Mutex"

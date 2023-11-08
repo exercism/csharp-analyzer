@@ -4,6 +4,7 @@
     "construct:class",
     "construct:expression-bodied-member",
     "construct:implicit-conversion",
+    "construct:implicit-object-creation",
     "construct:invocation",
     "construct:lambda",
     "construct:linq",

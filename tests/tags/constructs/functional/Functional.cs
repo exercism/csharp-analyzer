@@ -10,6 +10,11 @@ public class Program
 
         Func<int, bool> isOdd = x => x % 2 != 0;
         var passLocalFunction = numbers.Where(isOdd);
+
+        var big =
+            from num in numbers
+            where num > 3
+            select num;
         
         var passMethod = numbers.Where(IsEven);
     }

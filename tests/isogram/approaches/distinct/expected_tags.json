@@ -2,6 +2,7 @@
   "tags": [
     "construct:char",
     "construct:class",
+    "construct:equality",
     "construct:implicit-conversion",
     "construct:invocation",
     "construct:lambda",

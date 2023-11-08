@@ -1,12 +1,16 @@
 {
   "tags": [
+    "construct:add",
+    "construct:add-assignment",
     "construct:assignment",
     "construct:class",
+    "construct:equality",
     "construct:if",
     "construct:int",
     "construct:integral-number",
     "construct:invocation",
     "construct:method",
+    "construct:modulo",
     "construct:number",
     "construct:parameter",
     "construct:return",
@@ -15,6 +19,7 @@
     "construct:variable",
     "construct:visibility-modifiers",
     "paradigm:imperative",
-    "paradigm:object-oriented"
+    "paradigm:object-oriented",
+    "technique:compound-assignment"
   ]
 }
