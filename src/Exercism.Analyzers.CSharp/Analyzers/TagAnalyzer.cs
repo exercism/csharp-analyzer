@@ -607,6 +607,18 @@ internal class TagAnalyzer : Analyzer
         base.VisitEnumDeclaration(node);
     }
 
+    public override void VisitArrayCreationExpression(ArrayCreationExpressionSyntax node)
+    {
+        AddTags(Tags.ConstructArray);
+        
+        if (node.Type.RankSpecifiers.Count > 1)
+            AddTags(Tags.ConstructJaggedArray);
+        else if (node.Type.RankSpecifiers.Any(rankSpecifier => rankSpecifier.Rank > 1))
+            AddTags(Tags.ConstructMultiDimensionalArray);
+        
+        base.VisitArrayCreationExpression(node);
+    }
+
     public override void VisitTrivia(SyntaxTrivia trivia)
     {
         if (trivia.IsKind(SyntaxKind.XmlComment))
@@ -1275,9 +1287,11 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructInt = "construct:int";
         public const string ConstructIntegralNumber = "construct:integral-number";
         public const string ConstructInterface = "construct:interface";
+        public const string ConstructJaggedArray = "construct:jagged-array";
         public const string ConstructLinkedList = "construct:linked-list";
         public const string ConstructList = "construct:list";
         public const string ConstructLong = "construct:long";
+        public const string ConstructMultiDimensionalArray = "construct:multi-dimensional-array";
         public const string ConstructNint = "construct:nint";
         public const string ConstructNuint = "construct:nuint";
         public const string ConstructNull = "construct:null";

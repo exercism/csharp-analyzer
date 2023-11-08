@@ -5,7 +5,10 @@ public static class Types
 {
     public static void Collections()
     {
-        var array = new[] { 0, 1, 2, 4 };
+        var explicitArray = new int[4];
+        var jaggedArray = new int[3][];
+        var multiDimensionalArray = new int[4, 2];
+        var initializedArray = new[] { 0, 1, 2, 4 };
         var list = new List<int>();
         var dictionary = new Dictionary<int, int>();
         var hashSet = new HashSet<int>();
