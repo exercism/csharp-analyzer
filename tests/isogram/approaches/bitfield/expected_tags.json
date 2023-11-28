@@ -6,6 +6,7 @@
     "construct:bitwise-or-assignment",
     "construct:boolean",
     "construct:class",
+    "construct:else",
     "construct:foreach",
     "construct:if",
     "construct:implicit-conversion",
