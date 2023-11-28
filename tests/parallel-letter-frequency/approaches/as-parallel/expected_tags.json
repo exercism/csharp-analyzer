@@ -6,6 +6,7 @@
     "construct:class",
     "construct:constructor",
     "construct:dictionary",
+    "construct:else",
     "construct:foreach",
     "construct:if",
     "construct:implicit-conversion",

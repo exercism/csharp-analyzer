@@ -7,6 +7,7 @@
     "construct:conditional-access",
     "construct:continue",
     "construct:default",
+    "construct:else",
     "construct:equality",
     "construct:file-scoped-namespace",
     "construct:for-loop",

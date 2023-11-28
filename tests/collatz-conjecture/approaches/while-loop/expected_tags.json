@@ -5,6 +5,7 @@
     "construct:class",
     "construct:constructor",
     "construct:divide",
+    "construct:else",
     "construct:equality",
     "construct:if",
     "construct:inequality",

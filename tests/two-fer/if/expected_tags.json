@@ -2,6 +2,7 @@
   "tags": [
     "construct:add",
     "construct:class",
+    "construct:else",
     "construct:equality",
     "construct:if",
     "construct:method",

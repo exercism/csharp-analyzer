@@ -33,6 +33,12 @@ internal class TagAnalyzer : Analyzer
         base.VisitIfStatement(node);
     }
 
+    public override void VisitElseClause(ElseClauseSyntax node)
+    {
+        AddTags(Tags.ConstructElse);
+        base.VisitElseClause(node);
+    }
+
     public override void VisitSwitchStatement(SwitchStatementSyntax node)
     {
         AddTags(Tags.ConstructSwitch);
@@ -1175,6 +1181,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructDivide = "construct:divide";
         public const string ConstructDivideAssignment = "construct:divide-assignment";
         public const string ConstructDoLoop = "construct:do-loop";
+        public const string ConstructElse = "construct:else";
         public const string ConstructEquality = "construct:equality";
         public const string ConstructEvent = "construct:event";
         public const string ConstructEventHandler = "construct:event-handler";
