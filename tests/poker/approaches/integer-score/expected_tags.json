@@ -30,6 +30,7 @@
     "construct:string",
     "construct:subtract",
     "construct:ternary",
+    "construct:type-test",
     "construct:using-directive",
     "construct:variable",
     "construct:visibility-modifiers",

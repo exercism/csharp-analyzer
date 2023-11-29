@@ -501,7 +501,7 @@ internal class TagAnalyzer : Analyzer
 
     public override void VisitIsPatternExpression(IsPatternExpressionSyntax node)
     {
-        AddTags(Tags.TechniqueTypeConversion, Tags.ConstructIsCast, Tags.ConstructPatternMatching);
+        AddTags(Tags.TechniqueTypeConversion, Tags.ConstructIsCast, Tags.ConstructPatternMatching, Tags.ConstructTypeTest);
         base.VisitIsPatternExpression(node);
     }
 
@@ -1259,6 +1259,7 @@ internal class TagAnalyzer : Analyzer
         public const string ConstructThrowExpression = "construct:throw-expression";
         public const string ConstructTry = "construct:try";
         public const string ConstructTypeInference = "construct:type-inference";
+        public const string ConstructTypeTest = "construct:type-test";
         public const string ConstructUnaryPlus = "construct:unary-plus";
         public const string ConstructUnaryMinus = "construct:unary-minus";
         public const string ConstructUnsignedRightShift = "construct:unsigned-right-shift";

@@ -19,6 +19,7 @@
     "construct:return",
     "construct:subtract",
     "construct:throw",
+    "construct:type-test",
     "construct:ulong",
     "construct:using-directive",
     "construct:visibility-modifiers",
