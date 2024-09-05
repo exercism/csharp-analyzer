@@ -1,4 +1,4 @@
-* @exercism/maintainers-admin
+* @exercism/guardians
 
 /Dockerfile @exercism/ops
 /.dockerignore @exercism/ops
