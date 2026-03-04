@@ -32,6 +32,10 @@
     "technique:boolean-logic",
     "technique:exceptions",
     "technique:higher-order-functions",
-    "technique:short-circuiting"
+    "technique:immutability",
+    "technique:memory-management",
+    "technique:performance",
+    "technique:short-circuiting",
+    "uses:Span<T>"
   ]
 }
