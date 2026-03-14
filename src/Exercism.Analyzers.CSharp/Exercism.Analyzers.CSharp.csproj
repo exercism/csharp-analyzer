@@ -5,6 +5,7 @@
     <OutputType>Exe</OutputType>
     <PublishReadyToRun>true</PublishReadyToRun>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
