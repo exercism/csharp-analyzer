@@ -2,12 +2,8 @@
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class DifferenceOfSquaresAnalyzer : Analyzer
+internal class DifferenceOfSquaresAnalyzer(Submission submission) : Analyzer(submission)
 {
-    public DifferenceOfSquaresAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         if (node.DescendantNodes()

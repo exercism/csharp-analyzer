@@ -10,14 +10,11 @@ internal record Analysis(List<Comment> Comments, List<string> Tags)
     public static Analysis Empty => new(new List<Comment>(), new List<string>());
 }
 
-internal abstract class Analyzer : CSharpSyntaxWalker
+internal abstract class Analyzer(Submission submission, SyntaxWalkerDepth syntaxWalkerDepth = SyntaxWalkerDepth.Token)
+    : CSharpSyntaxWalker(syntaxWalkerDepth)
 {
-    private readonly Submission _submission;
     private SemanticModel _semanticModel;
     private Analysis _analysis;
-
-    protected Analyzer(Submission submission, SyntaxWalkerDepth syntaxWalkerDepth = SyntaxWalkerDepth.Token) : base(syntaxWalkerDepth) => 
-        _submission = submission;
 
     public static Analysis Analyze(Submission submission)
     {
@@ -44,9 +41,9 @@ internal abstract class Analyzer : CSharpSyntaxWalker
     {
         _analysis = analysis;
 
-        foreach (var syntaxTree in _submission.Compilation.SyntaxTrees)
+        foreach (var syntaxTree in submission.Compilation.SyntaxTrees)
         {
-            _semanticModel = _submission.Compilation.GetSemanticModel(syntaxTree);
+            _semanticModel = submission.Compilation.GetSemanticModel(syntaxTree);
             Visit(syntaxTree.GetRoot());
         }
     }

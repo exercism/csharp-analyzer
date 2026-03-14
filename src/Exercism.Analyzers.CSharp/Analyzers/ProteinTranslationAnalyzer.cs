@@ -2,12 +2,8 @@
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class ProteinTranslationAnalyzer : Analyzer
-{    
-    public ProteinTranslationAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
+internal class ProteinTranslationAnalyzer(Submission submission) : Analyzer(submission)
+{
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         switch (GetSymbolName(node))

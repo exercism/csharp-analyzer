@@ -2,12 +2,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class ReverseStringAnalyzer : Analyzer
+internal class ReverseStringAnalyzer(Submission submission) : Analyzer(submission)
 {
-    public ReverseStringAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         if (GetConstructedFromSymbolName(node) == "System.Array.Reverse<T>(T[])")

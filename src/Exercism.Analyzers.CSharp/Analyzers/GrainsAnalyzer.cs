@@ -2,12 +2,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class GrainsAnalyzer : Analyzer
+internal class GrainsAnalyzer(Submission submission) : Analyzer(submission)
 {
-    public GrainsAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         if (GetSymbolName(node.Expression) == "System.Math.Pow(double, double)")

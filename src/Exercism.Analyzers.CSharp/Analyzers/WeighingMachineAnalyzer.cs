@@ -4,12 +4,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class WeighingMachineAnalyzer : Analyzer
+internal class WeighingMachineAnalyzer(Submission submission) : Analyzer(submission)
 {
-    public WeighingMachineAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
     public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
     {
         switch (GetDeclaredSymbolName(node))

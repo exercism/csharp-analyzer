@@ -2,12 +2,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class GigasecondAnalyzer : Analyzer
+internal class GigasecondAnalyzer(Submission submission) : Analyzer(submission)
 {
-    public GigasecondAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
     public override void VisitCompilationUnit(CompilationUnitSyntax node)
     {
         if (node.DescendantNodes()

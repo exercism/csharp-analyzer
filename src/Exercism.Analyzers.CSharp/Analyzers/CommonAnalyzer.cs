@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class CommonAnalyzer : Analyzer
+internal class CommonAnalyzer(Submission submission) : Analyzer(submission)
 {
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
@@ -86,10 +86,6 @@ internal class CommonAnalyzer : Analyzer
         "Console.Out.Write",
         "Console.Out.WriteLine"
     };
-
-    public CommonAnalyzer(Submission submission) : base(submission)
-    {
-    }
 
     private static class Comments
     {

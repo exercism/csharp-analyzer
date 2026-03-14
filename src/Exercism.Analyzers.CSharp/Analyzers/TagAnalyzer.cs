@@ -5,12 +5,8 @@ using Microsoft.CodeAnalysis.Operations;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class TagAnalyzer : Analyzer
+internal class TagAnalyzer(Submission submission) : Analyzer(submission, SyntaxWalkerDepth.Trivia)
 {
-    public TagAnalyzer(Submission submission) : base(submission, SyntaxWalkerDepth.Trivia)
-    {
-    }
-
     public override void VisitForStatement(ForStatementSyntax node)
     {
         AddTags(Tags.ConstructForLoop, Tags.TechniqueLooping);
