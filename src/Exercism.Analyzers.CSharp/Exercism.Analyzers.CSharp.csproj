@@ -4,6 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <PublishReadyToRun>true</PublishReadyToRun>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
