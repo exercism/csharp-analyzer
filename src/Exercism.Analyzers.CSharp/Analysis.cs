@@ -98,16 +98,16 @@ internal abstract class Analyzer(Submission submission, SyntaxWalkerDepth syntax
     }
 
     protected SymbolInfo GetSymbolInfo(SyntaxNode node) => _semanticModel.GetSymbolInfo(node);
-    protected ISymbol GetSymbol(SyntaxNode node) => GetSymbolInfo(node).Symbol;
-    protected string GetSymbolName(SyntaxNode node) => GetSymbol(node)?.ToDisplayString();
+    protected ISymbol? GetSymbol(SyntaxNode node) => GetSymbolInfo(node).Symbol;
+    protected string? GetSymbolName(SyntaxNode node) => GetSymbol(node)?.ToDisplayString();
     
-    protected ISymbol GetDeclaredSymbol(SyntaxNode node) => _semanticModel.GetDeclaredSymbol(node);
-    protected string GetDeclaredSymbolName(SyntaxNode node) => GetDeclaredSymbol(node)?.ToDisplayString();
+    protected ISymbol? GetDeclaredSymbol(SyntaxNode node) => _semanticModel.GetDeclaredSymbol(node);
+    protected string? GetDeclaredSymbolName(SyntaxNode node) => GetDeclaredSymbol(node)?.ToDisplayString();
 
     protected TypeInfo GetTypeInfo(SyntaxNode node) => _semanticModel.GetTypeInfo(node);
-    protected IOperation GetOperation(SyntaxNode node) => _semanticModel.GetOperation(node);
+    protected IOperation? GetOperation(SyntaxNode node) => _semanticModel.GetOperation(node);
 
-    protected IMethodSymbol GetConstructedFromSymbol(SyntaxNode node) =>
+    protected IMethodSymbol? GetConstructedFromSymbol(SyntaxNode node) =>
         GetSymbol(node) is IMethodSymbol methodSymbol ? methodSymbol.ConstructedFrom : null;
-    protected string GetConstructedFromSymbolName(SyntaxNode node) => GetConstructedFromSymbol(node)?.ToDisplayString();
+    protected string? GetConstructedFromSymbolName(SyntaxNode node) => GetConstructedFromSymbol(node)?.ToDisplayString();
 }

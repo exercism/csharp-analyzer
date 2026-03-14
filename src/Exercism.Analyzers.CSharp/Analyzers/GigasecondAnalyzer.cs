@@ -10,7 +10,7 @@ internal class GigasecondAnalyzer(Submission submission) : Analyzer(submission)
                 .OfType<InvocationExpressionSyntax>()
                 .Select(GetSymbol)
                 .Where(symbol => symbol is not null)
-                .All(symbol => symbol.ToDisplayString() != "System.DateTime.AddSeconds(double)"))
+                .All(symbol => symbol?.ToDisplayString() != "System.DateTime.AddSeconds(double)"))
             AddComment(Comments.UseAddSeconds);
         
         base.VisitCompilationUnit(node);

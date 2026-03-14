@@ -12,7 +12,7 @@ internal class WeighingMachineAnalyzer(Submission submission) : Analyzer(submiss
         {
             case "WeighingMachine.DisplayWeight":
             {
-                SyntaxNode getter = node.ExpressionBody == null
+                SyntaxNode? getter = node.ExpressionBody == null
                     ? node.DescendantNodes()
                         .OfType<AccessorDeclarationSyntax>()
                         .FirstOrDefault(

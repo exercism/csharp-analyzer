@@ -196,7 +196,7 @@ internal class TagAnalyzer(Submission submission) : Analyzer(submission, SyntaxW
     {
         AddTags(Tags.ConstructInvocation, Tags.ConstructMethod);
 
-        if (GetSymbol(node) is not null && GetSymbol(node).ContainingNamespace.ToDisplayString() == "System.Linq")
+        if (GetSymbol(node)?.ContainingNamespace.ToDisplayString() == "System.Linq")
             AddTags(Tags.ConstructLinq, Tags.ParadigmFunctional);
         
         if (GetSymbolName(node) == "object.GetType()")

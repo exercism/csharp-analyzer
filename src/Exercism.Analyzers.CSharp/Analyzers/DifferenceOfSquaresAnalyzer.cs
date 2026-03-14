@@ -10,7 +10,7 @@ internal class DifferenceOfSquaresAnalyzer(Submission submission) : Analyzer(sub
             .OfType<InvocationExpressionSyntax>()
             .Select(GetSymbol)
             .Where(invocationSymbol => invocationSymbol is not null)
-            .All(invocationSymbol => invocationSymbol.ContainingType.ToDisplayString() == "System.Math"))
+            .All(invocationSymbol => invocationSymbol?.ContainingType.ToDisplayString() == "System.Math"))
             AddTags(Tags.TechniqueMath);
 
         base.VisitMethodDeclaration(node);
