@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 using Exercism.Analyzers.CSharp.Analyzers;
 
 using Microsoft.CodeAnalysis;
