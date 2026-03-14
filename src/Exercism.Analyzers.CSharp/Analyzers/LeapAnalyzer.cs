@@ -1,16 +1,10 @@
-﻿using System.Linq;
-
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class LeapAnalyzer : Analyzer
+internal class LeapAnalyzer(Submission submission) : Analyzer(submission)
 {
-    public LeapAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         if (GetDeclaredSymbolName(node) == "Leap.IsLeapYear(int)" && 

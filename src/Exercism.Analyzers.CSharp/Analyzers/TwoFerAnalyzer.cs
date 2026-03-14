@@ -2,12 +2,8 @@
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class TwoFerAnalyzer : Analyzer
+internal class TwoFerAnalyzer(Submission submission) : Analyzer(submission)
 {
-    public TwoFerAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         switch (GetDeclaredSymbolName(node))

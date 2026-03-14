@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 using Exercism.Analyzers.CSharp.Analyzers;
 
 using Microsoft.CodeAnalysis;
@@ -12,14 +10,11 @@ internal record Analysis(List<Comment> Comments, List<string> Tags)
     public static Analysis Empty => new(new List<Comment>(), new List<string>());
 }
 
-internal abstract class Analyzer : CSharpSyntaxWalker
+internal abstract class Analyzer(Submission submission, SyntaxWalkerDepth syntaxWalkerDepth = SyntaxWalkerDepth.Token)
+    : CSharpSyntaxWalker(syntaxWalkerDepth)
 {
-    private readonly Submission _submission;
-    private SemanticModel _semanticModel;
-    private Analysis _analysis;
-
-    protected Analyzer(Submission submission, SyntaxWalkerDepth syntaxWalkerDepth = SyntaxWalkerDepth.Token) : base(syntaxWalkerDepth) => 
-        _submission = submission;
+    private SemanticModel? _semanticModel;
+    private Analysis? _analysis;
 
     public static Analysis Analyze(Submission submission)
     {
@@ -34,21 +29,21 @@ internal abstract class Analyzer : CSharpSyntaxWalker
         return analysis;
     }
 
-    protected void AddComment(Comment comment) => _analysis.Comments.Add(comment);
+    protected void AddComment(Comment comment) => _analysis!.Comments.Add(comment);
 
     protected void AddTags(params string[] tags)
     {
         foreach (var tag in tags)
-            _analysis.Tags.Add(tag);
+            _analysis!.Tags.Add(tag);
     }
 
     private void Analyze(Analysis analysis)
     {
         _analysis = analysis;
 
-        foreach (var syntaxTree in _submission.Compilation.SyntaxTrees)
+        foreach (var syntaxTree in submission.Compilation.SyntaxTrees)
         {
-            _semanticModel = _submission.Compilation.GetSemanticModel(syntaxTree);
+            _semanticModel = submission.Compilation.GetSemanticModel(syntaxTree);
             Visit(syntaxTree.GetRoot());
         }
     }
@@ -102,17 +97,17 @@ internal abstract class Analyzer : CSharpSyntaxWalker
         }
     }
 
-    protected SymbolInfo GetSymbolInfo(SyntaxNode node) => _semanticModel.GetSymbolInfo(node);
-    protected ISymbol GetSymbol(SyntaxNode node) => GetSymbolInfo(node).Symbol;
-    protected string GetSymbolName(SyntaxNode node) => GetSymbol(node)?.ToDisplayString();
+    protected SymbolInfo GetSymbolInfo(SyntaxNode node) => _semanticModel!.GetSymbolInfo(node);
+    protected ISymbol? GetSymbol(SyntaxNode node) => GetSymbolInfo(node).Symbol;
+    protected string? GetSymbolName(SyntaxNode node) => GetSymbol(node)?.ToDisplayString();
     
-    protected ISymbol GetDeclaredSymbol(SyntaxNode node) => _semanticModel.GetDeclaredSymbol(node);
-    protected string GetDeclaredSymbolName(SyntaxNode node) => GetDeclaredSymbol(node)?.ToDisplayString();
+    protected ISymbol? GetDeclaredSymbol(SyntaxNode node) => _semanticModel!.GetDeclaredSymbol(node);
+    protected string? GetDeclaredSymbolName(SyntaxNode node) => GetDeclaredSymbol(node)?.ToDisplayString();
 
-    protected TypeInfo GetTypeInfo(SyntaxNode node) => _semanticModel.GetTypeInfo(node);
-    protected IOperation GetOperation(SyntaxNode node) => _semanticModel.GetOperation(node);
+    protected TypeInfo GetTypeInfo(SyntaxNode node) => _semanticModel!.GetTypeInfo(node);
+    protected IOperation? GetOperation(SyntaxNode node) => _semanticModel!.GetOperation(node);
 
-    protected IMethodSymbol GetConstructedFromSymbol(SyntaxNode node) =>
+    protected IMethodSymbol? GetConstructedFromSymbol(SyntaxNode node) =>
         GetSymbol(node) is IMethodSymbol methodSymbol ? methodSymbol.ConstructedFrom : null;
-    protected string GetConstructedFromSymbolName(SyntaxNode node) => GetConstructedFromSymbol(node)?.ToDisplayString();
+    protected string? GetConstructedFromSymbolName(SyntaxNode node) => GetConstructedFromSymbol(node)?.ToDisplayString();
 }

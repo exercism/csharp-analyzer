@@ -2,12 +2,8 @@
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class PangramAnalyzer : Analyzer
-{    
-    public PangramAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
+internal class PangramAnalyzer(Submission submission) : Analyzer(submission)
+{
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         switch (GetSymbolName(node))

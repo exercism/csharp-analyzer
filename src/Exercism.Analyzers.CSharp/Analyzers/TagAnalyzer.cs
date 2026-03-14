@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -9,12 +5,8 @@ using Microsoft.CodeAnalysis.Operations;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class TagAnalyzer : Analyzer
+internal class TagAnalyzer(Submission submission) : Analyzer(submission, SyntaxWalkerDepth.Trivia)
 {
-    public TagAnalyzer(Submission submission) : base(submission, SyntaxWalkerDepth.Trivia)
-    {
-    }
-
     public override void VisitForStatement(ForStatementSyntax node)
     {
         AddTags(Tags.ConstructForLoop, Tags.TechniqueLooping);
@@ -204,7 +196,7 @@ internal class TagAnalyzer : Analyzer
     {
         AddTags(Tags.ConstructInvocation, Tags.ConstructMethod);
 
-        if (GetSymbol(node) is not null && GetSymbol(node).ContainingNamespace.ToDisplayString() == "System.Linq")
+        if (GetSymbol(node)?.ContainingNamespace.ToDisplayString() == "System.Linq")
             AddTags(Tags.ConstructLinq, Tags.ParadigmFunctional);
         
         if (GetSymbolName(node) == "object.GetType()")

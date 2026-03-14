@@ -3,12 +3,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class RaindropsAnalyzer : Analyzer
+internal class RaindropsAnalyzer(Submission submission) : Analyzer(submission)
 {
-    public RaindropsAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         if (GetSymbol(node) is IMethodSymbol methodSymbol && 

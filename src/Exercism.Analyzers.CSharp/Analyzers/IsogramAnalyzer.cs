@@ -3,12 +3,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class IsogramAnalyzer : Analyzer
-{    
-    public IsogramAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
+internal class IsogramAnalyzer(Submission submission) : Analyzer(submission)
+{
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         if (GetSymbolInfo(node).Symbol is IMethodSymbol methodSymbol)

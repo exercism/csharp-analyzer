@@ -1,24 +1,18 @@
-﻿using System.Linq;
-
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class WeighingMachineAnalyzer : Analyzer
+internal class WeighingMachineAnalyzer(Submission submission) : Analyzer(submission)
 {
-    public WeighingMachineAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
     public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
     {
         switch (GetDeclaredSymbolName(node))
         {
             case "WeighingMachine.DisplayWeight":
             {
-                SyntaxNode getter = node.ExpressionBody == null
+                SyntaxNode? getter = node.ExpressionBody == null
                     ? node.DescendantNodes()
                         .OfType<AccessorDeclarationSyntax>()
                         .FirstOrDefault(

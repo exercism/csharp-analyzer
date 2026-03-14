@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -51,7 +46,7 @@ internal static class Loader
 
             return nonSubmissionFileKeys
                 .Where(filesConfig.ContainsKey)
-                .SelectMany(key => filesConfig[key].Deserialize<IEnumerable<string>>())
+                .SelectMany(key => filesConfig[key].Deserialize<IEnumerable<string>>()!)
                 .Select(relativePath => Path.Combine(options.InputDirectory, relativePath))
                 .ToHashSet();
         }
@@ -77,7 +72,7 @@ internal static class Loader
             new(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Debug);
 
         private static IEnumerable<MetadataReference> References() =>
-            ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES"))!.Split(Path.PathSeparator)
+            ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator)
             .Select(p => MetadataReference.CreateFromFile(p));
     }
 }

@@ -1,22 +1,16 @@
-using System.Linq;
-
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Exercism.Analyzers.CSharp.Analyzers;
 
-internal class GigasecondAnalyzer : Analyzer
+internal class GigasecondAnalyzer(Submission submission) : Analyzer(submission)
 {
-    public GigasecondAnalyzer(Submission submission) : base(submission)
-    {
-    }
-
     public override void VisitCompilationUnit(CompilationUnitSyntax node)
     {
         if (node.DescendantNodes()
                 .OfType<InvocationExpressionSyntax>()
                 .Select(GetSymbol)
                 .Where(symbol => symbol is not null)
-                .All(symbol => symbol.ToDisplayString() != "System.DateTime.AddSeconds(double)"))
+                .All(symbol => symbol?.ToDisplayString() != "System.DateTime.AddSeconds(double)"))
             AddComment(Comments.UseAddSeconds);
         
         base.VisitCompilationUnit(node);

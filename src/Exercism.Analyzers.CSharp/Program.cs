@@ -1,6 +1,3 @@
-using System;
-using System.Threading.Tasks;
-
 namespace Exercism.Analyzers.CSharp;
 
 internal record Options(string Slug, string InputDirectory, string OutputDirectory);
