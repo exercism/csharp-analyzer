@@ -12,7 +12,7 @@ COPY src/Exercism.Analyzers.CSharp .
 RUN dotnet publish -a $TARGETARCH --no-restore --self-contained true --output /opt/analyzer
 
 # Build runtime image
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/runtime-deps:10.0.3-alpine3.23 AS runtime
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/runtime-deps:10.0.8-alpine3.23 AS runtime
 WORKDIR /opt/analyzer
 
 COPY --from=build /opt/analyzer/ .
